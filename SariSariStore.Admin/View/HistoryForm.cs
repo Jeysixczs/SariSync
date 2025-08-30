@@ -22,6 +22,9 @@ namespace SariSariStore.Admin
 
         }
 
+        private void HistoryForm_Load(object sender, EventArgs e)
+        {
 
+        }
     }
 }

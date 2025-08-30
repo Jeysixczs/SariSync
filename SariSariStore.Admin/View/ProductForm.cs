@@ -23,12 +23,12 @@ namespace SariSariStore.Admin.View
             rounded.MakePanelRounded(panel1, 30);
             rounded.MakePanelRounded(panel2, 30);
             rounded.MakePanelRounded(panel3, 30);
-            rounded.MakePanelRounded(panel4, 30);
-            rounded.MakePanelRounded(panel5, 30);
-            rounded.MakePanelRounded(panel6, 30);
-            rounded.MakePanelRounded(panel7, 30);
-            rounded.MakePanelRounded(panel8, 30);
-            rounded.MakePanelRounded(panel9, 30);
+            //rounded.MakePanelRounded(panel4, 30);
+            //rounded.MakePanelRounded(panel5, 30);
+            //rounded.MakePanelRounded(panel6, 30);
+            //rounded.MakePanelRounded(panel7, 30);
+            //rounded.MakePanelRounded(panel8, 30);
+            //rounded.MakePanelRounded(panel9, 30);
         }
 
         private void ProductForm_Resize(object sender, EventArgs e)
@@ -39,9 +39,37 @@ namespace SariSariStore.Admin.View
 
         private void panel4_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void btn_Dashboard_Click(object sender, EventArgs e)
+        {
             DashboardForm dashboardForm = new DashboardForm();
             dashboardForm.Show();
             this.Hide();
         }
+
+        private void btn_Inventory_Click(object sender, EventArgs e)
+        {
+            InventoryForm inventoryForm = new InventoryForm();
+            inventoryForm.Show();
+            this.Hide();
+        }
+
+        private void btn_History_Click(object sender, EventArgs e)
+        {
+            HistoryF historyF = new HistoryF();
+            historyF.Show();
+            this.Hide();
+        }
+
+        private void btn_Report_Click(object sender, EventArgs e)
+        {
+            ReportFrom reportFrom = new ReportFrom();
+            reportFrom.Show();
+            this.Hide();
+        }
+
+       
     }
 }

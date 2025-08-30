@@ -1,6 +1,6 @@
 ﻿namespace SariSariStore.Admin.View
 {
-    partial class DashboardForm
+    partial class HistoryF
     {
         /// <summary>
         /// Required designer variable.
@@ -28,24 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DashboardForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HistoryF));
             panel1 = new Panel();
             label7 = new Label();
             pictureBox6 = new PictureBox();
             panel2 = new Panel();
-            label12 = new Label();
-            panel11 = new Panel();
-            label1 = new Label();
-            pictureBox9 = new PictureBox();
-            panel13 = new Panel();
-            label14 = new Label();
-            pictureBox11 = new PictureBox();
-            panel12 = new Panel();
-            label13 = new Label();
-            pictureBox10 = new PictureBox();
-            panel10 = new Panel();
-            pictureBox8 = new PictureBox();
-            label9 = new Label();
+            panel14 = new Panel();
             panel3 = new Panel();
             pictureBox5 = new PictureBox();
             pictureBox7 = new PictureBox();
@@ -59,17 +47,29 @@
             btn_Inventory = new Button();
             btn_Products = new Button();
             btn_Dashboard = new Button();
+            dgvOrders = new DataGridView();
+            Column1 = new DataGridViewTextBoxColumn();
+            Column2 = new DataGridViewTextBoxColumn();
+            Column3 = new DataGridViewTextBoxColumn();
+            Column4 = new DataGridViewTextBoxColumn();
+            Column5 = new DataGridViewTextBoxColumn();
+            dgvMonthlyComparison = new DataGridView();
+            Column6 = new DataGridViewTextBoxColumn();
+            Column7 = new DataGridViewTextBoxColumn();
+            btnCalculateIncome = new Button();
+            btnFilter = new Button();
+            lblMonthlyIncome = new Label();
+            lblOrderCount = new Label();
+            cmbMonth = new ComboBox();
+            cmbYear = new ComboBox();
+            dtpEndDate = new DateTimePicker();
+            dtpStartDate = new DateTimePicker();
+            printReceiptButton = new Button();
+            btnCompareMonths = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             panel2.SuspendLayout();
-            panel11.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox9).BeginInit();
-            panel13.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox11).BeginInit();
-            panel12.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox10).BeginInit();
-            panel10.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox8).BeginInit();
+            panel14.SuspendLayout();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
@@ -77,6 +77,8 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvOrders).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvMonthlyComparison).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -84,11 +86,10 @@
             panel1.BackColor = Color.FromArgb(35, 35, 65);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(pictureBox6);
-            panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
             panel1.Size = new Size(1397, 66);
-            panel1.TabIndex = 4;
+            panel1.TabIndex = 6;
             // 
             // label7
             // 
@@ -116,155 +117,32 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(20, 20, 50);
-            panel2.Controls.Add(label12);
-            panel2.Controls.Add(panel11);
-            panel2.Controls.Add(panel13);
-            panel2.Controls.Add(panel12);
-            panel2.Controls.Add(panel10);
+            panel2.Controls.Add(btnCompareMonths);
+            panel2.Controls.Add(btnCalculateIncome);
+            panel2.Controls.Add(btnFilter);
+            panel2.Controls.Add(lblMonthlyIncome);
+            panel2.Controls.Add(lblOrderCount);
+            panel2.Controls.Add(cmbMonth);
+            panel2.Controls.Add(cmbYear);
+            panel2.Controls.Add(dtpEndDate);
+            panel2.Controls.Add(dtpStartDate);
+            panel2.Controls.Add(printReceiptButton);
+            panel2.Controls.Add(dgvMonthlyComparison);
+            panel2.Controls.Add(dgvOrders);
             panel2.Location = new Point(254, 72);
             panel2.Name = "panel2";
             panel2.Padding = new Padding(100);
             panel2.Size = new Size(1127, 724);
-            panel2.TabIndex = 5;
-            panel2.Paint += panel2_Paint;
+            panel2.TabIndex = 9;
             // 
-            // label12
+            // panel14
             // 
-            label12.AutoSize = true;
-            label12.Font = new Font("Segoe UI Historic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label12.ForeColor = Color.Transparent;
-            label12.Location = new Point(28, 35);
-            label12.Name = "label12";
-            label12.Size = new Size(130, 25);
-            label12.TabIndex = 2;
-            label12.Text = "DASHBOARD";
-            // 
-            // panel11
-            // 
-            panel11.BackColor = Color.FromArgb(28, 28, 65);
-            panel11.Controls.Add(label1);
-            panel11.Controls.Add(pictureBox9);
-            panel11.Location = new Point(28, 191);
-            panel11.Name = "panel11";
-            panel11.Size = new Size(411, 224);
-            panel11.TabIndex = 0;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.BackColor = Color.Transparent;
-            label1.Font = new Font("Segoe UI Historic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.White;
-            label1.Location = new Point(124, 33);
-            label1.Name = "label1";
-            label1.Size = new Size(247, 25);
-            label1.TabIndex = 2;
-            label1.Text = "BEST SELLING CATEGORY";
-            label1.Click += label1_Click;
-            // 
-            // pictureBox9
-            // 
-            pictureBox9.BackColor = Color.Transparent;
-            pictureBox9.Image = Properties.Resources.icons8_category_64;
-            pictureBox9.Location = new Point(21, 22);
-            pictureBox9.Name = "pictureBox9";
-            pictureBox9.Size = new Size(78, 49);
-            pictureBox9.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox9.TabIndex = 3;
-            pictureBox9.TabStop = false;
-            // 
-            // panel13
-            // 
-            panel13.BackColor = Color.FromArgb(28, 28, 65);
-            panel13.Controls.Add(label14);
-            panel13.Controls.Add(pictureBox11);
-            panel13.Location = new Point(472, 438);
-            panel13.Name = "panel13";
-            panel13.Size = new Size(411, 224);
-            panel13.TabIndex = 0;
-            // 
-            // label14
-            // 
-            label14.AutoSize = true;
-            label14.Font = new Font("Segoe UI Historic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label14.ForeColor = Color.White;
-            label14.Location = new Point(122, 30);
-            label14.Name = "label14";
-            label14.Size = new Size(134, 25);
-            label14.TabIndex = 2;
-            label14.Text = "TOTAL SALES";
-            // 
-            // pictureBox11
-            // 
-            pictureBox11.Image = Properties.Resources.icons8_bill_64;
-            pictureBox11.Location = new Point(21, 21);
-            pictureBox11.Name = "pictureBox11";
-            pictureBox11.Size = new Size(78, 49);
-            pictureBox11.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox11.TabIndex = 3;
-            pictureBox11.TabStop = false;
-            // 
-            // panel12
-            // 
-            panel12.BackColor = Color.FromArgb(28, 28, 65);
-            panel12.Controls.Add(label13);
-            panel12.Controls.Add(pictureBox10);
-            panel12.Location = new Point(28, 438);
-            panel12.Name = "panel12";
-            panel12.Size = new Size(411, 224);
-            panel12.TabIndex = 0;
-            // 
-            // label13
-            // 
-            label13.AutoSize = true;
-            label13.Font = new Font("Segoe UI Historic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label13.ForeColor = Color.White;
-            label13.Location = new Point(124, 30);
-            label13.Name = "label13";
-            label13.Size = new Size(237, 25);
-            label13.TabIndex = 2;
-            label13.Text = "BEST SELLING PRODUCT";
-            // 
-            // pictureBox10
-            // 
-            pictureBox10.Image = Properties.Resources.icons8_best_seller_64;
-            pictureBox10.Location = new Point(21, 21);
-            pictureBox10.Name = "pictureBox10";
-            pictureBox10.Size = new Size(78, 49);
-            pictureBox10.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox10.TabIndex = 3;
-            pictureBox10.TabStop = false;
-            // 
-            // panel10
-            // 
-            panel10.BackColor = Color.FromArgb(28, 28, 65);
-            panel10.Controls.Add(pictureBox8);
-            panel10.Controls.Add(label9);
-            panel10.Location = new Point(472, 191);
-            panel10.Name = "panel10";
-            panel10.Size = new Size(411, 224);
-            panel10.TabIndex = 0;
-            // 
-            // pictureBox8
-            // 
-            pictureBox8.Image = (Image)resources.GetObject("pictureBox8.Image");
-            pictureBox8.Location = new Point(18, 9);
-            pictureBox8.Name = "pictureBox8";
-            pictureBox8.Size = new Size(78, 49);
-            pictureBox8.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox8.TabIndex = 3;
-            pictureBox8.TabStop = false;
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Font = new Font("Segoe UI Historic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label9.ForeColor = Color.White;
-            label9.Location = new Point(122, 22);
-            label9.Name = "label9";
-            label9.Size = new Size(226, 25);
-            label9.TabIndex = 2;
-            label9.Text = "INVENTORY SUMMARY";
+            panel14.Controls.Add(panel3);
+            panel14.Dock = DockStyle.Fill;
+            panel14.Location = new Point(0, 0);
+            panel14.Name = "panel14";
+            panel14.Size = new Size(1397, 820);
+            panel14.TabIndex = 10;
             // 
             // panel3
             // 
@@ -284,7 +162,7 @@
             panel3.Location = new Point(12, 72);
             panel3.Name = "panel3";
             panel3.Size = new Size(225, 724);
-            panel3.TabIndex = 10;
+            panel3.TabIndex = 13;
             // 
             // pictureBox5
             // 
@@ -310,7 +188,7 @@
             // 
             // pictureBox4
             // 
-            pictureBox4.BackColor = Color.FromArgb(28, 28, 65);
+            pictureBox4.BackColor = Color.FromArgb(40, 40, 65);
             pictureBox4.Image = Properties.Resources.icons8_history_64;
             pictureBox4.Location = new Point(32, 365);
             pictureBox4.Name = "pictureBox4";
@@ -343,7 +221,7 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.BackColor = Color.FromArgb(40, 40, 65);
+            pictureBox1.BackColor = Color.FromArgb(28, 28, 65);
             pictureBox1.Enabled = false;
             pictureBox1.Image = Properties.Resources.icons8_dashboard_64;
             pictureBox1.Location = new Point(32, 71);
@@ -387,7 +265,7 @@
             // 
             // btn_History
             // 
-            btn_History.BackColor = Color.FromArgb(28, 28, 65);
+            btn_History.BackColor = Color.FromArgb(40, 40, 65);
             btn_History.FlatStyle = FlatStyle.Flat;
             btn_History.Font = new Font("Segoe UI Historic", 11.25F, FontStyle.Bold);
             btn_History.ForeColor = Color.Transparent;
@@ -399,7 +277,6 @@
             btn_History.TabIndex = 3;
             btn_History.Text = "History";
             btn_History.UseVisualStyleBackColor = false;
-            btn_History.Click += btn_History_Click;
             // 
             // btn_Inventory
             // 
@@ -435,7 +312,7 @@
             // 
             // btn_Dashboard
             // 
-            btn_Dashboard.BackColor = Color.FromArgb(40, 40, 65);
+            btn_Dashboard.BackColor = Color.FromArgb(28, 28, 65);
             btn_Dashboard.FlatStyle = FlatStyle.Flat;
             btn_Dashboard.Font = new Font("Segoe UI Historic", 11.25F, FontStyle.Bold);
             btn_Dashboard.ForeColor = Color.Transparent;
@@ -447,40 +324,170 @@
             btn_Dashboard.TabIndex = 3;
             btn_Dashboard.Text = "Dashboard";
             btn_Dashboard.UseVisualStyleBackColor = false;
+            btn_Dashboard.Click += btn_Dashboard_Click;
             // 
-            // DashboardForm
+            // dgvOrders
+            // 
+            dgvOrders.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvOrders.BackgroundColor = Color.FromArgb(40, 40, 65);
+            dgvOrders.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvOrders.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, Column3, Column4, Column5 });
+            dgvOrders.Location = new Point(77, 230);
+            dgvOrders.Name = "dgvOrders";
+            dgvOrders.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvOrders.Size = new Size(692, 391);
+            dgvOrders.TabIndex = 3;
+            // 
+            // Column1
+            // 
+            Column1.HeaderText = "Order ID";
+            Column1.Name = "Column1";
+            // 
+            // Column2
+            // 
+            Column2.HeaderText = "Order Date";
+            Column2.Name = "Column2";
+            // 
+            // Column3
+            // 
+            Column3.HeaderText = "Total Amount";
+            Column3.Name = "Column3";
+            // 
+            // Column4
+            // 
+            Column4.HeaderText = "Status";
+            Column4.Name = "Column4";
+            // 
+            // Column5
+            // 
+            Column5.HeaderText = "Items Count";
+            Column5.Name = "Column5";
+            // 
+            // dgvMonthlyComparison
+            // 
+            dgvMonthlyComparison.BackgroundColor = Color.FromArgb(40, 40, 65);
+            dgvMonthlyComparison.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvMonthlyComparison.Columns.AddRange(new DataGridViewColumn[] { Column6, Column7 });
+            dgvMonthlyComparison.Location = new Point(819, 230);
+            dgvMonthlyComparison.Name = "dgvMonthlyComparison";
+            dgvMonthlyComparison.Size = new Size(242, 391);
+            dgvMonthlyComparison.TabIndex = 10;
+            // 
+            // Column6
+            // 
+            Column6.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Column6.HeaderText = "Month";
+            Column6.Name = "Column6";
+            // 
+            // Column7
+            // 
+            Column7.HeaderText = "Income";
+            Column7.Name = "Column7";
+            // 
+            // btnCalculateIncome
+            // 
+            btnCalculateIncome.Location = new Point(582, 107);
+            btnCalculateIncome.Name = "btnCalculateIncome";
+            btnCalculateIncome.Size = new Size(135, 23);
+            btnCalculateIncome.TabIndex = 20;
+            btnCalculateIncome.Text = "Calculate Income";
+            btnCalculateIncome.UseVisualStyleBackColor = true;
+            // 
+            // btnFilter
+            // 
+            btnFilter.Location = new Point(488, 105);
+            btnFilter.Name = "btnFilter";
+            btnFilter.Size = new Size(75, 23);
+            btnFilter.TabIndex = 19;
+            btnFilter.Text = "Filter";
+            btnFilter.UseVisualStyleBackColor = true;
+            // 
+            // lblMonthlyIncome
+            // 
+            lblMonthlyIncome.AutoSize = true;
+            lblMonthlyIncome.BackColor = Color.White;
+            lblMonthlyIncome.Location = new Point(605, 172);
+            lblMonthlyIncome.Name = "lblMonthlyIncome";
+            lblMonthlyIncome.Size = new Size(38, 15);
+            lblMonthlyIncome.TabIndex = 17;
+            lblMonthlyIncome.Text = "label1";
+            // 
+            // lblOrderCount
+            // 
+            lblOrderCount.AutoSize = true;
+            lblOrderCount.BackColor = Color.White;
+            lblOrderCount.Location = new Point(138, 172);
+            lblOrderCount.Name = "lblOrderCount";
+            lblOrderCount.Size = new Size(38, 15);
+            lblOrderCount.TabIndex = 18;
+            lblOrderCount.Text = "label1";
+            // 
+            // cmbMonth
+            // 
+            cmbMonth.FormattingEnabled = true;
+            cmbMonth.Location = new Point(310, 107);
+            cmbMonth.Name = "cmbMonth";
+            cmbMonth.Size = new Size(121, 23);
+            cmbMonth.TabIndex = 16;
+            // 
+            // cmbYear
+            // 
+            cmbYear.FormattingEnabled = true;
+            cmbYear.Location = new Point(139, 107);
+            cmbYear.Name = "cmbYear";
+            cmbYear.Size = new Size(121, 23);
+            cmbYear.TabIndex = 15;
+            // 
+            // dtpEndDate
+            // 
+            dtpEndDate.Location = new Point(398, 47);
+            dtpEndDate.Name = "dtpEndDate";
+            dtpEndDate.Size = new Size(200, 23);
+            dtpEndDate.TabIndex = 14;
+            // 
+            // dtpStartDate
+            // 
+            dtpStartDate.Location = new Point(139, 47);
+            dtpStartDate.Name = "dtpStartDate";
+            dtpStartDate.Size = new Size(200, 23);
+            dtpStartDate.TabIndex = 13;
+            // 
+            // printReceiptButton
+            // 
+            printReceiptButton.Location = new Point(763, 45);
+            printReceiptButton.Name = "printReceiptButton";
+            printReceiptButton.Size = new Size(140, 31);
+            printReceiptButton.TabIndex = 12;
+            printReceiptButton.Text = "Print Receipt";
+            printReceiptButton.UseVisualStyleBackColor = true;
+            // 
+            // btnCompareMonths
+            // 
+            btnCompareMonths.Location = new Point(507, 669);
+            btnCompareMonths.Name = "btnCompareMonths";
+            btnCompareMonths.Size = new Size(136, 23);
+            btnCompareMonths.TabIndex = 21;
+            btnCompareMonths.Text = "Compare Months";
+            btnCompareMonths.UseVisualStyleBackColor = true;
+            // 
+            // HistoryF
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(28, 28, 65);
             ClientSize = new Size(1397, 820);
-            Controls.Add(panel3);
             Controls.Add(panel2);
             Controls.Add(panel1);
-            DoubleBuffered = true;
+            Controls.Add(panel14);
             FormBorderStyle = FormBorderStyle.None;
-            KeyPreview = true;
-            Name = "DashboardForm";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "Dashboard";
-            Resize += Dashboard_Resize;
+            Name = "HistoryF";
+            Text = "HistoryF";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
-            panel11.ResumeLayout(false);
-            panel11.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox9).EndInit();
-            panel13.ResumeLayout(false);
-            panel13.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox11).EndInit();
-            panel12.ResumeLayout(false);
-            panel12.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox10).EndInit();
-            panel10.ResumeLayout(false);
-            panel10.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox8).EndInit();
+            panel14.ResumeLayout(false);
             panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
@@ -488,28 +495,18 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvOrders).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvMonthlyComparison).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
         private Panel panel1;
-        private PictureBox pictureBox6;
         private Label label7;
+        private PictureBox pictureBox6;
         private Panel panel2;
-        private Panel panel10;
-        private PictureBox pictureBox8;
-        private Label label9;
-        private Label label12;
-        private Panel panel12;
-        private Label label13;
-        private Panel panel11;
-        private Label label1;
-        private PictureBox pictureBox9;
-        private Panel panel13;
-        private Label label14;
-        private PictureBox pictureBox11;
-        private PictureBox pictureBox10;
+        private Panel panel14;
         private Panel panel3;
         private PictureBox pictureBox5;
         private PictureBox pictureBox7;
@@ -523,5 +520,24 @@
         private Button btn_Inventory;
         private Button btn_Products;
         private Button btn_Dashboard;
+        private DataGridView dgvOrders;
+        private DataGridViewTextBoxColumn Column1;
+        private DataGridViewTextBoxColumn Column2;
+        private DataGridViewTextBoxColumn Column3;
+        private DataGridViewTextBoxColumn Column4;
+        private DataGridViewTextBoxColumn Column5;
+        private DataGridView dgvMonthlyComparison;
+        private DataGridViewTextBoxColumn Column6;
+        private DataGridViewTextBoxColumn Column7;
+        private Button btnCalculateIncome;
+        private Button btnFilter;
+        private Label lblMonthlyIncome;
+        private Label lblOrderCount;
+        private ComboBox cmbMonth;
+        private ComboBox cmbYear;
+        private DateTimePicker dtpEndDate;
+        private DateTimePicker dtpStartDate;
+        private Button printReceiptButton;
+        private Button btnCompareMonths;
     }
 }

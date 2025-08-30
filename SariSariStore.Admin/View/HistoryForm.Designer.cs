@@ -105,7 +105,7 @@
             // 
             // dtpEndDate
             // 
-            dtpEndDate.Location = new Point(239, 13);
+            dtpEndDate.Location = new Point(271, 12);
             dtpEndDate.Name = "dtpEndDate";
             dtpEndDate.Size = new Size(200, 23);
             dtpEndDate.TabIndex = 5;
@@ -210,6 +210,7 @@
             Controls.Add(dgvOrders);
             Name = "HistoryForm";
             Text = "HistoryForm";
+            Load += HistoryForm_Load;
             ((System.ComponentModel.ISupportInitialize)dgvOrders).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvMonthlyComparison).EndInit();
             ResumeLayout(false);

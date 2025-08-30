@@ -1,6 +1,6 @@
 ﻿namespace SariSariStore.Admin.View
 {
-    partial class DashboardForm
+    partial class ReportFrom
     {
         /// <summary>
         /// Required designer variable.
@@ -28,24 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DashboardForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReportFrom));
             panel1 = new Panel();
             label7 = new Label();
             pictureBox6 = new PictureBox();
             panel2 = new Panel();
             label12 = new Label();
-            panel11 = new Panel();
-            label1 = new Label();
-            pictureBox9 = new PictureBox();
-            panel13 = new Panel();
-            label14 = new Label();
-            pictureBox11 = new PictureBox();
-            panel12 = new Panel();
-            label13 = new Label();
-            pictureBox10 = new PictureBox();
-            panel10 = new Panel();
-            pictureBox8 = new PictureBox();
-            label9 = new Label();
             panel3 = new Panel();
             pictureBox5 = new PictureBox();
             pictureBox7 = new PictureBox();
@@ -59,17 +47,10 @@
             btn_Inventory = new Button();
             btn_Products = new Button();
             btn_Dashboard = new Button();
+            richTextBox1 = new RichTextBox();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             panel2.SuspendLayout();
-            panel11.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox9).BeginInit();
-            panel13.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox11).BeginInit();
-            panel12.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox10).BeginInit();
-            panel10.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox8).BeginInit();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
@@ -84,11 +65,10 @@
             panel1.BackColor = Color.FromArgb(35, 35, 65);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(pictureBox6);
-            panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
             panel1.Size = new Size(1397, 66);
-            panel1.TabIndex = 4;
+            panel1.TabIndex = 7;
             // 
             // label7
             // 
@@ -116,17 +96,13 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(20, 20, 50);
+            panel2.Controls.Add(richTextBox1);
             panel2.Controls.Add(label12);
-            panel2.Controls.Add(panel11);
-            panel2.Controls.Add(panel13);
-            panel2.Controls.Add(panel12);
-            panel2.Controls.Add(panel10);
             panel2.Location = new Point(254, 72);
             panel2.Name = "panel2";
             panel2.Padding = new Padding(100);
             panel2.Size = new Size(1127, 724);
-            panel2.TabIndex = 5;
-            panel2.Paint += panel2_Paint;
+            panel2.TabIndex = 10;
             // 
             // label12
             // 
@@ -135,136 +111,9 @@
             label12.ForeColor = Color.Transparent;
             label12.Location = new Point(28, 35);
             label12.Name = "label12";
-            label12.Size = new Size(130, 25);
+            label12.Size = new Size(85, 25);
             label12.TabIndex = 2;
-            label12.Text = "DASHBOARD";
-            // 
-            // panel11
-            // 
-            panel11.BackColor = Color.FromArgb(28, 28, 65);
-            panel11.Controls.Add(label1);
-            panel11.Controls.Add(pictureBox9);
-            panel11.Location = new Point(28, 191);
-            panel11.Name = "panel11";
-            panel11.Size = new Size(411, 224);
-            panel11.TabIndex = 0;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.BackColor = Color.Transparent;
-            label1.Font = new Font("Segoe UI Historic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.White;
-            label1.Location = new Point(124, 33);
-            label1.Name = "label1";
-            label1.Size = new Size(247, 25);
-            label1.TabIndex = 2;
-            label1.Text = "BEST SELLING CATEGORY";
-            label1.Click += label1_Click;
-            // 
-            // pictureBox9
-            // 
-            pictureBox9.BackColor = Color.Transparent;
-            pictureBox9.Image = Properties.Resources.icons8_category_64;
-            pictureBox9.Location = new Point(21, 22);
-            pictureBox9.Name = "pictureBox9";
-            pictureBox9.Size = new Size(78, 49);
-            pictureBox9.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox9.TabIndex = 3;
-            pictureBox9.TabStop = false;
-            // 
-            // panel13
-            // 
-            panel13.BackColor = Color.FromArgb(28, 28, 65);
-            panel13.Controls.Add(label14);
-            panel13.Controls.Add(pictureBox11);
-            panel13.Location = new Point(472, 438);
-            panel13.Name = "panel13";
-            panel13.Size = new Size(411, 224);
-            panel13.TabIndex = 0;
-            // 
-            // label14
-            // 
-            label14.AutoSize = true;
-            label14.Font = new Font("Segoe UI Historic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label14.ForeColor = Color.White;
-            label14.Location = new Point(122, 30);
-            label14.Name = "label14";
-            label14.Size = new Size(134, 25);
-            label14.TabIndex = 2;
-            label14.Text = "TOTAL SALES";
-            // 
-            // pictureBox11
-            // 
-            pictureBox11.Image = Properties.Resources.icons8_bill_64;
-            pictureBox11.Location = new Point(21, 21);
-            pictureBox11.Name = "pictureBox11";
-            pictureBox11.Size = new Size(78, 49);
-            pictureBox11.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox11.TabIndex = 3;
-            pictureBox11.TabStop = false;
-            // 
-            // panel12
-            // 
-            panel12.BackColor = Color.FromArgb(28, 28, 65);
-            panel12.Controls.Add(label13);
-            panel12.Controls.Add(pictureBox10);
-            panel12.Location = new Point(28, 438);
-            panel12.Name = "panel12";
-            panel12.Size = new Size(411, 224);
-            panel12.TabIndex = 0;
-            // 
-            // label13
-            // 
-            label13.AutoSize = true;
-            label13.Font = new Font("Segoe UI Historic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label13.ForeColor = Color.White;
-            label13.Location = new Point(124, 30);
-            label13.Name = "label13";
-            label13.Size = new Size(237, 25);
-            label13.TabIndex = 2;
-            label13.Text = "BEST SELLING PRODUCT";
-            // 
-            // pictureBox10
-            // 
-            pictureBox10.Image = Properties.Resources.icons8_best_seller_64;
-            pictureBox10.Location = new Point(21, 21);
-            pictureBox10.Name = "pictureBox10";
-            pictureBox10.Size = new Size(78, 49);
-            pictureBox10.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox10.TabIndex = 3;
-            pictureBox10.TabStop = false;
-            // 
-            // panel10
-            // 
-            panel10.BackColor = Color.FromArgb(28, 28, 65);
-            panel10.Controls.Add(pictureBox8);
-            panel10.Controls.Add(label9);
-            panel10.Location = new Point(472, 191);
-            panel10.Name = "panel10";
-            panel10.Size = new Size(411, 224);
-            panel10.TabIndex = 0;
-            // 
-            // pictureBox8
-            // 
-            pictureBox8.Image = (Image)resources.GetObject("pictureBox8.Image");
-            pictureBox8.Location = new Point(18, 9);
-            pictureBox8.Name = "pictureBox8";
-            pictureBox8.Size = new Size(78, 49);
-            pictureBox8.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox8.TabIndex = 3;
-            pictureBox8.TabStop = false;
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Font = new Font("Segoe UI Historic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label9.ForeColor = Color.White;
-            label9.Location = new Point(122, 22);
-            label9.Name = "label9";
-            label9.Size = new Size(226, 25);
-            label9.TabIndex = 2;
-            label9.Text = "INVENTORY SUMMARY";
+            label12.Text = "REPORT";
             // 
             // panel3
             // 
@@ -284,7 +133,7 @@
             panel3.Location = new Point(12, 72);
             panel3.Name = "panel3";
             panel3.Size = new Size(225, 724);
-            panel3.TabIndex = 10;
+            panel3.TabIndex = 12;
             // 
             // pictureBox5
             // 
@@ -299,7 +148,7 @@
             // 
             // pictureBox7
             // 
-            pictureBox7.BackColor = Color.FromArgb(28, 28, 65);
+            pictureBox7.BackColor = Color.FromArgb(40, 40, 65);
             pictureBox7.Image = Properties.Resources.icons8_reports_64;
             pictureBox7.Location = new Point(32, 459);
             pictureBox7.Name = "pictureBox7";
@@ -343,7 +192,7 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.BackColor = Color.FromArgb(40, 40, 65);
+            pictureBox1.BackColor = Color.FromArgb(28, 28, 65);
             pictureBox1.Enabled = false;
             pictureBox1.Image = Properties.Resources.icons8_dashboard_64;
             pictureBox1.Location = new Point(32, 71);
@@ -355,7 +204,7 @@
             // 
             // btn_Report
             // 
-            btn_Report.BackColor = Color.FromArgb(28, 28, 65);
+            btn_Report.BackColor = Color.FromArgb(40, 40, 65);
             btn_Report.FlatStyle = FlatStyle.Flat;
             btn_Report.Font = new Font("Segoe UI Historic", 11.25F, FontStyle.Bold);
             btn_Report.ForeColor = Color.Transparent;
@@ -367,7 +216,6 @@
             btn_Report.TabIndex = 3;
             btn_Report.Text = "Report";
             btn_Report.UseVisualStyleBackColor = false;
-            btn_Report.Click += btn_Report_Click;
             // 
             // button6
             // 
@@ -435,7 +283,7 @@
             // 
             // btn_Dashboard
             // 
-            btn_Dashboard.BackColor = Color.FromArgb(40, 40, 65);
+            btn_Dashboard.BackColor = Color.FromArgb(28, 28, 65);
             btn_Dashboard.FlatStyle = FlatStyle.Flat;
             btn_Dashboard.Font = new Font("Segoe UI Historic", 11.25F, FontStyle.Bold);
             btn_Dashboard.ForeColor = Color.Transparent;
@@ -447,8 +295,17 @@
             btn_Dashboard.TabIndex = 3;
             btn_Dashboard.Text = "Dashboard";
             btn_Dashboard.UseVisualStyleBackColor = false;
+            btn_Dashboard.Click += btn_Dashboard_Click;
             // 
-            // DashboardForm
+            // richTextBox1
+            // 
+            richTextBox1.Location = new Point(103, 180);
+            richTextBox1.Name = "richTextBox1";
+            richTextBox1.Size = new Size(254, 181);
+            richTextBox1.TabIndex = 3;
+            richTextBox1.Text = "- Sales Summary\n- Expense Tracker";
+            // 
+            // ReportFrom
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -459,28 +316,13 @@
             Controls.Add(panel1);
             DoubleBuffered = true;
             FormBorderStyle = FormBorderStyle.None;
-            KeyPreview = true;
-            Name = "DashboardForm";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "Dashboard";
-            Resize += Dashboard_Resize;
+            Name = "ReportFrom";
+            Text = "ReportFrom";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
-            panel11.ResumeLayout(false);
-            panel11.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox9).EndInit();
-            panel13.ResumeLayout(false);
-            panel13.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox11).EndInit();
-            panel12.ResumeLayout(false);
-            panel12.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox10).EndInit();
-            panel10.ResumeLayout(false);
-            panel10.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox8).EndInit();
             panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
@@ -494,22 +336,10 @@
         #endregion
 
         private Panel panel1;
-        private PictureBox pictureBox6;
         private Label label7;
+        private PictureBox pictureBox6;
         private Panel panel2;
-        private Panel panel10;
-        private PictureBox pictureBox8;
-        private Label label9;
         private Label label12;
-        private Panel panel12;
-        private Label label13;
-        private Panel panel11;
-        private Label label1;
-        private PictureBox pictureBox9;
-        private Panel panel13;
-        private Label label14;
-        private PictureBox pictureBox11;
-        private PictureBox pictureBox10;
         private Panel panel3;
         private PictureBox pictureBox5;
         private PictureBox pictureBox7;
@@ -523,5 +353,6 @@
         private Button btn_Inventory;
         private Button btn_Products;
         private Button btn_Dashboard;
+        private RichTextBox richTextBox1;
     }
 }
