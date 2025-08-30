@@ -1,0 +1,18 @@
+@SariSariStore.WebApi_HostAddress = https://localhost:7211
+
+GET {{SariSariStore.WebApi_HostAddress}}/api/Product
+Accept: application/json
+
+###
+
+GET {{SariSariStore.WebApi_HostAddress}}/api/Product/1
+Accept: application/json
+
+###
+
+POST {{SariSariStore.WebApi_HostAddress}}/api/Product/
+Content-Type: application/json
+
+### 
+
+GET {{SariSariStore.WebApi_HostAddress}}/api/Orders/

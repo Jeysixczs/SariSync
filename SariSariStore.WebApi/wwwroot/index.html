@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Testing</title>
+</head>
+<body>
+    <div id="productsContainer"></div>
+    <script>
+        const baseUrl = "https://localhost:7211/api/Product";
+
+
+        async function fetchProducts() {
+            try {
+                const response = await fetch(baseUrl);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const products = await response.json();
+                displayProducts(products);
+            } catch (error) {
+                console.error('There has been a problem with your fetch operation:', error);
+            }
+        }
+
+
+        function displayProducts(products) {
+            const container = document.getElementById('productsContainer');
+            container.innerHTML = '';
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.style.border = '1px solid #ccc';
+                productCard.style.padding = '16px';
+                productCard.style.margin = '16px';
+                productCard.style.width = '200px';
+                productCard.style.display = 'inline-block';
+                productCard.style.verticalAlign = 'top';
+                const img = document.createElement('img');
+                img.src = `${baseUrl}/${product.id}/image`;
+                img.alt = product.name;
+                img.style.width = '100%';
+                img.style.height = 'auto';
+                const name = document.createElement('h3');
+                name.textContent = product.name;
+                const description = document.createElement('p');
+                description.textContent = product.description;
+                const price = document.createElement('p');
+                price.textContent = `Price: $${product.price.toFixed(2)}`;
+                const Stock = document.createElement('p');
+                Stock.textContent = `Stock: ${product.stock}`;
+
+                productCard.appendChild(img);
+                productCard.appendChild(name);
+                productCard.appendChild(description);
+                productCard.appendChild(price);
+                productCard.appendChild(Stock);
+                container.appendChild(productCard);
+            });
+        }
+
+        fetchProducts();
+        displayProducts();
+
+
+    </script>
+</body>
+</html>

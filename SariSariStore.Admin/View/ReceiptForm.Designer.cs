@@ -1,0 +1,70 @@
+﻿namespace SariSariStore.Admin
+{
+    partial class ReceiptForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            receiptTextBox = new TextBox();
+            printButton = new Button();
+            SuspendLayout();
+            // 
+            // receiptTextBox
+            // 
+            receiptTextBox.Location = new Point(164, 53);
+            receiptTextBox.Multiline = true;
+            receiptTextBox.Name = "receiptTextBox";
+            receiptTextBox.Size = new Size(473, 224);
+            receiptTextBox.TabIndex = 3;
+            // 
+            // printButton
+            // 
+            printButton.Location = new Point(355, 344);
+            printButton.Name = "printButton";
+            printButton.Size = new Size(75, 23);
+            printButton.TabIndex = 2;
+            printButton.Text = "PRINT";
+            printButton.UseVisualStyleBackColor = true;
+            // 
+            // ReceiptForm
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(800, 450);
+            Controls.Add(receiptTextBox);
+            Controls.Add(printButton);
+            Name = "ReceiptForm";
+            Text = "ReceiptForm";
+            ResumeLayout(false);
+            PerformLayout();
+        }
+
+        #endregion
+
+        private TextBox receiptTextBox;
+        private Button printButton;
+    }
+}
