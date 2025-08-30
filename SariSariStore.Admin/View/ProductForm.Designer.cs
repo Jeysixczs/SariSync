@@ -33,6 +33,7 @@
             label7 = new Label();
             pictureBox6 = new PictureBox();
             panel2 = new Panel();
+            richTextBox1 = new RichTextBox();
             label12 = new Label();
             panel3 = new Panel();
             pictureBox5 = new PictureBox();
@@ -47,7 +48,6 @@
             btn_Inventory = new Button();
             btn_Products = new Button();
             btn_Dashboard = new Button();
-            richTextBox1 = new RichTextBox();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             panel2.SuspendLayout();
@@ -103,6 +103,14 @@
             panel2.Padding = new Padding(100);
             panel2.Size = new Size(1127, 724);
             panel2.TabIndex = 7;
+            // 
+            // richTextBox1
+            // 
+            richTextBox1.Location = new Point(59, 103);
+            richTextBox1.Name = "richTextBox1";
+            richTextBox1.Size = new Size(243, 141);
+            richTextBox1.TabIndex = 3;
+            richTextBox1.Text = "- Product List View\n- Item Name\n- Category (e.g., snacks, toiletries, canned goods)\n- Unit Price\n- Cost Price\n- Supplier Info";
             // 
             // label12
             // 
@@ -297,14 +305,6 @@
             btn_Dashboard.Text = "Dashboard";
             btn_Dashboard.UseVisualStyleBackColor = false;
             btn_Dashboard.Click += btn_Dashboard_Click;
-            // 
-            // richTextBox1
-            // 
-            richTextBox1.Location = new Point(49, 103);
-            richTextBox1.Name = "richTextBox1";
-            richTextBox1.Size = new Size(243, 141);
-            richTextBox1.TabIndex = 3;
-            richTextBox1.Text = "- Product List View\n- Item Name\n- Category (e.g., snacks, toiletries, canned goods)\n- Unit Price\n- Cost Price\n- Supplier Info";
             // 
             // ProductForm
             // 

@@ -33,6 +33,7 @@
             label7 = new Label();
             pictureBox6 = new PictureBox();
             panel2 = new Panel();
+            richTextBox1 = new RichTextBox();
             label12 = new Label();
             panel3 = new Panel();
             pictureBox5 = new PictureBox();
@@ -47,7 +48,7 @@
             btn_Inventory = new Button();
             btn_Products = new Button();
             btn_Dashboard = new Button();
-            richTextBox1 = new RichTextBox();
+            panel4 = new Panel();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             panel2.SuspendLayout();
@@ -103,6 +104,14 @@
             panel2.Padding = new Padding(100);
             panel2.Size = new Size(1127, 724);
             panel2.TabIndex = 10;
+            // 
+            // richTextBox1
+            // 
+            richTextBox1.Location = new Point(162, 180);
+            richTextBox1.Name = "richTextBox1";
+            richTextBox1.Size = new Size(254, 181);
+            richTextBox1.TabIndex = 3;
+            richTextBox1.Text = "- Sales Summary\n- Expense Tracker";
             // 
             // label12
             // 
@@ -297,13 +306,13 @@
             btn_Dashboard.UseVisualStyleBackColor = false;
             btn_Dashboard.Click += btn_Dashboard_Click;
             // 
-            // richTextBox1
+            // panel4
             // 
-            richTextBox1.Location = new Point(103, 180);
-            richTextBox1.Name = "richTextBox1";
-            richTextBox1.Size = new Size(254, 181);
-            richTextBox1.TabIndex = 3;
-            richTextBox1.Text = "- Sales Summary\n- Expense Tracker";
+            panel4.Dock = DockStyle.Fill;
+            panel4.Location = new Point(0, 0);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(1397, 820);
+            panel4.TabIndex = 4;
             // 
             // ReportFrom
             // 
@@ -314,9 +323,11 @@
             Controls.Add(panel3);
             Controls.Add(panel2);
             Controls.Add(panel1);
+            Controls.Add(panel4);
             DoubleBuffered = true;
             FormBorderStyle = FormBorderStyle.None;
             Name = "ReportFrom";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "ReportFrom";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
@@ -354,5 +365,6 @@
         private Button btn_Products;
         private Button btn_Dashboard;
         private RichTextBox richTextBox1;
+        private Panel panel4;
     }
 }

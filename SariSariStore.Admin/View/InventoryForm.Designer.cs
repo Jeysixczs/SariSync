@@ -47,8 +47,8 @@
             btn_Products = new Button();
             btn_Dashboard = new Button();
             panel2 = new Panel();
-            label12 = new Label();
             richTextBox1 = new RichTextBox();
+            label12 = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             panel14.SuspendLayout();
@@ -298,6 +298,14 @@
             panel2.Size = new Size(1127, 724);
             panel2.TabIndex = 8;
             // 
+            // richTextBox1
+            // 
+            richTextBox1.Location = new Point(103, 199);
+            richTextBox1.Name = "richTextBox1";
+            richTextBox1.Size = new Size(284, 205);
+            richTextBox1.TabIndex = 3;
+            richTextBox1.Text = "- Current Stock Levels\n- Low Stock Alerts\n - Stock Movement Log\n- Supplier Tracker\n\n";
+            // 
             // label12
             // 
             label12.AutoSize = true;
@@ -308,14 +316,6 @@
             label12.Size = new Size(122, 25);
             label12.TabIndex = 2;
             label12.Text = "INVENTORY";
-            // 
-            // richTextBox1
-            // 
-            richTextBox1.Location = new Point(91, 199);
-            richTextBox1.Name = "richTextBox1";
-            richTextBox1.Size = new Size(284, 205);
-            richTextBox1.TabIndex = 3;
-            richTextBox1.Text = "- Current Stock Levels\n- Low Stock Alerts\n - Stock Movement Log\n- Supplier Tracker\n\n";
             // 
             // InventoryForm
             // 
