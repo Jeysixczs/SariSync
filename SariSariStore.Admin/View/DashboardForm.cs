@@ -1,4 +1,5 @@
-﻿using SariSariStore.Admin.Model;
+﻿using Microsoft.Data.SqlClient;
+using SariSariStore.Admin.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace SariSariStore.Admin.View
@@ -17,6 +19,8 @@ namespace SariSariStore.Admin.View
     {
         private Rounded rounded;
         public int cornerRadius = 30;
+
+        public string connectionstring = @"Data Source=JEYSI\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
         public DashboardForm()
         {
             InitializeComponent();
@@ -35,7 +39,7 @@ namespace SariSariStore.Admin.View
             rounded.MakePanelRounded(panel12, 30);
             rounded.MakePanelRounded(panel13, 30);
 
-
+            LoadDisplay();
         }
 
 
@@ -89,5 +93,52 @@ namespace SariSariStore.Admin.View
             reportFrom.Show();
             this.Hide();
         }
+
+        public void LoadDisplay()
+        {
+            using (SqlConnection con = new SqlConnection(connectionstring))
+            {
+                con.Open();
+
+                using (SqlCommand loadCategory = new SqlCommand("SELECT * FROM vw_BestSellingCategory", con))
+                using (SqlDataReader readCategory = loadCategory.ExecuteReader())
+                {
+                    if (readCategory.Read())
+                    {
+                        txt_bestcat.Text = readCategory["Category"].ToString();
+                    }
+                }
+
+         
+                using (SqlCommand loadProduct = new SqlCommand("SELECT * FROM vw_BestSellingProduct", con))
+                using (SqlDataReader readProduct = loadProduct.ExecuteReader())
+                {
+                    if (readProduct.Read())
+                    {
+                        txt_bestprod.Text = readProduct["Name"].ToString();
+                    }
+                }
+
+       
+                using (SqlCommand loadInventorySummary = new SqlCommand("SELECT COUNT(ProductID) AS TotalProducts FROM tbl_Product", con))
+                using (SqlDataReader readInventorySummary = loadInventorySummary.ExecuteReader())
+                {
+                    if (readInventorySummary.Read())
+                    {
+                        txt_inventorysum.Text = readInventorySummary["TotalProducts"].ToString();
+                    }
+                }
+
+                using (SqlCommand loadTotalSales = new SqlCommand("SELECT * FROM vw_TotalSales", con))
+                using (SqlDataReader readTotalSales = loadTotalSales.ExecuteReader())
+                {
+                    if (readTotalSales.Read())
+                    {
+                        txt_totalsales.Text = readTotalSales["TotalSales"].ToString();
+                    }
+                }
+            }
+        }
+
     }
 }

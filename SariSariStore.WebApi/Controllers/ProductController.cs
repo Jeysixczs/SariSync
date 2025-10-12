@@ -38,18 +38,18 @@ namespace SariSariStore.WebApi.Controllers
             }
 
 
-            if (string.IsNullOrEmpty(product.Image))
+            if (string.IsNullOrEmpty(product.ImagePath))
             {
                 return NotFound("This product doesn't have an associated image");
             }
 
 
-            if (!System.IO.File.Exists(product.Image))
+            if (!System.IO.File.Exists(product.ImagePath))
             {
                 return NotFound("Image file not found");
             }
 
-            var imageFileStream = System.IO.File.OpenRead(product.Image);
+            var imageFileStream = System.IO.File.OpenRead(product.ImagePath);
             return File(imageFileStream, "image/jpeg");
         }
 

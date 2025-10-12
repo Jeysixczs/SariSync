@@ -1,4 +1,5 @@
 ﻿using SariSariStore.Admin.Model;
+using SariSariStore.Core.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,6 +30,8 @@ namespace SariSariStore.Admin.View
             //rounded.MakePanelRounded(panel7, 30);
             //rounded.MakePanelRounded(panel8, 30);
             //rounded.MakePanelRounded(panel9, 30);
+
+            DisplayProduct();
         }
 
         private void ProductForm_Resize(object sender, EventArgs e)
@@ -70,6 +73,13 @@ namespace SariSariStore.Admin.View
             this.Hide();
         }
 
-       
+        public void DisplayProduct()
+        {
+            Products prod = new Products();
+
+            List<Products> productlist = prod.GetAllProducts();
+
+            dgv_Product.DataSource = productlist;
+        }
     }
 }

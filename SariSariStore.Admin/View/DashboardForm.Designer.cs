@@ -59,6 +59,10 @@
             btn_Inventory = new Button();
             btn_Products = new Button();
             btn_Dashboard = new Button();
+            txt_bestcat = new Label();
+            txt_inventorysum = new Label();
+            txt_bestprod = new Label();
+            txt_totalsales = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             panel2.SuspendLayout();
@@ -142,6 +146,7 @@
             // panel11
             // 
             panel11.BackColor = Color.FromArgb(28, 28, 65);
+            panel11.Controls.Add(txt_bestcat);
             panel11.Controls.Add(label1);
             panel11.Controls.Add(pictureBox9);
             panel11.Location = new Point(28, 191);
@@ -176,6 +181,7 @@
             // panel13
             // 
             panel13.BackColor = Color.FromArgb(28, 28, 65);
+            panel13.Controls.Add(txt_totalsales);
             panel13.Controls.Add(label14);
             panel13.Controls.Add(pictureBox11);
             panel13.Location = new Point(472, 438);
@@ -207,6 +213,7 @@
             // panel12
             // 
             panel12.BackColor = Color.FromArgb(28, 28, 65);
+            panel12.Controls.Add(txt_bestprod);
             panel12.Controls.Add(label13);
             panel12.Controls.Add(pictureBox10);
             panel12.Location = new Point(28, 438);
@@ -238,6 +245,7 @@
             // panel10
             // 
             panel10.BackColor = Color.FromArgb(28, 28, 65);
+            panel10.Controls.Add(txt_inventorysum);
             panel10.Controls.Add(pictureBox8);
             panel10.Controls.Add(label9);
             panel10.Location = new Point(472, 191);
@@ -448,6 +456,50 @@
             btn_Dashboard.Text = "Dashboard";
             btn_Dashboard.UseVisualStyleBackColor = false;
             // 
+            // txt_bestcat
+            // 
+            txt_bestcat.AutoSize = true;
+            txt_bestcat.Font = new Font("Elephant", 15.7499981F, FontStyle.Bold);
+            txt_bestcat.ForeColor = Color.White;
+            txt_bestcat.Location = new Point(57, 109);
+            txt_bestcat.Name = "txt_bestcat";
+            txt_bestcat.Size = new Size(83, 27);
+            txt_bestcat.TabIndex = 4;
+            txt_bestcat.Text = "label2";
+            // 
+            // txt_inventorysum
+            // 
+            txt_inventorysum.AutoSize = true;
+            txt_inventorysum.Font = new Font("Elephant", 15.7499981F, FontStyle.Bold);
+            txt_inventorysum.ForeColor = Color.White;
+            txt_inventorysum.Location = new Point(41, 113);
+            txt_inventorysum.Name = "txt_inventorysum";
+            txt_inventorysum.Size = new Size(83, 27);
+            txt_inventorysum.TabIndex = 4;
+            txt_inventorysum.Text = "label2";
+            // 
+            // txt_bestprod
+            // 
+            txt_bestprod.AutoSize = true;
+            txt_bestprod.Font = new Font("Elephant", 15.7499981F, FontStyle.Bold);
+            txt_bestprod.ForeColor = Color.White;
+            txt_bestprod.Location = new Point(57, 138);
+            txt_bestprod.Name = "txt_bestprod";
+            txt_bestprod.Size = new Size(83, 27);
+            txt_bestprod.TabIndex = 4;
+            txt_bestprod.Text = "label2";
+            // 
+            // txt_totalsales
+            // 
+            txt_totalsales.AutoSize = true;
+            txt_totalsales.Font = new Font("Elephant", 15.7499981F, FontStyle.Bold);
+            txt_totalsales.ForeColor = Color.White;
+            txt_totalsales.Location = new Point(41, 138);
+            txt_totalsales.Name = "txt_totalsales";
+            txt_totalsales.Size = new Size(83, 27);
+            txt_totalsales.TabIndex = 4;
+            txt_totalsales.Text = "label2";
+            // 
             // DashboardForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -523,5 +575,9 @@
         private Button btn_Inventory;
         private Button btn_Products;
         private Button btn_Dashboard;
+        private Label txt_bestcat;
+        private Label txt_totalsales;
+        private Label txt_bestprod;
+        private Label txt_inventorysum;
     }
 }

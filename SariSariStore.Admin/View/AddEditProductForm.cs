@@ -71,10 +71,10 @@ namespace SariSariStore.Admin
                     numericPrice.Value = product.Price;
                     NumericStock.Value = product.Stock;
 
-                    if (!string.IsNullOrEmpty(product.Image))
+                    if (!string.IsNullOrEmpty(product.ImagePath))
                     {
-                        selectedImagePath = product.Image;
-                        lblStatus.Text = "Current image: " + Path.GetFileName(product.Image);
+                        selectedImagePath = product.ImagePath;
+                        lblStatus.Text = "Current image: " + Path.GetFileName(product.ImagePath);
                         DisplayImageInPanel(selectedImagePath);
                     }
                 }
@@ -114,7 +114,7 @@ namespace SariSariStore.Admin
 
                 if (_isEditMode)
                 {
-                    product.Id = _productId;
+                    product.ProductID = _productId;
                     productManager.UpdateProduct(product, imagePathToSave);
                     MessageBox.Show("Product updated successfully!");
                 }

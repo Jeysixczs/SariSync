@@ -3,24 +3,26 @@ using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
 using System.IO;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 
 namespace SariSariStore.Core.Model
 {
-    [Table("tbl_Products")]
+    [Table("tbl_Product")]
     public class Products
     {
-        public string ConnectionString = @"Data Source=JEYSI\SQLEXPRESS;Initial Catalog=db_SariSync;Integrated Security=True;Trust Server Certificate=True";
+        public string ConnectionString = @"Data Source=JEYSI\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Trust Server Certificate=True";
         private readonly string _imageBasePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ProductImages");
 
-
-        public int Id { get; set; }
+        [Key]
+        public int ProductID { get; set; }
         public string Name { get; set; } = string.Empty;
         public string? Description { get; set; }
         public string Category { get; set; } = string.Empty;
         public decimal Price { get; set; }
         public int Stock { get; set; }
-        public string? Image { get; set; }
+        public string? ImagePath { get; set; }
+        public DateTime DateAdded { get; set; }
 
 
 
@@ -31,7 +33,7 @@ namespace SariSariStore.Core.Model
 
             using (SqlConnection con = new(ConnectionString))
             {
-                using (SqlCommand cmd = new("SELECT * FROM tbl_Products", con))
+                using (SqlCommand cmd = new("SELECT * FROM tbl_Product", con))
                 {
                     con.Open();
                     using (SqlDataReader reader = cmd.ExecuteReader())
@@ -40,13 +42,13 @@ namespace SariSariStore.Core.Model
                         {
                             Products product = new Products
                             {
-                                Id = Convert.ToInt32(reader["Id"]),
+                                ProductID = Convert.ToInt32(reader["ProductID"]),
                                 Name = reader["Name"]?.ToString() ?? string.Empty,
                                 Description = reader["Description"]?.ToString(),
                                 Category = reader["Category"]?.ToString() ?? string.Empty,
                                 Price = Convert.ToDecimal(reader["Price"]),
                                 Stock = Convert.ToInt32(reader["Stock"]),
-                                Image = reader["Image"]?.ToString()
+                                ImagePath = reader["ImagePath"]?.ToString()
                             };
                             productsList.Add(product);
                         }
@@ -69,7 +71,7 @@ namespace SariSariStore.Core.Model
 
                 using (SqlConnection con = new SqlConnection(ConnectionString))
                 {
-                    string query = @"INSERT INTO tbl_Products (Name, Description, Category, Price, Stock, Image) 
+                    string query = @"INSERT INTO tbl_Product (Name, Description, Category, Price, Stock, Image) 
                                    VALUES (@Name, @Description, @Category, @Price, @Stock, @Image);
                                    SELECT SCOPE_IDENTITY();";
 
@@ -97,15 +99,15 @@ namespace SariSariStore.Core.Model
         {
             try
             {
-                string finalImagePath = product.Image ?? string.Empty;
+                string finalImagePath = product.ImagePath ?? string.Empty;
 
                 // Handle new image if provided
                 if (!string.IsNullOrEmpty(newImageFilePath) && File.Exists(newImageFilePath))
                 {
                     // Delete old image if exists
-                    if (!string.IsNullOrEmpty(product.Image) && File.Exists(product.Image))
+                    if (!string.IsNullOrEmpty(product.ImagePath) && File.Exists(product.ImagePath))
                     {
-                        File.Delete(product.Image);
+                        File.Delete(product.ImagePath);
                     }
 
                     // Save new image
@@ -115,13 +117,13 @@ namespace SariSariStore.Core.Model
                 using (SqlConnection connection = new SqlConnection(ConnectionString))
                 {
                     connection.Open();
-                    string query = @"UPDATE tbl_Products
+                    string query = @"UPDATE tbl_Product
                                      SET Name = @Name, Description = @Description, Category = @Category, 
                                          Price = @Price, Stock = @Stock, Image = @Image 
                                      WHERE Id = @Id";
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        command.Parameters.AddWithValue("@Id", product.Id);
+                        command.Parameters.AddWithValue("@Id", product.ProductID);
                         command.Parameters.AddWithValue("@Name", product.Name);
                         command.Parameters.AddWithValue("@Description", product.Description);
                         command.Parameters.AddWithValue("@Category", product.Category);
@@ -146,15 +148,15 @@ namespace SariSariStore.Core.Model
                 // First get the product to delete associated image
                 Products product = GetProductById(productId);
 
-                if (product != null && !string.IsNullOrEmpty(product.Image) && File.Exists(product.Image))
+                if (product != null && !string.IsNullOrEmpty(product.ImagePath) && File.Exists(product.ImagePath))
                 {
-                    File.Delete(product.Image);
+                    File.Delete(product.ImagePath);
                 }
 
                 using (SqlConnection connection = new SqlConnection(ConnectionString))
                 {
                     connection.Open();
-                    string query = "DELETE FROM tbl_Products WHERE Id = @Id";
+                    string query = "DELETE FROM tbl_Product WHERE Id = @Id";
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@Id", productId);
@@ -174,7 +176,7 @@ namespace SariSariStore.Core.Model
             // find product by id if exists else message not found
             using (SqlConnection con = new(ConnectionString))
             {
-                using (SqlCommand cmd = new("SELECT * FROM tbl_Products WHERE Id = @Id", con))
+                using (SqlCommand cmd = new("SELECT * FROM tbl_Product WHERE Id = @Id", con))
                 {
                     cmd.Parameters.AddWithValue("@Id", id);
                     con.Open();
@@ -184,13 +186,13 @@ namespace SariSariStore.Core.Model
                         {
                             return new Products
                             {
-                                Id = Convert.ToInt32(reader["Id"]),
+                                ProductID = Convert.ToInt32(reader["ProductID"]),
                                 Name = reader["Name"]?.ToString() ?? string.Empty,
                                 Description = reader["Description"]?.ToString(),
                                 Category = reader["Category"]?.ToString() ?? string.Empty,
                                 Price = Convert.ToDecimal(reader["Price"]),
                                 Stock = Convert.ToInt32(reader["Stock"]),
-                                Image = reader["Image"]?.ToString()
+                                ImagePath = reader["ImagePath"]?.ToString()
                             };
                         }
                         else

@@ -125,13 +125,13 @@ namespace SariSariStore.Admin
                 foreach (var product in allProducts)
                 {
                     int rowIndex = productsDataGrid.Rows.Add(
-                        product.Id,
+                        product.ProductID,
                         product.Name,
                         product.Description,
                         product.Category,
                         product.Price,
                         product.Stock,
-                        product.Image
+                        product.ImagePath
                     );
                 }
 

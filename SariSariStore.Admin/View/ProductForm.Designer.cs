@@ -33,7 +33,6 @@
             label7 = new Label();
             pictureBox6 = new PictureBox();
             panel2 = new Panel();
-            richTextBox1 = new RichTextBox();
             label12 = new Label();
             panel3 = new Panel();
             pictureBox5 = new PictureBox();
@@ -48,6 +47,7 @@
             btn_Inventory = new Button();
             btn_Products = new Button();
             btn_Dashboard = new Button();
+            dgv_Product = new DataGridView();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             panel2.SuspendLayout();
@@ -58,6 +58,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgv_Product).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -96,21 +97,13 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(20, 20, 50);
-            panel2.Controls.Add(richTextBox1);
+            panel2.Controls.Add(dgv_Product);
             panel2.Controls.Add(label12);
             panel2.Location = new Point(254, 72);
             panel2.Name = "panel2";
             panel2.Padding = new Padding(100);
             panel2.Size = new Size(1127, 724);
             panel2.TabIndex = 7;
-            // 
-            // richTextBox1
-            // 
-            richTextBox1.Location = new Point(59, 103);
-            richTextBox1.Name = "richTextBox1";
-            richTextBox1.Size = new Size(243, 141);
-            richTextBox1.TabIndex = 3;
-            richTextBox1.Text = "- Product List View\n- Item Name\n- Category (e.g., snacks, toiletries, canned goods)\n- Unit Price\n- Cost Price\n- Supplier Info";
             // 
             // label12
             // 
@@ -306,6 +299,14 @@
             btn_Dashboard.UseVisualStyleBackColor = false;
             btn_Dashboard.Click += btn_Dashboard_Click;
             // 
+            // dgv_Product
+            // 
+            dgv_Product.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgv_Product.Location = new Point(43, 103);
+            dgv_Product.Name = "dgv_Product";
+            dgv_Product.Size = new Size(889, 472);
+            dgv_Product.TabIndex = 4;
+            // 
             // ProductForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -335,6 +336,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgv_Product).EndInit();
             ResumeLayout(false);
         }
 
@@ -358,6 +360,6 @@
         private Button btn_Inventory;
         private Button btn_Products;
         private Button btn_Dashboard;
-        private RichTextBox richTextBox1;
+        private DataGridView dgv_Product;
     }
 }
