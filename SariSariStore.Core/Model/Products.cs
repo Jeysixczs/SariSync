@@ -149,7 +149,7 @@ namespace SariSariStore.Core.Model
 
         public Products GetProductById(int id)
         {
-            // find product by id if exists else message not found
+         
             using (SqlConnection con = new(ConnectionString))
             {
                 using (SqlCommand cmd = new("SELECT * FROM tbl_Product WHERE ProductID = @ProductID", con))
@@ -188,7 +188,7 @@ namespace SariSariStore.Core.Model
 
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
-                // SQL query to find matching name or category
+           
                 SqlCommand cmd = new SqlCommand("SELECT * FROM tbl_Product WHERE Name LIKE @Search OR Category LIKE @Search OR Description LIKE @Search", con);
                 cmd.Parameters.AddWithValue("@Search", "%" + searchTerm + "%");
 
@@ -265,9 +265,34 @@ namespace SariSariStore.Core.Model
             return stockProducts;
         }
 
-
-
-        
+        public List<Products> Gettop10Products()
+        {
+            List<Products> topProducts = new List<Products>();
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                string query = "select top 10 Name, Description, Category, Price, Stock, DateAdded from tbl_Product order by DateAdded desc";
+                SqlCommand cmd = new SqlCommand(query, con);
+                con.Open();
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Products product = new Products
+                        {
+                           
+                            Name = reader["Name"]?.ToString() ?? string.Empty,
+                            Description = reader["Description"]?.ToString(),
+                            Category = reader["Category"]?.ToString() ?? string.Empty,
+                            Price = Convert.ToDecimal(reader["Price"]),
+                            Stock = Convert.ToInt32(reader["Stock"]),
+                            DateAdded = Convert.ToDateTime(reader["DateAdded"]),
+                        };
+                        topProducts.Add(product);
+                    }
+                }
+            }
+            return topProducts;
+        }
 
         public string SaveImage(string imagePath)
         {

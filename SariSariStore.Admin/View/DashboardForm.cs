@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using SariSariStore.Admin.Model;
 using SariSariStore.Admin.View.Interface;
+using SariSariStore.Core.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,11 +21,12 @@ namespace SariSariStore.Admin.View
     {
         private Rounded rounded;
         public int cornerRadius = 30;
-
+        public Products products = new Products();
         public string connectionstring = @"Data Source=JEYSI\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
         public DashboardForm()
         {
             InitializeComponent();
+
             rounded = new Rounded();
             rounded.MakePanelRounded(panel1, 30);
             rounded.MakePanelRounded(panel2, 30);
@@ -41,6 +43,7 @@ namespace SariSariStore.Admin.View
             rounded.MakePanelRounded(panel13, 30);
 
             LoadDisplay();
+            DisplayLatestProducts();
         }
 
 
@@ -156,6 +159,17 @@ namespace SariSariStore.Admin.View
 
         }
 
+        private void DisplayLatestProducts()
+        {
+           dgv_LatestProduct.DataSource = products.Gettop10Products();
+
+            dgv_LatestProduct.Columns["ProductID"].Visible = false;
+            dgv_LatestProduct.Columns["ImagePath"].Visible = false;
+            dgv_LatestProduct.Columns["DateExpired"].Visible = false;
+            
+
+
+        }
         private void btn_Dashboard_Click(object sender, EventArgs e)
         {
 

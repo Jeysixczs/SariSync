@@ -59,5 +59,20 @@ namespace SariSariStore.Admin.View
             dgv_orderhistory.DataSource = ord.GetAllOrders();
         }
 
+        private void btn_printreceipt_Click(object sender, EventArgs e)
+        {
+            //print the selected rows in dgvorderhistory give the value to the Receiptform
+            if (dgv_orderhistory.SelectedRows.Count == 0) return;
+
+            var selected = dgv_orderhistory.SelectedRows;
+
+
+
+        }
+
+        private void dgv_orderhistory_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+            
+        }
     }
 }

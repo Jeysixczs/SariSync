@@ -495,7 +495,6 @@
         private Button btn_Delete;
         private PictureBox pictureBox9;
         private Button btn_Update;
-        private Button btn_search;
         private TextBox txtbox_Search;
         private Microsoft.Data.SqlClient.SqlCommand sqlCommand1;
     }

@@ -25,7 +25,7 @@ namespace SariSariStore.Admin
 
             //var mainForm = ServiceProvider.GetRequiredService<MainForm>();
             //Application.Run(mainForm);
-            Application.Run(new DashboardForm());
+            Application.Run(new LoadingForm());
         }
 
 

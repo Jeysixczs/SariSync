@@ -29,9 +29,12 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HistoryF));
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             panel1 = new Panel();
+            btn_printreceipt = new Button();
             label7 = new Label();
-            printReceiptButton = new Button();
             pictureBox6 = new PictureBox();
             panel2 = new Panel();
             label12 = new Label();
@@ -67,11 +70,20 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(35, 35, 65);
+            panel1.Controls.Add(btn_printreceipt);
             panel1.Controls.Add(label7);
-            panel1.Controls.Add(printReceiptButton);
             panel1.Controls.Add(pictureBox6);
             resources.ApplyResources(panel1, "panel1");
             panel1.Name = "panel1";
+            // 
+            // btn_printreceipt
+            // 
+            btn_printreceipt.BackColor = Color.FromArgb(40, 40, 65);
+            btn_printreceipt.ForeColor = Color.White;
+            resources.ApplyResources(btn_printreceipt, "btn_printreceipt");
+            btn_printreceipt.Name = "btn_printreceipt";
+            btn_printreceipt.UseVisualStyleBackColor = false;
+            btn_printreceipt.Click += btn_printreceipt_Click;
             // 
             // label7
             // 
@@ -79,12 +91,6 @@
             label7.BackColor = Color.Transparent;
             label7.ForeColor = Color.Transparent;
             label7.Name = "label7";
-            // 
-            // printReceiptButton
-            // 
-            resources.ApplyResources(printReceiptButton, "printReceiptButton");
-            printReceiptButton.Name = "printReceiptButton";
-            printReceiptButton.UseVisualStyleBackColor = true;
             // 
             // pictureBox6
             // 
@@ -109,42 +115,42 @@
             // 
             // dgv_orderhistory
             // 
-            dgv_orderhistory.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgv_orderhistory.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dgv_orderhistory.ColumnHeadersHeight = 40;
-            dgv_orderhistory.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgv_orderhistory.MultiSelect = false;
-            dgv_orderhistory.ReadOnly = true;
             dgv_orderhistory.AllowUserToAddRows = false;
             dgv_orderhistory.AllowUserToDeleteRows = false;
             dgv_orderhistory.AllowUserToResizeRows = false;
-            dgv_orderhistory.RowHeadersVisible = false;
-            dgv_orderhistory.BorderStyle = BorderStyle.None;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(245, 245, 245);
+            dgv_orderhistory.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dgv_orderhistory.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgv_orderhistory.BackgroundColor = Color.White;
-            dgv_orderhistory.GridColor = Color.LightGray;
-
-
+            dgv_orderhistory.BorderStyle = BorderStyle.None;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(52, 152, 219);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgv_orderhistory.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            resources.ApplyResources(dgv_orderhistory, "dgv_orderhistory");
+            dgv_orderhistory.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle3.ForeColor = Color.Black;
+            dataGridViewCellStyle3.Padding = new Padding(5, 3, 5, 3);
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(173, 216, 230);
+            dataGridViewCellStyle3.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            dgv_orderhistory.DefaultCellStyle = dataGridViewCellStyle3;
             dgv_orderhistory.EnableHeadersVisualStyles = false;
-            dgv_orderhistory.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(52, 152, 219); // Blue header
-            dgv_orderhistory.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            dgv_orderhistory.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Bold);
-            dgv_orderhistory.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-
-            dgv_orderhistory.DefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Regular);
-            dgv_orderhistory.DefaultCellStyle.ForeColor = Color.Black;
-            dgv_orderhistory.DefaultCellStyle.BackColor = Color.White;
-            dgv_orderhistory.DefaultCellStyle.SelectionBackColor = Color.FromArgb(173, 216, 230); // Light blue
-            dgv_orderhistory.DefaultCellStyle.SelectionForeColor = Color.Black;
-            dgv_orderhistory.DefaultCellStyle.Padding = new Padding(5, 3, 5, 3);
+            dgv_orderhistory.GridColor = Color.LightGray;
+            dgv_orderhistory.MultiSelect = false;
+            dgv_orderhistory.Name = "dgv_orderhistory";
+            dgv_orderhistory.ReadOnly = true;
+            dgv_orderhistory.RowHeadersVisible = false;
             dgv_orderhistory.RowTemplate.Height = 35;
-
-
-            dgv_orderhistory.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(245, 245, 245);
-            
-
-            dgv_orderhistory.Location = new Point(26, 83);
-            dgv_orderhistory.Size = new Size(1081, 609);
+            dgv_orderhistory.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv_orderhistory.CellContentClick += dgv_orderhistory_CellContentClick_1;
             // 
             // panel14
             // 
@@ -320,5 +326,6 @@
         private Button printReceiptButton;
         private DataGridView dgv_orderhistory;
         private Label label12;
+        private Button btn_printreceipt;
     }
 }

@@ -9,9 +9,7 @@ namespace SariSariStore.Admin
 {
     public partial class AddEditProductForm : Form
     {
-        private readonly string ConnectionString =
-            @"Data Source=JEYSI\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
-
+       
         private string selectedImagePath = string.Empty;
         private string temporaryImagePath = string.Empty;
         private readonly Products products;
@@ -88,12 +86,12 @@ namespace SariSariStore.Admin
                 if (!string.IsNullOrEmpty(product.ImagePath))
                 {
                     selectedImagePath = product.ImagePath;
-                    lblStatus.Text = "Current image: " + Path.GetFileName(selectedImagePath);
+                   
                     DisplayImageInPanel(selectedImagePath);
                 }
                 else
                 {
-                    lblStatus.Text = "No image selected.";
+                    
                     panel1.BackgroundImage = null;
                     panel1.BackColor = Color.LightGray;
                 }
@@ -176,7 +174,7 @@ namespace SariSariStore.Admin
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     temporaryImagePath = openFileDialog.FileName;
-                    lblStatus.Text = "Selected: " + Path.GetFileName(temporaryImagePath);
+                    
                     DisplayImageInPanel(temporaryImagePath);
                 }
             }

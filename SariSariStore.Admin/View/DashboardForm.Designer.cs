@@ -29,11 +29,15 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DashboardForm));
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             panel1 = new Panel();
             btn_notification = new Button();
             label7 = new Label();
             pictureBox6 = new PictureBox();
             panel2 = new Panel();
+            dgv_LatestProduct = new DataGridView();
             label12 = new Label();
             panel11 = new Panel();
             txt_bestcat = new Label();
@@ -64,9 +68,11 @@
             btn_Inventory = new Button();
             btn_Products = new Button();
             btn_Dashboard = new Button();
+            label2 = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgv_LatestProduct).BeginInit();
             panel11.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox9).BeginInit();
             panel13.SuspendLayout();
@@ -99,9 +105,10 @@
             // btn_notification
             // 
             btn_notification.BackColor = Color.FromArgb(40, 40, 65);
-            btn_notification.Location = new Point(1287, 8);
+            btn_notification.ForeColor = Color.White;
+            btn_notification.Location = new Point(1214, 8);
             btn_notification.Name = "btn_notification";
-            btn_notification.Size = new Size(81, 46);
+            btn_notification.Size = new Size(154, 46);
             btn_notification.TabIndex = 3;
             btn_notification.Text = "Stock Status";
             btn_notification.UseVisualStyleBackColor = false;
@@ -133,6 +140,8 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(20, 20, 50);
+            panel2.Controls.Add(dgv_LatestProduct);
+            panel2.Controls.Add(label2);
             panel2.Controls.Add(label12);
             panel2.Controls.Add(panel11);
             panel2.Controls.Add(panel13);
@@ -144,6 +153,47 @@
             panel2.Size = new Size(1127, 724);
             panel2.TabIndex = 5;
             panel2.Paint += panel2_Paint;
+            // 
+            // dgv_LatestProduct
+            // 
+            dgv_LatestProduct.AllowUserToAddRows = false;
+            dgv_LatestProduct.AllowUserToDeleteRows = false;
+            dgv_LatestProduct.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(245, 245, 245);
+            dgv_LatestProduct.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dgv_LatestProduct.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgv_LatestProduct.BackgroundColor = Color.White;
+            dgv_LatestProduct.BorderStyle = BorderStyle.None;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(52, 152, 219);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgv_LatestProduct.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dgv_LatestProduct.ColumnHeadersHeight = 40;
+            dgv_LatestProduct.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle3.ForeColor = Color.Black;
+            dataGridViewCellStyle3.Padding = new Padding(5, 3, 5, 3);
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(173, 216, 230);
+            dataGridViewCellStyle3.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            dgv_LatestProduct.DefaultCellStyle = dataGridViewCellStyle3;
+            dgv_LatestProduct.EnableHeadersVisualStyles = false;
+            dgv_LatestProduct.GridColor = Color.LightGray;
+            dgv_LatestProduct.Location = new Point(23, 269);
+            dgv_LatestProduct.MultiSelect = false;
+            dgv_LatestProduct.Name = "dgv_LatestProduct";
+            dgv_LatestProduct.ReadOnly = true;
+            dgv_LatestProduct.RowHeadersVisible = false;
+            dgv_LatestProduct.RowTemplate.Height = 35;
+            dgv_LatestProduct.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv_LatestProduct.Size = new Size(1083, 423);
+            dgv_LatestProduct.TabIndex = 0;
             // 
             // label12
             // 
@@ -162,9 +212,9 @@
             panel11.Controls.Add(txt_bestcat);
             panel11.Controls.Add(label1);
             panel11.Controls.Add(pictureBox9);
-            panel11.Location = new Point(32, 103);
+            panel11.Location = new Point(23, 103);
             panel11.Name = "panel11";
-            panel11.Size = new Size(411, 183);
+            panel11.Size = new Size(248, 106);
             panel11.TabIndex = 0;
             // 
             // txt_bestcat
@@ -172,7 +222,7 @@
             txt_bestcat.AutoSize = true;
             txt_bestcat.Font = new Font("Elephant", 15.7499981F, FontStyle.Bold);
             txt_bestcat.ForeColor = Color.White;
-            txt_bestcat.Location = new Point(57, 109);
+            txt_bestcat.Location = new Point(57, 67);
             txt_bestcat.Name = "txt_bestcat";
             txt_bestcat.Size = new Size(83, 27);
             txt_bestcat.TabIndex = 4;
@@ -184,11 +234,11 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Segoe UI Historic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(124, 33);
+            label1.Location = new Point(57, 22);
             label1.Name = "label1";
-            label1.Size = new Size(247, 25);
+            label1.Size = new Size(164, 25);
             label1.TabIndex = 2;
-            label1.Text = "BEST SELLING CATEGORY";
+            label1.Text = "BEST CATEGORY";
             label1.Click += label1_Click;
             // 
             // pictureBox9
@@ -197,7 +247,7 @@
             pictureBox9.Image = Properties.Resources.icons8_category_64;
             pictureBox9.Location = new Point(21, 22);
             pictureBox9.Name = "pictureBox9";
-            pictureBox9.Size = new Size(78, 49);
+            pictureBox9.Size = new Size(30, 25);
             pictureBox9.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox9.TabIndex = 3;
             pictureBox9.TabStop = false;
@@ -208,9 +258,9 @@
             panel13.Controls.Add(txt_totalsales);
             panel13.Controls.Add(label14);
             panel13.Controls.Add(pictureBox11);
-            panel13.Location = new Point(476, 315);
+            panel13.Location = new Point(552, 103);
             panel13.Name = "panel13";
-            panel13.Size = new Size(411, 183);
+            panel13.Size = new Size(248, 106);
             panel13.TabIndex = 0;
             // 
             // txt_totalsales
@@ -218,7 +268,7 @@
             txt_totalsales.AutoSize = true;
             txt_totalsales.Font = new Font("Elephant", 15.7499981F, FontStyle.Bold);
             txt_totalsales.ForeColor = Color.White;
-            txt_totalsales.Location = new Point(41, 138);
+            txt_totalsales.Location = new Point(55, 67);
             txt_totalsales.Name = "txt_totalsales";
             txt_totalsales.Size = new Size(83, 27);
             txt_totalsales.TabIndex = 4;
@@ -229,7 +279,7 @@
             label14.AutoSize = true;
             label14.Font = new Font("Segoe UI Historic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label14.ForeColor = Color.White;
-            label14.Location = new Point(122, 30);
+            label14.Location = new Point(55, 22);
             label14.Name = "label14";
             label14.Size = new Size(134, 25);
             label14.TabIndex = 2;
@@ -238,9 +288,9 @@
             // pictureBox11
             // 
             pictureBox11.Image = Properties.Resources.icons8_bill_64;
-            pictureBox11.Location = new Point(21, 21);
+            pictureBox11.Location = new Point(19, 22);
             pictureBox11.Name = "pictureBox11";
-            pictureBox11.Size = new Size(78, 49);
+            pictureBox11.Size = new Size(30, 25);
             pictureBox11.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox11.TabIndex = 3;
             pictureBox11.TabStop = false;
@@ -251,9 +301,9 @@
             panel12.Controls.Add(txt_bestprod);
             panel12.Controls.Add(label13);
             panel12.Controls.Add(pictureBox10);
-            panel12.Location = new Point(32, 315);
+            panel12.Location = new Point(288, 103);
             panel12.Name = "panel12";
-            panel12.Size = new Size(411, 183);
+            panel12.Size = new Size(248, 106);
             panel12.TabIndex = 0;
             // 
             // txt_bestprod
@@ -261,7 +311,7 @@
             txt_bestprod.AutoSize = true;
             txt_bestprod.Font = new Font("Elephant", 15.7499981F, FontStyle.Bold);
             txt_bestprod.ForeColor = Color.White;
-            txt_bestprod.Location = new Point(57, 138);
+            txt_bestprod.Location = new Point(54, 67);
             txt_bestprod.Name = "txt_bestprod";
             txt_bestprod.Size = new Size(83, 27);
             txt_bestprod.TabIndex = 4;
@@ -272,18 +322,18 @@
             label13.AutoSize = true;
             label13.Font = new Font("Segoe UI Historic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label13.ForeColor = Color.White;
-            label13.Location = new Point(124, 30);
+            label13.Location = new Point(54, 22);
             label13.Name = "label13";
-            label13.Size = new Size(237, 25);
+            label13.Size = new Size(154, 25);
             label13.TabIndex = 2;
-            label13.Text = "BEST SELLING PRODUCT";
+            label13.Text = "BEST PRODUCT";
             // 
             // pictureBox10
             // 
             pictureBox10.Image = Properties.Resources.icons8_best_seller_64;
-            pictureBox10.Location = new Point(21, 21);
+            pictureBox10.Location = new Point(18, 22);
             pictureBox10.Name = "pictureBox10";
-            pictureBox10.Size = new Size(78, 49);
+            pictureBox10.Size = new Size(30, 25);
             pictureBox10.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox10.TabIndex = 3;
             pictureBox10.TabStop = false;
@@ -294,9 +344,9 @@
             panel10.Controls.Add(txt_inventorysum);
             panel10.Controls.Add(pictureBox8);
             panel10.Controls.Add(label9);
-            panel10.Location = new Point(476, 103);
+            panel10.Location = new Point(816, 103);
             panel10.Name = "panel10";
-            panel10.Size = new Size(411, 183);
+            panel10.Size = new Size(290, 106);
             panel10.TabIndex = 0;
             // 
             // txt_inventorysum
@@ -304,7 +354,7 @@
             txt_inventorysum.AutoSize = true;
             txt_inventorysum.Font = new Font("Elephant", 15.7499981F, FontStyle.Bold);
             txt_inventorysum.ForeColor = Color.White;
-            txt_inventorysum.Location = new Point(41, 113);
+            txt_inventorysum.Location = new Point(52, 67);
             txt_inventorysum.Name = "txt_inventorysum";
             txt_inventorysum.Size = new Size(83, 27);
             txt_inventorysum.TabIndex = 4;
@@ -313,9 +363,9 @@
             // pictureBox8
             // 
             pictureBox8.Image = (Image)resources.GetObject("pictureBox8.Image");
-            pictureBox8.Location = new Point(18, 9);
+            pictureBox8.Location = new Point(16, 22);
             pictureBox8.Name = "pictureBox8";
-            pictureBox8.Size = new Size(78, 49);
+            pictureBox8.Size = new Size(30, 25);
             pictureBox8.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox8.TabIndex = 3;
             pictureBox8.TabStop = false;
@@ -325,7 +375,7 @@
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI Historic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label9.ForeColor = Color.White;
-            label9.Location = new Point(122, 22);
+            label9.Location = new Point(52, 22);
             label9.Name = "label9";
             label9.Size = new Size(226, 25);
             label9.TabIndex = 2;
@@ -514,6 +564,17 @@
             btn_Dashboard.UseVisualStyleBackColor = false;
             btn_Dashboard.Click += btn_Dashboard_Click;
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI Historic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.ForeColor = Color.Transparent;
+            label2.Location = new Point(28, 227);
+            label2.Name = "label2";
+            label2.Size = new Size(176, 25);
+            label2.TabIndex = 2;
+            label2.Text = "LATEST PRODUCT";
+            // 
             // DashboardForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -535,6 +596,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgv_LatestProduct).EndInit();
             panel11.ResumeLayout(false);
             panel11.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox9).EndInit();
@@ -594,5 +656,7 @@
         private Label txt_bestprod;
         private Label txt_inventorysum;
         private Button btn_notification;
+        private DataGridView dgv_LatestProduct;
+        private Label label2;
     }
 }

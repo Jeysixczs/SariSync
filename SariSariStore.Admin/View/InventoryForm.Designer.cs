@@ -33,7 +33,6 @@
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             panel1 = new Panel();
-            btn_StockStatus = new Button();
             label7 = new Label();
             pictureBox6 = new PictureBox();
             panel14 = new Panel();
@@ -70,24 +69,12 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(35, 35, 65);
-            panel1.Controls.Add(btn_StockStatus);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(pictureBox6);
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
             panel1.Size = new Size(1397, 66);
             panel1.TabIndex = 5;
-            // 
-            // btn_StockStatus
-            // 
-            btn_StockStatus.BackColor = Color.FromArgb(40, 40, 65);
-            btn_StockStatus.Location = new Point(1185, 12);
-            btn_StockStatus.Name = "btn_StockStatus";
-            btn_StockStatus.Size = new Size(81, 46);
-            btn_StockStatus.TabIndex = 4;
-            btn_StockStatus.Text = "Stock Status";
-            btn_StockStatus.UseVisualStyleBackColor = false;
-            btn_StockStatus.Click += btn_StockStatus_Click;
             // 
             // label7
             // 
@@ -418,7 +405,6 @@
         private Button btn_Inventory;
         private Button btn_Products;
         private Button btn_Dashboard;
-        private Button btn_StockStatus;
         private DataGridView dgv_supplier;
     }
 }

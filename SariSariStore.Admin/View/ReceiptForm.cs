@@ -12,6 +12,7 @@ namespace SariSariStore.Admin
 {
     public partial class ReceiptForm : Form
     {
+       
         public ReceiptForm()
         {
             InitializeComponent();
