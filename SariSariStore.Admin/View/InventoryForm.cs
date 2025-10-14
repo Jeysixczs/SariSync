@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SariSariStore.Core.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +13,13 @@ namespace SariSariStore.Admin.View
 {
     public partial class InventoryForm : Form
     {
+
+        public ProductForm prod = new ProductForm();
+        public Supplier supplier = new Supplier();
         public InventoryForm()
         {
             InitializeComponent();
+            DisplaySupplier();
         }
 
         private void btn_Dashboard_Click(object sender, EventArgs e)
@@ -43,6 +48,23 @@ namespace SariSariStore.Admin.View
             ReportFrom reportFrom = new ReportFrom();
             reportFrom.Show();
             this.Hide();
+        }
+
+        private void btn_StockStatus_Click(object sender, EventArgs e)
+        {
+            NotificationForm stock = new NotificationForm();
+            stock.ShowDialog();
+        }
+
+        private void dgv_supplier_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        public void DisplaySupplier()
+        {
+            dgv_supplier.DataSource = supplier.GetAllSuppliers();
+           
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using SariSariStore.Admin.Model;
+using SariSariStore.Admin.View.Interface;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -109,7 +110,7 @@ namespace SariSariStore.Admin.View
                     }
                 }
 
-         
+
                 using (SqlCommand loadProduct = new SqlCommand("SELECT * FROM vw_BestSellingProduct", con))
                 using (SqlDataReader readProduct = loadProduct.ExecuteReader())
                 {
@@ -119,7 +120,7 @@ namespace SariSariStore.Admin.View
                     }
                 }
 
-       
+
                 using (SqlCommand loadInventorySummary = new SqlCommand("SELECT COUNT(ProductID) AS TotalProducts FROM tbl_Product", con))
                 using (SqlDataReader readInventorySummary = loadInventorySummary.ExecuteReader())
                 {
@@ -140,5 +141,24 @@ namespace SariSariStore.Admin.View
             }
         }
 
+        private void btn_Order_Click(object sender, EventArgs e)
+        {
+            OrderForm orderForm = new OrderForm();
+            orderForm.Show();
+            this.Hide();
+        }
+
+        private void btn_notification_Click(object sender, EventArgs e)
+        {
+            NotificationForm notificationForm = new NotificationForm();
+            notificationForm.ShowDialog();
+
+
+        }
+
+        private void btn_Dashboard_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

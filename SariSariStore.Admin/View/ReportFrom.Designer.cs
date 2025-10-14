@@ -29,11 +29,19 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReportFrom));
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             panel1 = new Panel();
             label7 = new Label();
             pictureBox6 = new PictureBox();
             panel2 = new Panel();
-            richTextBox1 = new RichTextBox();
+            label2 = new Label();
+            label1 = new Label();
+            comboBox3 = new ComboBox();
+            comboBox2 = new ComboBox();
+            button1 = new Button();
+            dgv_report = new DataGridView();
             label12 = new Label();
             panel3 = new Panel();
             pictureBox5 = new PictureBox();
@@ -52,6 +60,7 @@
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgv_report).BeginInit();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
@@ -97,21 +106,106 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(20, 20, 50);
-            panel2.Controls.Add(richTextBox1);
+            panel2.Controls.Add(label2);
+            panel2.Controls.Add(label1);
+            panel2.Controls.Add(comboBox3);
+            panel2.Controls.Add(comboBox2);
+            panel2.Controls.Add(button1);
+            panel2.Controls.Add(dgv_report);
             panel2.Controls.Add(label12);
             panel2.Location = new Point(254, 72);
             panel2.Name = "panel2";
             panel2.Padding = new Padding(100);
             panel2.Size = new Size(1127, 724);
             panel2.TabIndex = 10;
+            panel2.Paint += panel2_Paint;
             // 
-            // richTextBox1
+            // label2
             // 
-            richTextBox1.Location = new Point(162, 180);
-            richTextBox1.Name = "richTextBox1";
-            richTextBox1.Size = new Size(254, 181);
-            richTextBox1.TabIndex = 3;
-            richTextBox1.Text = "- Sales Summary\n- Expense Tracker";
+            label2.AutoSize = true;
+            label2.ForeColor = Color.White;
+            label2.Location = new Point(392, 64);
+            label2.Name = "label2";
+            label2.Size = new Size(38, 15);
+            label2.TabIndex = 11;
+            label2.Text = "Yearly";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.ForeColor = Color.White;
+            label1.Location = new Point(29, 64);
+            label1.Name = "label1";
+            label1.Size = new Size(52, 15);
+            label1.TabIndex = 11;
+            label1.Text = "Monthly";
+            // 
+            // comboBox3
+            // 
+            comboBox3.FormattingEnabled = true;
+            comboBox3.Location = new Point(392, 87);
+            comboBox3.Name = "comboBox3";
+            comboBox3.Size = new Size(309, 23);
+            comboBox3.TabIndex = 10;
+            // 
+            // comboBox2
+            // 
+            comboBox2.FormattingEnabled = true;
+            comboBox2.Location = new Point(28, 87);
+            comboBox2.Name = "comboBox2";
+            comboBox2.Size = new Size(323, 23);
+            comboBox2.TabIndex = 9;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(737, 87);
+            button1.Name = "button1";
+            button1.Size = new Size(136, 24);
+            button1.TabIndex = 4;
+            button1.Text = "All Time";
+            button1.UseVisualStyleBackColor = true;
+            // 
+            // dgv_report
+            // 
+            dgv_report.AllowUserToAddRows = false;
+            dgv_report.AllowUserToDeleteRows = false;
+            dgv_report.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(245, 245, 245);
+            dgv_report.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dgv_report.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgv_report.BackgroundColor = Color.White;
+            dgv_report.BorderStyle = BorderStyle.None;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(52, 152, 219);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgv_report.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dgv_report.ColumnHeadersHeight = 40;
+            dgv_report.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle3.ForeColor = Color.Black;
+            dataGridViewCellStyle3.Padding = new Padding(5, 3, 5, 3);
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(173, 216, 230);
+            dataGridViewCellStyle3.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            dgv_report.DefaultCellStyle = dataGridViewCellStyle3;
+            dgv_report.EnableHeadersVisualStyles = false;
+            dgv_report.GridColor = Color.LightGray;
+            dgv_report.Location = new Point(28, 140);
+            dgv_report.MultiSelect = false;
+            dgv_report.Name = "dgv_report";
+            dgv_report.ReadOnly = true;
+            dgv_report.RowHeadersVisible = false;
+            dgv_report.RowTemplate.Height = 35;
+            dgv_report.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv_report.Size = new Size(996, 449);
+            dgv_report.TabIndex = 12;
+            dgv_report.CellContentClick += dgv_report_CellContentClick_1;
             // 
             // label12
             // 
@@ -225,6 +319,7 @@
             btn_Report.TabIndex = 3;
             btn_Report.Text = "Report";
             btn_Report.UseVisualStyleBackColor = false;
+            btn_Report.Click += btn_Report_Click;
             // 
             // button6
             // 
@@ -270,7 +365,7 @@
             btn_Inventory.Padding = new Padding(33, 14, 14, 14);
             btn_Inventory.Size = new Size(192, 68);
             btn_Inventory.TabIndex = 3;
-            btn_Inventory.Text = "Inventory";
+            btn_Inventory.Text = "Supplier";
             btn_Inventory.UseVisualStyleBackColor = false;
             btn_Inventory.Click += btn_Inventory_Click;
             // 
@@ -286,7 +381,7 @@
             btn_Products.Padding = new Padding(33, 14, 14, 14);
             btn_Products.Size = new Size(192, 68);
             btn_Products.TabIndex = 3;
-            btn_Products.Text = "Products";
+            btn_Products.Text = "Inventory";
             btn_Products.UseVisualStyleBackColor = false;
             btn_Products.Click += btn_Products_Click;
             // 
@@ -313,6 +408,7 @@
             panel4.Name = "panel4";
             panel4.Size = new Size(1397, 820);
             panel4.TabIndex = 4;
+            panel4.Paint += panel4_Paint;
             // 
             // ReportFrom
             // 
@@ -334,6 +430,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgv_report).EndInit();
             panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
@@ -364,7 +461,12 @@
         private Button btn_Inventory;
         private Button btn_Products;
         private Button btn_Dashboard;
-        private RichTextBox richTextBox1;
         private Panel panel4;
+        private DataGridView dgv_report;
+        private ComboBox comboBox3;
+        private ComboBox comboBox2;
+        private Button button1;
+        private Label label2;
+        private Label label1;
     }
 }

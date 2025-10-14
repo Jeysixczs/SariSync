@@ -29,7 +29,11 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InventoryForm));
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             panel1 = new Panel();
+            btn_StockStatus = new Button();
             label7 = new Label();
             pictureBox6 = new PictureBox();
             panel14 = new Panel();
@@ -47,7 +51,7 @@
             btn_Products = new Button();
             btn_Dashboard = new Button();
             panel2 = new Panel();
-            richTextBox1 = new RichTextBox();
+            dgv_supplier = new DataGridView();
             label12 = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
@@ -60,17 +64,30 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgv_supplier).BeginInit();
             SuspendLayout();
             // 
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(35, 35, 65);
+            panel1.Controls.Add(btn_StockStatus);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(pictureBox6);
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
             panel1.Size = new Size(1397, 66);
             panel1.TabIndex = 5;
+            // 
+            // btn_StockStatus
+            // 
+            btn_StockStatus.BackColor = Color.FromArgb(40, 40, 65);
+            btn_StockStatus.Location = new Point(1185, 12);
+            btn_StockStatus.Name = "btn_StockStatus";
+            btn_StockStatus.Size = new Size(81, 46);
+            btn_StockStatus.TabIndex = 4;
+            btn_StockStatus.Text = "Stock Status";
+            btn_StockStatus.UseVisualStyleBackColor = false;
+            btn_StockStatus.Click += btn_StockStatus_Click;
             // 
             // label7
             // 
@@ -252,7 +269,7 @@
             btn_Inventory.Padding = new Padding(33, 14, 14, 14);
             btn_Inventory.Size = new Size(192, 68);
             btn_Inventory.TabIndex = 3;
-            btn_Inventory.Text = "Inventory";
+            btn_Inventory.Text = "Supplier";
             btn_Inventory.UseVisualStyleBackColor = false;
             // 
             // btn_Products
@@ -267,7 +284,7 @@
             btn_Products.Padding = new Padding(33, 14, 14, 14);
             btn_Products.Size = new Size(192, 68);
             btn_Products.TabIndex = 3;
-            btn_Products.Text = "Products";
+            btn_Products.Text = "Inventory";
             btn_Products.UseVisualStyleBackColor = false;
             btn_Products.Click += btn_Products_Click;
             // 
@@ -290,7 +307,7 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(20, 20, 50);
-            panel2.Controls.Add(richTextBox1);
+            panel2.Controls.Add(dgv_supplier);
             panel2.Controls.Add(label12);
             panel2.Location = new Point(254, 72);
             panel2.Name = "panel2";
@@ -298,13 +315,46 @@
             panel2.Size = new Size(1127, 724);
             panel2.TabIndex = 8;
             // 
-            // richTextBox1
+            // dgv_supplier
             // 
-            richTextBox1.Location = new Point(103, 199);
-            richTextBox1.Name = "richTextBox1";
-            richTextBox1.Size = new Size(284, 205);
-            richTextBox1.TabIndex = 3;
-            richTextBox1.Text = "- Current Stock Levels\n- Low Stock Alerts\n - Stock Movement Log\n- Supplier Tracker\n\n";
+            dgv_supplier.AllowUserToAddRows = false;
+            dgv_supplier.AllowUserToDeleteRows = false;
+            dgv_supplier.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(245, 245, 245);
+            dgv_supplier.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dgv_supplier.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgv_supplier.BackgroundColor = Color.White;
+            dgv_supplier.BorderStyle = BorderStyle.None;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(52, 152, 219);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgv_supplier.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dgv_supplier.ColumnHeadersHeight = 40;
+            dgv_supplier.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle3.ForeColor = Color.Black;
+            dataGridViewCellStyle3.Padding = new Padding(5, 3, 5, 3);
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(173, 216, 230);
+            dataGridViewCellStyle3.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            dgv_supplier.DefaultCellStyle = dataGridViewCellStyle3;
+            dgv_supplier.EnableHeadersVisualStyles = false;
+            dgv_supplier.GridColor = Color.LightGray;
+            dgv_supplier.Location = new Point(31, 73);
+            dgv_supplier.MultiSelect = false;
+            dgv_supplier.Name = "dgv_supplier";
+            dgv_supplier.ReadOnly = true;
+            dgv_supplier.RowHeadersVisible = false;
+            dgv_supplier.RowTemplate.Height = 35;
+            dgv_supplier.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv_supplier.Size = new Size(1067, 619);
+            dgv_supplier.TabIndex = 0;
             // 
             // label12
             // 
@@ -313,9 +363,9 @@
             label12.ForeColor = Color.Transparent;
             label12.Location = new Point(28, 35);
             label12.Name = "label12";
-            label12.Size = new Size(122, 25);
+            label12.Size = new Size(90, 25);
             label12.TabIndex = 2;
-            label12.Text = "INVENTORY";
+            label12.Text = "Supplier";
             // 
             // InventoryForm
             // 
@@ -343,6 +393,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgv_supplier).EndInit();
             ResumeLayout(false);
         }
 
@@ -367,6 +418,7 @@
         private Button btn_Inventory;
         private Button btn_Products;
         private Button btn_Dashboard;
-        private RichTextBox richTextBox1;
+        private Button btn_StockStatus;
+        private DataGridView dgv_supplier;
     }
 }

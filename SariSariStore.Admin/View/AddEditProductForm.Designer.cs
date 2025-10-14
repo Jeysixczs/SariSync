@@ -41,6 +41,7 @@
             label3 = new Label();
             lblStatus = new Label();
             panel1 = new Panel();
+            dtp_ExpirationDate = new DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)NumericStock).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericPrice).BeginInit();
             SuspendLayout();
@@ -88,7 +89,7 @@
             // 
             // cancelButton
             // 
-            cancelButton.Location = new Point(342, 534);
+            cancelButton.Location = new Point(343, 564);
             cancelButton.Name = "cancelButton";
             cancelButton.Size = new Size(75, 23);
             cancelButton.TabIndex = 10;
@@ -98,7 +99,7 @@
             // 
             // saveButton
             // 
-            saveButton.Location = new Point(189, 534);
+            saveButton.Location = new Point(189, 564);
             saveButton.Name = "saveButton";
             saveButton.Size = new Size(75, 23);
             saveButton.TabIndex = 9;
@@ -159,11 +160,19 @@
             panel1.Size = new Size(200, 133);
             panel1.TabIndex = 21;
             // 
+            // dtp_ExpirationDate
+            // 
+            dtp_ExpirationDate.Location = new Point(154, 523);
+            dtp_ExpirationDate.Name = "dtp_ExpirationDate";
+            dtp_ExpirationDate.Size = new Size(319, 23);
+            dtp_ExpirationDate.TabIndex = 22;
+            // 
             // AddEditProductForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(631, 644);
+            Controls.Add(dtp_ExpirationDate);
             Controls.Add(panel1);
             Controls.Add(lblStatus);
             Controls.Add(cmbCategory);
@@ -200,5 +209,6 @@
         private Label label3;
         private Label lblStatus;
         private Panel panel1;
+        private DateTimePicker dtp_ExpirationDate;
     }
 }

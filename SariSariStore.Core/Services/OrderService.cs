@@ -11,74 +11,14 @@ namespace SariSariStore.Core.Services
 {
     public class OrderService : IOrderService
     {
-        String ConnectionString = @"Data Source=JEYSI\SQLEXPRESS;Initial Catalog=db_SariSync;Integrated Security=True;Trust Server Certificate=True";
+        public string ConnectionString = @"Data Source=JEYSI\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Trust Server Certificate=True";
 
         public async Task<List<Orders>> GetAllOrdersAsync()
         {
-            var orders = new List<Orders>();
+            List<Orders> orders = new List<Orders>();
 
-            using (SqlConnection con = new SqlConnection(ConnectionString))
-            {
-                // Fixed: Explicit column names to avoid conflicts
-                string query = @"SELECT 
-                            o.Id as OrderId, 
-                            o.OrderDate, 
-                            o.IsPaid,
-                            oi.Id as ItemId,
-                            oi.OrderId,
-                            oi.ProductId,
-                            oi.ProductName,
-                            oi.Quantity,
-                            oi.Price
-                       FROM tbl_Orders o
-                       LEFT JOIN tbl_OrderItems oi ON o.Id = oi.OrderId
-                       ORDER BY o.OrderDate DESC";
 
-                using (SqlCommand cmd = new SqlCommand(query, con))
-                {
-                    await con.OpenAsync();
-                    using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
-                    {
-                        Orders? currentOrder = null;
 
-                        while (await reader.ReadAsync())
-                        {
-                            int orderId = Convert.ToInt32(reader["OrderId"]);
-
-                            if (currentOrder == null || currentOrder.Id != orderId)
-                            {
-                                if (currentOrder != null)
-                                    orders.Add(currentOrder);
-
-                                currentOrder = new Orders
-                                {
-                                    Id = orderId,
-                                    OrderDate = Convert.ToDateTime(reader["OrderDate"]),
-                                    IsPaid = Convert.ToBoolean(reader["IsPaid"]),
-                                    Items = new List<OrderItems>()
-                                };
-                            }
-
-                            if (reader["ItemId"] != DBNull.Value)
-                            {
-                                var orderItem = new OrderItems
-                                {
-                                    Id = Convert.ToInt32(reader["ItemId"]),
-                                    OrderId = Convert.ToInt32(reader["OrderId"]),
-                                    ProductId = Convert.ToInt32(reader["ProductId"]),
-                                    ProductName = reader["ProductName"]?.ToString() ?? string.Empty,
-                                    Quantity = Convert.ToInt32(reader["Quantity"]),
-                                    Price = Convert.ToDecimal(reader["Price"])
-                                };
-                                currentOrder.Items.Add(orderItem);
-                            }
-                        }
-
-                        if (currentOrder != null)
-                            orders.Add(currentOrder);
-                    }
-                }
-            }
             return orders;
         }
 
@@ -90,7 +30,7 @@ namespace SariSariStore.Core.Services
             {
                 string query = @"SELECT MONTH(OrderDate) as Month, 
                                        SUM(oi.Quantity * oi.Price) as MonthlyIncome
-                               FROM tbl_Orders o
+                               FROM tbl_Order o
                                INNER JOIN tbl_OrderItems oi ON o.Id = oi.OrderId
                                WHERE YEAR(OrderDate) = @Year AND o.IsPaid = 1
                                GROUP BY MONTH(OrderDate)
@@ -122,7 +62,7 @@ namespace SariSariStore.Core.Services
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
                 string query = @"SELECT SUM(oi.Quantity * oi.Price) as TotalIncome
-                               FROM tbl_Orders o
+                               FROM tbl_Order o
                                INNER JOIN tbl_OrderItems oi ON o.Id = oi.OrderId
                                WHERE YEAR(o.OrderDate) = @Year AND MONTH(o.OrderDate) = @Month
                                AND o.IsPaid = 1";
@@ -161,7 +101,7 @@ namespace SariSariStore.Core.Services
                                     oi.ProductName,
                                     oi.Quantity,
                                     oi.Price
-                               FROM tbl_Orders o
+                               FROM tbl_Order o
                                LEFT JOIN tbl_OrderItems oi ON o.Id = oi.OrderId
                                WHERE o.OrderDate BETWEEN @StartDate AND @EndDate
                                ORDER BY o.OrderDate DESC, o.Id";
@@ -180,14 +120,14 @@ namespace SariSariStore.Core.Services
                         {
                             int orderId = Convert.ToInt32(reader["OrderId"]);
 
-                            if (currentOrder == null || currentOrder.Id != orderId)
+                            if (currentOrder == null || currentOrder.OrderID != orderId)
                             {
                                 if (currentOrder != null)
                                     orders.Add(currentOrder);
 
                                 currentOrder = new Orders
                                 {
-                                    Id = orderId,
+                                    OrderID = orderId,
                                     OrderDate = Convert.ToDateTime(reader["OrderDate"]),
                                     IsPaid = Convert.ToBoolean(reader["IsPaid"]),
                                     Items = new List<OrderItems>()
@@ -199,12 +139,13 @@ namespace SariSariStore.Core.Services
                             {
                                 var orderItem = new OrderItems
                                 {
-                                    Id = Convert.ToInt32(reader["ItemId"]),
-                                    OrderId = Convert.ToInt32(reader["OrderId"]),
-                                    ProductId = Convert.ToInt32(reader["ProductId"]),
-                                    ProductName = reader["ProductName"]?.ToString() ?? string.Empty,
+
+                                    OrderDetailID = Convert.ToInt32(reader["OrderDetailID"]),
+                                    OrderID = Convert.ToInt32(reader["OrderID"]),
+                                    ProductID = Convert.ToInt32(reader["ProductID"]),
+                                   
                                     Quantity = Convert.ToInt32(reader["Quantity"]),
-                                    Price = Convert.ToDecimal(reader["Price"])
+                                    UnitPrice = Convert.ToDecimal(reader["UnitPrice"])
                                 };
                                 currentOrder.Items.Add(orderItem);
                             }

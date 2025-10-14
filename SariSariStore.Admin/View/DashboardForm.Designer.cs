@@ -30,20 +30,25 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DashboardForm));
             panel1 = new Panel();
+            btn_notification = new Button();
             label7 = new Label();
             pictureBox6 = new PictureBox();
             panel2 = new Panel();
             label12 = new Label();
             panel11 = new Panel();
+            txt_bestcat = new Label();
             label1 = new Label();
             pictureBox9 = new PictureBox();
             panel13 = new Panel();
+            txt_totalsales = new Label();
             label14 = new Label();
             pictureBox11 = new PictureBox();
             panel12 = new Panel();
+            txt_bestprod = new Label();
             label13 = new Label();
             pictureBox10 = new PictureBox();
             panel10 = new Panel();
+            txt_inventorysum = new Label();
             pictureBox8 = new PictureBox();
             label9 = new Label();
             panel3 = new Panel();
@@ -59,10 +64,6 @@
             btn_Inventory = new Button();
             btn_Products = new Button();
             btn_Dashboard = new Button();
-            txt_bestcat = new Label();
-            txt_inventorysum = new Label();
-            txt_bestprod = new Label();
-            txt_totalsales = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             panel2.SuspendLayout();
@@ -86,6 +87,7 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(35, 35, 65);
+            panel1.Controls.Add(btn_notification);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(pictureBox6);
             panel1.Dock = DockStyle.Top;
@@ -93,6 +95,17 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(1397, 66);
             panel1.TabIndex = 4;
+            // 
+            // btn_notification
+            // 
+            btn_notification.BackColor = Color.FromArgb(40, 40, 65);
+            btn_notification.Location = new Point(1287, 8);
+            btn_notification.Name = "btn_notification";
+            btn_notification.Size = new Size(81, 46);
+            btn_notification.TabIndex = 3;
+            btn_notification.Text = "Stock Status";
+            btn_notification.UseVisualStyleBackColor = false;
+            btn_notification.Click += btn_notification_Click;
             // 
             // label7
             // 
@@ -149,10 +162,21 @@
             panel11.Controls.Add(txt_bestcat);
             panel11.Controls.Add(label1);
             panel11.Controls.Add(pictureBox9);
-            panel11.Location = new Point(28, 191);
+            panel11.Location = new Point(32, 103);
             panel11.Name = "panel11";
-            panel11.Size = new Size(411, 224);
+            panel11.Size = new Size(411, 183);
             panel11.TabIndex = 0;
+            // 
+            // txt_bestcat
+            // 
+            txt_bestcat.AutoSize = true;
+            txt_bestcat.Font = new Font("Elephant", 15.7499981F, FontStyle.Bold);
+            txt_bestcat.ForeColor = Color.White;
+            txt_bestcat.Location = new Point(57, 109);
+            txt_bestcat.Name = "txt_bestcat";
+            txt_bestcat.Size = new Size(83, 27);
+            txt_bestcat.TabIndex = 4;
+            txt_bestcat.Text = "label2";
             // 
             // label1
             // 
@@ -184,10 +208,21 @@
             panel13.Controls.Add(txt_totalsales);
             panel13.Controls.Add(label14);
             panel13.Controls.Add(pictureBox11);
-            panel13.Location = new Point(472, 438);
+            panel13.Location = new Point(476, 315);
             panel13.Name = "panel13";
-            panel13.Size = new Size(411, 224);
+            panel13.Size = new Size(411, 183);
             panel13.TabIndex = 0;
+            // 
+            // txt_totalsales
+            // 
+            txt_totalsales.AutoSize = true;
+            txt_totalsales.Font = new Font("Elephant", 15.7499981F, FontStyle.Bold);
+            txt_totalsales.ForeColor = Color.White;
+            txt_totalsales.Location = new Point(41, 138);
+            txt_totalsales.Name = "txt_totalsales";
+            txt_totalsales.Size = new Size(83, 27);
+            txt_totalsales.TabIndex = 4;
+            txt_totalsales.Text = "label2";
             // 
             // label14
             // 
@@ -216,10 +251,21 @@
             panel12.Controls.Add(txt_bestprod);
             panel12.Controls.Add(label13);
             panel12.Controls.Add(pictureBox10);
-            panel12.Location = new Point(28, 438);
+            panel12.Location = new Point(32, 315);
             panel12.Name = "panel12";
-            panel12.Size = new Size(411, 224);
+            panel12.Size = new Size(411, 183);
             panel12.TabIndex = 0;
+            // 
+            // txt_bestprod
+            // 
+            txt_bestprod.AutoSize = true;
+            txt_bestprod.Font = new Font("Elephant", 15.7499981F, FontStyle.Bold);
+            txt_bestprod.ForeColor = Color.White;
+            txt_bestprod.Location = new Point(57, 138);
+            txt_bestprod.Name = "txt_bestprod";
+            txt_bestprod.Size = new Size(83, 27);
+            txt_bestprod.TabIndex = 4;
+            txt_bestprod.Text = "label2";
             // 
             // label13
             // 
@@ -248,10 +294,21 @@
             panel10.Controls.Add(txt_inventorysum);
             panel10.Controls.Add(pictureBox8);
             panel10.Controls.Add(label9);
-            panel10.Location = new Point(472, 191);
+            panel10.Location = new Point(476, 103);
             panel10.Name = "panel10";
-            panel10.Size = new Size(411, 224);
+            panel10.Size = new Size(411, 183);
             panel10.TabIndex = 0;
+            // 
+            // txt_inventorysum
+            // 
+            txt_inventorysum.AutoSize = true;
+            txt_inventorysum.Font = new Font("Elephant", 15.7499981F, FontStyle.Bold);
+            txt_inventorysum.ForeColor = Color.White;
+            txt_inventorysum.Location = new Point(41, 113);
+            txt_inventorysum.Name = "txt_inventorysum";
+            txt_inventorysum.Size = new Size(83, 27);
+            txt_inventorysum.TabIndex = 4;
+            txt_inventorysum.Text = "label2";
             // 
             // pictureBox8
             // 
@@ -421,7 +478,7 @@
             btn_Inventory.Padding = new Padding(33, 14, 14, 14);
             btn_Inventory.Size = new Size(192, 68);
             btn_Inventory.TabIndex = 3;
-            btn_Inventory.Text = "Inventory";
+            btn_Inventory.Text = "Supllier";
             btn_Inventory.UseVisualStyleBackColor = false;
             btn_Inventory.Click += btn_Inventory_Click;
             // 
@@ -437,7 +494,7 @@
             btn_Products.Padding = new Padding(33, 14, 14, 14);
             btn_Products.Size = new Size(192, 68);
             btn_Products.TabIndex = 3;
-            btn_Products.Text = "Products";
+            btn_Products.Text = "Inventory";
             btn_Products.UseVisualStyleBackColor = false;
             btn_Products.Click += btn_Products_Click;
             // 
@@ -455,50 +512,7 @@
             btn_Dashboard.TabIndex = 3;
             btn_Dashboard.Text = "Dashboard";
             btn_Dashboard.UseVisualStyleBackColor = false;
-            // 
-            // txt_bestcat
-            // 
-            txt_bestcat.AutoSize = true;
-            txt_bestcat.Font = new Font("Elephant", 15.7499981F, FontStyle.Bold);
-            txt_bestcat.ForeColor = Color.White;
-            txt_bestcat.Location = new Point(57, 109);
-            txt_bestcat.Name = "txt_bestcat";
-            txt_bestcat.Size = new Size(83, 27);
-            txt_bestcat.TabIndex = 4;
-            txt_bestcat.Text = "label2";
-            // 
-            // txt_inventorysum
-            // 
-            txt_inventorysum.AutoSize = true;
-            txt_inventorysum.Font = new Font("Elephant", 15.7499981F, FontStyle.Bold);
-            txt_inventorysum.ForeColor = Color.White;
-            txt_inventorysum.Location = new Point(41, 113);
-            txt_inventorysum.Name = "txt_inventorysum";
-            txt_inventorysum.Size = new Size(83, 27);
-            txt_inventorysum.TabIndex = 4;
-            txt_inventorysum.Text = "label2";
-            // 
-            // txt_bestprod
-            // 
-            txt_bestprod.AutoSize = true;
-            txt_bestprod.Font = new Font("Elephant", 15.7499981F, FontStyle.Bold);
-            txt_bestprod.ForeColor = Color.White;
-            txt_bestprod.Location = new Point(57, 138);
-            txt_bestprod.Name = "txt_bestprod";
-            txt_bestprod.Size = new Size(83, 27);
-            txt_bestprod.TabIndex = 4;
-            txt_bestprod.Text = "label2";
-            // 
-            // txt_totalsales
-            // 
-            txt_totalsales.AutoSize = true;
-            txt_totalsales.Font = new Font("Elephant", 15.7499981F, FontStyle.Bold);
-            txt_totalsales.ForeColor = Color.White;
-            txt_totalsales.Location = new Point(41, 138);
-            txt_totalsales.Name = "txt_totalsales";
-            txt_totalsales.Size = new Size(83, 27);
-            txt_totalsales.TabIndex = 4;
-            txt_totalsales.Text = "label2";
+            btn_Dashboard.Click += btn_Dashboard_Click;
             // 
             // DashboardForm
             // 
@@ -579,5 +593,6 @@
         private Label txt_totalsales;
         private Label txt_bestprod;
         private Label txt_inventorysum;
+        private Button btn_notification;
     }
 }

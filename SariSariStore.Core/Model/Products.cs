@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.Data.SqlClient;
-using System.Collections.Generic;
-using System.IO;
+﻿using Microsoft.Data.SqlClient;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
+using System.Data.Common;
+using System.IO;
 
 
 namespace SariSariStore.Core.Model
@@ -23,6 +25,7 @@ namespace SariSariStore.Core.Model
         public int Stock { get; set; }
         public string? ImagePath { get; set; }
         public DateTime DateAdded { get; set; }
+        public DateTime? DateExpired { get; set; }
 
 
 
@@ -48,7 +51,9 @@ namespace SariSariStore.Core.Model
                                 Category = reader["Category"]?.ToString() ?? string.Empty,
                                 Price = Convert.ToDecimal(reader["Price"]),
                                 Stock = Convert.ToInt32(reader["Stock"]),
-                                ImagePath = reader["ImagePath"]?.ToString()
+                                ImagePath = reader["ImagePath"]?.ToString(),
+                                DateAdded = Convert.ToDateTime(reader["DateAdded"]),
+                                DateExpired = Convert.ToDateTime(reader["DateExpired"])
                             };
                             productsList.Add(product);
                         }
@@ -58,85 +63,55 @@ namespace SariSariStore.Core.Model
             return productsList;
         }
 
-        public int AddProduct(Products product, string imageFilePath)
+        public int AddProduct(Products product, string imagePath)
         {
-            try
+            using (var connection = new SqlConnection(ConnectionString))
             {
-                string finalImagePath = string.Empty;
+                connection.Open();
+                string query = @"INSERT INTO tbl_Product 
+                         (Name, Description, Category, Price, Stock, ImagePath, DateAdded, DateExpired)
+                         OUTPUT INSERTED.ProductID
+                         VALUES (@Name, @Description, @Category, @Price, @Stock, @ImagePath, GETDATE(), @DateExpired)";
 
-                if (!string.IsNullOrEmpty(imageFilePath) && File.Exists(imageFilePath))
+                using (var command = new SqlCommand(query, connection))
                 {
-                    finalImagePath = SaveImage(imageFilePath);
+                    command.Parameters.AddWithValue("@Name", product.Name);
+                    command.Parameters.AddWithValue("@Description", product.Description ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@Category", product.Category);
+                    command.Parameters.AddWithValue("@Price", product.Price);
+                    command.Parameters.AddWithValue("@Stock", product.Stock);
+                    command.Parameters.AddWithValue("@ImagePath", imagePath ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@DateExpired", product.DateExpired ?? (object)DBNull.Value);
+
+                    return (int)command.ExecuteScalar();
                 }
-
-                using (SqlConnection con = new SqlConnection(ConnectionString))
-                {
-                    string query = @"INSERT INTO tbl_Product (Name, Description, Category, Price, Stock, Image) 
-                                   VALUES (@Name, @Description, @Category, @Price, @Stock, @Image);
-                                   SELECT SCOPE_IDENTITY();";
-
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        cmd.Parameters.AddWithValue("@Name", product.Name);
-                        cmd.Parameters.AddWithValue("@Description", product.Description);
-                        cmd.Parameters.AddWithValue("@Category", product.Category);
-                        cmd.Parameters.AddWithValue("@Price", product.Price);
-                        cmd.Parameters.AddWithValue("@Stock", product.Stock);
-                        cmd.Parameters.AddWithValue("@Image", (object)finalImagePath ?? DBNull.Value);
-
-                        con.Open();
-                        return Convert.ToInt32(cmd.ExecuteScalar());
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error adding product: {ex.Message}", ex);
             }
         }
 
-        public void UpdateProduct(Products product, string newImageFilePath)
+        public void UpdateProduct(Products product, string imagePath)
         {
-            try
+            using (var connection = new SqlConnection(ConnectionString))
             {
-                string finalImagePath = product.ImagePath ?? string.Empty;
+                connection.Open();
+                string query = @"UPDATE tbl_Product 
+                         SET Name = @Name, Description = @Description, Category = @Category, 
+                             Price = @Price, Stock = @Stock, ImagePath = @ImagePath,
+                             DateExpired = @DateExpired
+                         WHERE ProductID = @ProductID";
 
-                // Handle new image if provided
-                if (!string.IsNullOrEmpty(newImageFilePath) && File.Exists(newImageFilePath))
+                using (var command = new SqlCommand(query, connection))
                 {
-                    // Delete old image if exists
-                    if (!string.IsNullOrEmpty(product.ImagePath) && File.Exists(product.ImagePath))
-                    {
-                        File.Delete(product.ImagePath);
-                    }
+                    command.Parameters.AddWithValue("@ProductID", product.ProductID);
+                    command.Parameters.AddWithValue("@Name", product.Name);
+                    command.Parameters.AddWithValue("@Description", product.Description ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@Category", product.Category);
+                    command.Parameters.AddWithValue("@Price", product.Price);
+                    command.Parameters.AddWithValue("@Stock", product.Stock);
+                    command.Parameters.AddWithValue("@ImagePath", imagePath ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@DateExpired", product.DateExpired ?? (object)DBNull.Value);
 
-                    // Save new image
-                    finalImagePath = SaveImage(newImageFilePath);
+                    command.ExecuteNonQuery();
                 }
-
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
-                {
-                    connection.Open();
-                    string query = @"UPDATE tbl_Product
-                                     SET Name = @Name, Description = @Description, Category = @Category, 
-                                         Price = @Price, Stock = @Stock, Image = @Image 
-                                     WHERE Id = @Id";
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        command.Parameters.AddWithValue("@Id", product.ProductID);
-                        command.Parameters.AddWithValue("@Name", product.Name);
-                        command.Parameters.AddWithValue("@Description", product.Description);
-                        command.Parameters.AddWithValue("@Category", product.Category);
-                        command.Parameters.AddWithValue("@Price", product.Price);
-                        command.Parameters.AddWithValue("@Stock", product.Stock);
-                        command.Parameters.AddWithValue("@Image", (object)finalImagePath ?? DBNull.Value);
-                        command.ExecuteNonQuery();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error updating product: {ex.Message}", ex);
             }
         }
 
@@ -145,7 +120,7 @@ namespace SariSariStore.Core.Model
         {
             try
             {
-                // First get the product to delete associated image
+               
                 Products product = GetProductById(productId);
 
                 if (product != null && !string.IsNullOrEmpty(product.ImagePath) && File.Exists(product.ImagePath))
@@ -156,13 +131,14 @@ namespace SariSariStore.Core.Model
                 using (SqlConnection connection = new SqlConnection(ConnectionString))
                 {
                     connection.Open();
-                    string query = "DELETE FROM tbl_Product WHERE Id = @Id";
+                    string query = "DELETE FROM tbl_Product WHERE ProductID = @ProductID";
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        command.Parameters.AddWithValue("@Id", productId);
+                        command.Parameters.AddWithValue("@ProductID", productId);
                         command.ExecuteNonQuery();
                     }
                 }
+                
             }
             catch (Exception ex)
             {
@@ -176,9 +152,9 @@ namespace SariSariStore.Core.Model
             // find product by id if exists else message not found
             using (SqlConnection con = new(ConnectionString))
             {
-                using (SqlCommand cmd = new("SELECT * FROM tbl_Product WHERE Id = @Id", con))
+                using (SqlCommand cmd = new("SELECT * FROM tbl_Product WHERE ProductID = @ProductID", con))
                 {
-                    cmd.Parameters.AddWithValue("@Id", id);
+                    cmd.Parameters.AddWithValue("@ProductID", id);
                     con.Open();
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
@@ -192,7 +168,8 @@ namespace SariSariStore.Core.Model
                                 Category = reader["Category"]?.ToString() ?? string.Empty,
                                 Price = Convert.ToDecimal(reader["Price"]),
                                 Stock = Convert.ToInt32(reader["Stock"]),
-                                ImagePath = reader["ImagePath"]?.ToString()
+                                ImagePath = reader["ImagePath"]?.ToString(),
+                                DateExpired = Convert.ToDateTime(reader["DateExpired"])
                             };
                         }
                         else
@@ -204,6 +181,93 @@ namespace SariSariStore.Core.Model
             }
 
         }
+
+        public List<Products> SearchProduct(string searchTerm)
+        {
+            List<Products> products = new List<Products>();
+
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                // SQL query to find matching name or category
+                SqlCommand cmd = new SqlCommand("SELECT * FROM tbl_Product WHERE Name LIKE @Search OR Category LIKE @Search OR Description LIKE @Search", con);
+                cmd.Parameters.AddWithValue("@Search", "%" + searchTerm + "%");
+
+                con.Open();
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Products product = new Products
+                        {
+                            ProductID = Convert.ToInt32(reader["ProductID"]),
+                            Name = reader["Name"]?.ToString() ?? string.Empty,
+                            Description = reader["Description"]?.ToString(),
+                            Category = reader["Category"]?.ToString() ?? string.Empty,
+                            Price = Convert.ToDecimal(reader["Price"]),
+                            Stock = Convert.ToInt32(reader["Stock"]),
+                            ImagePath = reader["ImagePath"]?.ToString(),
+                            DateAdded = Convert.ToDateTime(reader["DateAdded"]),
+                            DateExpired = Convert.ToDateTime(reader["DateExpired"])
+                        };
+                        products.Add(product);
+                    }
+                }
+            }
+
+            return products;
+        }
+
+        public List<Products> GetStockProducts(string stockLevel)
+        {
+            List<Products> stockProducts = new List<Products>();
+
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                string query = string.Empty;
+
+             
+                switch (stockLevel.ToLower())
+                {
+                    case "low":
+                        query = "SELECT ProductID, Name, Category, Stock FROM tbl_Product WHERE Stock < 10";
+                        break;
+                    case "medium":
+                        query = "SELECT ProductID, Name, Category, Stock FROM tbl_Product WHERE Stock BETWEEN 10 AND 50";
+                        break;
+                    case "high":
+                        query = "SELECT ProductID, Name, Category, Stock FROM tbl_Product WHERE Stock > 50";
+                        break;
+                    
+                }
+
+                SqlCommand cmd = new SqlCommand(query, con);
+                con.Open();
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Products product = new Products
+                        {
+                            ProductID = Convert.ToInt32(reader["ProductID"]),
+                            Name = reader["Name"]?.ToString() ?? string.Empty,
+                           
+                            Category = reader["Category"]?.ToString() ?? string.Empty,
+                           
+                            Stock = Convert.ToInt32(reader["Stock"]),
+                           
+                        };
+                        stockProducts.Add(product);
+                    }
+                }
+            }
+
+            return stockProducts;
+        }
+
+
+
+        
 
         public string SaveImage(string imagePath)
         {

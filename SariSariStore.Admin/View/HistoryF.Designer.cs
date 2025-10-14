@@ -31,27 +31,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HistoryF));
             panel1 = new Panel();
             label7 = new Label();
+            printReceiptButton = new Button();
             pictureBox6 = new PictureBox();
             panel2 = new Panel();
-            btnCompareMonths = new Button();
-            btnCalculateIncome = new Button();
-            btnFilter = new Button();
-            lblMonthlyIncome = new Label();
-            lblOrderCount = new Label();
-            cmbMonth = new ComboBox();
-            cmbYear = new ComboBox();
-            dtpEndDate = new DateTimePicker();
-            dtpStartDate = new DateTimePicker();
-            printReceiptButton = new Button();
-            dgvMonthlyComparison = new DataGridView();
-            Column6 = new DataGridViewTextBoxColumn();
-            Column7 = new DataGridViewTextBoxColumn();
-            dgvOrders = new DataGridView();
-            Column1 = new DataGridViewTextBoxColumn();
-            Column2 = new DataGridViewTextBoxColumn();
-            Column3 = new DataGridViewTextBoxColumn();
-            Column4 = new DataGridViewTextBoxColumn();
-            Column5 = new DataGridViewTextBoxColumn();
+            label12 = new Label();
+            dgv_orderhistory = new DataGridView();
             panel14 = new Panel();
             panel3 = new Panel();
             pictureBox5 = new PictureBox();
@@ -69,8 +53,7 @@
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvMonthlyComparison).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dgvOrders).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgv_orderhistory).BeginInit();
             panel14.SuspendLayout();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
@@ -85,6 +68,7 @@
             // 
             panel1.BackColor = Color.FromArgb(35, 35, 65);
             panel1.Controls.Add(label7);
+            panel1.Controls.Add(printReceiptButton);
             panel1.Controls.Add(pictureBox6);
             resources.ApplyResources(panel1, "panel1");
             panel1.Name = "panel1";
@@ -96,6 +80,12 @@
             label7.ForeColor = Color.Transparent;
             label7.Name = "label7";
             // 
+            // printReceiptButton
+            // 
+            resources.ApplyResources(printReceiptButton, "printReceiptButton");
+            printReceiptButton.Name = "printReceiptButton";
+            printReceiptButton.UseVisualStyleBackColor = true;
+            // 
             // pictureBox6
             // 
             pictureBox6.BackColor = Color.Transparent;
@@ -106,132 +96,55 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(20, 20, 50);
-            panel2.Controls.Add(btnCompareMonths);
-            panel2.Controls.Add(btnCalculateIncome);
-            panel2.Controls.Add(btnFilter);
-            panel2.Controls.Add(lblMonthlyIncome);
-            panel2.Controls.Add(lblOrderCount);
-            panel2.Controls.Add(cmbMonth);
-            panel2.Controls.Add(cmbYear);
-            panel2.Controls.Add(dtpEndDate);
-            panel2.Controls.Add(dtpStartDate);
-            panel2.Controls.Add(printReceiptButton);
-            panel2.Controls.Add(dgvMonthlyComparison);
-            panel2.Controls.Add(dgvOrders);
+            panel2.Controls.Add(label12);
+            panel2.Controls.Add(dgv_orderhistory);
             resources.ApplyResources(panel2, "panel2");
             panel2.Name = "panel2";
             // 
-            // btnCompareMonths
+            // label12
             // 
-            resources.ApplyResources(btnCompareMonths, "btnCompareMonths");
-            btnCompareMonths.Name = "btnCompareMonths";
-            btnCompareMonths.UseVisualStyleBackColor = true;
+            resources.ApplyResources(label12, "label12");
+            label12.ForeColor = Color.Transparent;
+            label12.Name = "label12";
             // 
-            // btnCalculateIncome
+            // dgv_orderhistory
             // 
-            resources.ApplyResources(btnCalculateIncome, "btnCalculateIncome");
-            btnCalculateIncome.Name = "btnCalculateIncome";
-            btnCalculateIncome.UseVisualStyleBackColor = true;
-            // 
-            // btnFilter
-            // 
-            resources.ApplyResources(btnFilter, "btnFilter");
-            btnFilter.Name = "btnFilter";
-            btnFilter.UseVisualStyleBackColor = true;
-            // 
-            // lblMonthlyIncome
-            // 
-            resources.ApplyResources(lblMonthlyIncome, "lblMonthlyIncome");
-            lblMonthlyIncome.BackColor = Color.White;
-            lblMonthlyIncome.Name = "lblMonthlyIncome";
-            // 
-            // lblOrderCount
-            // 
-            resources.ApplyResources(lblOrderCount, "lblOrderCount");
-            lblOrderCount.BackColor = Color.White;
-            lblOrderCount.Name = "lblOrderCount";
-            // 
-            // cmbMonth
-            // 
-            cmbMonth.FormattingEnabled = true;
-            resources.ApplyResources(cmbMonth, "cmbMonth");
-            cmbMonth.Name = "cmbMonth";
-            // 
-            // cmbYear
-            // 
-            cmbYear.FormattingEnabled = true;
-            resources.ApplyResources(cmbYear, "cmbYear");
-            cmbYear.Name = "cmbYear";
-            // 
-            // dtpEndDate
-            // 
-            resources.ApplyResources(dtpEndDate, "dtpEndDate");
-            dtpEndDate.Name = "dtpEndDate";
-            // 
-            // dtpStartDate
-            // 
-            resources.ApplyResources(dtpStartDate, "dtpStartDate");
-            dtpStartDate.Name = "dtpStartDate";
-            // 
-            // printReceiptButton
-            // 
-            resources.ApplyResources(printReceiptButton, "printReceiptButton");
-            printReceiptButton.Name = "printReceiptButton";
-            printReceiptButton.UseVisualStyleBackColor = true;
-            // 
-            // dgvMonthlyComparison
-            // 
-            dgvMonthlyComparison.BackgroundColor = Color.FromArgb(40, 40, 65);
-            dgvMonthlyComparison.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvMonthlyComparison.Columns.AddRange(new DataGridViewColumn[] { Column6, Column7 });
-            resources.ApplyResources(dgvMonthlyComparison, "dgvMonthlyComparison");
-            dgvMonthlyComparison.Name = "dgvMonthlyComparison";
-            // 
-            // Column6
-            // 
-            Column6.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            resources.ApplyResources(Column6, "Column6");
-            Column6.Name = "Column6";
-            // 
-            // Column7
-            // 
-            resources.ApplyResources(Column7, "Column7");
-            Column7.Name = "Column7";
-            // 
-            // dgvOrders
-            // 
-            dgvOrders.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvOrders.BackgroundColor = Color.FromArgb(40, 40, 65);
-            dgvOrders.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvOrders.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, Column3, Column4, Column5 });
-            resources.ApplyResources(dgvOrders, "dgvOrders");
-            dgvOrders.Name = "dgvOrders";
-            dgvOrders.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            // 
-            // Column1
-            // 
-            resources.ApplyResources(Column1, "Column1");
-            Column1.Name = "Column1";
-            // 
-            // Column2
-            // 
-            resources.ApplyResources(Column2, "Column2");
-            Column2.Name = "Column2";
-            // 
-            // Column3
-            // 
-            resources.ApplyResources(Column3, "Column3");
-            Column3.Name = "Column3";
-            // 
-            // Column4
-            // 
-            resources.ApplyResources(Column4, "Column4");
-            Column4.Name = "Column4";
-            // 
-            // Column5
-            // 
-            resources.ApplyResources(Column5, "Column5");
-            Column5.Name = "Column5";
+            dgv_orderhistory.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgv_orderhistory.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgv_orderhistory.ColumnHeadersHeight = 40;
+            dgv_orderhistory.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv_orderhistory.MultiSelect = false;
+            dgv_orderhistory.ReadOnly = true;
+            dgv_orderhistory.AllowUserToAddRows = false;
+            dgv_orderhistory.AllowUserToDeleteRows = false;
+            dgv_orderhistory.AllowUserToResizeRows = false;
+            dgv_orderhistory.RowHeadersVisible = false;
+            dgv_orderhistory.BorderStyle = BorderStyle.None;
+            dgv_orderhistory.BackgroundColor = Color.White;
+            dgv_orderhistory.GridColor = Color.LightGray;
+
+
+            dgv_orderhistory.EnableHeadersVisualStyles = false;
+            dgv_orderhistory.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(52, 152, 219); // Blue header
+            dgv_orderhistory.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgv_orderhistory.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Bold);
+            dgv_orderhistory.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+
+            dgv_orderhistory.DefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Regular);
+            dgv_orderhistory.DefaultCellStyle.ForeColor = Color.Black;
+            dgv_orderhistory.DefaultCellStyle.BackColor = Color.White;
+            dgv_orderhistory.DefaultCellStyle.SelectionBackColor = Color.FromArgb(173, 216, 230); // Light blue
+            dgv_orderhistory.DefaultCellStyle.SelectionForeColor = Color.Black;
+            dgv_orderhistory.DefaultCellStyle.Padding = new Padding(5, 3, 5, 3);
+            dgv_orderhistory.RowTemplate.Height = 35;
+
+
+            dgv_orderhistory.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(245, 245, 245);
+            
+
+            dgv_orderhistory.Location = new Point(26, 83);
+            dgv_orderhistory.Size = new Size(1081, 609);
             // 
             // panel14
             // 
@@ -372,8 +285,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvMonthlyComparison).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dgvOrders).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgv_orderhistory).EndInit();
             panel14.ResumeLayout(false);
             panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
@@ -405,24 +317,8 @@
         private Button btn_Inventory;
         private Button btn_Products;
         private Button btn_Dashboard;
-        private DataGridView dgvOrders;
-        private DataGridViewTextBoxColumn Column1;
-        private DataGridViewTextBoxColumn Column2;
-        private DataGridViewTextBoxColumn Column3;
-        private DataGridViewTextBoxColumn Column4;
-        private DataGridViewTextBoxColumn Column5;
-        private DataGridView dgvMonthlyComparison;
-        private DataGridViewTextBoxColumn Column6;
-        private DataGridViewTextBoxColumn Column7;
-        private Button btnCalculateIncome;
-        private Button btnFilter;
-        private Label lblMonthlyIncome;
-        private Label lblOrderCount;
-        private ComboBox cmbMonth;
-        private ComboBox cmbYear;
-        private DateTimePicker dtpEndDate;
-        private DateTimePicker dtpStartDate;
         private Button printReceiptButton;
-        private Button btnCompareMonths;
+        private DataGridView dgv_orderhistory;
+        private Label label12;
     }
 }

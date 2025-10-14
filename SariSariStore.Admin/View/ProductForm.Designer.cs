@@ -28,11 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProductForm));
             panel1 = new Panel();
             label7 = new Label();
             pictureBox6 = new PictureBox();
             panel2 = new Panel();
+            txtbox_Search = new TextBox();
+            pictureBox10 = new PictureBox();
+            btn_Delete = new Button();
+            pictureBox9 = new PictureBox();
+            btn_Update = new Button();
+            pictureBox8 = new PictureBox();
+            dgv_Product = new DataGridView();
+            btn_Add = new Button();
             label12 = new Label();
             panel3 = new Panel();
             pictureBox5 = new PictureBox();
@@ -47,10 +56,15 @@
             btn_Inventory = new Button();
             btn_Products = new Button();
             btn_Dashboard = new Button();
-            dgv_Product = new DataGridView();
+            RefreshTimer = new System.Windows.Forms.Timer(components);
+            sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox10).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox9).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox8).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgv_Product).BeginInit();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
@@ -58,7 +72,6 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dgv_Product).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -82,6 +95,7 @@
             label7.Size = new Size(123, 37);
             label7.TabIndex = 2;
             label7.Text = "SariSync";
+            label7.Click += label7_Click;
             // 
             // pictureBox6
             // 
@@ -97,13 +111,120 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(20, 20, 50);
+            panel2.Controls.Add(txtbox_Search);
+            panel2.Controls.Add(pictureBox10);
+            panel2.Controls.Add(btn_Delete);
+            panel2.Controls.Add(pictureBox9);
+            panel2.Controls.Add(btn_Update);
+            panel2.Controls.Add(pictureBox8);
             panel2.Controls.Add(dgv_Product);
+            panel2.Controls.Add(btn_Add);
             panel2.Controls.Add(label12);
             panel2.Location = new Point(254, 72);
             panel2.Name = "panel2";
             panel2.Padding = new Padding(100);
             panel2.Size = new Size(1127, 724);
             panel2.TabIndex = 7;
+            // 
+            // txtbox_Search
+            // 
+            txtbox_Search.Location = new Point(64, 69);
+            txtbox_Search.Name = "txtbox_Search";
+            txtbox_Search.Size = new Size(1033, 23);
+            txtbox_Search.TabIndex = 16;
+            txtbox_Search.TextChanged += txtbox_Search_TextChanged;
+            // 
+            // pictureBox10
+            // 
+            pictureBox10.BackColor = Color.FromArgb(28, 28, 65);
+            pictureBox10.Image = Properties.Resources.icons8_reports_64;
+            pictureBox10.Location = new Point(570, 644);
+            pictureBox10.Name = "pictureBox10";
+            pictureBox10.Size = new Size(45, 39);
+            pictureBox10.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox10.TabIndex = 15;
+            pictureBox10.TabStop = false;
+            // 
+            // btn_Delete
+            // 
+            btn_Delete.BackColor = Color.FromArgb(28, 28, 65);
+            btn_Delete.FlatStyle = FlatStyle.Flat;
+            btn_Delete.Font = new Font("Segoe UI Historic", 11.25F, FontStyle.Bold);
+            btn_Delete.ForeColor = Color.Transparent;
+            btn_Delete.ImageAlign = ContentAlignment.MiddleLeft;
+            btn_Delete.Location = new Point(557, 633);
+            btn_Delete.Name = "btn_Delete";
+            btn_Delete.Padding = new Padding(19, 14, 14, 14);
+            btn_Delete.Size = new Size(192, 68);
+            btn_Delete.TabIndex = 14;
+            btn_Delete.Text = "DELETE";
+            btn_Delete.UseVisualStyleBackColor = false;
+            btn_Delete.Click += btn_Delete_Click;
+            // 
+            // pictureBox9
+            // 
+            pictureBox9.BackColor = Color.FromArgb(28, 28, 65);
+            pictureBox9.Image = Properties.Resources.icons8_reports_64;
+            pictureBox9.Location = new Point(332, 644);
+            pictureBox9.Name = "pictureBox9";
+            pictureBox9.Size = new Size(45, 39);
+            pictureBox9.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox9.TabIndex = 13;
+            pictureBox9.TabStop = false;
+            // 
+            // btn_Update
+            // 
+            btn_Update.BackColor = Color.FromArgb(28, 28, 65);
+            btn_Update.FlatStyle = FlatStyle.Flat;
+            btn_Update.Font = new Font("Segoe UI Historic", 11.25F, FontStyle.Bold);
+            btn_Update.ForeColor = Color.Transparent;
+            btn_Update.ImageAlign = ContentAlignment.MiddleLeft;
+            btn_Update.Location = new Point(319, 633);
+            btn_Update.Name = "btn_Update";
+            btn_Update.Padding = new Padding(19, 14, 14, 14);
+            btn_Update.Size = new Size(192, 68);
+            btn_Update.TabIndex = 12;
+            btn_Update.Text = "UPDATE";
+            btn_Update.UseVisualStyleBackColor = false;
+            btn_Update.Click += btn_Update_Click;
+            // 
+            // pictureBox8
+            // 
+            pictureBox8.BackColor = Color.FromArgb(28, 28, 65);
+            pictureBox8.Image = Properties.Resources.icons8_reports_64;
+            pictureBox8.Location = new Point(80, 644);
+            pictureBox8.Name = "pictureBox8";
+            pictureBox8.Size = new Size(45, 39);
+            pictureBox8.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox8.TabIndex = 11;
+            pictureBox8.TabStop = false;
+            // 
+            // dgv_Product
+            // 
+            dgv_Product.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgv_Product.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgv_Product.Location = new Point(65, 139);
+            dgv_Product.Name = "dgv_Product";
+            dgv_Product.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv_Product.Size = new Size(1032, 472);
+            dgv_Product.TabIndex = 4;
+            dgv_Product.CellContentClick += dgv_Product_CellContentClick;
+            // 
+            // btn_Add
+            // 
+            btn_Add.BackColor = Color.FromArgb(28, 28, 65);
+            btn_Add.FlatStyle = FlatStyle.Flat;
+            btn_Add.Font = new Font("Segoe UI Historic", 11.25F, FontStyle.Bold);
+            btn_Add.ForeColor = Color.Transparent;
+            btn_Add.ImageAlign = ContentAlignment.MiddleLeft;
+            btn_Add.Location = new Point(67, 633);
+            btn_Add.Name = "btn_Add";
+            btn_Add.Padding = new Padding(19, 14, 14, 14);
+            btn_Add.Size = new Size(192, 68);
+            btn_Add.TabIndex = 10;
+            btn_Add.Text = "ADD";
+            btn_Add.UseVisualStyleBackColor = false;
+            btn_Add.Click += btn_Add_Click;
             // 
             // label12
             // 
@@ -116,6 +237,7 @@
             label12.Size = new Size(114, 25);
             label12.TabIndex = 2;
             label12.Text = "PRODUCTS";
+            label12.Click += label12_Click;
             // 
             // panel3
             // 
@@ -264,7 +386,7 @@
             btn_Inventory.Padding = new Padding(33, 14, 14, 14);
             btn_Inventory.Size = new Size(192, 68);
             btn_Inventory.TabIndex = 3;
-            btn_Inventory.Text = "Inventory";
+            btn_Inventory.Text = "Suppliers";
             btn_Inventory.UseVisualStyleBackColor = false;
             btn_Inventory.Click += btn_Inventory_Click;
             // 
@@ -280,7 +402,7 @@
             btn_Products.Padding = new Padding(33, 14, 14, 14);
             btn_Products.Size = new Size(192, 68);
             btn_Products.TabIndex = 3;
-            btn_Products.Text = "Products";
+            btn_Products.Text = "Inventory";
             btn_Products.UseVisualStyleBackColor = false;
             // 
             // btn_Dashboard
@@ -299,13 +421,15 @@
             btn_Dashboard.UseVisualStyleBackColor = false;
             btn_Dashboard.Click += btn_Dashboard_Click;
             // 
-            // dgv_Product
+            // RefreshTimer
             // 
-            dgv_Product.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgv_Product.Location = new Point(43, 103);
-            dgv_Product.Name = "dgv_Product";
-            dgv_Product.Size = new Size(889, 472);
-            dgv_Product.TabIndex = 4;
+            RefreshTimer.Enabled = true;
+            RefreshTimer.Tick += RefreshTimer_Tick;
+            // 
+            // sqlCommand1
+            // 
+            sqlCommand1.CommandTimeout = 30;
+            sqlCommand1.EnableOptimizedParameterBinding = false;
             // 
             // ProductForm
             // 
@@ -329,6 +453,10 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox10).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox9).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox8).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgv_Product).EndInit();
             panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
@@ -336,7 +464,6 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dgv_Product).EndInit();
             ResumeLayout(false);
         }
 
@@ -361,5 +488,15 @@
         private Button btn_Products;
         private Button btn_Dashboard;
         private DataGridView dgv_Product;
+        private PictureBox pictureBox8;
+        private Button btn_Add;
+        private System.Windows.Forms.Timer RefreshTimer;
+        private PictureBox pictureBox10;
+        private Button btn_Delete;
+        private PictureBox pictureBox9;
+        private Button btn_Update;
+        private Button btn_search;
+        private TextBox txtbox_Search;
+        private Microsoft.Data.SqlClient.SqlCommand sqlCommand1;
     }
 }

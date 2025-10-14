@@ -1,4 +1,5 @@
-﻿using SariSariStore.Admin.Model;
+﻿using Microsoft.Data.SqlClient;
+using SariSariStore.Admin.Model;
 using SariSariStore.Core.Model;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,9 @@ using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -17,6 +20,7 @@ namespace SariSariStore.Admin.View
     {
         public int cornerRadius = 30;
         public Rounded rounded;
+        public Products prod = new Products();
         public ProductForm()
         {
             InitializeComponent();
@@ -31,7 +35,50 @@ namespace SariSariStore.Admin.View
             //rounded.MakePanelRounded(panel8, 30);
             //rounded.MakePanelRounded(panel9, 30);
 
+
+            StyleProductGrid();
             DisplayProduct();
+        }
+
+
+        private void StyleProductGrid()
+        {
+            dgv_Product.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgv_Product.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgv_Product.ColumnHeadersHeight = 40;
+            dgv_Product.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv_Product.MultiSelect = false;
+            dgv_Product.ReadOnly = true;
+            dgv_Product.AllowUserToAddRows = false;
+            dgv_Product.AllowUserToDeleteRows = false;
+            dgv_Product.AllowUserToResizeRows = false;
+            dgv_Product.RowHeadersVisible = false;
+            dgv_Product.BorderStyle = BorderStyle.None;
+            dgv_Product.BackgroundColor = Color.White;
+            dgv_Product.GridColor = Color.LightGray;
+
+
+            dgv_Product.EnableHeadersVisualStyles = false;
+            dgv_Product.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(52, 152, 219); // Blue header
+            dgv_Product.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgv_Product.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Bold);
+            dgv_Product.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+
+            dgv_Product.DefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Regular);
+            dgv_Product.DefaultCellStyle.ForeColor = Color.Black;
+            dgv_Product.DefaultCellStyle.BackColor = Color.White;
+            dgv_Product.DefaultCellStyle.SelectionBackColor = Color.FromArgb(173, 216, 230); // Light blue
+            dgv_Product.DefaultCellStyle.SelectionForeColor = Color.Black;
+            dgv_Product.DefaultCellStyle.Padding = new Padding(5, 3, 5, 3);
+            dgv_Product.RowTemplate.Height = 35;
+
+
+            dgv_Product.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(245, 245, 245);
+
+
+            dgv_Product.Location = new Point(65, 103);
+            dgv_Product.Size = new Size(1032, 472);
         }
 
         private void ProductForm_Resize(object sender, EventArgs e)
@@ -75,11 +122,108 @@ namespace SariSariStore.Admin.View
 
         public void DisplayProduct()
         {
-            Products prod = new Products();
 
-            List<Products> productlist = prod.GetAllProducts();
 
-            dgv_Product.DataSource = productlist;
+            dgv_Product.DataSource = prod.GetAllProducts();
+
+            dgv_Product.Columns["ProductID"].Visible = false;
+            dgv_Product.Columns["ImagePath"].Visible = false;
+        }
+
+        private void btn_Add_Click(object sender, EventArgs e)
+        {
+            AddEditProductForm add = new AddEditProductForm();
+
+            var result = add.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                DisplayProduct();
+            }
+
+        }
+
+        private void RefreshTimer_Tick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_Update_Click(object sender, EventArgs e)
+        {
+
+            if (dgv_Product.SelectedRows.Count > 0)
+            {
+                // Get the selected product ID
+                int selectedProductId = Convert.ToInt32(dgv_Product.SelectedRows[0].Cells["ProductID"].Value);
+                // Open the AddEditProductForm in edit mode
+                AddEditProductForm editForm = new AddEditProductForm(selectedProductId);
+                var result = editForm.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    // Refresh the product list after editing
+                    DisplayProduct();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a product to update.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btn_Delete_Click(object sender, EventArgs e)
+        {
+            if (dgv_Product.SelectedRows.Count > 0)
+            {
+                Products prod = new Products();
+                int selectedProductId = Convert.ToInt32(dgv_Product.SelectedRows[0].Cells["ProductID"].Value);
+
+                if (MessageBox.Show("Are you sure you want to delete this product?", "Confirm Delete",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    try
+                    {
+                        prod.DeleteProduct(selectedProductId);
+                        DisplayProduct();
+                        MessageBox.Show("Product deleted successfully.");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error deleting product: {ex.Message}");
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a product to delete.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+
+
+
+        }
+
+        private void label12_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtbox_Search_TextChanged(object sender, EventArgs e)
+        {
+
+            string searchTerm = txtbox_Search.Text.Trim();
+
+            dgv_Product.DataSource = prod.SearchProduct(searchTerm);
+
+        }
+
+        private void dgv_Product_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SariSariStore.Core.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +13,11 @@ namespace SariSariStore.Admin.View
 {
     public partial class HistoryF : Form
     {
+        public Orders ord = new Orders();
         public HistoryF()
         {
             InitializeComponent();
+            DisplayOrderHistory();
         }
 
         private void btn_Dashboard_Click(object sender, EventArgs e)
@@ -44,5 +47,17 @@ namespace SariSariStore.Admin.View
             reportFrom.Show();
             this.Hide();
         }
+
+        private void dgv_orderhistory_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        public void DisplayOrderHistory()
+        {
+            dgv_orderhistory.Rows.Clear();
+            dgv_orderhistory.DataSource = ord.GetAllOrders();
+        }
+
     }
 }
