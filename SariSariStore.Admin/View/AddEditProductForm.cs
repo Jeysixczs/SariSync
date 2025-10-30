@@ -218,5 +218,18 @@ namespace SariSariStore.Admin
                 LoadProductData();
             }
         }
+
+        private void dtp_ExpirationDate_ValueChanged(object sender, EventArgs e)
+        {
+            DateTime selectedDate = dtp_ExpirationDate.Value;
+            DateTime currentYear = new DateTime(DateTime.Now.Year, 1, 1);
+
+            if (selectedDate < currentYear)
+            {
+                MessageBox.Show("Expiration date cannot be earlier than the current year.",
+                    "Invalid Date", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                dtp_ExpirationDate.Value = DateTime.Today;
+            }
+        }
     }
 }

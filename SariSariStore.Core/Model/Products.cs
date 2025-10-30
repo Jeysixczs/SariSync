@@ -13,7 +13,7 @@ namespace SariSariStore.Core.Model
     [Table("tbl_Product")]
     public class Products
     {
-        public string ConnectionString = @"Data Source=JEYSI\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Trust Server Certificate=True";
+        public string ConnectionString = @"Data Source=DESKTOP-ECKGUHL\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
         private readonly string _imageBasePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ProductImages");
 
         [Key]
@@ -22,6 +22,7 @@ namespace SariSariStore.Core.Model
         public string? Description { get; set; }
         public string Category { get; set; } = string.Empty;
         public decimal Price { get; set; }
+        public decimal SellingPrice { get; set; }
         public int Stock { get; set; }
         public string? ImagePath { get; set; }
         public DateTime DateAdded { get; set; }
@@ -50,6 +51,7 @@ namespace SariSariStore.Core.Model
                                 Description = reader["Description"]?.ToString(),
                                 Category = reader["Category"]?.ToString() ?? string.Empty,
                                 Price = Convert.ToDecimal(reader["Price"]),
+                                SellingPrice = Convert.ToDecimal(reader["SellingPrice"]),
                                 Stock = Convert.ToInt32(reader["Stock"]),
                                 ImagePath = reader["ImagePath"]?.ToString(),
                                 DateAdded = Convert.ToDateTime(reader["DateAdded"]),
@@ -65,13 +67,18 @@ namespace SariSariStore.Core.Model
 
         public int AddProduct(Products product, string imagePath)
         {
+            if(CheckDuplicateProduct(product.Name))
+            {
+                throw new Exception("A product with the same name already exists.");
+            }
+
             using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 string query = @"INSERT INTO tbl_Product 
-                         (Name, Description, Category, Price, Stock, ImagePath, DateAdded, DateExpired)
+                         (Name, Description, Category, Price, SellingPrice, Stock, ImagePath, DateAdded, DateExpired)
                          OUTPUT INSERTED.ProductID
-                         VALUES (@Name, @Description, @Category, @Price, @Stock, @ImagePath, GETDATE(), @DateExpired)";
+                         VALUES (@Name, @Description, @Category, @Price, @SellingPrice, @Stock, @ImagePath, GETDATE(), @DateExpired)";
 
                 using (var command = new SqlCommand(query, connection))
                 {
@@ -79,6 +86,7 @@ namespace SariSariStore.Core.Model
                     command.Parameters.AddWithValue("@Description", product.Description ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@Category", product.Category);
                     command.Parameters.AddWithValue("@Price", product.Price);
+                    command.Parameters.AddWithValue("@SellingPrice", product.SellingPrice);
                     command.Parameters.AddWithValue("@Stock", product.Stock);
                     command.Parameters.AddWithValue("@ImagePath", imagePath ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@DateExpired", product.DateExpired ?? (object)DBNull.Value);
@@ -100,6 +108,7 @@ namespace SariSariStore.Core.Model
                             Description = @Description, 
                             Category = @Category, 
                             Price = @Price, 
+                            SellingPrice = @SellingPrice,
                             Stock = @Stock, 
                             DateExpired = @DateExpired
                         {0}
@@ -121,6 +130,7 @@ namespace SariSariStore.Core.Model
                     command.Parameters.AddWithValue("@Description", product.Description ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@Category", product.Category);
                     command.Parameters.AddWithValue("@Price", product.Price);
+                    command.Parameters.AddWithValue("@SellingPrice", product.SellingPrice);
                     command.Parameters.AddWithValue("@Stock", product.Stock);
                     command.Parameters.AddWithValue("@DateExpired", product.DateExpired);
 
@@ -173,6 +183,7 @@ namespace SariSariStore.Core.Model
                                 Description = reader["Description"]?.ToString(),
                                 Category = reader["Category"]?.ToString() ?? string.Empty,
                                 Price = Convert.ToDecimal(reader["Price"]),
+                                SellingPrice = Convert.ToDecimal(reader["SellingPrice"]),
                                 Stock = Convert.ToInt32(reader["Stock"]),
                                 ImagePath = reader["ImagePath"]?.ToString(),
                                 DateAdded = Convert.ToDateTime(reader["DateAdded"]),
@@ -207,6 +218,43 @@ namespace SariSariStore.Core.Model
                             Description = reader["Description"]?.ToString(),
                             Category = reader["Category"]?.ToString() ?? string.Empty,
                             Price = Convert.ToDecimal(reader["Price"]),
+                            SellingPrice = Convert.ToDecimal(reader["SellingPrice"]),
+                            Stock = Convert.ToInt32(reader["Stock"]),
+                            ImagePath = reader["ImagePath"]?.ToString(),
+                            DateAdded = Convert.ToDateTime(reader["DateAdded"]),
+                            DateExpired = Convert.ToDateTime(reader["DateExpired"])
+                        };
+                        products.Add(product);
+                    }
+                }
+            }
+
+            return products;
+        }
+
+        public List<Products> FilterByCategory(string selectedCategory)
+        {
+            List<Products> products = new List<Products>();
+
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+
+                SqlCommand cmd = new SqlCommand("SELECT * FROM tbl_Product WHERE Category = @Category AND IsActive = 1", con);
+                cmd.Parameters.AddWithValue("@Category", selectedCategory);
+
+                con.Open();
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Products product = new Products
+                        {
+                            ProductID = Convert.ToInt32(reader["ProductID"]),
+                            Name = reader["Name"]?.ToString() ?? string.Empty,
+                            Description = reader["Description"]?.ToString(),
+                            Category = reader["Category"]?.ToString() ?? string.Empty,
+                            Price = Convert.ToDecimal(reader["Price"]),
+                            SellingPrice = Convert.ToDecimal(reader["SellingPrice"]),
                             Stock = Convert.ToInt32(reader["Stock"]),
                             ImagePath = reader["ImagePath"]?.ToString(),
                             DateAdded = Convert.ToDateTime(reader["DateAdded"]),
@@ -273,7 +321,7 @@ namespace SariSariStore.Core.Model
             List<Products> topProducts = new List<Products>();
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
-                string query = "select top 10 Name, Description, Category, Price, Stock, DateAdded from tbl_Product order by DateAdded desc";
+                string query = "select top 10 Name, Description, Category, Price, SellingPrice, Stock, DateAdded from tbl_Product order by DateAdded desc";
                 SqlCommand cmd = new SqlCommand(query, con);
                 con.Open();
                 using (SqlDataReader reader = cmd.ExecuteReader())
@@ -282,11 +330,12 @@ namespace SariSariStore.Core.Model
                     {
                         Products product = new Products
                         {
-                           
+
                             Name = reader["Name"]?.ToString() ?? string.Empty,
                             Description = reader["Description"]?.ToString(),
                             Category = reader["Category"]?.ToString() ?? string.Empty,
                             Price = Convert.ToDecimal(reader["Price"]),
+                            SellingPrice = Convert.ToDecimal(reader["SellingPrice"]),
                             Stock = Convert.ToInt32(reader["Stock"]),
                             DateAdded = Convert.ToDateTime(reader["DateAdded"]),
                         };
@@ -316,6 +365,42 @@ namespace SariSariStore.Core.Model
             catch (Exception ex)
             {
                 throw new Exception($"Error saving image: {ex.Message}", ex);
+            }
+        }
+        public bool CheckDuplicateProduct(string productName, int excludeProductId = 0)
+        {
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                string query = "SELECT COUNT(*) FROM tbl_Product WHERE Name = @Name AND IsActive = 1 AND ProductID != @ExcludeProductId";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@Name", productName);
+                    cmd.Parameters.AddWithValue("@ExcludeProductID", excludeProductId);
+                    con.Open();
+                    int count = (int)cmd.ExecuteScalar();
+                    return count > 0;
+                }
+            }
+        }
+        public void UpdateAllSellingPrices()
+        {
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                string query = @"UPDATE tbl_Product
+                        SET SellingPrice = 
+                            CASE 
+                                WHEN Category = 'Snacks' THEN Price * 1.15
+                                WHEN Category = 'Beverages' THEN Price * 1.10
+                                WHEN Category = 'Toiletries' THEN Price * 1.25
+                                ELSE Price * 1.20
+                            END
+                        WHERE IsActive = 1";
+
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
     }

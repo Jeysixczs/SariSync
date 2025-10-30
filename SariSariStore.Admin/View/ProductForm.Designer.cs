@@ -34,6 +34,7 @@
             label7 = new Label();
             pictureBox6 = new PictureBox();
             panel2 = new Panel();
+            cmb_Search = new ComboBox();
             txtbox_Search = new TextBox();
             pictureBox10 = new PictureBox();
             btn_Delete = new Button();
@@ -111,6 +112,7 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(20, 20, 50);
+            panel2.Controls.Add(cmb_Search);
             panel2.Controls.Add(txtbox_Search);
             panel2.Controls.Add(pictureBox10);
             panel2.Controls.Add(btn_Delete);
@@ -126,12 +128,23 @@
             panel2.Size = new Size(1127, 724);
             panel2.TabIndex = 7;
             // 
+            // cmb_Search
+            // 
+            cmb_Search.FormattingEnabled = true;
+            cmb_Search.Items.AddRange(new object[] { "Snacks", "Drinks", "Beverages", "Instant Noodles", "Canned Goods", "Household", "Toiletries", "Groceries", "Condiments", "Candies", "Bread", "Frozen Goods", "Miscellaneous" });
+            cmb_Search.Location = new Point(824, 69);
+            cmb_Search.Name = "cmb_Search";
+            cmb_Search.Size = new Size(273, 23);
+            cmb_Search.TabIndex = 17;
+            cmb_Search.SelectedIndexChanged += cmb_Search_SelectedIndexChanged;
+            cmb_Search.TextChanged += cmb_Search_TextChanged_1;
+            // 
             // txtbox_Search
             // 
             txtbox_Search.BackColor = SystemColors.Window;
             txtbox_Search.Location = new Point(29, 69);
             txtbox_Search.Name = "txtbox_Search";
-            txtbox_Search.Size = new Size(1068, 23);
+            txtbox_Search.Size = new Size(774, 23);
             txtbox_Search.TabIndex = 16;
             txtbox_Search.TextChanged += txtbox_Search_TextChanged;
             // 
@@ -499,5 +512,6 @@
         private Button btn_Update;
         private TextBox txtbox_Search;
         private Microsoft.Data.SqlClient.SqlCommand sqlCommand1;
+        private ComboBox cmb_Search;
     }
 }

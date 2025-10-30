@@ -160,7 +160,7 @@ namespace SariSariStore.Admin.View
                 var result = editForm.ShowDialog();
                 if (result == DialogResult.OK)
                 {
-                    
+
                     DisplayProduct();
                 }
             }
@@ -233,6 +233,33 @@ namespace SariSariStore.Admin.View
             {
                 Application.Exit();
             }
+        }
+
+        private void cmb_Search_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FilterProductsByCategory();
+        }
+
+        private void cmb_Search_TextChanged_1(object sender, EventArgs e)
+        {
+            FilterProductsByCategory();
+        }
+        public void FilterProductsByCategory()
+        {
+            string selectedCategory = cmb_Search.Text.Trim();
+
+            if (string.IsNullOrEmpty(selectedCategory) || selectedCategory == "All Categories")
+            {
+                dgv_Product.DataSource = prod.GetAllProducts();
+            }
+            else
+            {
+                dgv_Product.DataSource = prod.FilterByCategory(selectedCategory);
+            }
+
+            //Hide unneeded columns
+            dgv_Product.Columns["ProductID"].Visible = false;
+            dgv_Product.Columns["ImagePath"].Visible = false;
         }
     }
 }

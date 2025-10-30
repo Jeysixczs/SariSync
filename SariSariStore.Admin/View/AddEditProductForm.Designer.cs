@@ -45,9 +45,12 @@
             label5 = new Label();
             label6 = new Label();
             panel2 = new Panel();
+            numericSellingPrice = new NumericUpDown();
+            label7 = new Label();
             ((System.ComponentModel.ISupportInitialize)NumericStock).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericPrice).BeginInit();
             panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericSellingPrice).BeginInit();
             SuspendLayout();
             // 
             // Btn_UploadImage
@@ -70,7 +73,7 @@
             NumericStock.BackColor = Color.FromArgb(50, 65, 85);
             NumericStock.BorderStyle = BorderStyle.FixedSingle;
             NumericStock.ForeColor = Color.White;
-            NumericStock.Location = new Point(161, 511);
+            NumericStock.Location = new Point(91, 577);
             NumericStock.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             NumericStock.Name = "NumericStock";
             NumericStock.Size = new Size(330, 25);
@@ -115,7 +118,7 @@
             cancelButton.FlatAppearance.BorderSize = 0;
             cancelButton.FlatStyle = FlatStyle.Flat;
             cancelButton.ForeColor = Color.White;
-            cancelButton.Location = new Point(275, 600);
+            cancelButton.Location = new Point(277, 674);
             cancelButton.Name = "cancelButton";
             cancelButton.Size = new Size(120, 36);
             cancelButton.TabIndex = 13;
@@ -130,7 +133,7 @@
             saveButton.FlatAppearance.BorderSize = 0;
             saveButton.FlatStyle = FlatStyle.Flat;
             saveButton.ForeColor = Color.White;
-            saveButton.Location = new Point(108, 600);
+            saveButton.Location = new Point(110, 674);
             saveButton.Name = "saveButton";
             saveButton.Size = new Size(120, 36);
             saveButton.TabIndex = 12;
@@ -197,10 +200,11 @@
             dtp_ExpirationDate.CalendarTitleBackColor = Color.FromArgb(52, 86, 139);
             dtp_ExpirationDate.CalendarTitleForeColor = Color.FromArgb(20, 20, 50);
             dtp_ExpirationDate.CalendarTrailingForeColor = Color.FromArgb(50, 65, 85);
-            dtp_ExpirationDate.Location = new Point(160, 571);
+            dtp_ExpirationDate.Location = new Point(91, 631);
             dtp_ExpirationDate.Name = "dtp_ExpirationDate";
             dtp_ExpirationDate.Size = new Size(330, 25);
             dtp_ExpirationDate.TabIndex = 11;
+            dtp_ExpirationDate.ValueChanged += dtp_ExpirationDate_ValueChanged;
             // 
             // label4
             // 
@@ -216,7 +220,7 @@
             // 
             label5.BackColor = Color.FromArgb(35, 35, 65);
             label5.ForeColor = Color.LightGray;
-            label5.Location = new Point(156, 487);
+            label5.Location = new Point(87, 551);
             label5.Name = "label5";
             label5.Size = new Size(100, 23);
             label5.TabIndex = 4;
@@ -226,7 +230,7 @@
             // 
             label6.BackColor = Color.FromArgb(35, 35, 65);
             label6.ForeColor = Color.LightGray;
-            label6.Location = new Point(156, 545);
+            label6.Location = new Point(87, 605);
             label6.Name = "label6";
             label6.Size = new Size(100, 23);
             label6.TabIndex = 4;
@@ -237,29 +241,52 @@
             panel2.BackColor = Color.FromArgb(35, 35, 65);
             panel2.Controls.Add(cancelButton);
             panel2.Controls.Add(saveButton);
+            panel2.Controls.Add(dtp_ExpirationDate);
+            panel2.Controls.Add(label6);
+            panel2.Controls.Add(label7);
+            panel2.Controls.Add(label5);
+            panel2.Controls.Add(NumericStock);
+            panel2.Controls.Add(numericSellingPrice);
             panel2.Location = new Point(69, 9);
             panel2.Name = "panel2";
-            panel2.Size = new Size(509, 648);
+            panel2.Size = new Size(509, 740);
             panel2.TabIndex = 14;
+            // 
+            // numericSellingPrice
+            // 
+            numericSellingPrice.BackColor = Color.FromArgb(50, 65, 85);
+            numericSellingPrice.BorderStyle = BorderStyle.FixedSingle;
+            numericSellingPrice.ForeColor = Color.White;
+            numericSellingPrice.Location = new Point(91, 513);
+            numericSellingPrice.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
+            numericSellingPrice.Name = "numericSellingPrice";
+            numericSellingPrice.Size = new Size(330, 25);
+            numericSellingPrice.TabIndex = 9;
+            // 
+            // label7
+            // 
+            label7.BackColor = Color.FromArgb(35, 35, 65);
+            label7.ForeColor = Color.LightGray;
+            label7.Location = new Point(87, 487);
+            label7.Name = "label7";
+            label7.Size = new Size(100, 23);
+            label7.TabIndex = 4;
+            label7.Text = "Selling Price";
             // 
             // AddEditProductForm
             // 
             BackColor = Color.FromArgb(20, 20, 50);
-            ClientSize = new Size(640, 680);
+            ClientSize = new Size(640, 772);
             Controls.Add(panel1);
             Controls.Add(Btn_UploadImage);
             Controls.Add(label1);
             Controls.Add(label2);
-            Controls.Add(label6);
-            Controls.Add(label5);
             Controls.Add(label4);
             Controls.Add(label3);
             Controls.Add(txtboxProductName);
             Controls.Add(txtboxDescription);
             Controls.Add(cmbCategory);
             Controls.Add(numericPrice);
-            Controls.Add(NumericStock);
-            Controls.Add(dtp_ExpirationDate);
             Controls.Add(panel2);
             Font = new Font("Segoe UI", 10F);
             ForeColor = Color.White;
@@ -272,6 +299,7 @@
             ((System.ComponentModel.ISupportInitialize)NumericStock).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericPrice).EndInit();
             panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)numericSellingPrice).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -294,5 +322,7 @@
         private Label label5;
         private Label label6;
         private Panel panel2;
+        private Label label7;
+        private NumericUpDown numericSellingPrice;
     }
 }
