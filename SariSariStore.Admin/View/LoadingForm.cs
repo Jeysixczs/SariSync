@@ -30,13 +30,14 @@ namespace SariSariStore.Admin.View
 
             if (Loadingbar.Value < Loadingbar.Maximum)
             {
-                Loadingbar.Value += 10;
+                Loadingbar.Value += 1;
             }
             else
             {
                 timer_Loading.Stop();
-                DashboardForm mainForm = new DashboardForm();
-                mainForm.Show();
+               LoginForm form = new LoginForm();
+                form.Show();
+
                 this.Hide();
             }
 

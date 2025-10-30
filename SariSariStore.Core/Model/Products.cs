@@ -36,7 +36,7 @@ namespace SariSariStore.Core.Model
 
             using (SqlConnection con = new(ConnectionString))
             {
-                using (SqlCommand cmd = new("SELECT * FROM tbl_Product", con))
+                using (SqlCommand cmd = new("SELECT * FROM tbl_Product WHERE IsActive = 1", con))
                 {
                     con.Open();
                     using (SqlDataReader reader = cmd.ExecuteReader())
@@ -93,11 +93,26 @@ namespace SariSariStore.Core.Model
             using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
+
+                // Build query dynamically based on whether imagePath is provided
                 string query = @"UPDATE tbl_Product 
-                         SET Name = @Name, Description = @Description, Category = @Category, 
-                             Price = @Price, Stock = @Stock, ImagePath = @ImagePath,
-                             DateExpired = @DateExpired
-                         WHERE ProductID = @ProductID";
+                        SET Name = @Name, 
+                            Description = @Description, 
+                            Category = @Category, 
+                            Price = @Price, 
+                            Stock = @Stock, 
+                            DateExpired = @DateExpired
+                        {0}
+                        WHERE ProductID = @ProductID";
+
+                // Add ImagePath to query only if a new image is provided
+                string imageClause = "";
+                if (!string.IsNullOrEmpty(imagePath))
+                {
+                    imageClause = ", ImagePath = @ImagePath";
+                }
+
+                query = string.Format(query, imageClause);
 
                 using (var command = new SqlCommand(query, connection))
                 {
@@ -107,60 +122,51 @@ namespace SariSariStore.Core.Model
                     command.Parameters.AddWithValue("@Category", product.Category);
                     command.Parameters.AddWithValue("@Price", product.Price);
                     command.Parameters.AddWithValue("@Stock", product.Stock);
-                    command.Parameters.AddWithValue("@ImagePath", imagePath ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@DateExpired", product.DateExpired ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@DateExpired", product.DateExpired);
+
+                    // Only add image parameter if a new image is provided
+                    if (!string.IsNullOrEmpty(imagePath))
+                    {
+                        command.Parameters.AddWithValue("@ImagePath", imagePath);
+                    }
 
                     command.ExecuteNonQuery();
                 }
             }
         }
 
-
         public void DeleteProduct(int productId)
         {
-            try
+            using (SqlConnection con = new SqlConnection(ConnectionString))
             {
-               
-                Products product = GetProductById(productId);
-
-                if (product != null && !string.IsNullOrEmpty(product.ImagePath) && File.Exists(product.ImagePath))
+                // Use UPDATE instead of DELETE to soft delete
+                using (SqlCommand cmd = new SqlCommand("UPDATE tbl_Product SET IsActive = 0 WHERE ProductID = @ProductID", con))
                 {
-                    File.Delete(product.ImagePath);
+                    cmd.Parameters.AddWithValue("@ProductID", productId);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
                 }
-
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
-                {
-                    connection.Open();
-                    string query = "DELETE FROM tbl_Product WHERE ProductID = @ProductID";
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        command.Parameters.AddWithValue("@ProductID", productId);
-                        command.ExecuteNonQuery();
-                    }
-                }
-                
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error deleting product: {ex.Message}", ex);
             }
         }
 
-
-        public Products GetProductById(int id)
+        public Products GetProductById(int productId)
         {
-         
-            using (SqlConnection con = new(ConnectionString))
+            Products product = null;
+           
+
+            using (SqlConnection con = new SqlConnection(ConnectionString))
             {
-                using (SqlCommand cmd = new("SELECT * FROM tbl_Product WHERE ProductID = @ProductID", con))
+                string query = "SELECT * FROM tbl_Product WHERE ProductID = @ProductID AND IsActive = 1";
+                using (SqlCommand cmd = new SqlCommand(query, con))
                 {
-                    cmd.Parameters.AddWithValue("@ProductID", id);
+                    cmd.Parameters.AddWithValue("@ProductID", productId);
                     con.Open();
+
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         if (reader.Read())
                         {
-                            return new Products
+                            product = new Products
                             {
                                 ProductID = Convert.ToInt32(reader["ProductID"]),
                                 Name = reader["Name"]?.ToString() ?? string.Empty,
@@ -169,17 +175,14 @@ namespace SariSariStore.Core.Model
                                 Price = Convert.ToDecimal(reader["Price"]),
                                 Stock = Convert.ToInt32(reader["Stock"]),
                                 ImagePath = reader["ImagePath"]?.ToString(),
+                                DateAdded = Convert.ToDateTime(reader["DateAdded"]),
                                 DateExpired = Convert.ToDateTime(reader["DateExpired"])
                             };
-                        }
-                        else
-                        {
-                            throw new Exception("Product not found.");
                         }
                     }
                 }
             }
-
+            return product;
         }
 
         public List<Products> SearchProduct(string searchTerm)

@@ -29,15 +29,16 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DashboardForm));
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             panel1 = new Panel();
             btn_notification = new Button();
             label7 = new Label();
             pictureBox6 = new PictureBox();
             panel2 = new Panel();
             dgv_LatestProduct = new DataGridView();
+            label2 = new Label();
             label12 = new Label();
             panel11 = new Panel();
             txt_bestcat = new Label();
@@ -63,12 +64,11 @@
             pictureBox2 = new PictureBox();
             pictureBox1 = new PictureBox();
             btn_Report = new Button();
-            button6 = new Button();
+            btn_shutdown = new Button();
             btn_History = new Button();
             btn_Inventory = new Button();
             btn_Products = new Button();
             btn_Dashboard = new Button();
-            label2 = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             panel2.SuspendLayout();
@@ -159,30 +159,30 @@
             dgv_LatestProduct.AllowUserToAddRows = false;
             dgv_LatestProduct.AllowUserToDeleteRows = false;
             dgv_LatestProduct.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(245, 245, 245);
-            dgv_LatestProduct.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.BackColor = Color.FromArgb(245, 245, 245);
+            dgv_LatestProduct.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
             dgv_LatestProduct.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgv_LatestProduct.BackgroundColor = Color.White;
             dgv_LatestProduct.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(52, 152, 219);
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            dataGridViewCellStyle2.ForeColor = Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dgv_LatestProduct.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = Color.FromArgb(52, 152, 219);
+            dataGridViewCellStyle5.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            dataGridViewCellStyle5.ForeColor = Color.White;
+            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dgv_LatestProduct.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dgv_LatestProduct.ColumnHeadersHeight = 40;
             dgv_LatestProduct.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.White;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle3.ForeColor = Color.Black;
-            dataGridViewCellStyle3.Padding = new Padding(5, 3, 5, 3);
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(173, 216, 230);
-            dataGridViewCellStyle3.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
-            dgv_LatestProduct.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = Color.White;
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle6.ForeColor = Color.Black;
+            dataGridViewCellStyle6.Padding = new Padding(5, 3, 5, 3);
+            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(173, 216, 230);
+            dataGridViewCellStyle6.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+            dgv_LatestProduct.DefaultCellStyle = dataGridViewCellStyle6;
             dgv_LatestProduct.EnableHeadersVisualStyles = false;
             dgv_LatestProduct.GridColor = Color.LightGray;
             dgv_LatestProduct.Location = new Point(23, 269);
@@ -195,12 +195,23 @@
             dgv_LatestProduct.Size = new Size(1083, 423);
             dgv_LatestProduct.TabIndex = 0;
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI Historic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.ForeColor = Color.Transparent;
+            label2.Location = new Point(17, 227);
+            label2.Name = "label2";
+            label2.Size = new Size(176, 25);
+            label2.TabIndex = 2;
+            label2.Text = "LATEST PRODUCT";
+            // 
             // label12
             // 
             label12.AutoSize = true;
             label12.Font = new Font("Segoe UI Historic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label12.ForeColor = Color.Transparent;
-            label12.Location = new Point(28, 35);
+            label12.Location = new Point(16, 35);
             label12.Name = "label12";
             label12.Size = new Size(130, 25);
             label12.TabIndex = 2;
@@ -391,7 +402,7 @@
             panel3.Controls.Add(pictureBox2);
             panel3.Controls.Add(pictureBox1);
             panel3.Controls.Add(btn_Report);
-            panel3.Controls.Add(button6);
+            panel3.Controls.Add(btn_shutdown);
             panel3.Controls.Add(btn_History);
             panel3.Controls.Add(btn_Inventory);
             panel3.Controls.Add(btn_Products);
@@ -475,7 +486,7 @@
             btn_Report.Font = new Font("Segoe UI Historic", 11.25F, FontStyle.Bold);
             btn_Report.ForeColor = Color.Transparent;
             btn_Report.ImageAlign = ContentAlignment.MiddleLeft;
-            btn_Report.Location = new Point(19, 448);
+            btn_Report.Location = new Point(18, 445);
             btn_Report.Name = "btn_Report";
             btn_Report.Padding = new Padding(19, 14, 14, 14);
             btn_Report.Size = new Size(192, 68);
@@ -484,21 +495,22 @@
             btn_Report.UseVisualStyleBackColor = false;
             btn_Report.Click += btn_Report_Click;
             // 
-            // button6
+            // btn_shutdown
             // 
-            button6.BackColor = Color.FromArgb(28, 28, 65);
-            button6.FlatStyle = FlatStyle.Flat;
-            button6.Font = new Font("Segoe UI Historic", 11.25F, FontStyle.Bold);
-            button6.ForeColor = Color.Transparent;
-            button6.ImageAlign = ContentAlignment.MiddleLeft;
-            button6.Location = new Point(19, 624);
-            button6.Name = "button6";
-            button6.Padding = new Padding(14);
-            button6.Size = new Size(192, 68);
-            button6.TabIndex = 3;
-            button6.Text = "Shutdown";
-            button6.TextAlign = ContentAlignment.MiddleRight;
-            button6.UseVisualStyleBackColor = false;
+            btn_shutdown.BackColor = Color.FromArgb(28, 28, 65);
+            btn_shutdown.FlatStyle = FlatStyle.Flat;
+            btn_shutdown.Font = new Font("Segoe UI Historic", 11.25F, FontStyle.Bold);
+            btn_shutdown.ForeColor = Color.Transparent;
+            btn_shutdown.ImageAlign = ContentAlignment.MiddleLeft;
+            btn_shutdown.Location = new Point(19, 622);
+            btn_shutdown.Name = "btn_shutdown";
+            btn_shutdown.Padding = new Padding(14);
+            btn_shutdown.Size = new Size(192, 68);
+            btn_shutdown.TabIndex = 3;
+            btn_shutdown.Text = "Shutdown";
+            btn_shutdown.TextAlign = ContentAlignment.MiddleRight;
+            btn_shutdown.UseVisualStyleBackColor = false;
+            btn_shutdown.Click += btn_shutdown_Click;
             // 
             // btn_History
             // 
@@ -507,7 +519,7 @@
             btn_History.Font = new Font("Segoe UI Historic", 11.25F, FontStyle.Bold);
             btn_History.ForeColor = Color.Transparent;
             btn_History.ImageAlign = ContentAlignment.MiddleLeft;
-            btn_History.Location = new Point(19, 347);
+            btn_History.Location = new Point(18, 345);
             btn_History.Name = "btn_History";
             btn_History.Padding = new Padding(20, 14, 14, 14);
             btn_History.Size = new Size(192, 68);
@@ -523,7 +535,7 @@
             btn_Inventory.Font = new Font("Segoe UI Historic", 11.25F, FontStyle.Bold);
             btn_Inventory.ForeColor = Color.Transparent;
             btn_Inventory.ImageAlign = ContentAlignment.MiddleLeft;
-            btn_Inventory.Location = new Point(19, 251);
+            btn_Inventory.Location = new Point(18, 248);
             btn_Inventory.Name = "btn_Inventory";
             btn_Inventory.Padding = new Padding(33, 14, 14, 14);
             btn_Inventory.Size = new Size(192, 68);
@@ -539,7 +551,7 @@
             btn_Products.Font = new Font("Segoe UI Historic", 11.25F, FontStyle.Bold);
             btn_Products.ForeColor = Color.Transparent;
             btn_Products.ImageAlign = ContentAlignment.MiddleLeft;
-            btn_Products.Location = new Point(19, 155);
+            btn_Products.Location = new Point(18, 152);
             btn_Products.Name = "btn_Products";
             btn_Products.Padding = new Padding(33, 14, 14, 14);
             btn_Products.Size = new Size(192, 68);
@@ -555,7 +567,7 @@
             btn_Dashboard.Font = new Font("Segoe UI Historic", 11.25F, FontStyle.Bold);
             btn_Dashboard.ForeColor = Color.Transparent;
             btn_Dashboard.ImageAlign = ContentAlignment.MiddleLeft;
-            btn_Dashboard.Location = new Point(19, 58);
+            btn_Dashboard.Location = new Point(18, 58);
             btn_Dashboard.Name = "btn_Dashboard";
             btn_Dashboard.Padding = new Padding(50, 14, 14, 14);
             btn_Dashboard.Size = new Size(192, 68);
@@ -563,17 +575,6 @@
             btn_Dashboard.Text = "Dashboard";
             btn_Dashboard.UseVisualStyleBackColor = false;
             btn_Dashboard.Click += btn_Dashboard_Click;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI Historic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.ForeColor = Color.Transparent;
-            label2.Location = new Point(28, 227);
-            label2.Name = "label2";
-            label2.Size = new Size(176, 25);
-            label2.TabIndex = 2;
-            label2.Text = "LATEST PRODUCT";
             // 
             // DashboardForm
             // 
@@ -646,7 +647,7 @@
         private PictureBox pictureBox2;
         private PictureBox pictureBox1;
         private Button btn_Report;
-        private Button button6;
+        private Button btn_shutdown;
         private Button btn_History;
         private Button btn_Inventory;
         private Button btn_Products;

@@ -48,7 +48,7 @@
             pictureBox2 = new PictureBox();
             pictureBox1 = new PictureBox();
             btn_Report = new Button();
-            button6 = new Button();
+            btn_shutdown = new Button();
             btn_History = new Button();
             btn_Inventory = new Button();
             btn_Products = new Button();
@@ -168,7 +168,7 @@
             panel3.Controls.Add(pictureBox2);
             panel3.Controls.Add(pictureBox1);
             panel3.Controls.Add(btn_Report);
-            panel3.Controls.Add(button6);
+            panel3.Controls.Add(btn_shutdown);
             panel3.Controls.Add(btn_History);
             panel3.Controls.Add(btn_Inventory);
             panel3.Controls.Add(btn_Products);
@@ -232,13 +232,14 @@
             btn_Report.UseVisualStyleBackColor = false;
             btn_Report.Click += btn_Report_Click;
             // 
-            // button6
+            // btn_shutdown
             // 
-            button6.BackColor = Color.FromArgb(28, 28, 65);
-            resources.ApplyResources(button6, "button6");
-            button6.ForeColor = Color.Transparent;
-            button6.Name = "button6";
-            button6.UseVisualStyleBackColor = false;
+            btn_shutdown.BackColor = Color.FromArgb(28, 28, 65);
+            resources.ApplyResources(btn_shutdown, "btn_shutdown");
+            btn_shutdown.ForeColor = Color.Transparent;
+            btn_shutdown.Name = "btn_shutdown";
+            btn_shutdown.UseVisualStyleBackColor = false;
+            btn_shutdown.Click += btn_shutdown_Click;
             // 
             // btn_History
             // 
@@ -286,6 +287,7 @@
             DoubleBuffered = true;
             FormBorderStyle = FormBorderStyle.None;
             Name = "HistoryF";
+            Resize += HistoryF_Resize;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
@@ -318,7 +320,7 @@
         private PictureBox pictureBox2;
         private PictureBox pictureBox1;
         private Button btn_Report;
-        private Button button6;
+        private Button btn_shutdown;
         private Button btn_History;
         private Button btn_Inventory;
         private Button btn_Products;

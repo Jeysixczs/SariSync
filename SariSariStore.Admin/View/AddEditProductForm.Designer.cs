@@ -70,7 +70,7 @@
             NumericStock.BackColor = Color.FromArgb(50, 65, 85);
             NumericStock.BorderStyle = BorderStyle.FixedSingle;
             NumericStock.ForeColor = Color.White;
-            NumericStock.Location = new Point(150, 511);
+            NumericStock.Location = new Point(161, 511);
             NumericStock.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             NumericStock.Name = "NumericStock";
             NumericStock.Size = new Size(330, 25);
@@ -81,7 +81,7 @@
             numericPrice.BackColor = Color.FromArgb(50, 65, 85);
             numericPrice.BorderStyle = BorderStyle.FixedSingle;
             numericPrice.ForeColor = Color.White;
-            numericPrice.Location = new Point(150, 455);
+            numericPrice.Location = new Point(160, 455);
             numericPrice.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             numericPrice.Name = "numericPrice";
             numericPrice.Size = new Size(330, 25);
@@ -92,7 +92,7 @@
             txtboxDescription.BackColor = Color.FromArgb(50, 65, 85);
             txtboxDescription.BorderStyle = BorderStyle.FixedSingle;
             txtboxDescription.ForeColor = Color.White;
-            txtboxDescription.Location = new Point(150, 301);
+            txtboxDescription.Location = new Point(159, 301);
             txtboxDescription.Multiline = true;
             txtboxDescription.Name = "txtboxDescription";
             txtboxDescription.Size = new Size(330, 60);
@@ -103,7 +103,7 @@
             txtboxProductName.BackColor = Color.FromArgb(50, 65, 85);
             txtboxProductName.BorderStyle = BorderStyle.FixedSingle;
             txtboxProductName.ForeColor = Color.White;
-            txtboxProductName.Location = new Point(150, 235);
+            txtboxProductName.Location = new Point(160, 236);
             txtboxProductName.Name = "txtboxProductName";
             txtboxProductName.Size = new Size(330, 25);
             txtboxProductName.TabIndex = 6;
@@ -115,7 +115,7 @@
             cancelButton.FlatAppearance.BorderSize = 0;
             cancelButton.FlatStyle = FlatStyle.Flat;
             cancelButton.ForeColor = Color.White;
-            cancelButton.Location = new Point(260, 600);
+            cancelButton.Location = new Point(275, 600);
             cancelButton.Name = "cancelButton";
             cancelButton.Size = new Size(120, 36);
             cancelButton.TabIndex = 13;
@@ -130,7 +130,7 @@
             saveButton.FlatAppearance.BorderSize = 0;
             saveButton.FlatStyle = FlatStyle.Flat;
             saveButton.ForeColor = Color.White;
-            saveButton.Location = new Point(93, 600);
+            saveButton.Location = new Point(108, 600);
             saveButton.Name = "saveButton";
             saveButton.Size = new Size(120, 36);
             saveButton.TabIndex = 12;
@@ -142,7 +142,7 @@
             // 
             label1.BackColor = Color.FromArgb(35, 35, 65);
             label1.ForeColor = Color.LightGray;
-            label1.Location = new Point(150, 210);
+            label1.Location = new Point(155, 210);
             label1.Name = "label1";
             label1.Size = new Size(100, 23);
             label1.TabIndex = 2;
@@ -152,7 +152,7 @@
             // 
             label2.BackColor = Color.FromArgb(35, 35, 65);
             label2.ForeColor = Color.LightGray;
-            label2.Location = new Point(150, 275);
+            label2.Location = new Point(154, 275);
             label2.Name = "label2";
             label2.Size = new Size(100, 23);
             label2.TabIndex = 3;
@@ -165,7 +165,7 @@
             cmbCategory.FlatStyle = FlatStyle.Flat;
             cmbCategory.ForeColor = Color.White;
             cmbCategory.Items.AddRange(new object[] { "Snacks", "Drinks", "Toiletries", "Household", "Medicine", "School & Office" });
-            cmbCategory.Location = new Point(150, 392);
+            cmbCategory.Location = new Point(159, 392);
             cmbCategory.Name = "cmbCategory";
             cmbCategory.Size = new Size(330, 25);
             cmbCategory.TabIndex = 8;
@@ -174,7 +174,7 @@
             // 
             label3.BackColor = Color.FromArgb(35, 35, 65);
             label3.ForeColor = Color.LightGray;
-            label3.Location = new Point(150, 366);
+            label3.Location = new Point(155, 366);
             label3.Name = "label3";
             label3.Size = new Size(100, 23);
             label3.TabIndex = 4;
@@ -197,7 +197,7 @@
             dtp_ExpirationDate.CalendarTitleBackColor = Color.FromArgb(52, 86, 139);
             dtp_ExpirationDate.CalendarTitleForeColor = Color.FromArgb(20, 20, 50);
             dtp_ExpirationDate.CalendarTrailingForeColor = Color.FromArgb(50, 65, 85);
-            dtp_ExpirationDate.Location = new Point(150, 571);
+            dtp_ExpirationDate.Location = new Point(160, 571);
             dtp_ExpirationDate.Name = "dtp_ExpirationDate";
             dtp_ExpirationDate.Size = new Size(330, 25);
             dtp_ExpirationDate.TabIndex = 11;
@@ -206,7 +206,7 @@
             // 
             label4.BackColor = Color.FromArgb(35, 35, 65);
             label4.ForeColor = Color.LightGray;
-            label4.Location = new Point(150, 429);
+            label4.Location = new Point(156, 429);
             label4.Name = "label4";
             label4.Size = new Size(100, 23);
             label4.TabIndex = 4;
@@ -216,7 +216,7 @@
             // 
             label5.BackColor = Color.FromArgb(35, 35, 65);
             label5.ForeColor = Color.LightGray;
-            label5.Location = new Point(150, 483);
+            label5.Location = new Point(156, 487);
             label5.Name = "label5";
             label5.Size = new Size(100, 23);
             label5.TabIndex = 4;
@@ -226,7 +226,7 @@
             // 
             label6.BackColor = Color.FromArgb(35, 35, 65);
             label6.ForeColor = Color.LightGray;
-            label6.Location = new Point(150, 545);
+            label6.Location = new Point(156, 545);
             label6.Name = "label6";
             label6.Size = new Size(100, 23);
             label6.TabIndex = 4;
@@ -237,7 +237,7 @@
             panel2.BackColor = Color.FromArgb(35, 35, 65);
             panel2.Controls.Add(cancelButton);
             panel2.Controls.Add(saveButton);
-            panel2.Location = new Point(75, 9);
+            panel2.Location = new Point(69, 9);
             panel2.Name = "panel2";
             panel2.Size = new Size(509, 648);
             panel2.TabIndex = 14;
@@ -268,6 +268,7 @@
             Padding = new Padding(20);
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Add / Edit Product";
+            Load += AddEditProductForm_Load_1;
             ((System.ComponentModel.ISupportInitialize)NumericStock).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericPrice).EndInit();
             panel2.ResumeLayout(false);

@@ -77,8 +77,8 @@ namespace SariSariStore.Admin.View
             dgv_Product.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(245, 245, 245);
 
 
-            dgv_Product.Location = new Point(65, 103);
-            dgv_Product.Size = new Size(1032, 472);
+            dgv_Product.Location = new Point(29, 113);
+            dgv_Product.Size = new Size(1068, 472);
         }
 
         private void ProductForm_Resize(object sender, EventArgs e)
@@ -160,7 +160,7 @@ namespace SariSariStore.Admin.View
                 var result = editForm.ShowDialog();
                 if (result == DialogResult.OK)
                 {
-                    // Refresh the product list after editing
+                    
                     DisplayProduct();
                 }
             }
@@ -224,6 +224,15 @@ namespace SariSariStore.Admin.View
         private void label7_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btn_shutdown_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show("Are you sure you want to exit?", "Confirm Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
         }
     }
 }

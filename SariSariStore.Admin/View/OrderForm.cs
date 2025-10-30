@@ -80,5 +80,14 @@ namespace SariSariStore.Admin.View.Interface
             dgv_Orders.DataSource = orders.GetAllOrders();
 
         }
+
+        private void btn_shutdown_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show("Are you sure you want to exit?", "Confirm Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
+        }
     }
 }

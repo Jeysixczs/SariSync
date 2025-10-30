@@ -1,7 +1,6 @@
-@SariSariStore.WebApi_HostAddress = https://localhost:7211
+@SariSariStore.WebApi_HostAddress = https://192.168.137.1:7211
 
-GET {{SariSariStore.WebApi_HostAddress}}/api/Product
-Accept: application/json
+GET {{SariSariStore.WebApi_HostAddress}}/index.html
 
 ###
 

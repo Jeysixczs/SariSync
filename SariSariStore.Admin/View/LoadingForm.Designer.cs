@@ -50,7 +50,7 @@
             panel1.Controls.Add(label7);
             panel1.Controls.Add(printReceiptButton);
             panel1.Controls.Add(pictureBox6);
-            panel1.Location = new Point(84, 58);
+            panel1.Location = new Point(84, 63);
             panel1.Name = "panel1";
             panel1.Size = new Size(594, 320);
             panel1.TabIndex = 7;
@@ -59,7 +59,7 @@
             // 
             Loadingbar.BackColor = Color.FromArgb(52, 86, 139);
             Loadingbar.ForeColor = Color.FromArgb(52, 86, 139);
-            Loadingbar.Location = new Point(125, 245);
+            Loadingbar.Location = new Point(133, 261);
             Loadingbar.Name = "Loadingbar";
             Loadingbar.Size = new Size(317, 10);
             Loadingbar.TabIndex = 13;
@@ -72,7 +72,7 @@
             label7.Font = new Font("Segoe UI Symbol", 20.25F, FontStyle.Bold);
             label7.ForeColor = Color.Transparent;
             label7.ImeMode = ImeMode.NoControl;
-            label7.Location = new Point(221, 181);
+            label7.Location = new Point(228, 197);
             label7.Name = "label7";
             label7.Size = new Size(123, 37);
             label7.TabIndex = 2;
@@ -93,7 +93,7 @@
             pictureBox6.BackColor = Color.Transparent;
             pictureBox6.Image = (Image)resources.GetObject("pictureBox6.Image");
             pictureBox6.ImeMode = ImeMode.NoControl;
-            pictureBox6.Location = new Point(173, 23);
+            pictureBox6.Location = new Point(181, 39);
             pictureBox6.Name = "pictureBox6";
             pictureBox6.Size = new Size(221, 155);
             pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
@@ -105,7 +105,7 @@
             // 
             panel2.BackColor = Color.FromArgb(52, 86, 139);
             panel2.Controls.Add(button1);
-            panel2.Location = new Point(1, 133);
+            panel2.Location = new Point(-1, 144);
             panel2.Name = "panel2";
             panel2.Size = new Size(851, 164);
             panel2.TabIndex = 14;
@@ -123,7 +123,7 @@
             // timer_Loading
             // 
             timer_Loading.Enabled = true;
-            timer_Loading.Interval = 300;
+            timer_Loading.Interval = 50;
             timer_Loading.Tick += timer_Loading_Tick;
             // 
             // LoadingForm
@@ -134,6 +134,7 @@
             ClientSize = new Size(771, 450);
             Controls.Add(panel1);
             Controls.Add(panel2);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "LoadingForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "SariSync";

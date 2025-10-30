@@ -44,7 +44,7 @@
             pictureBox2 = new PictureBox();
             pictureBox1 = new PictureBox();
             btn_Report = new Button();
-            button6 = new Button();
+            btn_shutdown = new Button();
             btn_History = new Button();
             btn_Inventory = new Button();
             btn_Products = new Button();
@@ -119,7 +119,7 @@
             panel3.Controls.Add(pictureBox2);
             panel3.Controls.Add(pictureBox1);
             panel3.Controls.Add(btn_Report);
-            panel3.Controls.Add(button6);
+            panel3.Controls.Add(btn_shutdown);
             panel3.Controls.Add(btn_History);
             panel3.Controls.Add(btn_Inventory);
             panel3.Controls.Add(btn_Products);
@@ -212,21 +212,22 @@
             btn_Report.UseVisualStyleBackColor = false;
             btn_Report.Click += btn_Report_Click;
             // 
-            // button6
+            // btn_shutdown
             // 
-            button6.BackColor = Color.FromArgb(28, 28, 65);
-            button6.FlatStyle = FlatStyle.Flat;
-            button6.Font = new Font("Segoe UI Historic", 11.25F, FontStyle.Bold);
-            button6.ForeColor = Color.Transparent;
-            button6.ImageAlign = ContentAlignment.MiddleLeft;
-            button6.Location = new Point(19, 624);
-            button6.Name = "button6";
-            button6.Padding = new Padding(14);
-            button6.Size = new Size(192, 68);
-            button6.TabIndex = 3;
-            button6.Text = "Shutdown";
-            button6.TextAlign = ContentAlignment.MiddleRight;
-            button6.UseVisualStyleBackColor = false;
+            btn_shutdown.BackColor = Color.FromArgb(28, 28, 65);
+            btn_shutdown.FlatStyle = FlatStyle.Flat;
+            btn_shutdown.Font = new Font("Segoe UI Historic", 11.25F, FontStyle.Bold);
+            btn_shutdown.ForeColor = Color.Transparent;
+            btn_shutdown.ImageAlign = ContentAlignment.MiddleLeft;
+            btn_shutdown.Location = new Point(19, 624);
+            btn_shutdown.Name = "btn_shutdown";
+            btn_shutdown.Padding = new Padding(14);
+            btn_shutdown.Size = new Size(192, 68);
+            btn_shutdown.TabIndex = 3;
+            btn_shutdown.Text = "Shutdown";
+            btn_shutdown.TextAlign = ContentAlignment.MiddleRight;
+            btn_shutdown.UseVisualStyleBackColor = false;
+            btn_shutdown.Click += btn_shutdown_Click;
             // 
             // btn_History
             // 
@@ -350,9 +351,9 @@
             label12.ForeColor = Color.Transparent;
             label12.Location = new Point(28, 35);
             label12.Name = "label12";
-            label12.Size = new Size(90, 25);
+            label12.Size = new Size(100, 25);
             label12.TabIndex = 2;
-            label12.Text = "Supplier";
+            label12.Text = "SUPPLIER";
             // 
             // InventoryForm
             // 
@@ -367,6 +368,7 @@
             Name = "InventoryForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "InventoryForm";
+            Resize += InventoryForm_Resize;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
@@ -400,7 +402,7 @@
         private PictureBox pictureBox2;
         private PictureBox pictureBox1;
         private Button btn_Report;
-        private Button button6;
+        private Button btn_shutdown;
         private Button btn_History;
         private Button btn_Inventory;
         private Button btn_Products;

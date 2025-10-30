@@ -51,7 +51,7 @@
             pictureBox2 = new PictureBox();
             pictureBox1 = new PictureBox();
             btn_Report = new Button();
-            button6 = new Button();
+            btn_shutdown = new Button();
             btn_History = new Button();
             btn_Inventory = new Button();
             btn_Products = new Button();
@@ -128,9 +128,10 @@
             // 
             // txtbox_Search
             // 
-            txtbox_Search.Location = new Point(64, 69);
+            txtbox_Search.BackColor = SystemColors.Window;
+            txtbox_Search.Location = new Point(29, 69);
             txtbox_Search.Name = "txtbox_Search";
-            txtbox_Search.Size = new Size(1033, 23);
+            txtbox_Search.Size = new Size(1068, 23);
             txtbox_Search.TabIndex = 16;
             txtbox_Search.TextChanged += txtbox_Search_TextChanged;
             // 
@@ -138,9 +139,9 @@
             // 
             pictureBox10.BackColor = Color.FromArgb(28, 28, 65);
             pictureBox10.Image = Properties.Resources.icons8_reports_64;
-            pictureBox10.Location = new Point(570, 644);
+            pictureBox10.Location = new Point(699, 640);
             pictureBox10.Name = "pictureBox10";
-            pictureBox10.Size = new Size(45, 39);
+            pictureBox10.Size = new Size(30, 26);
             pictureBox10.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox10.TabIndex = 15;
             pictureBox10.TabStop = false;
@@ -152,10 +153,10 @@
             btn_Delete.Font = new Font("Segoe UI Historic", 11.25F, FontStyle.Bold);
             btn_Delete.ForeColor = Color.Transparent;
             btn_Delete.ImageAlign = ContentAlignment.MiddleLeft;
-            btn_Delete.Location = new Point(557, 633);
+            btn_Delete.Location = new Point(681, 625);
             btn_Delete.Name = "btn_Delete";
             btn_Delete.Padding = new Padding(19, 14, 14, 14);
-            btn_Delete.Size = new Size(192, 68);
+            btn_Delete.Size = new Size(183, 55);
             btn_Delete.TabIndex = 14;
             btn_Delete.Text = "DELETE";
             btn_Delete.UseVisualStyleBackColor = false;
@@ -165,9 +166,9 @@
             // 
             pictureBox9.BackColor = Color.FromArgb(28, 28, 65);
             pictureBox9.Image = Properties.Resources.icons8_reports_64;
-            pictureBox9.Location = new Point(332, 644);
+            pictureBox9.Location = new Point(475, 640);
             pictureBox9.Name = "pictureBox9";
-            pictureBox9.Size = new Size(45, 39);
+            pictureBox9.Size = new Size(30, 26);
             pictureBox9.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox9.TabIndex = 13;
             pictureBox9.TabStop = false;
@@ -179,10 +180,10 @@
             btn_Update.Font = new Font("Segoe UI Historic", 11.25F, FontStyle.Bold);
             btn_Update.ForeColor = Color.Transparent;
             btn_Update.ImageAlign = ContentAlignment.MiddleLeft;
-            btn_Update.Location = new Point(319, 633);
+            btn_Update.Location = new Point(456, 625);
             btn_Update.Name = "btn_Update";
             btn_Update.Padding = new Padding(19, 14, 14, 14);
-            btn_Update.Size = new Size(192, 68);
+            btn_Update.Size = new Size(183, 55);
             btn_Update.TabIndex = 12;
             btn_Update.Text = "UPDATE";
             btn_Update.UseVisualStyleBackColor = false;
@@ -192,9 +193,9 @@
             // 
             pictureBox8.BackColor = Color.FromArgb(28, 28, 65);
             pictureBox8.Image = Properties.Resources.icons8_reports_64;
-            pictureBox8.Location = new Point(80, 644);
+            pictureBox8.Location = new Point(252, 640);
             pictureBox8.Name = "pictureBox8";
-            pictureBox8.Size = new Size(45, 39);
+            pictureBox8.Size = new Size(29, 26);
             pictureBox8.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox8.TabIndex = 11;
             pictureBox8.TabStop = false;
@@ -203,10 +204,10 @@
             // 
             dgv_Product.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgv_Product.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgv_Product.Location = new Point(65, 139);
+            dgv_Product.Location = new Point(29, 113);
             dgv_Product.Name = "dgv_Product";
             dgv_Product.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgv_Product.Size = new Size(1032, 472);
+            dgv_Product.Size = new Size(1068, 472);
             dgv_Product.TabIndex = 4;
             dgv_Product.CellContentClick += dgv_Product_CellContentClick;
             // 
@@ -217,10 +218,10 @@
             btn_Add.Font = new Font("Segoe UI Historic", 11.25F, FontStyle.Bold);
             btn_Add.ForeColor = Color.Transparent;
             btn_Add.ImageAlign = ContentAlignment.MiddleLeft;
-            btn_Add.Location = new Point(67, 633);
+            btn_Add.Location = new Point(233, 625);
             btn_Add.Name = "btn_Add";
             btn_Add.Padding = new Padding(19, 14, 14, 14);
-            btn_Add.Size = new Size(192, 68);
+            btn_Add.Size = new Size(182, 55);
             btn_Add.TabIndex = 10;
             btn_Add.Text = "ADD";
             btn_Add.UseVisualStyleBackColor = false;
@@ -232,7 +233,7 @@
             label12.BackColor = Color.Transparent;
             label12.Font = new Font("Segoe UI Historic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label12.ForeColor = Color.Transparent;
-            label12.Location = new Point(79, 37);
+            label12.Location = new Point(23, 34);
             label12.Name = "label12";
             label12.Size = new Size(114, 25);
             label12.TabIndex = 2;
@@ -249,7 +250,7 @@
             panel3.Controls.Add(pictureBox2);
             panel3.Controls.Add(pictureBox1);
             panel3.Controls.Add(btn_Report);
-            panel3.Controls.Add(button6);
+            panel3.Controls.Add(btn_shutdown);
             panel3.Controls.Add(btn_History);
             panel3.Controls.Add(btn_Inventory);
             panel3.Controls.Add(btn_Products);
@@ -342,21 +343,22 @@
             btn_Report.UseVisualStyleBackColor = false;
             btn_Report.Click += btn_Report_Click;
             // 
-            // button6
+            // btn_shutdown
             // 
-            button6.BackColor = Color.FromArgb(28, 28, 65);
-            button6.FlatStyle = FlatStyle.Flat;
-            button6.Font = new Font("Segoe UI Historic", 11.25F, FontStyle.Bold);
-            button6.ForeColor = Color.Transparent;
-            button6.ImageAlign = ContentAlignment.MiddleLeft;
-            button6.Location = new Point(19, 624);
-            button6.Name = "button6";
-            button6.Padding = new Padding(14);
-            button6.Size = new Size(192, 68);
-            button6.TabIndex = 3;
-            button6.Text = "Shutdown";
-            button6.TextAlign = ContentAlignment.MiddleRight;
-            button6.UseVisualStyleBackColor = false;
+            btn_shutdown.BackColor = Color.FromArgb(28, 28, 65);
+            btn_shutdown.FlatStyle = FlatStyle.Flat;
+            btn_shutdown.Font = new Font("Segoe UI Historic", 11.25F, FontStyle.Bold);
+            btn_shutdown.ForeColor = Color.Transparent;
+            btn_shutdown.ImageAlign = ContentAlignment.MiddleLeft;
+            btn_shutdown.Location = new Point(19, 624);
+            btn_shutdown.Name = "btn_shutdown";
+            btn_shutdown.Padding = new Padding(14);
+            btn_shutdown.Size = new Size(192, 68);
+            btn_shutdown.TabIndex = 3;
+            btn_shutdown.Text = "Shutdown";
+            btn_shutdown.TextAlign = ContentAlignment.MiddleRight;
+            btn_shutdown.UseVisualStyleBackColor = false;
+            btn_shutdown.Click += btn_shutdown_Click;
             // 
             // btn_History
             // 
@@ -482,7 +484,7 @@
         private PictureBox pictureBox2;
         private PictureBox pictureBox1;
         private Button btn_Report;
-        private Button button6;
+        private Button btn_shutdown;
         private Button btn_History;
         private Button btn_Inventory;
         private Button btn_Products;

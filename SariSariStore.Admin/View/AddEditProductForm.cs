@@ -9,7 +9,7 @@ namespace SariSariStore.Admin
 {
     public partial class AddEditProductForm : Form
     {
-       
+
         private string selectedImagePath = string.Empty;
         private string temporaryImagePath = string.Empty;
         private readonly Products products;
@@ -57,17 +57,16 @@ namespace SariSariStore.Admin
 
         private void AddEditProductForm_Load(object sender, EventArgs e)
         {
-            if (_isEditMode)
-            {
-                LoadProductData();
-            }
+
         }
 
         private void LoadProductData()
         {
             try
             {
+                // Use your existing Products class to get data from database
                 var product = products.GetProductById(_productId);
+
                 if (product == null)
                 {
                     MessageBox.Show("Product not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -75,23 +74,21 @@ namespace SariSariStore.Admin
                     return;
                 }
 
+                // Populate the textboxes with actual data
                 txtboxProductName.Text = product.Name;
                 txtboxDescription.Text = product.Description ?? string.Empty;
                 cmbCategory.Text = product.Category;
                 numericPrice.Value = product.Price;
                 NumericStock.Value = product.Stock;
-                dtp_ExpirationDate.Value = product.DateExpired ?? DateTime.Now;
-
+                dtp_ExpirationDate.Value = Convert.ToDateTime(product.DateExpired);
 
                 if (!string.IsNullOrEmpty(product.ImagePath))
                 {
                     selectedImagePath = product.ImagePath;
-                   
                     DisplayImageInPanel(selectedImagePath);
                 }
                 else
                 {
-                    
                     panel1.BackgroundImage = null;
                     panel1.BackColor = Color.LightGray;
                 }
@@ -102,7 +99,6 @@ namespace SariSariStore.Admin
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void saveButton_Click(object sender, EventArgs e)
         {
             try
@@ -174,7 +170,7 @@ namespace SariSariStore.Admin
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     temporaryImagePath = openFileDialog.FileName;
-                    
+
                     DisplayImageInPanel(temporaryImagePath);
                 }
             }
@@ -213,6 +209,14 @@ namespace SariSariStore.Admin
             temporaryImagePath = string.Empty;
             this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+
+        private void AddEditProductForm_Load_1(object sender, EventArgs e)
+        {
+            if (_isEditMode)
+            {
+                LoadProductData();
+            }
         }
     }
 }

@@ -3,6 +3,7 @@ using SariSariStore.Admin.Model;
 using SariSariStore.Admin.View.Interface;
 using SariSariStore.Core.Model;
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -161,18 +162,28 @@ namespace SariSariStore.Admin.View
 
         private void DisplayLatestProducts()
         {
-           dgv_LatestProduct.DataSource = products.Gettop10Products();
+            dgv_LatestProduct.DataSource = products.Gettop10Products();
 
             dgv_LatestProduct.Columns["ProductID"].Visible = false;
             dgv_LatestProduct.Columns["ImagePath"].Visible = false;
             dgv_LatestProduct.Columns["DateExpired"].Visible = false;
-            
+
 
 
         }
         private void btn_Dashboard_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btn_shutdown_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show("Are you sure you want to exit?", "Confirm Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes) 
+            {
+                Application.Exit();
+            }
+            
         }
     }
 }

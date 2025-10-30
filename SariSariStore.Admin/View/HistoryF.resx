@@ -6653,16 +6653,16 @@
     <value>Segoe UI Historic, 14.25pt, style=Bold</value>
   </data>
   <data name="label12.Location" type="System.Drawing.Point, System.Drawing">
-    <value>26, 38</value>
+    <value>21, 38</value>
   </data>
   <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>138, 25</value>
+    <value>163, 25</value>
   </data>
   <data name="label12.TabIndex" type="System.Int32, mscorlib">
     <value>23</value>
   </data>
   <data name="label12.Text" xml:space="preserve">
-    <value>Order History</value>
+    <value>ORDER HISTORY</value>
   </data>
   <data name="&gt;&gt;label12.Name" xml:space="preserve">
     <value>label12</value>
@@ -6941,43 +6941,43 @@
   <data name="&gt;&gt;btn_Report.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
-  <data name="button6.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+  <data name="btn_shutdown.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
     <value>Flat</value>
   </data>
-  <data name="button6.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="btn_shutdown.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI Historic, 11.25pt, style=Bold</value>
   </data>
-  <data name="button6.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+  <data name="btn_shutdown.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
-  <data name="button6.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="btn_shutdown.Location" type="System.Drawing.Point, System.Drawing">
     <value>19, 624</value>
   </data>
-  <data name="button6.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="btn_shutdown.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>14, 14, 14, 14</value>
   </data>
-  <data name="button6.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="btn_shutdown.Size" type="System.Drawing.Size, System.Drawing">
     <value>192, 68</value>
   </data>
-  <data name="button6.TabIndex" type="System.Int32, mscorlib">
+  <data name="btn_shutdown.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="button6.Text" xml:space="preserve">
+  <data name="btn_shutdown.Text" xml:space="preserve">
     <value>Shutdown</value>
   </data>
-  <data name="button6.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+  <data name="btn_shutdown.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleRight</value>
   </data>
-  <data name="&gt;&gt;button6.Name" xml:space="preserve">
-    <value>button6</value>
+  <data name="&gt;&gt;btn_shutdown.Name" xml:space="preserve">
+    <value>btn_shutdown</value>
   </data>
-  <data name="&gt;&gt;button6.Type" xml:space="preserve">
+  <data name="&gt;&gt;btn_shutdown.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;button6.Parent" xml:space="preserve">
+  <data name="&gt;&gt;btn_shutdown.Parent" xml:space="preserve">
     <value>panel3</value>
   </data>
-  <data name="&gt;&gt;button6.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;btn_shutdown.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
   <data name="btn_History.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
