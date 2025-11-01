@@ -37,6 +37,8 @@
             label7 = new Label();
             pictureBox6 = new PictureBox();
             panel2 = new Panel();
+            Refresh = new Button();
+            txtSearch = new TextBox();
             label12 = new Label();
             dgv_orderhistory = new DataGridView();
             panel14 = new Panel();
@@ -102,10 +104,26 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(20, 20, 50);
+            panel2.Controls.Add(Refresh);
+            panel2.Controls.Add(txtSearch);
             panel2.Controls.Add(label12);
             panel2.Controls.Add(dgv_orderhistory);
             resources.ApplyResources(panel2, "panel2");
             panel2.Name = "panel2";
+            // 
+            // Refresh
+            // 
+            resources.ApplyResources(Refresh, "Refresh");
+            Refresh.Name = "Refresh";
+            Refresh.UseVisualStyleBackColor = true;
+            Refresh.Click += Refresh_Click;
+            // 
+            // txtSearch
+            // 
+            resources.ApplyResources(txtSearch, "txtSearch");
+            txtSearch.Name = "txtSearch";
+            txtSearch.TextChanged += txtSearch_TextChanged;
+            txtSearch.KeyPress += txtSearch_KeyPress;
             // 
             // label12
             // 
@@ -150,7 +168,8 @@
             dgv_orderhistory.RowHeadersVisible = false;
             dgv_orderhistory.RowTemplate.Height = 35;
             dgv_orderhistory.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgv_orderhistory.CellContentClick += dgv_orderhistory_CellContentClick_1;
+
+            dgv_orderhistory.CellDoubleClick += dgv_orderhistory_CellDoubleClick;
             // 
             // panel14
             // 
@@ -329,5 +348,7 @@
         private DataGridView dgv_orderhistory;
         private Label label12;
         private Button btn_printreceipt;
+        private TextBox txtSearch;
+        private Button Refresh;
     }
 }

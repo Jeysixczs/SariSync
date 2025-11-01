@@ -179,11 +179,20 @@ namespace SariSariStore.Admin.View
         private void btn_shutdown_Click(object sender, EventArgs e)
         {
             var result = MessageBox.Show("Are you sure you want to exit?", "Confirm Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result == DialogResult.Yes) 
+            if (result == DialogResult.Yes)
             {
                 Application.Exit();
             }
-            
+
         }
+
+        private void btnWalkins_Click(object sender, EventArgs e)
+        {
+            PointOfSaleForm pos = new PointOfSaleForm();
+            pos.Show();
+            this.Hide();
+        }
+
+        
     }
 }

@@ -98,6 +98,7 @@ namespace SariSariStore.Core.Model
 
         public void UpdateProduct(Products product, string imagePath)
         {
+            //
             using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
@@ -203,7 +204,7 @@ namespace SariSariStore.Core.Model
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
            
-                SqlCommand cmd = new SqlCommand("SELECT * FROM tbl_Product WHERE Name LIKE @Search OR Category LIKE @Search OR Description LIKE @Search", con);
+                SqlCommand cmd = new SqlCommand("SELECT * FROM tbl_Product WHERE (Name LIKE @Search OR Category LIKE @Search OR Description LIKE @Search) AND IsActive = 1 ", con);
                 cmd.Parameters.AddWithValue("@Search", "%" + searchTerm + "%");
 
                 con.Open();
@@ -280,13 +281,13 @@ namespace SariSariStore.Core.Model
                 switch (stockLevel.ToLower())
                 {
                     case "low":
-                        query = "SELECT ProductID, Name, Category, Stock FROM tbl_Product WHERE Stock < 10";
+                        query = "SELECT ProductID, Name, Category, Stock FROM tbl_Product WHERE Stock < 10 AND IsActive = 1";
                         break;
                     case "medium":
-                        query = "SELECT ProductID, Name, Category, Stock FROM tbl_Product WHERE Stock BETWEEN 10 AND 50";
+                        query = "SELECT ProductID, Name, Category, Stock FROM tbl_Product WHERE Stock BETWEEN 10 AND 50 AND IsActive = 1";
                         break;
                     case "high":
-                        query = "SELECT ProductID, Name, Category, Stock FROM tbl_Product WHERE Stock > 50";
+                        query = "SELECT ProductID, Name, Category, Stock FROM tbl_Product WHERE Stock > 50 AND IsActive = 1";
                         break;
                     
                 }
@@ -321,7 +322,7 @@ namespace SariSariStore.Core.Model
             List<Products> topProducts = new List<Products>();
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
-                string query = "select top 10 Name, Description, Category, Price, SellingPrice, Stock, DateAdded from tbl_Product order by DateAdded desc";
+                string query = "select top 10 Name, Description, Category, Price, SellingPrice, Stock, DateAdded from tbl_Product WHERE IsActive = 1 order by DateAdded desc";
                 SqlCommand cmd = new SqlCommand(query, con);
                 con.Open();
                 using (SqlDataReader reader = cmd.ExecuteReader())
@@ -382,26 +383,64 @@ namespace SariSariStore.Core.Model
                 }
             }
         }
-        public void UpdateAllSellingPrices()
+        //Method to get product for ordering
+        public Products GetProductForOrder(int productId)
         {
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
-                string query = @"UPDATE tbl_Product
-                        SET SellingPrice = 
-                            CASE 
-                                WHEN Category = 'Snacks' THEN Price * 1.15
-                                WHEN Category = 'Beverages' THEN Price * 1.10
-                                WHEN Category = 'Toiletries' THEN Price * 1.25
-                                ELSE Price * 1.20
-                            END
-                        WHERE IsActive = 1";
-
+                string query = "SELECT ProductID, Name, SellingPrice, Stock FROM tbl_Product WHERE ProductID = @ProductID AND IsActive = 1 AND Stock > 0";
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
+                    cmd.Parameters.AddWithValue("@ProductID", productId);
                     con.Open();
-                    cmd.ExecuteNonQuery();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return new Products
+                            {
+                                    ProductID = Convert.ToInt32(reader["ProductID"]),
+                                    Name = reader["Name"]?.ToString() ?? string.Empty,
+                                    SellingPrice = Convert.ToDecimal(reader["SellingPrice"]),
+                                    Stock = Convert.ToInt32(reader["Stock"])
+                            };
+                        }
+                    }
                 }
             }
+            return null;
+        }
+        //Method to search products for ordering
+        public List<Products>SearchProductsForOrder(string searchTerm)
+        {
+            List<Products> products = new List<Products>();
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                string query = @"SELECT ProductID, Name, SellingPrice, Stock 
+                           FROM tbl_Product 
+                           WHERE (Name LIKE @Search OR Category LIKE @Search) 
+                           AND IsActive = 1 
+                           AND Stock > 0
+                           ORDER BY Name";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@Search", "%" + searchTerm + "%");
+                con.Open();
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Products product = new Products
+                        {
+                            ProductID = Convert.ToInt32(reader["ProductID"]),
+                            Name = reader["Name"]?.ToString() ?? string.Empty,
+                            SellingPrice = Convert.ToDecimal(reader["SellingPrice"]),
+                            Stock = Convert.ToInt32(reader["Stock"])
+                        };
+                        products.Add(product);
+                    }
+                }
+            }
+            return products;
         }
     }
 }

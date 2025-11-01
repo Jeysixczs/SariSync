@@ -19,5 +19,8 @@ namespace SariSariStore.Core.Model
         public decimal UnitPrice { get; set; }
         public decimal TotalPrice { get; set; }
 
+        // Navigation property to product (optional)
+        public virtual Products Product { get; set; }
+
     }
 }

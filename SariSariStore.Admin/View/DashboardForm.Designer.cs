@@ -37,6 +37,7 @@
             label7 = new Label();
             pictureBox6 = new PictureBox();
             panel2 = new Panel();
+            btnWalkins = new Button();
             dgv_LatestProduct = new DataGridView();
             label2 = new Label();
             label12 = new Label();
@@ -69,6 +70,7 @@
             btn_Inventory = new Button();
             btn_Products = new Button();
             btn_Dashboard = new Button();
+            groupBox1 = new GroupBox();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             panel2.SuspendLayout();
@@ -88,6 +90,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
@@ -147,12 +150,24 @@
             panel2.Controls.Add(panel13);
             panel2.Controls.Add(panel12);
             panel2.Controls.Add(panel10);
+            panel2.Controls.Add(groupBox1);
             panel2.Location = new Point(254, 72);
             panel2.Name = "panel2";
             panel2.Padding = new Padding(100);
             panel2.Size = new Size(1127, 724);
             panel2.TabIndex = 5;
             panel2.Paint += panel2_Paint;
+            // 
+            // btnWalkins
+            // 
+            btnWalkins.ForeColor = Color.Black;
+            btnWalkins.Location = new Point(15, 23);
+            btnWalkins.Name = "btnWalkins";
+            btnWalkins.Size = new Size(103, 32);
+            btnWalkins.TabIndex = 3;
+            btnWalkins.Text = "Walk-Ins";
+            btnWalkins.UseVisualStyleBackColor = true;
+            btnWalkins.Click += btnWalkins_Click;
             // 
             // dgv_LatestProduct
             // 
@@ -576,6 +591,18 @@
             btn_Dashboard.UseVisualStyleBackColor = false;
             btn_Dashboard.Click += btn_Dashboard_Click;
             // 
+            // groupBox1
+            // 
+            groupBox1.BackColor = Color.FromArgb(20, 20, 50);
+            groupBox1.Controls.Add(btnWalkins);
+            groupBox1.ForeColor = Color.White;
+            groupBox1.Location = new Point(707, 12);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(298, 74);
+            groupBox1.TabIndex = 4;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "FOR WALK-IN";
+            // 
             // DashboardForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -617,6 +644,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            groupBox1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -659,5 +687,7 @@
         private Button btn_notification;
         private DataGridView dgv_LatestProduct;
         private Label label2;
+        private Button btnWalkins;
+        private GroupBox groupBox1;
     }
 }

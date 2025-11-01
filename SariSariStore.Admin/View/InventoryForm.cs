@@ -101,5 +101,10 @@ namespace SariSariStore.Admin.View
             Invalidate();
             this.Region = rounded.RoundForm(cornerRadius, this.Width, this.Height);
         }
+
+        private void dgv_supplier_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

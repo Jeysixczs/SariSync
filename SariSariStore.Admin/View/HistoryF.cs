@@ -20,7 +20,7 @@ namespace SariSariStore.Admin.View
         public Orders ord = new Orders();
         public HistoryF()
         {
-            
+
             InitializeComponent();
             DisplayOrderHistory();
 
@@ -77,6 +77,22 @@ namespace SariSariStore.Admin.View
         {
             dgv_orderhistory.Rows.Clear();
             dgv_orderhistory.DataSource = ord.GetAllOrders();
+
+            //Format the dgv_orderhistory
+            if (dgv_orderhistory.Columns.Count > 0)
+            {
+                dgv_orderhistory.Columns["OrderID"].HeaderText = "Order ID";
+                dgv_orderhistory.Columns["CustomerName"].HeaderText = "Customer Name";
+                dgv_orderhistory.Columns["OrderDate"].HeaderText = "Order Date";
+                dgv_orderhistory.Columns["TotalAmount"].HeaderText = "Total Amount";
+                dgv_orderhistory.Columns["TotalAmount"].DefaultCellStyle.Format = "C2";
+                dgv_orderhistory.Columns["IsPaid"].HeaderText = "Paid";
+                dgv_orderhistory.Columns["Notes"].HeaderText = "Notes";
+                dgv_orderhistory.Columns["Remarks"].HeaderText = "Remarks";
+
+                // Format date column
+                dgv_orderhistory.Columns["OrderDate"].DefaultCellStyle.Format = "MMM dd, yyyy hh:mm tt";
+            }
         }
 
         private void btn_printreceipt_Click(object sender, EventArgs e)
@@ -87,11 +103,6 @@ namespace SariSariStore.Admin.View
             var selected = dgv_orderhistory.SelectedRows;
 
 
-
-        }
-
-        private void dgv_orderhistory_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
-        {
 
         }
 
@@ -109,5 +120,44 @@ namespace SariSariStore.Admin.View
             Invalidate();
             this.Region = rounded.RoundForm(cornerRadius, this.Width, this.Height);
         }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            string searchTerm = txtSearch.Text.Trim();
+            //var orders = ord.SearchOrders(searchTerm);
+            dgv_orderhistory.DataSource = ord.SearchOrders(searchTerm);
+        }
+
+        private void dgv_orderhistory_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                int orderId = Convert.ToInt32(dgv_orderhistory.Rows[e.RowIndex].Cells["OrderID"].Value);
+                ShowOrderDetails(orderId);
+            }
+        }
+
+        private void ShowOrderDetails(int orderId)
+        {
+            var order = ord.GetOrderWithDetails(orderId);
+            if (order != null)
+            {
+                OrderDetailsForm detailsForm = new OrderDetailsForm(order);
+                detailsForm.ShowDialog();
+            }
+        }
+
+        private void Refresh_Click(object sender, EventArgs e)
+        {
+            DisplayOrderHistory();
+            txtSearch.Clear();
+        }
+
+        private void txtSearch_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+        }
+
+       
     }
 }
