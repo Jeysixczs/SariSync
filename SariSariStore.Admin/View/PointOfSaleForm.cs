@@ -18,6 +18,7 @@ namespace SariSariStore.Admin.View
         //private List<OrderItems> _cartItems;
         private List<CartItemDisplay> _cartItems;
         private decimal _totalAmount;
+        private Orders _lastProcessedOrder;
         public PointOfSaleForm()
         {
             InitializeComponent();
@@ -317,6 +318,18 @@ namespace SariSariStore.Admin.View
 
                 int orderId = _orders.CreateOrder(order, orderItems);
 
+                _lastProcessedOrder = new Orders
+                {
+                    OrderID = orderId,
+                    CustomerName = order.CustomerName,
+                    Notes = order.Notes,
+                    Remarks = order.Remarks,
+                    OrderDate = order.OrderDate,
+                    IsPaid = order.IsPaid,
+                    TotalAmount = order.TotalAmount,
+                    Items = orderItems
+                };
+
                 MessageBox.Show($"Order processed successfully!\nOrder ID: {orderId}\nTotal Amount: {_totalAmount:C2}",
                     "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -338,11 +351,6 @@ namespace SariSariStore.Admin.View
             chkIsPaid.Checked = false;
             dtpOrderDate.Value = DateTime.Now;
             RefreshProductList();
-        }
-
-        private void btnSearch_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void txtSearchProduct_TextChanged(object sender, EventArgs e)
@@ -388,8 +396,18 @@ namespace SariSariStore.Admin.View
 
         private void btn_OrderDetails_Click(object sender, EventArgs e)
         {
-            OrderDetailsForm orderDetailsForm = new OrderDetailsForm();
-            orderDetailsForm.Show();
+            if(_lastProcessedOrder != null)
+            {
+                OrderDetailsForm orderDetailsForm = new OrderDetailsForm(_lastProcessedOrder);
+                orderDetailsForm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("No order has been processed yet.", "Information",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //OrderDetailsForm orderDetailsForm = new OrderDetailsForm();
+                //orderDetailsForm.Show();
+            }
 
         }
     }

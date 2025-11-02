@@ -21,6 +21,7 @@ namespace SariSariStore.Core.Model
 
         // Navigation property to product (optional)
         public virtual Products Product { get; set; }
+        public string ProductName { get; set; } = string.Empty;
 
-    }
+        }
 }

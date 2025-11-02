@@ -31,7 +31,6 @@
             textBox2 = new TextBox();
             textBox3 = new TextBox();
             button1 = new Button();
-            button2 = new Button();
             panel1 = new Panel();
             label2 = new Label();
             label1 = new Label();
@@ -59,7 +58,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(210, 226);
+            button1.Location = new Point(246, 225);
             button1.Name = "button1";
             button1.Size = new Size(75, 23);
             button1.TabIndex = 3;
@@ -67,20 +66,9 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
-            // button2
-            // 
-            button2.Location = new Point(311, 226);
-            button2.Name = "button2";
-            button2.Size = new Size(75, 23);
-            button2.TabIndex = 4;
-            button2.Text = "Register";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
-            // 
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(35, 35, 65);
-            panel1.Controls.Add(button2);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(printReceiptButton);
@@ -166,7 +154,6 @@
         private TextBox textBox2;
         private TextBox textBox3;
         private Button button1;
-        private Button button2;
         private Panel panel1;
         private Button printReceiptButton;
         private Label label2;

@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PointOfSaleForm));
             panel1 = new Panel();
+            btn_OrderDetails = new Button();
             btn_back = new Button();
             label7 = new Label();
             pictureBox6 = new PictureBox();
@@ -54,8 +55,6 @@
             btnRemovefromCart = new Button();
             btnProcessOrder = new Button();
             txtTotal = new TextBox();
-            btnSearch = new Button();
-            btn_OrderDetails = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvProducts).BeginInit();
@@ -74,6 +73,18 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(1397, 66);
             panel1.TabIndex = 8;
+            // 
+            // btn_OrderDetails
+            // 
+            btn_OrderDetails.BackColor = Color.FromArgb(40, 40, 65);
+            btn_OrderDetails.ForeColor = Color.White;
+            btn_OrderDetails.Location = new Point(1057, 10);
+            btn_OrderDetails.Name = "btn_OrderDetails";
+            btn_OrderDetails.Size = new Size(154, 46);
+            btn_OrderDetails.TabIndex = 5;
+            btn_OrderDetails.Text = "Order Details";
+            btn_OrderDetails.UseVisualStyleBackColor = false;
+            btn_OrderDetails.Click += btn_OrderDetails_Click;
             // 
             // btn_back
             // 
@@ -126,7 +137,7 @@
             // 
             txtSearchProduct.Location = new Point(35, 171);
             txtSearchProduct.Name = "txtSearchProduct";
-            txtSearchProduct.Size = new Size(439, 23);
+            txtSearchProduct.Size = new Size(579, 23);
             txtSearchProduct.TabIndex = 10;
             txtSearchProduct.TextChanged += txtSearchProduct_TextChanged;
             // 
@@ -308,35 +319,12 @@
             txtTotal.Size = new Size(195, 23);
             txtTotal.TabIndex = 27;
             // 
-            // btnSearch
-            // 
-            btnSearch.Location = new Point(539, 171);
-            btnSearch.Name = "btnSearch";
-            btnSearch.Size = new Size(75, 23);
-            btnSearch.TabIndex = 28;
-            btnSearch.Text = "Search";
-            btnSearch.UseVisualStyleBackColor = true;
-            btnSearch.Click += btnSearch_Click;
-            // 
-            // btn_OrderDetails
-            // 
-            btn_OrderDetails.BackColor = Color.FromArgb(40, 40, 65);
-            btn_OrderDetails.ForeColor = Color.White;
-            btn_OrderDetails.Location = new Point(1057, 10);
-            btn_OrderDetails.Name = "btn_OrderDetails";
-            btn_OrderDetails.Size = new Size(154, 46);
-            btn_OrderDetails.TabIndex = 5;
-            btn_OrderDetails.Text = "Order Details";
-            btn_OrderDetails.UseVisualStyleBackColor = false;
-            btn_OrderDetails.Click += btn_OrderDetails_Click;
-            // 
             // PointOfSaleForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(28, 28, 65);
             ClientSize = new Size(1397, 820);
-            Controls.Add(btnSearch);
             Controls.Add(txtTotal);
             Controls.Add(btnProcessOrder);
             Controls.Add(btnRemovefromCart);
@@ -400,7 +388,6 @@
         private Button btnRemovefromCart;
         private Button btnProcessOrder;
         private TextBox txtTotal;
-        private Button btnSearch;
         private Button btn_back;
         private Button btn_OrderDetails;
     }

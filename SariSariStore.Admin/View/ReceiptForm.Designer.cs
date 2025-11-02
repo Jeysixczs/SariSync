@@ -29,33 +29,52 @@
         private void InitializeComponent()
         {
             receiptTextBox = new TextBox();
-            printButton = new Button();
+            btn_PrintButton = new Button();
+            btn_Close = new Button();
             SuspendLayout();
             // 
             // receiptTextBox
             // 
-            receiptTextBox.Location = new Point(164, 53);
+            receiptTextBox.Location = new Point(98, 29);
             receiptTextBox.Multiline = true;
             receiptTextBox.Name = "receiptTextBox";
-            receiptTextBox.Size = new Size(473, 224);
+            receiptTextBox.Size = new Size(473, 340);
             receiptTextBox.TabIndex = 3;
             // 
-            // printButton
+            // btn_PrintButton
             // 
-            printButton.Location = new Point(355, 344);
-            printButton.Name = "printButton";
-            printButton.Size = new Size(75, 23);
-            printButton.TabIndex = 2;
-            printButton.Text = "PRINT";
-            printButton.UseVisualStyleBackColor = true;
+            btn_PrintButton.BackColor = Color.FromArgb(40, 40, 65);
+            btn_PrintButton.ForeColor = Color.White;
+            btn_PrintButton.Location = new Point(365, 390);
+            btn_PrintButton.Name = "btn_PrintButton";
+            btn_PrintButton.Size = new Size(75, 33);
+            btn_PrintButton.TabIndex = 2;
+            btn_PrintButton.Text = "PRINT";
+            btn_PrintButton.UseVisualStyleBackColor = false;
+            btn_PrintButton.Click += btn_PrintButton_Click;
+            // 
+            // btn_Close
+            // 
+            btn_Close.BackColor = Color.FromArgb(40, 40, 65);
+            btn_Close.ForeColor = Color.White;
+            btn_Close.Location = new Point(225, 390);
+            btn_Close.Name = "btn_Close";
+            btn_Close.Size = new Size(75, 33);
+            btn_Close.TabIndex = 4;
+            btn_Close.Text = "CLOSE";
+            btn_Close.UseVisualStyleBackColor = false;
+            btn_Close.Click += btn_Close_Click;
             // 
             // ReceiptForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            BackColor = Color.FromArgb(28, 28, 65);
+            ClientSize = new Size(698, 450);
+            Controls.Add(btn_Close);
             Controls.Add(receiptTextBox);
-            Controls.Add(printButton);
+            Controls.Add(btn_PrintButton);
+            FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "ReceiptForm";
             Text = "ReceiptForm";
             ResumeLayout(false);
@@ -65,6 +84,7 @@
         #endregion
 
         private TextBox receiptTextBox;
-        private Button printButton;
+        private Button btn_PrintButton;
+        private Button btn_Close;
     }
 }

@@ -156,6 +156,7 @@
             dgvOrderItems.Name = "dgvOrderItems";
             dgvOrderItems.Size = new Size(640, 384);
             dgvOrderItems.TabIndex = 14;
+            dgvOrderItems.SelectionChanged += dgvOrderItems_SelectionChanged;
             // 
             // btnClose
             // 
@@ -268,6 +269,7 @@
             Controls.Add(label1);
             Controls.Add(label8);
             Controls.Add(label12);
+            DoubleBuffered = true;
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "OrderDetailsForm";
             Text = "Order Details";

@@ -193,6 +193,11 @@ namespace SariSariStore.Admin.View
             this.Hide();
         }
 
-        
+        private void btn_Register_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Register register = new Register();
+            register.Show();
+        }
     }
 }

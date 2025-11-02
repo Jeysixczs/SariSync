@@ -98,12 +98,34 @@ namespace SariSariStore.Admin.View
         private void btn_printreceipt_Click(object sender, EventArgs e)
         {
             //print the selected rows in dgvorderhistory give the value to the Receiptform
-            if (dgv_orderhistory.SelectedRows.Count == 0) return;
+            if (dgv_orderhistory.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select an order to print the receipt.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            try
+            {
+                //Get the selected order ID
+                int selectedOrderId = Convert.ToInt32(dgv_orderhistory.SelectedRows[0].Cells["OrderID"].Value);
 
-            var selected = dgv_orderhistory.SelectedRows;
+                //Get the complete order with items
+                Orders selectedOrder = ord.GetOrderWithDetails(selectedOrderId);
 
-
-
+                if(selectedOrder != null)
+                {
+                    //Open the ReceiptForm and pass the selected order
+                    ReceiptForm receiptForm = new ReceiptForm(selectedOrder);
+                    receiptForm.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Order details not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error printing receipt: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btn_shutdown_Click(object sender, EventArgs e)
@@ -139,11 +161,15 @@ namespace SariSariStore.Admin.View
 
         private void ShowOrderDetails(int orderId)
         {
-            var order = ord.GetOrderWithDetails(orderId);
+            Orders order = ord.GetOrderWithDetails(orderId);
             if (order != null)
             {
                 OrderDetailsForm detailsForm = new OrderDetailsForm(order);
                 detailsForm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Order not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

@@ -33,11 +33,11 @@
             DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             panel1 = new Panel();
+            btn_Register = new Button();
             btn_notification = new Button();
             label7 = new Label();
             pictureBox6 = new PictureBox();
             panel2 = new Panel();
-            btnWalkins = new Button();
             dgv_LatestProduct = new DataGridView();
             label2 = new Label();
             label12 = new Label();
@@ -57,6 +57,8 @@
             txt_inventorysum = new Label();
             pictureBox8 = new PictureBox();
             label9 = new Label();
+            groupBox1 = new GroupBox();
+            btnWalkins = new Button();
             panel3 = new Panel();
             pictureBox5 = new PictureBox();
             pictureBox7 = new PictureBox();
@@ -70,7 +72,6 @@
             btn_Inventory = new Button();
             btn_Products = new Button();
             btn_Dashboard = new Button();
-            groupBox1 = new GroupBox();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             panel2.SuspendLayout();
@@ -83,6 +84,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox10).BeginInit();
             panel10.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox8).BeginInit();
+            groupBox1.SuspendLayout();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
@@ -90,12 +92,12 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(35, 35, 65);
+            panel1.Controls.Add(btn_Register);
             panel1.Controls.Add(btn_notification);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(pictureBox6);
@@ -104,6 +106,18 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(1397, 66);
             panel1.TabIndex = 4;
+            // 
+            // btn_Register
+            // 
+            btn_Register.BackColor = Color.FromArgb(40, 40, 65);
+            btn_Register.ForeColor = Color.White;
+            btn_Register.Location = new Point(1023, 8);
+            btn_Register.Name = "btn_Register";
+            btn_Register.Size = new Size(154, 46);
+            btn_Register.TabIndex = 4;
+            btn_Register.Text = "Register";
+            btn_Register.UseVisualStyleBackColor = false;
+            btn_Register.Click += btn_Register_Click;
             // 
             // btn_notification
             // 
@@ -157,17 +171,6 @@
             panel2.Size = new Size(1127, 724);
             panel2.TabIndex = 5;
             panel2.Paint += panel2_Paint;
-            // 
-            // btnWalkins
-            // 
-            btnWalkins.ForeColor = Color.Black;
-            btnWalkins.Location = new Point(15, 23);
-            btnWalkins.Name = "btnWalkins";
-            btnWalkins.Size = new Size(103, 32);
-            btnWalkins.TabIndex = 3;
-            btnWalkins.Text = "Walk-Ins";
-            btnWalkins.UseVisualStyleBackColor = true;
-            btnWalkins.Click += btnWalkins_Click;
             // 
             // dgv_LatestProduct
             // 
@@ -407,6 +410,30 @@
             label9.TabIndex = 2;
             label9.Text = "INVENTORY SUMMARY";
             // 
+            // groupBox1
+            // 
+            groupBox1.BackColor = Color.FromArgb(20, 20, 50);
+            groupBox1.Controls.Add(btnWalkins);
+            groupBox1.ForeColor = Color.White;
+            groupBox1.Location = new Point(951, 14);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(155, 74);
+            groupBox1.TabIndex = 4;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "FOR WALK-IN";
+            // 
+            // btnWalkins
+            // 
+            btnWalkins.BackColor = Color.FromArgb(40, 40, 65);
+            btnWalkins.ForeColor = Color.White;
+            btnWalkins.Location = new Point(9, 23);
+            btnWalkins.Name = "btnWalkins";
+            btnWalkins.Size = new Size(134, 35);
+            btnWalkins.TabIndex = 3;
+            btnWalkins.Text = "Walk-Ins";
+            btnWalkins.UseVisualStyleBackColor = false;
+            btnWalkins.Click += btnWalkins_Click;
+            // 
             // panel3
             // 
             panel3.BackColor = Color.FromArgb(20, 20, 50);
@@ -591,18 +618,6 @@
             btn_Dashboard.UseVisualStyleBackColor = false;
             btn_Dashboard.Click += btn_Dashboard_Click;
             // 
-            // groupBox1
-            // 
-            groupBox1.BackColor = Color.FromArgb(20, 20, 50);
-            groupBox1.Controls.Add(btnWalkins);
-            groupBox1.ForeColor = Color.White;
-            groupBox1.Location = new Point(707, 12);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(298, 74);
-            groupBox1.TabIndex = 4;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "FOR WALK-IN";
-            // 
             // DashboardForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -637,6 +652,7 @@
             panel10.ResumeLayout(false);
             panel10.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox8).EndInit();
+            groupBox1.ResumeLayout(false);
             panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
@@ -644,7 +660,6 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            groupBox1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -689,5 +704,6 @@
         private Label label2;
         private Button btnWalkins;
         private GroupBox groupBox1;
+        private Button btn_Register;
     }
 }

@@ -30,6 +30,7 @@ namespace SariSariStore.Core.Model
         public bool IsPaid { get; set; }
 
         public decimal TotalAmount { get; set; }
+        //public string ProductName { get; set; } = string.Empty;
 
         public List<Orders> GetAllOrders()
         {
@@ -153,7 +154,8 @@ namespace SariSariStore.Core.Model
                                 Remarks = reader["Remarks"]?.ToString() ?? string.Empty,
                                 OrderDate = Convert.ToDateTime(reader["OrderDate"]),
                                 IsPaid = Convert.ToBoolean(reader["IsPaid"]),
-                                TotalAmount = Convert.ToDecimal(reader["TotalAmount"])
+                                TotalAmount = Convert.ToDecimal(reader["TotalAmount"]),
+                                Items = new List<OrderItems>()
                             };
                         }
                     }
@@ -173,15 +175,17 @@ namespace SariSariStore.Core.Model
                         {
                             while (reader.Read())
                             {
-                                OrderItems item = (new OrderItems
+                                OrderItems item = new OrderItems
                                 {
                                     OrderDetailID = Convert.ToInt32(reader["OrderDetailID"]),
                                     OrderID = Convert.ToInt32(reader["OrderID"]),
                                     ProductID = Convert.ToInt32(reader["ProductID"]),
+                                    ProductName = reader["ProductName"]?.ToString(),
                                     Quantity = Convert.ToInt32(reader["Quantity"]),
                                     UnitPrice = Convert.ToDecimal(reader["UnitPrice"]),
                                     TotalPrice = Convert.ToDecimal(reader["TotalPrice"])
-                                });
+                                };
+                                order.Items.Add(item);
                             }
                         }
                     }
@@ -202,7 +206,7 @@ namespace SariSariStore.Core.Model
                                ORDER BY OrderDate DESC";
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
-                    cmd.Parameters.AddWithValue("@SearchTerm", $"%{searchTerm}%");
+                    cmd.Parameters.AddWithValue("@Search", $"%{searchTerm}%");
                     con.Open();
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
