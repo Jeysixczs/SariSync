@@ -68,7 +68,7 @@ namespace SariSariStore.Admin.View
             this.Hide();
         }
 
-    
+
 
         public void DisplayOrderHistory()
         {
@@ -169,11 +169,7 @@ namespace SariSariStore.Admin.View
             }
         }
 
-        private void Refresh_Click(object sender, EventArgs e)
-        {
-         
-           
-        }
+   
 
         private void txtSearch_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -193,24 +189,12 @@ namespace SariSariStore.Admin.View
         private void btn_checkorder_Click(object sender, EventArgs e)
         {
 
-            if (dgv_orderhistory.SelectedRows.Count == 0)
-            {
-                MessageBox.Show("Please select an order to view details.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            try
-            {
-                //Get the selected order ID
-                int selectedOrderId = Convert.ToInt32(dgv_orderhistory.SelectedRows[0].Cells["OrderID"].Value);
-                //Show order details
-                ShowOrderDetails(selectedOrderId);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error retrieving order details: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
 
 
+        }
+
+        private void dgv_orderhistory_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
 
         }
     }

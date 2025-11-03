@@ -31,6 +31,7 @@
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             panelHeader = new Panel();
             pictureBoxIcon = new PictureBox();
             labelSubtitle = new Label();
@@ -41,16 +42,17 @@
             labelTotalCount = new Label();
             labelTotalExpired = new Label();
             panelGridView = new Panel();
-            dataGridView1 = new DataGridView();
+            dgv_ExpiredProduct = new DataGridView();
             panelActions = new Panel();
-            btnRefresh = new Button();
-            btnExport = new Button();
+            btn_Critical = new Button();
+            btn_Expired = new Button();
+            checkBoxMultiSelect = new CheckBox();
             btnDeleteSelected = new Button();
             panelHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxIcon).BeginInit();
             panelStats.SuspendLayout();
             panelGridView.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgv_ExpiredProduct).BeginInit();
             panelActions.SuspendLayout();
             SuspendLayout();
             // 
@@ -63,7 +65,7 @@
             panelHeader.Dock = DockStyle.Top;
             panelHeader.Location = new Point(0, 0);
             panelHeader.Name = "panelHeader";
-            panelHeader.Size = new Size(900, 100);
+            panelHeader.Size = new Size(1102, 100);
             panelHeader.TabIndex = 0;
             // 
             // pictureBoxIcon
@@ -109,8 +111,9 @@
             panelStats.Location = new Point(0, 100);
             panelStats.Name = "panelStats";
             panelStats.Padding = new Padding(25, 15, 25, 15);
-            panelStats.Size = new Size(900, 80);
+            panelStats.Size = new Size(1102, 80);
             panelStats.TabIndex = 1;
+            panelStats.Paint += panelStats_Paint;
             // 
             // labelCriticalCount
             // 
@@ -159,104 +162,128 @@
             // panelGridView
             // 
             panelGridView.BackColor = Color.FromArgb(20, 20, 50);
-            panelGridView.Controls.Add(dataGridView1);
+            panelGridView.Controls.Add(dgv_ExpiredProduct);
             panelGridView.Dock = DockStyle.Fill;
             panelGridView.Location = new Point(0, 180);
             panelGridView.Name = "panelGridView";
             panelGridView.Padding = new Padding(25);
-            panelGridView.Size = new Size(900, 470);
+            panelGridView.Size = new Size(1102, 470);
             panelGridView.TabIndex = 2;
+            panelGridView.Paint += panelGridView_Paint;
             // 
-            // dataGridView1
+            // dgv_ExpiredProduct
             // 
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dataGridView1.ColumnHeadersHeight = 40;
-            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.MultiSelect = false;
-            dataGridView1.ReadOnly = true;
-            dataGridView1.AllowUserToAddRows = false;
-            dataGridView1.AllowUserToDeleteRows = false;
-            dataGridView1.AllowUserToResizeRows = false;
-            dataGridView1.RowHeadersVisible = false;
-            dataGridView1.BorderStyle = BorderStyle.None;
-            dataGridView1.BackgroundColor = Color.White;
-            dataGridView1.GridColor = Color.LightGray;
-
-
-            dataGridView1.EnableHeadersVisualStyles = false;
-            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(52, 152, 219); // Blue header
-            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Bold);
-            dataGridView1.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-
-            dataGridView1.DefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Regular);
-            dataGridView1.DefaultCellStyle.ForeColor = Color.Black;
-            dataGridView1.DefaultCellStyle.BackColor = Color.White;
-            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.FromArgb(173, 216, 230); // Light blue
-            dataGridView1.DefaultCellStyle.SelectionForeColor = Color.Black;
-            dataGridView1.DefaultCellStyle.Padding = new Padding(5, 3, 5, 3);
-            dataGridView1.RowTemplate.Height = 35;
-
-
-            dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(245, 245, 245);
-
-
-
-            dataGridView1.Location = new Point(25, 25);
-            
-            dataGridView1.Size = new Size(850, 420);
-           
+            dgv_ExpiredProduct.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(240, 240, 240);
+            dataGridViewCellStyle1.ForeColor = Color.Black;
+            dgv_ExpiredProduct.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dgv_ExpiredProduct.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgv_ExpiredProduct.BackgroundColor = Color.White;
+            dgv_ExpiredProduct.BorderStyle = BorderStyle.None;
+            dgv_ExpiredProduct.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(52, 152, 219);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(52, 152, 219);
+            dataGridViewCellStyle2.SelectionForeColor = Color.White;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgv_ExpiredProduct.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dgv_ExpiredProduct.ColumnHeadersHeight = 40;
+            dgv_ExpiredProduct.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle3.ForeColor = Color.White;
+            dataGridViewCellStyle3.Padding = new Padding(5, 3, 5, 3);
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(173, 216, 230);
+            dataGridViewCellStyle3.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            dgv_ExpiredProduct.DefaultCellStyle = dataGridViewCellStyle3;
+            dgv_ExpiredProduct.Dock = DockStyle.Fill;
+            dgv_ExpiredProduct.EnableHeadersVisualStyles = false;
+            dgv_ExpiredProduct.GridColor = Color.LightGray;
+            dgv_ExpiredProduct.Location = new Point(25, 25);
+            dgv_ExpiredProduct.MultiSelect = false;
+            dgv_ExpiredProduct.Name = "dgv_ExpiredProduct";
+            dgv_ExpiredProduct.ReadOnly = true;
+            dgv_ExpiredProduct.RowHeadersVisible = false;
+            dgv_ExpiredProduct.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dataGridViewCellStyle4.BackColor = Color.White;
+            dataGridViewCellStyle4.ForeColor = Color.Black;
+            dataGridViewCellStyle4.SelectionBackColor = Color.LightBlue;
+            dataGridViewCellStyle4.SelectionForeColor = Color.Black;
+            dgv_ExpiredProduct.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dgv_ExpiredProduct.RowTemplate.Height = 35;
+            dgv_ExpiredProduct.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv_ExpiredProduct.Size = new Size(1052, 420);
+            dgv_ExpiredProduct.TabIndex = 0;
+            dgv_ExpiredProduct.CellClick += dgv_ExpiredProduct_CellClick;
+            dgv_ExpiredProduct.CellContentClick += dgv_ExpiredProduct_CellContentClick_1;
+            dgv_ExpiredProduct.CellMouseClick += dgv_ExpiredProduct_CellMouseClick;
+            dgv_ExpiredProduct.CellMouseDown += dgv_ExpiredProduct_CellMouseDown;
             // 
             // panelActions
             // 
             panelActions.BackColor = Color.FromArgb(28, 28, 65);
-            panelActions.Controls.Add(btnRefresh);
-            panelActions.Controls.Add(btnExport);
+            panelActions.Controls.Add(btn_Critical);
+            panelActions.Controls.Add(btn_Expired);
+            panelActions.Controls.Add(checkBoxMultiSelect);
             panelActions.Controls.Add(btnDeleteSelected);
             panelActions.Dock = DockStyle.Bottom;
             panelActions.Location = new Point(0, 650);
             panelActions.Name = "panelActions";
             panelActions.Padding = new Padding(25, 10, 25, 10);
-            panelActions.Size = new Size(900, 70);
+            panelActions.Size = new Size(1102, 70);
             panelActions.TabIndex = 3;
             // 
-            // btnRefresh
+            // btn_Critical
             // 
-            btnRefresh.BackColor = Color.FromArgb(74, 107, 255);
-            btnRefresh.Cursor = Cursors.Hand;
-            btnRefresh.FlatAppearance.BorderSize = 0;
-            btnRefresh.FlatAppearance.MouseDownBackColor = Color.FromArgb(65, 95, 230);
-            btnRefresh.FlatAppearance.MouseOverBackColor = Color.FromArgb(65, 95, 230);
-            btnRefresh.FlatStyle = FlatStyle.Flat;
-            btnRefresh.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            btnRefresh.ForeColor = Color.White;
-            btnRefresh.Location = new Point(695, 15);
-            btnRefresh.Name = "btnRefresh";
-            btnRefresh.Size = new Size(180, 40);
-            btnRefresh.TabIndex = 2;
-            btnRefresh.Text = "🔄 Refresh Data";
-            btnRefresh.UseVisualStyleBackColor = false;
-            btnRefresh.Click += btnRefresh_Click;
+            btn_Critical.BackColor = Color.FromArgb(255, 193, 7);
+            btn_Critical.Cursor = Cursors.Hand;
+            btn_Critical.FlatAppearance.BorderSize = 0;
+            btn_Critical.FlatAppearance.MouseDownBackColor = Color.FromArgb(200, 35, 51);
+            btn_Critical.FlatAppearance.MouseOverBackColor = Color.FromArgb(200, 35, 51);
+            btn_Critical.FlatStyle = FlatStyle.Flat;
+            btn_Critical.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btn_Critical.ForeColor = Color.White;
+            btn_Critical.Location = new Point(459, 20);
+            btn_Critical.Name = "btn_Critical";
+            btn_Critical.Size = new Size(143, 33);
+            btn_Critical.TabIndex = 0;
+            btn_Critical.Text = "Critical Items";
+            btn_Critical.UseVisualStyleBackColor = false;
+            btn_Critical.Click += btn_Critical_Click;
             // 
-            // btnExport
+            // btn_Expired
             // 
-            btnExport.BackColor = Color.FromArgb(108, 117, 125);
-            btnExport.Cursor = Cursors.Hand;
-            btnExport.FlatAppearance.BorderSize = 0;
-            btnExport.FlatAppearance.MouseDownBackColor = Color.FromArgb(90, 100, 110);
-            btnExport.FlatAppearance.MouseOverBackColor = Color.FromArgb(90, 100, 110);
-            btnExport.FlatStyle = FlatStyle.Flat;
-            btnExport.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            btnExport.ForeColor = Color.White;
-            btnExport.Location = new Point(220, 15);
-            btnExport.Name = "btnExport";
-            btnExport.Size = new Size(150, 40);
-            btnExport.TabIndex = 1;
-            btnExport.Text = "📤 Export Report";
-            btnExport.UseVisualStyleBackColor = false;
-            btnExport.Click += btnExport_Click;
+            btn_Expired.BackColor = Color.Red;
+            btn_Expired.Cursor = Cursors.Hand;
+            btn_Expired.FlatAppearance.BorderSize = 0;
+            btn_Expired.FlatAppearance.MouseDownBackColor = Color.FromArgb(200, 35, 51);
+            btn_Expired.FlatAppearance.MouseOverBackColor = Color.FromArgb(200, 35, 51);
+            btn_Expired.FlatStyle = FlatStyle.Flat;
+            btn_Expired.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btn_Expired.ForeColor = Color.White;
+            btn_Expired.Location = new Point(608, 20);
+            btn_Expired.Name = "btn_Expired";
+            btn_Expired.Size = new Size(151, 33);
+            btn_Expired.TabIndex = 0;
+            btn_Expired.Text = "Expired Products";
+            btn_Expired.UseVisualStyleBackColor = false;
+            btn_Expired.Click += btn_Expired_Click;
+            // 
+            // checkBoxMultiSelect
+            // 
+            checkBoxMultiSelect.AutoSize = true;
+            checkBoxMultiSelect.ForeColor = Color.White;
+            checkBoxMultiSelect.Location = new Point(791, 26);
+            checkBoxMultiSelect.Name = "checkBoxMultiSelect";
+            checkBoxMultiSelect.Size = new Size(104, 19);
+            checkBoxMultiSelect.TabIndex = 1;
+            checkBoxMultiSelect.Text = "Multiple Select";
+            checkBoxMultiSelect.UseVisualStyleBackColor = true;
+            checkBoxMultiSelect.CheckedChanged += checkBoxMultiSelect_CheckedChanged;
             // 
             // btnDeleteSelected
             // 
@@ -268,7 +295,7 @@
             btnDeleteSelected.FlatStyle = FlatStyle.Flat;
             btnDeleteSelected.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             btnDeleteSelected.ForeColor = Color.White;
-            btnDeleteSelected.Location = new Point(25, 15);
+            btnDeleteSelected.Location = new Point(910, 13);
             btnDeleteSelected.Name = "btnDeleteSelected";
             btnDeleteSelected.Size = new Size(180, 40);
             btnDeleteSelected.TabIndex = 0;
@@ -281,7 +308,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(20, 20, 50);
-            ClientSize = new Size(900, 720);
+            ClientSize = new Size(1102, 720);
             Controls.Add(panelGridView);
             Controls.Add(panelStats);
             Controls.Add(panelHeader);
@@ -301,14 +328,12 @@
             panelStats.ResumeLayout(false);
             panelStats.PerformLayout();
             panelGridView.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgv_ExpiredProduct).EndInit();
             panelActions.ResumeLayout(false);
+            panelActions.PerformLayout();
             ResumeLayout(false);
         }
-
         #endregion
-
-        private DataGridView dataGridView1;
         private Panel panelHeader;
         private Panel panelStats;
         private Panel panelGridView;
@@ -320,8 +345,10 @@
         private Label labelCriticalItems;
         private Label labelCriticalCount;
         private Button btnDeleteSelected;
-        private Button btnExport;
-        private Button btnRefresh;
         private PictureBox pictureBoxIcon;
+        private DataGridView dgv_ExpiredProduct;
+        private CheckBox checkBoxMultiSelect;
+        private Button btn_Expired;
+        private Button btn_Critical;
     }
 }

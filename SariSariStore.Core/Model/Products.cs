@@ -67,7 +67,7 @@ namespace SariSariStore.Core.Model
 
         public int AddProduct(Products product, string imagePath)
         {
-            if(CheckDuplicateProduct(product.Name))
+            if (CheckDuplicateProduct(product.Name))
             {
                 throw new Exception("A product with the same name already exists.");
             }
@@ -162,8 +162,8 @@ namespace SariSariStore.Core.Model
 
         public Products? GetProductById(int productId)
         {
-            Products ?product = null;
-           
+            Products? product = null;
+
 
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
@@ -203,7 +203,7 @@ namespace SariSariStore.Core.Model
 
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
-           
+
                 SqlCommand cmd = new SqlCommand("SELECT * FROM tbl_Product WHERE (Name LIKE @Search OR Category LIKE @Search OR Description LIKE @Search) AND IsActive = 1 ", con);
                 cmd.Parameters.AddWithValue("@Search", "%" + searchTerm + "%");
 
@@ -241,7 +241,7 @@ namespace SariSariStore.Core.Model
             {
                 string query = string.Empty;
 
-             
+
                 switch (stockLevel.ToLower())
                 {
                     case "low":
@@ -253,7 +253,7 @@ namespace SariSariStore.Core.Model
                     case "high":
                         query = "SELECT ProductID, Name, Category, Stock FROM tbl_Product WHERE Stock > 50 AND IsActive = 1";
                         break;
-                    
+
                 }
 
                 SqlCommand cmd = new SqlCommand(query, con);
@@ -267,11 +267,11 @@ namespace SariSariStore.Core.Model
                         {
                             ProductID = Convert.ToInt32(reader["ProductID"]),
                             Name = reader["Name"]?.ToString() ?? string.Empty,
-                           
+
                             Category = reader["Category"]?.ToString() ?? string.Empty,
-                           
+
                             Stock = Convert.ToInt32(reader["Stock"]),
-                           
+
                         };
                         stockProducts.Add(product);
                     }
@@ -361,12 +361,12 @@ namespace SariSariStore.Core.Model
                     {
                         if (reader.Read())
                         {
-                            return new Products 
+                            return new Products
                             {
-                                    ProductID = Convert.ToInt32(reader["ProductID"]),
-                                    Name = reader["Name"]?.ToString() ?? string.Empty,
-                                    SellingPrice = Convert.ToDecimal(reader["SellingPrice"]),
-                                    Stock = Convert.ToInt32(reader["Stock"])
+                                ProductID = Convert.ToInt32(reader["ProductID"]),
+                                Name = reader["Name"]?.ToString() ?? string.Empty,
+                                SellingPrice = Convert.ToDecimal(reader["SellingPrice"]),
+                                Stock = Convert.ToInt32(reader["Stock"])
                             };
                         }
                     }
@@ -374,8 +374,8 @@ namespace SariSariStore.Core.Model
             }
             return null;
         }
-   
-        public List<Products>SearchProductsForOrder(string searchTerm)
+
+        public List<Products> SearchProductsForOrder(string searchTerm)
         {
             List<Products> products = new List<Products>();
             using (SqlConnection con = new SqlConnection(ConnectionString))
@@ -464,6 +464,139 @@ namespace SariSariStore.Core.Model
                 }
             }
             return productsList;
+        }
+
+        public List<Products> GetExpiredProducts()
+        {
+            List<Products> expiredProducts = new List<Products>();
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                string query = "SELECT * FROM tbl_Product WHERE DateExpired < GETDATE() AND IsActive = 1";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    con.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Products product = new Products
+                            {
+                                ProductID = Convert.ToInt32(reader["ProductID"]),
+                                Name = reader["Name"]?.ToString() ?? string.Empty,
+                                Description = reader["Description"]?.ToString(),
+                                Category = reader["Category"]?.ToString() ?? string.Empty,
+                                Price = Convert.ToDecimal(reader["Price"]),
+                                SellingPrice = Convert.ToDecimal(reader["SellingPrice"]),
+                                Stock = Convert.ToInt32(reader["Stock"]),
+                                ImagePath = reader["ImagePath"]?.ToString(),
+                                DateAdded = Convert.ToDateTime(reader["DateAdded"]),
+                                DateExpired = Convert.ToDateTime(reader["DateExpired"])
+                            };
+                            expiredProducts.Add(product);
+                        }
+                    }
+                }
+            }
+            return expiredProducts;
+        }
+
+        public string DisplayExpiredProducts()
+        {
+
+
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                string query = "SELECT COUNT(*) FROM tbl_Product WHERE DateExpired < GETDATE() AND IsActive = 1";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    con.Open();
+                    int expiredCount = (int)cmd.ExecuteScalar();
+                   
+                    return expiredCount.ToString();
+                }
+            }
+
+            
+        
+        }
+
+        public string DisplayCriticalExpiredProducts()
+        {
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                string query = "SELECT COUNT(*) FROM tbl_Product WHERE DateExpired < DATEADD(day, 30, GETDATE()) AND DateExpired >= GETDATE() AND IsActive = 1";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    con.Open();
+                    int criticalExpiredCount = (int)cmd.ExecuteScalar();
+                    return criticalExpiredCount.ToString();
+
+                }
+            }
+        }
+
+        public List<Products> GetCriticalExpiredProducts()
+        {
+            List<Products> criticalExpiredProducts = new List<Products>();
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                string query = "SELECT * FROM tbl_Product WHERE DateExpired < DATEADD(day, 30, GETDATE()) AND DateExpired >= GETDATE() AND IsActive = 1";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    con.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Products product = new Products
+                            {
+                                ProductID = Convert.ToInt32(reader["ProductID"]),
+                                Name = reader["Name"]?.ToString() ?? string.Empty,
+                                Description = reader["Description"]?.ToString(),
+                                Category = reader["Category"]?.ToString() ?? string.Empty,
+                                Price = Convert.ToDecimal(reader["Price"]),
+                                SellingPrice = Convert.ToDecimal(reader["SellingPrice"]),
+                                Stock = Convert.ToInt32(reader["Stock"]),
+                                ImagePath = reader["ImagePath"]?.ToString(),
+                                DateAdded = Convert.ToDateTime(reader["DateAdded"]),
+                                DateExpired = Convert.ToDateTime(reader["DateExpired"])
+                            };
+                            criticalExpiredProducts.Add(product);
+                        }
+                    }
+                }
+            }
+            return criticalExpiredProducts;
+        }
+
+        public void DeleteMultipleProducts(List<int> productIds)
+        {
+            if (productIds == null || productIds.Count == 0)
+                return;
+
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+
+                // Create DataTable for table-valued parameter
+                DataTable productIdTable = new DataTable();
+                productIdTable.Columns.Add("ProductID", typeof(int));
+
+                foreach (int productId in productIds)
+                {
+                    productIdTable.Rows.Add(productId);
+                }
+
+                using (SqlCommand cmd = new SqlCommand(
+                    "UPDATE tbl_Product SET IsActive = 0 WHERE ProductID IN (SELECT ProductID FROM @ProductIDs)", con))
+                {
+                    SqlParameter param = cmd.Parameters.AddWithValue("@ProductIDs", productIdTable);
+                    param.SqlDbType = SqlDbType.Structured;
+                    param.TypeName = "dbo.ProductIDList";
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
     }
 }

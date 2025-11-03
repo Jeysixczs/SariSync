@@ -229,7 +229,8 @@ namespace SariSariStore.Core.Model
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
                 string query = @"SELECT * FROM tbl_Order 
-                               WHERE CustomerName LIKE @Search 
+                               WHERE OrderID Like @Search OR
+                               CustomerName LIKE @Search 
                                   OR Notes LIKE @Search 
                                   OR Remarks LIKE @Search
                                ORDER BY OrderDate DESC";
