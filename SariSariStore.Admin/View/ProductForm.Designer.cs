@@ -131,7 +131,6 @@
             // cmb_Search
             // 
             cmb_Search.FormattingEnabled = true;
-            cmb_Search.Items.AddRange(new object[] { "Snacks", "Drinks", "Beverages", "Instant Noodles", "Canned Goods", "Household", "Toiletries", "Groceries", "Condiments", "Candies", "Bread", "Frozen Goods", "Miscellaneous" });
             cmb_Search.Location = new Point(824, 69);
             cmb_Search.Name = "cmb_Search";
             cmb_Search.Size = new Size(273, 23);

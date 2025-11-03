@@ -336,6 +336,7 @@
             dgv_Orders.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgv_Orders.Size = new Size(1032, 472);
             dgv_Orders.TabIndex = 4;
+            dgv_Orders.CellContentClick += dgv_Orders_CellContentClick;
             // 
             // OrderForm
             // 

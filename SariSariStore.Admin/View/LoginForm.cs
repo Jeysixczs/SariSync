@@ -13,7 +13,7 @@ namespace SariSariStore.Admin.View
 {
     public partial class LoginForm : Form
     {
-        public string connection = @"Data Source=DESKTOP-ECKGUHL\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
+        public string connection = @"Data Source=JEYSI\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
         public LoginForm()
         {
             InitializeComponent();
@@ -29,23 +29,52 @@ namespace SariSariStore.Admin.View
                 {
                     cmd.Parameters.AddWithValue("@username", textBox2.Text);
                     cmd.Parameters.AddWithValue("@password", textBox3.Text);
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    if (reader.HasRows)
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        // Successful login
-                        MessageBox.Show("Login Successful!");
-                        // Proceed to the next form or dashboard
-                        this.Hide();
-                        DashboardForm dashboard = new DashboardForm();
-                        dashboard.Show();
-                    }
-                    else
-                    {
-                        // Invalid credentials
-                        MessageBox.Show("Invalid Username or Password.");
+                        if (reader.Read())
+                        {
+                            // Get the name from the database
+                            string userName = reader["Name"].ToString();
+
+
+                            MessageBox.Show($"Welcome Back, {userName}!");
+
+                            // Proceed to the next form or dashboard
+                            this.Hide();
+                            DashboardForm dashboard = new DashboardForm();
+                            dashboard.Show();
+                        }
+                        else
+                        {
+                            // Invalid credentials
+                            MessageBox.Show("Invalid Username or Password.");
+                        }
                     }
                 }
             }
+        }
+
+        private void checkBoxShowPassword_CheckedChanged(object sender, EventArgs e)
+        {
+            textBox3.PasswordChar = checkBoxShowPassword.Checked ? '\0' : '•';
+        }
+
+        private void linkLabelForgotPassword_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            DashboardForm dashboardForm = new DashboardForm();
+            dashboardForm.Show();
+            this.Hide();
         }
     }
 }

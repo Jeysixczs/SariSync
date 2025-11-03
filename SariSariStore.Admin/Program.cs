@@ -29,10 +29,6 @@ namespace SariSariStore.Admin
         }
 
 
-        private static void ConfigureServices(ServiceCollection services)
-        {
-            services.AddScoped<IOrderService, OrderService>();
-            services.AddScoped<MainForm>();
-        }
+       
     }
 }

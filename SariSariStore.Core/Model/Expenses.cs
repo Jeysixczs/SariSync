@@ -15,13 +15,13 @@ namespace SariSariStore.Core.Model
         [Key]
         public int ExpenseID { get; set; }
         
-        public string ExpenseName { get; set; }
+        public string? ExpenseName { get; set; }
         public Decimal Amount { get; set; }
 
         public DateTime ExpenseDate { get; set; }
         public string? Description { get; set; }
 
-        public string ConnectionString = @"Data Source=DESKTOP-ECKGUHL\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
+        public string ConnectionString = @"Data Source=JEYSI\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
         public List<Expenses> Getexpenses()
         {
             List<Expenses> Expense = new List<Expenses>();

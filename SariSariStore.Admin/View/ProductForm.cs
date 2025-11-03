@@ -13,6 +13,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace SariSariStore.Admin.View
 {
@@ -38,6 +39,9 @@ namespace SariSariStore.Admin.View
 
             StyleProductGrid();
             DisplayProduct();
+            DisplayCategory();
+
+
         }
 
 
@@ -237,29 +241,46 @@ namespace SariSariStore.Admin.View
 
         private void cmb_Search_SelectedIndexChanged(object sender, EventArgs e)
         {
-            FilterProductsByCategory();
-        }
 
-        private void cmb_Search_TextChanged_1(object sender, EventArgs e)
-        {
-            FilterProductsByCategory();
-        }
-        public void FilterProductsByCategory()
-        {
-            string selectedCategory = cmb_Search.Text.Trim();
-
-            if (string.IsNullOrEmpty(selectedCategory) || selectedCategory == "All Categories")
+            string selectedCategory = cmb_Search.SelectedItem.ToString();
+            if (selectedCategory == "-- All Products --")
             {
                 dgv_Product.DataSource = prod.GetAllProducts();
             }
             else
             {
-                dgv_Product.DataSource = prod.FilterByCategory(selectedCategory);
+                dgv_Product.DataSource = prod.GetProductsByCategory(selectedCategory);
             }
-
-            //Hide unneeded columns
-            dgv_Product.Columns["ProductID"].Visible = false;
-            dgv_Product.Columns["ImagePath"].Visible = false;
         }
+
+
+        private void cmb_Search_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        public void DisplayCategory()
+        {
+
+            Products prod = new Products();
+            var categories = prod.GetCategorys();
+
+            cmb_Search.Items.Clear();
+
+            cmb_Search.Items.Add("-- All Products --");
+
+            foreach (var category in categories)
+            {
+                if (!string.IsNullOrEmpty(category.Category))
+                {
+                    cmb_Search.Items.Add(category.Category);
+                }
+            }
+            cmb_Search.SelectedIndex = 0;
+            cmb_Search.DropDownStyle = ComboBoxStyle.DropDownList;
+        }
+
     }
+
 }
+

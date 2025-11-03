@@ -32,124 +32,200 @@
             textBox3 = new TextBox();
             button1 = new Button();
             panel1 = new Panel();
+            label5 = new Label();
+            checkBoxShowPassword = new CheckBox();
             label2 = new Label();
             label1 = new Label();
-            printReceiptButton = new Button();
             panel2 = new Panel();
-            button3 = new Button();
+            label4 = new Label();
+            label3 = new Label();
+            pictureBox1 = new PictureBox();
+            button2 = new Button();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(210, 76);
+            textBox2.BorderStyle = BorderStyle.FixedSingle;
+            textBox2.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBox2.Location = new Point(50, 154);
+            textBox2.Margin = new Padding(3, 10, 3, 10);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(176, 23);
+            textBox2.PlaceholderText = "Enter your username";
+            textBox2.Size = new Size(280, 25);
             textBox2.TabIndex = 1;
             // 
             // textBox3
             // 
-            textBox3.Location = new Point(210, 133);
+            textBox3.BorderStyle = BorderStyle.FixedSingle;
+            textBox3.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBox3.Location = new Point(50, 224);
+            textBox3.Margin = new Padding(3, 10, 3, 10);
             textBox3.Name = "textBox3";
-            textBox3.PasswordChar = '*';
-            textBox3.Size = new Size(176, 23);
+            textBox3.PasswordChar = '•';
+            textBox3.PlaceholderText = "Enter your password";
+            textBox3.Size = new Size(280, 25);
             textBox3.TabIndex = 2;
             // 
             // button1
             // 
-            button1.Location = new Point(246, 225);
+            button1.BackColor = Color.FromArgb(74, 107, 255);
+            button1.FlatAppearance.BorderSize = 0;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button1.ForeColor = Color.White;
+            button1.Location = new Point(50, 319);
             button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 3;
+            button1.Size = new Size(280, 35);
+            button1.TabIndex = 4;
             button1.Text = "Login";
-            button1.UseVisualStyleBackColor = true;
+            button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
             // 
             // panel1
             // 
-            panel1.BackColor = Color.FromArgb(35, 35, 65);
+            panel1.BackColor = Color.FromArgb(28, 28, 65);
+            panel1.Controls.Add(button2);
+            panel1.Controls.Add(label5);
+            panel1.Controls.Add(checkBoxShowPassword);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(label1);
-            panel1.Controls.Add(printReceiptButton);
             panel1.Controls.Add(button1);
-            panel1.Controls.Add(textBox2);
             panel1.Controls.Add(textBox3);
-            panel1.Location = new Point(-51, 92);
+            panel1.Controls.Add(textBox2);
+            panel1.Dock = DockStyle.Right;
+            panel1.Location = new Point(350, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(594, 320);
-            panel1.TabIndex = 8;
+            panel1.Size = new Size(400, 500);
+            panel1.TabIndex = 0;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.BackColor = Color.FromArgb(28, 28, 65);
+            label5.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label5.ForeColor = Color.White;
+            label5.Location = new Point(140, 50);
+            label5.Name = "label5";
+            label5.Size = new Size(104, 45);
+            label5.TabIndex = 0;
+            label5.Text = "Login";
+            // 
+            // checkBoxShowPassword
+            // 
+            checkBoxShowPassword.AutoSize = true;
+            checkBoxShowPassword.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            checkBoxShowPassword.ForeColor = Color.White;
+            checkBoxShowPassword.Location = new Point(50, 264);
+            checkBoxShowPassword.Name = "checkBoxShowPassword";
+            checkBoxShowPassword.Size = new Size(108, 19);
+            checkBoxShowPassword.TabIndex = 3;
+            checkBoxShowPassword.Text = "Show password";
+            checkBoxShowPassword.UseVisualStyleBackColor = true;
+            checkBoxShowPassword.CheckedChanged += checkBoxShowPassword_CheckedChanged;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.BackColor = Color.Transparent;
-            label2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.ForeColor = SystemColors.ControlLightLight;
-            label2.Location = new Point(210, 109);
+            label2.BackColor = Color.FromArgb(28, 28, 65);
+            label2.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label2.ForeColor = Color.White;
+            label2.Location = new Point(47, 199);
             label2.Name = "label2";
-            label2.Size = new Size(76, 21);
-            label2.TabIndex = 13;
+            label2.Size = new Size(67, 19);
+            label2.TabIndex = 2;
             label2.Text = "Password";
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.BackColor = Color.Transparent;
-            label1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.ForeColor = SystemColors.ControlLightLight;
-            label1.Location = new Point(210, 52);
+            label1.BackColor = Color.FromArgb(28, 28, 65);
+            label1.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.White;
+            label1.Location = new Point(47, 129);
             label1.Name = "label1";
-            label1.Size = new Size(81, 21);
-            label1.TabIndex = 13;
+            label1.Size = new Size(71, 19);
+            label1.TabIndex = 1;
             label1.Text = "Username";
-            // 
-            // printReceiptButton
-            // 
-            printReceiptButton.ImeMode = ImeMode.NoControl;
-            printReceiptButton.Location = new Point(1139, 17);
-            printReceiptButton.Name = "printReceiptButton";
-            printReceiptButton.Size = new Size(140, 31);
-            printReceiptButton.TabIndex = 12;
-            printReceiptButton.Text = "Print Receipt";
-            printReceiptButton.UseVisualStyleBackColor = true;
             // 
             // panel2
             // 
-            panel2.BackColor = Color.FromArgb(52, 86, 139);
-            panel2.Controls.Add(button3);
-            panel2.Location = new Point(95, 3);
+            panel2.BackColor = Color.FromArgb(20, 20, 50);
+            panel2.Controls.Add(label4);
+            panel2.Controls.Add(label3);
+            panel2.Controls.Add(pictureBox1);
+            panel2.Dock = DockStyle.Left;
+            panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(300, 508);
-            panel2.TabIndex = 15;
+            panel2.Size = new Size(350, 500);
+            panel2.TabIndex = 1;
             // 
-            // button3
+            // label4
             // 
-            button3.ImeMode = ImeMode.NoControl;
-            button3.Location = new Point(1139, 17);
-            button3.Name = "button3";
-            button3.Size = new Size(140, 31);
-            button3.TabIndex = 12;
-            button3.Text = "Print Receipt";
-            button3.UseVisualStyleBackColor = true;
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label4.ForeColor = Color.White;
+            label4.Location = new Point(50, 330);
+            label4.Name = "label4";
+            label4.Size = new Size(218, 42);
+            label4.TabIndex = 2;
+            label4.Text = "Sign in to access your account\r\nand continue your work";
+            label4.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.ForeColor = Color.White;
+            label3.Location = new Point(50, 80);
+            label3.Name = "label3";
+            label3.Size = new Size(212, 37);
+            label3.TabIndex = 1;
+            label3.Text = "Welcome Back!";
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = Properties.Resources.icons8_store_64;
+            pictureBox1.Location = new Point(100, 150);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(150, 150);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 0;
+            pictureBox1.TabStop = false;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(136, 384);
+            button2.Name = "button2";
+            button2.Size = new Size(75, 23);
+            button2.TabIndex = 5;
+            button2.Text = "button2";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // LoginForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(28, 28, 65);
-            ClientSize = new Size(492, 505);
-            Controls.Add(panel1);
+            BackColor = Color.White;
+            ClientSize = new Size(750, 500);
             Controls.Add(panel2);
+            Controls.Add(panel1);
+            Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
             Name = "LoginForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "LoginForm";
+            Text = "Login to System";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
+            panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
-
         #endregion
         private TextBox textBox2;
         private TextBox textBox3;
@@ -160,5 +236,11 @@
         private Label label1;
         private Panel panel2;
         private Button button3;
+        private Label label5;
+        private Label label4;
+        private Label label3;
+        private CheckBox checkBoxShowPassword;
+        private PictureBox pictureBox1;
+        private Button button2;
     }
 }

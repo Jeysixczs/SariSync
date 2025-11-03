@@ -23,7 +23,7 @@ namespace SariSariStore.Admin.View
         private Rounded rounded;
         public int cornerRadius = 30;
         public Products products = new Products();
-        public string connectionstring = @"Data Source=DESKTOP-ECKGUHL\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
+        public string connectionstring = @"Data Source=JEYSI\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
         public DashboardForm()
         {
             InitializeComponent();
@@ -181,7 +181,8 @@ namespace SariSariStore.Admin.View
             var result = MessageBox.Show("Are you sure you want to exit?", "Confirm Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
-                Application.Exit();
+                this.Close();
+                
             }
 
         }

@@ -89,5 +89,10 @@ namespace SariSariStore.Admin.View.Interface
                 Application.Exit();
             }
         }
+
+        private void dgv_Orders_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

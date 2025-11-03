@@ -118,5 +118,10 @@ namespace SariSariStore.Admin
         {
             this.Close();
         }
+
+        private void receiptTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

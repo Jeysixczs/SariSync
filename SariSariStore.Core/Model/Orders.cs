@@ -16,7 +16,7 @@ namespace SariSariStore.Core.Model
     public class Orders
     {
         //send Order to the database
-        public string ConnectionString = @"Data Source=DESKTOP-ECKGUHL\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
+        public string ConnectionString = @"Data Source=JEYSI\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
 
         [Key]
         public int OrderID { get; set; }
@@ -131,9 +131,9 @@ namespace SariSariStore.Core.Model
             }
         }
         //method to get order details with items
-        public Orders GetOrderWithDetails(int orderId)
+        public Orders? GetOrderWithDetails(int orderId)
         {
-            Orders order = null;
+            Orders? order = null;
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
                 //Get order 
@@ -180,7 +180,7 @@ namespace SariSariStore.Core.Model
                                     OrderDetailID = Convert.ToInt32(reader["OrderDetailID"]),
                                     OrderID = Convert.ToInt32(reader["OrderID"]),
                                     ProductID = Convert.ToInt32(reader["ProductID"]),
-                                    ProductName = reader["ProductName"]?.ToString(),
+                                    ProductName = reader["ProductName"].ToString(),
                                     Quantity = Convert.ToInt32(reader["Quantity"]),
                                     UnitPrice = Convert.ToDecimal(reader["UnitPrice"]),
                                     TotalPrice = Convert.ToDecimal(reader["TotalPrice"])

@@ -13,7 +13,7 @@ namespace SariSariStore.Core.Model
     [Table("tbl_Product")]
     public class Products
     {
-        public string ConnectionString = @"Data Source=DESKTOP-ECKGUHL\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
+        public string ConnectionString = @"Data Source=JEYSI\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
         private readonly string _imageBasePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ProductImages");
 
         [Key]
@@ -160,9 +160,9 @@ namespace SariSariStore.Core.Model
             }
         }
 
-        public Products GetProductById(int productId)
+        public Products? GetProductById(int productId)
         {
-            Products product = null;
+            Products ?product = null;
            
 
             using (SqlConnection con = new SqlConnection(ConnectionString))
@@ -206,42 +206,6 @@ namespace SariSariStore.Core.Model
            
                 SqlCommand cmd = new SqlCommand("SELECT * FROM tbl_Product WHERE (Name LIKE @Search OR Category LIKE @Search OR Description LIKE @Search) AND IsActive = 1 ", con);
                 cmd.Parameters.AddWithValue("@Search", "%" + searchTerm + "%");
-
-                con.Open();
-                using (SqlDataReader reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        Products product = new Products
-                        {
-                            ProductID = Convert.ToInt32(reader["ProductID"]),
-                            Name = reader["Name"]?.ToString() ?? string.Empty,
-                            Description = reader["Description"]?.ToString(),
-                            Category = reader["Category"]?.ToString() ?? string.Empty,
-                            Price = Convert.ToDecimal(reader["Price"]),
-                            SellingPrice = Convert.ToDecimal(reader["SellingPrice"]),
-                            Stock = Convert.ToInt32(reader["Stock"]),
-                            ImagePath = reader["ImagePath"]?.ToString(),
-                            DateAdded = Convert.ToDateTime(reader["DateAdded"]),
-                            DateExpired = Convert.ToDateTime(reader["DateExpired"])
-                        };
-                        products.Add(product);
-                    }
-                }
-            }
-
-            return products;
-        }
-
-        public List<Products> FilterByCategory(string selectedCategory)
-        {
-            List<Products> products = new List<Products>();
-
-            using (SqlConnection con = new SqlConnection(ConnectionString))
-            {
-
-                SqlCommand cmd = new SqlCommand("SELECT * FROM tbl_Product WHERE Category = @Category AND IsActive = 1", con);
-                cmd.Parameters.AddWithValue("@Category", selectedCategory);
 
                 con.Open();
                 using (SqlDataReader reader = cmd.ExecuteReader())
@@ -384,7 +348,7 @@ namespace SariSariStore.Core.Model
             }
         }
         //Method to get product for ordering
-        public Products GetProductForOrder(int productId)
+        public Products? GetProductForOrder(int productId)
         {
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
@@ -410,7 +374,7 @@ namespace SariSariStore.Core.Model
             }
             return null;
         }
-        //Method to search products for ordering
+   
         public List<Products>SearchProductsForOrder(string searchTerm)
         {
             List<Products> products = new List<Products>();
@@ -441,6 +405,65 @@ namespace SariSariStore.Core.Model
                 }
             }
             return products;
+        }
+
+        public List<Products> GetCategorys()
+        {
+            List<Products> categories = new List<Products>();
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                string query = "SELECT DISTINCT Category FROM tbl_Product WHERE IsActive = 1 ORDER BY Category";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    con.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Products category = new Products
+                            {
+                                Category = reader["Category"]?.ToString() ?? string.Empty
+                            };
+                            categories.Add(category);
+                        }
+                    }
+                }
+            }
+            return categories;
+        }
+
+        public object GetProductsByCategory(string? selectedCategory)
+        {
+            List<Products> productsList = new List<Products>();
+            using (SqlConnection con = new(ConnectionString))
+            {
+                using (SqlCommand cmd = new("SELECT * FROM tbl_Product WHERE Category = @Category AND IsActive = 1", con))
+                {
+                    cmd.Parameters.AddWithValue("@Category", selectedCategory ?? string.Empty);
+                    con.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Products product = new Products
+                            {
+                                ProductID = Convert.ToInt32(reader["ProductID"]),
+                                Name = reader["Name"]?.ToString() ?? string.Empty,
+                                Description = reader["Description"]?.ToString(),
+                                Category = reader["Category"]?.ToString() ?? string.Empty,
+                                Price = Convert.ToDecimal(reader["Price"]),
+                                SellingPrice = Convert.ToDecimal(reader["SellingPrice"]),
+                                Stock = Convert.ToInt32(reader["Stock"]),
+                                ImagePath = reader["ImagePath"]?.ToString(),
+                                DateAdded = Convert.ToDateTime(reader["DateAdded"]),
+                                DateExpired = Convert.ToDateTime(reader["DateExpired"])
+                            };
+                            productsList.Add(product);
+                        }
+                    }
+                }
+            }
+            return productsList;
         }
     }
 }

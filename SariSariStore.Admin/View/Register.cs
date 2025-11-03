@@ -13,7 +13,7 @@ namespace SariSariStore.Admin.View
 {
     public partial class Register : Form
     {
-        public string connection = @"Data Source=DESKTOP-ECKGUHL\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
+        public string connection = @"Data Source=JEYSI\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
 
         public Register()
         {
@@ -22,7 +22,6 @@ namespace SariSariStore.Admin.View
 
         private void button1_Click(object sender, EventArgs e)
         {
-            // Input validation
             if (!ValidateInputs())
             {
                 return;
@@ -33,8 +32,6 @@ namespace SariSariStore.Admin.View
                 using (SqlConnection con = new SqlConnection(connection))
                 {
                     con.Open();
-
-                    // Check if username already exists
                     if (UsernameExists(textBox2.Text, con))
                     {
                         MessageBox.Show("Username already exists. Please choose a different username.", "Registration Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -54,8 +51,8 @@ namespace SariSariStore.Admin.View
                         {
                             MessageBox.Show("Registration Successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             this.Hide();
-                            LoginForm loginForm = new LoginForm();
-                            loginForm.Show();
+                            DashboardForm dashboard = new DashboardForm();
+                            dashboard.Show();
                         }
                         else
                         {
@@ -163,21 +160,7 @@ namespace SariSariStore.Admin.View
             }
         }
 
-        // Optional: Add real-time validation in TextChanged events
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-            ValidateNameField();
-        }
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-            ValidateUsernameField();
-        }
-
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
-            ValidatePasswordField();
-        }
 
         private void ValidateNameField()
         {
@@ -233,10 +216,30 @@ namespace SariSariStore.Admin.View
 
         private void button2_Click(object sender, EventArgs e)
         {
-          
+
             this.Hide();
-            LoginForm log = new LoginForm();
+            DashboardForm log = new DashboardForm();
             log.Show();
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            ValidateNameField();
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            ValidateUsernameField();
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+            ValidatePasswordField();
+        }
+
+        private void Register_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

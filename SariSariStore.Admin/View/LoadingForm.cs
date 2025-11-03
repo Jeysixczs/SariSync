@@ -30,7 +30,7 @@ namespace SariSariStore.Admin.View
 
             if (Loadingbar.Value < Loadingbar.Maximum)
             {
-                Loadingbar.Value += 1;
+                Loadingbar.Value += 100;
             }
             else
             {

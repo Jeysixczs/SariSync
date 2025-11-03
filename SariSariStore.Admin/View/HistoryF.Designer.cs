@@ -33,11 +33,11 @@
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             panel1 = new Panel();
+            btn_checkorder = new Button();
             btn_printreceipt = new Button();
             label7 = new Label();
             pictureBox6 = new PictureBox();
             panel2 = new Panel();
-            Refresh = new Button();
             txtSearch = new TextBox();
             label12 = new Label();
             dgv_orderhistory = new DataGridView();
@@ -72,11 +72,22 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(35, 35, 65);
+            panel1.Controls.Add(btn_checkorder);
             panel1.Controls.Add(btn_printreceipt);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(pictureBox6);
             resources.ApplyResources(panel1, "panel1");
             panel1.Name = "panel1";
+            panel1.Paint += panel1_Paint;
+            // 
+            // btn_checkorder
+            // 
+            btn_checkorder.BackColor = Color.FromArgb(40, 40, 65);
+            btn_checkorder.ForeColor = Color.White;
+            resources.ApplyResources(btn_checkorder, "btn_checkorder");
+            btn_checkorder.Name = "btn_checkorder";
+            btn_checkorder.UseVisualStyleBackColor = false;
+            btn_checkorder.Click += btn_checkorder_Click;
             // 
             // btn_printreceipt
             // 
@@ -104,19 +115,11 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(20, 20, 50);
-            panel2.Controls.Add(Refresh);
             panel2.Controls.Add(txtSearch);
             panel2.Controls.Add(label12);
             panel2.Controls.Add(dgv_orderhistory);
             resources.ApplyResources(panel2, "panel2");
             panel2.Name = "panel2";
-            // 
-            // Refresh
-            // 
-            resources.ApplyResources(Refresh, "Refresh");
-            Refresh.Name = "Refresh";
-            Refresh.UseVisualStyleBackColor = true;
-            Refresh.Click += Refresh_Click;
             // 
             // txtSearch
             // 
@@ -168,7 +171,6 @@
             dgv_orderhistory.RowHeadersVisible = false;
             dgv_orderhistory.RowTemplate.Height = 35;
             dgv_orderhistory.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
             dgv_orderhistory.CellDoubleClick += dgv_orderhistory_CellDoubleClick;
             // 
             // panel14
@@ -349,6 +351,6 @@
         private Label label12;
         private Button btn_printreceipt;
         private TextBox txtSearch;
-        private Button Refresh;
+        private Button btn_checkorder;
     }
 }

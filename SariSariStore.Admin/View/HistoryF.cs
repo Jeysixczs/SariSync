@@ -68,10 +68,7 @@ namespace SariSariStore.Admin.View
             this.Hide();
         }
 
-        private void dgv_orderhistory_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
+    
 
         public void DisplayOrderHistory()
         {
@@ -111,7 +108,7 @@ namespace SariSariStore.Admin.View
                 //Get the complete order with items
                 Orders selectedOrder = ord.GetOrderWithDetails(selectedOrderId);
 
-                if(selectedOrder != null)
+                if (selectedOrder != null)
                 {
                     //Open the ReceiptForm and pass the selected order
                     ReceiptForm receiptForm = new ReceiptForm(selectedOrder);
@@ -146,7 +143,6 @@ namespace SariSariStore.Admin.View
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
             string searchTerm = txtSearch.Text.Trim();
-            //var orders = ord.SearchOrders(searchTerm);
             dgv_orderhistory.DataSource = ord.SearchOrders(searchTerm);
         }
 
@@ -175,8 +171,8 @@ namespace SariSariStore.Admin.View
 
         private void Refresh_Click(object sender, EventArgs e)
         {
-            DisplayOrderHistory();
-            txtSearch.Clear();
+         
+           
         }
 
         private void txtSearch_KeyPress(object sender, KeyPressEventArgs e)
@@ -184,6 +180,38 @@ namespace SariSariStore.Admin.View
 
         }
 
-       
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_checkorder_Click(object sender, EventArgs e)
+        {
+
+            if (dgv_orderhistory.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select an order to view details.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            try
+            {
+                //Get the selected order ID
+                int selectedOrderId = Convert.ToInt32(dgv_orderhistory.SelectedRows[0].Cells["OrderID"].Value);
+                //Show order details
+                ShowOrderDetails(selectedOrderId);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error retrieving order details: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
+
+        }
     }
 }
