@@ -26,6 +26,7 @@ namespace SariSariStore.Admin
             products = new Products();
             _isEditMode = false;
             EnsureImagesDirectoryExists();
+            DisplayCategory();
         }
 
         // Constructor for editing an existing product
@@ -35,7 +36,8 @@ namespace SariSariStore.Admin
             products = new Products();
             _productId = productId;
             _isEditMode = true;
-            this.Text = "Edit Product";
+            DisplayCategory();
+            labelTitle.Text = "Edit Product";
             EnsureImagesDirectoryExists();
         }
 
@@ -119,7 +121,8 @@ namespace SariSariStore.Admin
                     Price = numericPrice.Value,
                     Stock = (int)NumericStock.Value,
                     DateAdded = DateTime.Now,
-                    DateExpired = dtp_ExpirationDate.Value
+                    DateExpired = dtp_ExpirationDate.Value,
+                    SellingPrice = numericSellingPrice.Value
                 };
 
                 string imagePathToSave = selectedImagePath;
@@ -230,6 +233,38 @@ namespace SariSariStore.Admin
                     "Invalid Date", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 dtp_ExpirationDate.Value = DateTime.Today;
             }
+        }
+
+        private void panelHeader_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void cmbCategory_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        public void DisplayCategory()
+        {
+
+            Products prod = new Products();
+            var categories = prod.GetCategorys();
+
+            cmbCategory.Items.Clear();
+
+            foreach (var category in categories)
+            {
+
+                cmbCategory.Items.Add(category.Category);
+
+            }
+
+        }
+
+        private void numericSellingPrice_ValueChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -30,7 +30,7 @@ namespace SariSariStore.Core.Model
         public bool IsPaid { get; set; }
 
         public decimal TotalAmount { get; set; }
-        //public string ProductName { get; set; } = string.Empty;
+     
 
         public List<Orders> GetAllOrders()
         {
@@ -63,60 +63,54 @@ namespace SariSariStore.Core.Model
             return orderList;
         }
 
-        //Method to create new order
         public int CreateOrder(Orders order, List<OrderItems> orderItems)
         {
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
                 con.Open();
-                using (var transaction = con.BeginTransaction())
+                using (SqlTransaction transaction = con.BeginTransaction())
+                {
                     try
                     {
-                        //1.Insert the order
-                        string orderQuery = @"INSERT INTO tbl_Order (CustomerName, Notes, Remarks, OrderDate, IsPaid, TotalAmount)
-                                              OUTPUT INSERTED.OrderID
-                                              VALUES (@CustomerName, @Notes, @Remarks, @OrderDate, @IsPaid, @TotalAmount)";
+                       
+                        string orderQuery = @"INSERT INTO tbl_Order 
+                                    (CustomerName, Notes, Remarks, OrderDate, IsPaid, TotalAmount) 
+                                    OUTPUT INSERTED.OrderID 
+                                    VALUES (@CustomerName, @Notes, @Remarks, @OrderDate, @IsPaid, @TotalAmount)";
+
                         int orderId;
                         using (SqlCommand orderCmd = new SqlCommand(orderQuery, con, transaction))
                         {
                             orderCmd.Parameters.AddWithValue("@CustomerName", order.CustomerName);
-                            orderCmd.Parameters.AddWithValue("@Notes", order.Notes ?? (object)DBNull.Value );
-                            orderCmd.Parameters.AddWithValue("@Remarks", order.Remarks ?? (object)DBNull.Value);
+                            orderCmd.Parameters.AddWithValue("@Notes", order.Notes ?? "");
+                            orderCmd.Parameters.AddWithValue("@Remarks", order.Remarks ?? "");
                             orderCmd.Parameters.AddWithValue("@OrderDate", order.OrderDate);
                             orderCmd.Parameters.AddWithValue("@IsPaid", order.IsPaid);
                             orderCmd.Parameters.AddWithValue("@TotalAmount", order.TotalAmount);
+
                             orderId = (int)orderCmd.ExecuteScalar();
                         }
 
-                        //2.Insert the order items and update product stock
-                        foreach(var items in orderItems)
+                        // Insert order details with calculated TotalPrice
+                        string detailQuery = @"INSERT INTO tbl_OrderDetails 
+                                     (OrderID, ProductID, Quantity, UnitPrice, TotalPrice) 
+                                     VALUES (@OrderID, @ProductID, @Quantity, @UnitPrice, @TotalPrice)";
+
+                        foreach (var item in orderItems)
                         {
-                            //insert order items
-                            string itemsQuery = @"INSERT INTO tbl_OrderDetails (OrderID, ProductID, Quantity, UnitPrice)
-                                                       VALUES (@OrderID, @ProductID, @Quantity, @UnitPrice)";
-                            using (SqlCommand itemsCmd = new SqlCommand(itemsQuery, con, transaction))
+                            using (SqlCommand detailCmd = new SqlCommand(detailQuery, con, transaction))
                             {
-                                itemsCmd.Parameters.AddWithValue("@OrderID", orderId);
-                                itemsCmd.Parameters.AddWithValue("@ProductID", items.ProductID);
-                                itemsCmd.Parameters.AddWithValue("@Quantity", items.Quantity);
-                                itemsCmd.Parameters.AddWithValue("@UnitPrice", items.UnitPrice);
-                                
-                                itemsCmd.ExecuteNonQuery();
+                                detailCmd.Parameters.AddWithValue("@OrderID", orderId);
+                                detailCmd.Parameters.AddWithValue("@ProductID", item.ProductID);
+                                detailCmd.Parameters.AddWithValue("@Quantity", item.Quantity);
+                                detailCmd.Parameters.AddWithValue("@UnitPrice", item.UnitPrice);
+                                detailCmd.Parameters.AddWithValue("@TotalPrice", item.Quantity * item.UnitPrice);
+
+                                detailCmd.ExecuteNonQuery();
                             }
-                            //update product stock
-                            string updateStockQuery = @"UPDATE tbl_Product
-                                                        SET Stock = Stock - @Quantity
-                                                        WHERE ProductID = @ProductID AND Stock >= @Quantity";
-                            using (var stockCmd = new SqlCommand(updateStockQuery, con, transaction))
-                                {
-                                stockCmd.Parameters.AddWithValue("@ProductID", items.ProductID);
-                                stockCmd.Parameters.AddWithValue("@Quantity", items.Quantity);
-                                int rowsAffected = stockCmd.ExecuteNonQuery();
-                                if (rowsAffected == 0)
-                                {
-                                    throw new Exception($"Insufficient stock for ProductID {items.ProductID}");
-                                }
-                            }
+
+                            // Update product stock
+                     
                         }
 
                         transaction.Commit();
@@ -127,9 +121,12 @@ namespace SariSariStore.Core.Model
                         transaction.Rollback();
                         throw;
                     }
-
+                }
             }
         }
+
+        
+
         //method to get order details with items
         public Orders? GetOrderWithDetails(int orderId)
         {
@@ -183,7 +180,7 @@ namespace SariSariStore.Core.Model
                                     ProductName = reader["ProductName"].ToString(),
                                     Quantity = Convert.ToInt32(reader["Quantity"]),
                                     UnitPrice = Convert.ToDecimal(reader["UnitPrice"]),
-                                    TotalPrice = Convert.ToDecimal(reader["TotalPrice"])
+                              
                                 };
                                 order.Items.Add(item);
                             }
@@ -193,6 +190,38 @@ namespace SariSariStore.Core.Model
             }
             return order;
         }
+
+        public Products GetProductForCart(int productId)
+        {
+            Products product = null;
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                string query = @"SELECT ProductID, Name, SellingPrice, Stock 
+                        FROM tbl_Product 
+                        WHERE ProductID = @ProductID AND Stock > 0";
+
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@ProductID", productId);
+                    con.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            product = new Products
+                            {
+                                ProductID = Convert.ToInt32(reader["ProductID"]),
+                                Name = reader["Name"]?.ToString() ?? string.Empty,
+                                SellingPrice = Convert.ToDecimal(reader["SellingPrice"]),
+                                Stock = Convert.ToInt32(reader["Stock"])
+                            };
+                        }
+                    }
+                }
+            }
+            return product;
+        }
+
         //method to search orders
         public List<Orders> SearchOrders(string searchTerm)
         {

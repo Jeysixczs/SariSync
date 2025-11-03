@@ -280,6 +280,13 @@ namespace SariSariStore.Admin.View
             cmb_Search.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
+        private void btnExpired_Click(object sender, EventArgs e)
+        {
+            ExpiredForm expiredForm = new ExpiredForm();
+            expiredForm.Show();
+            this.Hide();
+
+        }
     }
 
 }

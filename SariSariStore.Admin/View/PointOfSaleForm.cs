@@ -49,7 +49,6 @@ namespace SariSariStore.Admin.View
             var products = _products.GetAllProducts();
             dgvProducts.DataSource = products;
 
-            //Hide unneeded columns
             dgvProducts.Columns["ProductID"].Visible = false;
             dgvProducts.Columns["Description"].Visible = false;
             dgvProducts.Columns["ImagePath"].Visible = false;
@@ -62,6 +61,7 @@ namespace SariSariStore.Admin.View
 
         private void AddToCart(int productId, int quantity)
         {
+            // This should only check stock, not reduce it
             var product = _products.GetProductForOrder(productId);
             if (product != null)
             {
@@ -87,7 +87,6 @@ namespace SariSariStore.Admin.View
                 }
                 else
                 {
-                  
                     _cartItems.Add(new CartItemDisplay
                     {
                         ProductID = product.ProductID,
@@ -99,6 +98,11 @@ namespace SariSariStore.Admin.View
                 }
                 UpdateCartDisplay();
                 numericQuantity.Value = 1;
+            }
+            else
+            {
+                MessageBox.Show("Product not found or out of stock.", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
         private void UpdateCartDisplay()
@@ -198,25 +202,15 @@ namespace SariSariStore.Admin.View
                     "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-
-            if (string.IsNullOrWhiteSpace(txtCustomerName.Text))
-            {
-                MessageBox.Show("Please enter customer name.", "Validation Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtCustomerName.Focus();
-                return;
-            }
-
+ 
             try
             {
-                //Convert cart items to order items for saving
-                var orderItems = _cartItems.Select(cartItem => new OrderItems
+                var orderItems = _cartItems.Select(item => new OrderItems
                 {
-                    ProductID = cartItem.ProductID,
-                    ProductName = cartItem.ProductName,
-                    Quantity = cartItem.Quantity,
-                    UnitPrice = cartItem.UnitPrice,
-                    TotalPrice = cartItem.TotalPrice
+                    ProductID = item.ProductID,
+                    Quantity = item.Quantity,
+                    UnitPrice = item.UnitPrice,
+               
                 }).ToList();
 
                 var order = new Orders
@@ -230,12 +224,12 @@ namespace SariSariStore.Admin.View
                 };
 
                 int orderId = _orders.CreateOrder(order, orderItems);
-
                 
                 MessageBox.Show($"Order processed successfully!\nOrder ID: {orderId}\nTotal Amount: {_totalAmount:C2}",
                     "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                 ClearForm();
+                RefreshProductList();
+
             }
             catch (Exception ex)
             {

@@ -32,6 +32,7 @@
             textBox3 = new TextBox();
             button1 = new Button();
             panel1 = new Panel();
+            button2 = new Button();
             label5 = new Label();
             checkBoxShowPassword = new CheckBox();
             label2 = new Label();
@@ -40,7 +41,6 @@
             label4 = new Label();
             label3 = new Label();
             pictureBox1 = new PictureBox();
-            button2 = new Button();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -53,7 +53,6 @@
             textBox2.Location = new Point(50, 154);
             textBox2.Margin = new Padding(3, 10, 3, 10);
             textBox2.Name = "textBox2";
-            textBox2.PlaceholderText = "Enter your username";
             textBox2.Size = new Size(280, 25);
             textBox2.TabIndex = 1;
             // 
@@ -65,7 +64,6 @@
             textBox3.Margin = new Padding(3, 10, 3, 10);
             textBox3.Name = "textBox3";
             textBox3.PasswordChar = '•';
-            textBox3.PlaceholderText = "Enter your password";
             textBox3.Size = new Size(280, 25);
             textBox3.TabIndex = 2;
             // 
@@ -101,17 +99,28 @@
             panel1.Size = new Size(400, 500);
             panel1.TabIndex = 0;
             // 
+            // button2
+            // 
+            button2.Location = new Point(136, 384);
+            button2.Name = "button2";
+            button2.Size = new Size(75, 23);
+            button2.TabIndex = 5;
+            button2.Text = "button2";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
             // label5
             // 
             label5.AutoSize = true;
             label5.BackColor = Color.FromArgb(28, 28, 65);
             label5.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label5.ForeColor = Color.White;
-            label5.Location = new Point(140, 50);
+            label5.Location = new Point(125, 50);
             label5.Name = "label5";
-            label5.Size = new Size(104, 45);
+            label5.Size = new Size(145, 45);
             label5.TabIndex = 0;
-            label5.Text = "Login";
+            label5.Text = "SariSync";
+            label5.Click += label5_Click;
             // 
             // checkBoxShowPassword
             // 
@@ -194,16 +203,6 @@
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
-            // 
-            // button2
-            // 
-            button2.Location = new Point(136, 384);
-            button2.Name = "button2";
-            button2.Size = new Size(75, 23);
-            button2.TabIndex = 5;
-            button2.Text = "button2";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
             // 
             // LoginForm
             // 

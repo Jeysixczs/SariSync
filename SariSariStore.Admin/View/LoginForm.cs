@@ -76,5 +76,15 @@ namespace SariSariStore.Admin.View
             dashboardForm.Show();
             this.Hide();
         }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

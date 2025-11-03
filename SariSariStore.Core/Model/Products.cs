@@ -347,7 +347,7 @@ namespace SariSariStore.Core.Model
                 }
             }
         }
-        //Method to get product for ordering
+
         public Products? GetProductForOrder(int productId)
         {
             using (SqlConnection con = new SqlConnection(ConnectionString))
@@ -361,7 +361,7 @@ namespace SariSariStore.Core.Model
                     {
                         if (reader.Read())
                         {
-                            return new Products
+                            return new Products 
                             {
                                     ProductID = Convert.ToInt32(reader["ProductID"]),
                                     Name = reader["Name"]?.ToString() ?? string.Empty,

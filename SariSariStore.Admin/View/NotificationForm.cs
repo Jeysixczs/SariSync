@@ -18,11 +18,9 @@ namespace SariSariStore.Admin.View
         public NotificationForm()
         {
             InitializeComponent();
-
-
         }
 
-       
+
         private void NotificationForm_Load(object sender, EventArgs e)
         {
             dgv_stock.DataSource = prod.GetStockProducts("low");
@@ -56,6 +54,12 @@ namespace SariSariStore.Admin.View
             dgv_stock.Columns["DateAdded"].Visible = false;
             dgv_stock.Columns["ImagePath"].Visible = false;
             dgv_stock.Columns["DateExpired"].Visible = false;
+            dgv_stock.Columns["SellingPrice"].Visible = false;
+        }
+
+        private void dgv_stock_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
