@@ -13,7 +13,7 @@ namespace SariSariStore.Admin.View
 {
     public partial class LoginForm : Form
     {
-        public string connection = @"Data Source=JEYSI\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
+        public string connection = @"Data Source=DESKTOP-ECKGUHL\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Trust Server Certificate=True";
         public LoginForm()
         {
             InitializeComponent();

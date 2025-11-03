@@ -284,7 +284,12 @@ namespace SariSariStore.Admin.View
         {
             ExpiredForm expiredForm = new ExpiredForm();
             expiredForm.Show();
-            
+
+
+        }
+
+        private void pictureBox10_Click(object sender, EventArgs e)
+        {
 
         }
     }

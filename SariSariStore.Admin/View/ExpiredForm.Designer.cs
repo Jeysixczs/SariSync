@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
             panelHeader = new Panel();
             pictureBoxIcon = new PictureBox();
             labelSubtitle = new Label();
@@ -147,6 +147,7 @@
             labelTotalCount.Size = new Size(26, 30);
             labelTotalCount.TabIndex = 1;
             labelTotalCount.Text = "0";
+
             // 
             // labelTotalExpired
             // 
@@ -174,32 +175,32 @@
             // dgv_ExpiredProduct
             // 
             dgv_ExpiredProduct.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(240, 240, 240);
-            dataGridViewCellStyle1.ForeColor = Color.Black;
-            dgv_ExpiredProduct.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.BackColor = Color.FromArgb(240, 240, 240);
+            dataGridViewCellStyle5.ForeColor = Color.Black;
+            dgv_ExpiredProduct.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
             dgv_ExpiredProduct.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgv_ExpiredProduct.BackgroundColor = Color.White;
             dgv_ExpiredProduct.BorderStyle = BorderStyle.None;
             dgv_ExpiredProduct.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(52, 152, 219);
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            dataGridViewCellStyle2.ForeColor = Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(52, 152, 219);
-            dataGridViewCellStyle2.SelectionForeColor = Color.White;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dgv_ExpiredProduct.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.BackColor = Color.FromArgb(52, 152, 219);
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            dataGridViewCellStyle6.ForeColor = Color.White;
+            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(52, 152, 219);
+            dataGridViewCellStyle6.SelectionForeColor = Color.White;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
+            dgv_ExpiredProduct.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
             dgv_ExpiredProduct.ColumnHeadersHeight = 40;
             dgv_ExpiredProduct.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.White;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle3.ForeColor = Color.White;
-            dataGridViewCellStyle3.Padding = new Padding(5, 3, 5, 3);
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(173, 216, 230);
-            dataGridViewCellStyle3.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
-            dgv_ExpiredProduct.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = Color.White;
+            dataGridViewCellStyle7.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle7.ForeColor = Color.White;
+            dataGridViewCellStyle7.Padding = new Padding(5, 3, 5, 3);
+            dataGridViewCellStyle7.SelectionBackColor = Color.FromArgb(173, 216, 230);
+            dataGridViewCellStyle7.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.False;
+            dgv_ExpiredProduct.DefaultCellStyle = dataGridViewCellStyle7;
             dgv_ExpiredProduct.Dock = DockStyle.Fill;
             dgv_ExpiredProduct.EnableHeadersVisualStyles = false;
             dgv_ExpiredProduct.GridColor = Color.LightGray;
@@ -209,11 +210,11 @@
             dgv_ExpiredProduct.ReadOnly = true;
             dgv_ExpiredProduct.RowHeadersVisible = false;
             dgv_ExpiredProduct.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle4.BackColor = Color.White;
-            dataGridViewCellStyle4.ForeColor = Color.Black;
-            dataGridViewCellStyle4.SelectionBackColor = Color.LightBlue;
-            dataGridViewCellStyle4.SelectionForeColor = Color.Black;
-            dgv_ExpiredProduct.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle8.BackColor = Color.White;
+            dataGridViewCellStyle8.ForeColor = Color.Black;
+            dataGridViewCellStyle8.SelectionBackColor = Color.LightBlue;
+            dataGridViewCellStyle8.SelectionForeColor = Color.Black;
+            dgv_ExpiredProduct.RowsDefaultCellStyle = dataGridViewCellStyle8;
             dgv_ExpiredProduct.RowTemplate.Height = 35;
             dgv_ExpiredProduct.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgv_ExpiredProduct.Size = new Size(1052, 420);

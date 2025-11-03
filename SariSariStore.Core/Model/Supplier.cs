@@ -14,7 +14,7 @@ namespace SariSariStore.Core.Model
     [Table("tbl_Supplier")]
     public class Supplier
     {
-        public string ConnectionString = @"Data Source=JEYSI\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
+        public string ConnectionString = @"Data Source=DESKTOP-ECKGUHL\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Trust Server Certificate=True";
         [Key]
         public int SupplierID { get; set; }
         public string ? SupplierName { get; set; } 
