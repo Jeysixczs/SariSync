@@ -20,7 +20,7 @@ namespace SariSariStore.Admin.View
         public int cornerRadius = 30;
 
         // public Expenses exp = new Expenses();
-        public string ConnectionString = @"Data Source=DESKTOP-ECKGUHL\\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
+        public string ConnectionString = @"Data Source=JEYSI\\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
 
         public SalesReport salesReports = new SalesReport();
         public ReportFrom()

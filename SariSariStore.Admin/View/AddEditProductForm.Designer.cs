@@ -32,6 +32,7 @@
             labelTitle = new Label();
             panelMain = new Panel();
             panelFormSection = new Panel();
+            label8 = new Label();
             label7 = new Label();
             numericSellingPrice = new NumericUpDown();
             label6 = new Label();
@@ -41,6 +42,7 @@
             label4 = new Label();
             numericPrice = new NumericUpDown();
             label3 = new Label();
+            cmbSupplier = new ComboBox();
             cmbCategory = new ComboBox();
             label2 = new Label();
             txtboxDescription = new TextBox();
@@ -93,12 +95,14 @@
             panelMain.Location = new Point(0, 70);
             panelMain.Name = "panelMain";
             panelMain.Padding = new Padding(25);
-            panelMain.Size = new Size(700, 580);
+            panelMain.Size = new Size(700, 633);
             panelMain.TabIndex = 1;
+            panelMain.Paint += panelMain_Paint;
             // 
             // panelFormSection
             // 
             panelFormSection.BackColor = Color.FromArgb(28, 28, 65);
+            panelFormSection.Controls.Add(label8);
             panelFormSection.Controls.Add(label7);
             panelFormSection.Controls.Add(numericSellingPrice);
             panelFormSection.Controls.Add(label6);
@@ -108,6 +112,7 @@
             panelFormSection.Controls.Add(label4);
             panelFormSection.Controls.Add(numericPrice);
             panelFormSection.Controls.Add(label3);
+            panelFormSection.Controls.Add(cmbSupplier);
             panelFormSection.Controls.Add(cmbCategory);
             panelFormSection.Controls.Add(label2);
             panelFormSection.Controls.Add(txtboxDescription);
@@ -116,19 +121,30 @@
             panelFormSection.Location = new Point(290, 25);
             panelFormSection.Name = "panelFormSection";
             panelFormSection.Padding = new Padding(25);
-            panelFormSection.Size = new Size(385, 530);
+            panelFormSection.Size = new Size(385, 602);
             panelFormSection.TabIndex = 1;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label8.ForeColor = Color.LightGray;
+            label8.Location = new Point(25, 473);
+            label8.Name = "label8";
+            label8.Size = new Size(92, 19);
+            label8.TabIndex = 4;
+            label8.Text = "Selling Price";
             // 
             // label7
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label7.ForeColor = Color.LightGray;
-            label7.Location = new Point(25, 470);
+            label7.Location = new Point(25, 534);
             label7.Name = "label7";
-            label7.Size = new Size(92, 19);
+            label7.Size = new Size(65, 19);
             label7.TabIndex = 4;
-            label7.Text = "Selling Price";
+            label7.Text = "Supplier";
             // 
             // numericSellingPrice
             // 
@@ -136,7 +152,7 @@
             numericSellingPrice.BorderStyle = BorderStyle.FixedSingle;
             numericSellingPrice.Font = new Font("Segoe UI", 10F);
             numericSellingPrice.ForeColor = Color.White;
-            numericSellingPrice.Location = new Point(25, 495);
+            numericSellingPrice.Location = new Point(25, 499);
             numericSellingPrice.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             numericSellingPrice.Name = "numericSellingPrice";
             numericSellingPrice.Size = new Size(335, 25);
@@ -225,6 +241,20 @@
             label3.TabIndex = 4;
             label3.Text = "Category";
             // 
+            // cmbSupplier
+            // 
+            cmbSupplier.BackColor = Color.FromArgb(40, 40, 80);
+            cmbSupplier.FlatStyle = FlatStyle.Flat;
+            cmbSupplier.Font = new Font("Segoe UI", 10F);
+            cmbSupplier.ForeColor = Color.White;
+            cmbSupplier.Items.AddRange(new object[] { "" });
+            cmbSupplier.Location = new Point(23, 565);
+            cmbSupplier.Name = "cmbSupplier";
+            cmbSupplier.Size = new Size(335, 25);
+            cmbSupplier.TabIndex = 8;
+            cmbSupplier.SelectedIndexChanged += cmbCategory_SelectedIndexChanged;
+            cmbSupplier.KeyPress += cmbSupplier_KeyPress;
+            // 
             // cmbCategory
             // 
             cmbCategory.BackColor = Color.FromArgb(40, 40, 80);
@@ -292,7 +322,7 @@
             panelImageSection.Location = new Point(25, 25);
             panelImageSection.Name = "panelImageSection";
             panelImageSection.Padding = new Padding(15);
-            panelImageSection.Size = new Size(250, 530);
+            panelImageSection.Size = new Size(250, 602);
             panelImageSection.TabIndex = 0;
             // 
             // Btn_UploadImage
@@ -304,7 +334,7 @@
             Btn_UploadImage.FlatStyle = FlatStyle.Flat;
             Btn_UploadImage.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             Btn_UploadImage.ForeColor = Color.White;
-            Btn_UploadImage.Location = new Point(25, 250);
+            Btn_UploadImage.Location = new Point(26, 380);
             Btn_UploadImage.Name = "Btn_UploadImage";
             Btn_UploadImage.Size = new Size(200, 40);
             Btn_UploadImage.TabIndex = 1;
@@ -317,7 +347,7 @@
             panel1.BackColor = Color.FromArgb(40, 40, 80);
             panel1.BackgroundImageLayout = ImageLayout.Stretch;
             panel1.BorderStyle = BorderStyle.FixedSingle;
-            panel1.Location = new Point(25, 25);
+            panel1.Location = new Point(26, 155);
             panel1.Name = "panel1";
             panel1.Size = new Size(200, 200);
             panel1.TabIndex = 0;
@@ -328,7 +358,7 @@
             panelFooter.Controls.Add(cancelButton);
             panelFooter.Controls.Add(saveButton);
             panelFooter.Dock = DockStyle.Bottom;
-            panelFooter.Location = new Point(0, 650);
+            panelFooter.Location = new Point(0, 703);
             panelFooter.Name = "panelFooter";
             panelFooter.Size = new Size(700, 80);
             panelFooter.TabIndex = 2;
@@ -372,7 +402,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(20, 20, 50);
-            ClientSize = new Size(700, 730);
+            ClientSize = new Size(700, 783);
             Controls.Add(panelMain);
             Controls.Add(panelHeader);
             Controls.Add(panelFooter);
@@ -423,5 +453,7 @@
         private Panel panelMain;
         private Label labelTitle;
         private Panel panelHeader;
+        private Label label8;
+        private ComboBox cmbSupplier;
     }
 }

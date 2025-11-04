@@ -132,6 +132,7 @@ namespace SariSariStore.Admin.View
 
             dgv_Product.Columns["ProductID"].Visible = false;
             dgv_Product.Columns["ImagePath"].Visible = false;
+            dgv_Product.Columns["SupplierID"].Visible = false;
         }
 
         private void btn_Add_Click(object sender, EventArgs e)
@@ -152,15 +153,22 @@ namespace SariSariStore.Admin.View
 
         }
 
+        //get the selected row and pass the supplier id to the edit form to display the data in cmbsuppliername
+
+
+
+
         private void btn_Update_Click(object sender, EventArgs e)
         {
 
+           
             if (dgv_Product.SelectedRows.Count > 0)
             {
-                // Get the selected product ID
+
                 int selectedProductId = Convert.ToInt32(dgv_Product.SelectedRows[0].Cells["ProductID"].Value);
-                // Open the AddEditProductForm in edit mode
-                AddEditProductForm editForm = new AddEditProductForm(selectedProductId);
+                int selectedSupplierId = Convert.ToInt32(dgv_Product.SelectedRows[0].Cells["SupplierID"].Value);
+
+                AddEditProductForm editForm = new AddEditProductForm(selectedProductId, selectedSupplierId);
                 var result = editForm.ShowDialog();
                 if (result == DialogResult.OK)
                 {
@@ -291,6 +299,11 @@ namespace SariSariStore.Admin.View
         private void pictureBox10_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void dgv_Product_Click(object sender, EventArgs e)
+        {
+           
         }
     }
 

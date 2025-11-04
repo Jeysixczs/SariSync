@@ -207,7 +207,7 @@
             btn_Update.Font = new Font("Segoe UI Historic", 11.25F, FontStyle.Bold);
             btn_Update.ForeColor = Color.Transparent;
             btn_Update.ImageAlign = ContentAlignment.MiddleLeft;
-            btn_Update.Location = new Point(456, 625);
+            btn_Update.Location = new Point(463, 624);
             btn_Update.Name = "btn_Update";
             btn_Update.Padding = new Padding(19, 14, 14, 14);
             btn_Update.Size = new Size(183, 55);
@@ -237,6 +237,7 @@
             dgv_Product.Size = new Size(1068, 472);
             dgv_Product.TabIndex = 4;
             dgv_Product.CellContentClick += dgv_Product_CellContentClick;
+            dgv_Product.Click += dgv_Product_Click;
             // 
             // btn_Add
             // 

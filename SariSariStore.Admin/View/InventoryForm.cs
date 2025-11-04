@@ -85,6 +85,12 @@ namespace SariSariStore.Admin.View
         {
             dgv_supplier.DataSource = supplier.GetAllSuppliers();
 
+            //HIDE COLUMN SUPPLIERID
+            dgv_supplier.Columns["SupplierID"].Visible = false;
+
+
+
+
         }
 
         private void btn_shutdown_Click(object sender, EventArgs e)
@@ -105,6 +111,44 @@ namespace SariSariStore.Admin.View
         private void dgv_supplier_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void btn_AddSupplier_Click(object sender, EventArgs e)
+        {
+            AddEditSupplierForm addEditSupplierForm = new AddEditSupplierForm();
+
+            addEditSupplierForm.ShowDialog();
+
+            DisplaySupplier();
+        }
+
+        private void btn_EditSupplier_Click(object sender, EventArgs e)
+        {
+            if (dgv_supplier.SelectedRows.Count > 0)
+            {
+
+                int selectedProductId = Convert.ToInt32(dgv_supplier.SelectedRows[0].Cells["SupplierID"].Value);
+                MessageBox.Show(selectedProductId.ToString());
+                AddEditSupplierForm editForm = new AddEditSupplierForm(selectedProductId);
+                var result = editForm.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+
+                    DisplaySupplier();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a product to update.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btn_DeleteSupplier_Click(object sender, EventArgs e)
+        {
+
+            int selectedProductId = Convert.ToInt32(dgv_supplier.SelectedRows[0].Cells["SupplierID"].Value);
+            supplier.DeleteSupplier(selectedProductId);
+            DisplaySupplier();
         }
     }
 }

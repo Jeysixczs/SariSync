@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -206,6 +207,13 @@ namespace SariSariStore.Admin.View
                     dgvOrderItems.Visible = false;
                 }
             }
+        }
+
+        private void printButton_Click(object sender, EventArgs e)
+        {
+      
+       
+           
         }
     }
 }

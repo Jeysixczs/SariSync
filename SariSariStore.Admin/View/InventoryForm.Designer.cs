@@ -50,6 +50,9 @@
             btn_Products = new Button();
             btn_Dashboard = new Button();
             panel2 = new Panel();
+            btn_DeleteSupplier = new Button();
+            btn_EditSupplier = new Button();
+            btn_AddSupplier = new Button();
             dgv_supplier = new DataGridView();
             label12 = new Label();
             panel1.SuspendLayout();
@@ -295,6 +298,9 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(20, 20, 50);
+            panel2.Controls.Add(btn_DeleteSupplier);
+            panel2.Controls.Add(btn_EditSupplier);
+            panel2.Controls.Add(btn_AddSupplier);
             panel2.Controls.Add(dgv_supplier);
             panel2.Controls.Add(label12);
             panel2.Location = new Point(254, 72);
@@ -302,6 +308,36 @@
             panel2.Padding = new Padding(100);
             panel2.Size = new Size(1127, 724);
             panel2.TabIndex = 8;
+            // 
+            // btn_DeleteSupplier
+            // 
+            btn_DeleteSupplier.Location = new Point(609, 650);
+            btn_DeleteSupplier.Name = "btn_DeleteSupplier";
+            btn_DeleteSupplier.Size = new Size(179, 42);
+            btn_DeleteSupplier.TabIndex = 5;
+            btn_DeleteSupplier.Text = "Delete Supplier";
+            btn_DeleteSupplier.UseVisualStyleBackColor = true;
+            btn_DeleteSupplier.Click += btn_DeleteSupplier_Click;
+            // 
+            // btn_EditSupplier
+            // 
+            btn_EditSupplier.Location = new Point(409, 651);
+            btn_EditSupplier.Name = "btn_EditSupplier";
+            btn_EditSupplier.Size = new Size(179, 41);
+            btn_EditSupplier.TabIndex = 4;
+            btn_EditSupplier.Text = "Edit Supplier";
+            btn_EditSupplier.UseVisualStyleBackColor = true;
+            btn_EditSupplier.Click += btn_EditSupplier_Click;
+            // 
+            // btn_AddSupplier
+            // 
+            btn_AddSupplier.Location = new Point(218, 650);
+            btn_AddSupplier.Name = "btn_AddSupplier";
+            btn_AddSupplier.Size = new Size(171, 42);
+            btn_AddSupplier.TabIndex = 3;
+            btn_AddSupplier.Text = "Add Supplier";
+            btn_AddSupplier.UseVisualStyleBackColor = true;
+            btn_AddSupplier.Click += btn_AddSupplier_Click;
             // 
             // dgv_supplier
             // 
@@ -341,7 +377,7 @@
             dgv_supplier.RowHeadersVisible = false;
             dgv_supplier.RowTemplate.Height = 35;
             dgv_supplier.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgv_supplier.Size = new Size(1067, 619);
+            dgv_supplier.Size = new Size(1067, 548);
             dgv_supplier.TabIndex = 0;
             dgv_supplier.CellContentClick += dgv_supplier_CellContentClick_1;
             // 
@@ -409,5 +445,8 @@
         private Button btn_Products;
         private Button btn_Dashboard;
         private DataGridView dgv_supplier;
+        private Button btn_DeleteSupplier;
+        private Button btn_EditSupplier;
+        private Button btn_AddSupplier;
     }
 }

@@ -1,9 +1,10 @@
 ﻿using Microsoft.Data.SqlClient;
-using System;
-using System.IO;
-using System.Drawing;
-using System.Windows.Forms;
 using SariSariStore.Core.Model;
+using System;
+using System.Data;
+using System.Drawing;
+using System.IO;
+using System.Windows.Forms;
 
 namespace SariSariStore.Admin
 {
@@ -27,16 +28,18 @@ namespace SariSariStore.Admin
             _isEditMode = false;
             EnsureImagesDirectoryExists();
             DisplayCategory();
+            DisplaySupplierName();
         }
 
         // Constructor for editing an existing product
-        public AddEditProductForm(int productId)
+        public AddEditProductForm(int productId, int supplierId)
         {
             InitializeComponent();
             products = new Products();
             _productId = productId;
             _isEditMode = true;
             DisplayCategory();
+            DisplaySupplierName();
             labelTitle.Text = "Edit Product";
             EnsureImagesDirectoryExists();
         }
@@ -83,6 +86,18 @@ namespace SariSariStore.Admin
                 numericPrice.Value = product.Price;
                 NumericStock.Value = product.Stock;
                 dtp_ExpirationDate.Value = Convert.ToDateTime(product.DateExpired);
+                numericSellingPrice.Value = product.SellingPrice;
+                MessageBox.Show(product.SupplierID.ToString(), product.GetSupplierNameByProduct(product.SupplierID));
+                cmbSupplier.Text = product.GetSupplierNameByProduct(product.SupplierID);
+
+
+
+
+
+
+
+
+
 
                 if (!string.IsNullOrEmpty(product.ImagePath))
                 {
@@ -92,6 +107,7 @@ namespace SariSariStore.Admin
                 else
                 {
                     panel1.BackgroundImage = null;
+                    panel1.BackgroundImage = null;
                     panel1.BackColor = Color.LightGray;
                 }
             }
@@ -100,7 +116,11 @@ namespace SariSariStore.Admin
                 MessageBox.Show($"Error loading product: {ex.Message}",
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
         }
+
+
+
         private void saveButton_Click(object sender, EventArgs e)
         {
             try
@@ -141,6 +161,7 @@ namespace SariSariStore.Admin
                     products.UpdateProduct(product, imagePathToSave);
                     MessageBox.Show("✅ Product updated successfully!", "Success",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 }
                 else
                 {
@@ -265,6 +286,32 @@ namespace SariSariStore.Admin
         private void numericSellingPrice_ValueChanged(object sender, EventArgs e)
         {
 
+        }
+
+        public void DisplaySupplierName()
+        {
+            Supplier supplier = new Supplier();
+            var suppliers = supplier.GetSupplierName();
+            cmbSupplier.Items.Clear();
+
+            foreach (var sup in suppliers)
+            {
+
+                cmbSupplier.Items.Add(sup.SupplierName);
+
+            }
+        }
+
+
+
+        private void panelMain_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void cmbSupplier_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
         }
     }
 }

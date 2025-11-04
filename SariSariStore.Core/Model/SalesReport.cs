@@ -11,7 +11,7 @@ namespace SariSariStore.Core.Model
     [Table("tbl_SalesReport")]
     public class SalesReport
     {
-        public string ConnectionString = @"Data Source=DESKTOP-ECKGUHL\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Trust Server Certificate=True";
+        public string ConnectionString = @"Data Source=JEYSI\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Trust Server Certificate=True";
 
 
         public int ReportID { get; set; }

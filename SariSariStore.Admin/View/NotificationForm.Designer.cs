@@ -165,44 +165,52 @@
             // 
             // dgv_stock
             // 
-            dgv_stock.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgv_stock.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dgv_stock.ColumnHeadersHeight = 40;
-            dgv_stock.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgv_stock.MultiSelect = false;
-            dgv_stock.ReadOnly = true;
             dgv_stock.AllowUserToAddRows = false;
             dgv_stock.AllowUserToDeleteRows = false;
             dgv_stock.AllowUserToResizeRows = false;
-            dgv_stock.RowHeadersVisible = false;
-            dgv_stock.BorderStyle = BorderStyle.None;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(245, 245, 245);
+            dgv_stock.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dgv_stock.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgv_stock.BackgroundColor = Color.White;
-            dgv_stock.GridColor = Color.LightGray;
-
-
+            dgv_stock.BorderStyle = BorderStyle.None;
+            dgv_stock.ForeColor = Color.Black;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(52, 152, 219);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgv_stock.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dgv_stock.ColumnHeadersHeight = 40;
+            dgv_stock.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle3.ForeColor = Color.Black;
+            dataGridViewCellStyle3.Padding = new Padding(5, 3, 5, 3);
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(173, 216, 230);
+            dataGridViewCellStyle3.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            dgv_stock.DefaultCellStyle = dataGridViewCellStyle3;
             dgv_stock.EnableHeadersVisualStyles = false;
-            dgv_stock.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(52, 152, 219); // Blue header
-            dgv_stock.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            dgv_stock.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Bold);
-            dgv_stock.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-
-            dgv_stock.DefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Regular);
-            dgv_stock.DefaultCellStyle.ForeColor = Color.Black;
-            dgv_stock.DefaultCellStyle.BackColor = Color.White;
-            dgv_stock.DefaultCellStyle.SelectionBackColor = Color.FromArgb(173, 216, 230); // Light blue
-            dgv_stock.DefaultCellStyle.SelectionForeColor = Color.Black;
-            dgv_stock.DefaultCellStyle.Padding = new Padding(5, 3, 5, 3);
+            dgv_stock.GridColor = Color.LightGray;
+ 
+            dgv_stock.MultiSelect = false;
+            dgv_stock.Name = "dgv_LatestProduct";
+            dgv_stock.ReadOnly = true;
+            dgv_stock.RowHeadersVisible = false;
             dgv_stock.RowTemplate.Height = 35;
-
-
-            dgv_stock.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(245, 245, 245);
+            dgv_stock.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+      
+            dgv_stock.TabIndex = 0;
+     
 
 
             dgv_stock.Location = new Point(15, 15);
-            
+          
             dgv_stock.Size = new Size(570, 505);
-            
+         
             // 
             // NotificationForm
             // 

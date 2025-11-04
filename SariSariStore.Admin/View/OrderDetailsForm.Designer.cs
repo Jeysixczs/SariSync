@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             panelHeader = new Panel();
             label12 = new Label();
             panelOrderInfo = new Panel();
@@ -51,6 +53,7 @@
             label8 = new Label();
             panelFooter = new Panel();
             btnClose = new Button();
+            printButton = new Button();
             panelHeader.SuspendLayout();
             panelOrderInfo.SuspendLayout();
             panelOrderItems.SuspendLayout();
@@ -271,43 +274,44 @@
             // 
             // dgvOrderItems
             // 
-            dgvOrderItems.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvOrderItems.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dgvOrderItems.ColumnHeadersHeight = 40;
-            dgvOrderItems.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvOrderItems.MultiSelect = false;
-            dgvOrderItems.ReadOnly = true;
             dgvOrderItems.AllowUserToAddRows = false;
             dgvOrderItems.AllowUserToDeleteRows = false;
             dgvOrderItems.AllowUserToResizeRows = false;
-            dgvOrderItems.RowHeadersVisible = false;
-            dgvOrderItems.BorderStyle = BorderStyle.None;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(245, 245, 245);
+            dgvOrderItems.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dgvOrderItems.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvOrderItems.BackgroundColor = Color.White;
-            dgvOrderItems.GridColor = Color.LightGray;
-
-
+            dgvOrderItems.BorderStyle = BorderStyle.None;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(52, 152, 219);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgvOrderItems.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dgvOrderItems.ColumnHeadersHeight = 40;
+            dgvOrderItems.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle3.ForeColor = Color.Black;
+            dataGridViewCellStyle3.Padding = new Padding(5, 3, 5, 3);
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(173, 216, 230);
+            dataGridViewCellStyle3.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            dgvOrderItems.DefaultCellStyle = dataGridViewCellStyle3;
             dgvOrderItems.EnableHeadersVisualStyles = false;
-            dgvOrderItems.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(52, 152, 219); // Blue header
-            dgvOrderItems.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            dgvOrderItems.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Bold);
-            dgvOrderItems.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-
-            dgvOrderItems.DefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Regular);
-            dgvOrderItems.DefaultCellStyle.ForeColor = Color.Black;
-            dgvOrderItems.DefaultCellStyle.BackColor = Color.White;
-            dgvOrderItems.DefaultCellStyle.SelectionBackColor = Color.FromArgb(173, 216, 230); // Light blue
-            dgvOrderItems.DefaultCellStyle.SelectionForeColor = Color.Black;
-            dgvOrderItems.DefaultCellStyle.Padding = new Padding(5, 3, 5, 3);
-            dgvOrderItems.RowTemplate.Height = 35;
-
-
-            dgvOrderItems.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(245, 245, 245);
-
-
+            dgvOrderItems.GridColor = Color.LightGray;
             dgvOrderItems.Location = new Point(20, 50);
+            dgvOrderItems.MultiSelect = false;
+            dgvOrderItems.Name = "dgvOrderItems";
+            dgvOrderItems.ReadOnly = true;
+            dgvOrderItems.RowHeadersVisible = false;
+            dgvOrderItems.RowTemplate.Height = 35;
+            dgvOrderItems.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvOrderItems.Size = new Size(710, 280);
-            
+            dgvOrderItems.TabIndex = 0;
             // 
             // label8
             // 
@@ -323,6 +327,7 @@
             // panelFooter
             // 
             panelFooter.BackColor = Color.FromArgb(248, 250, 252);
+            panelFooter.Controls.Add(printButton);
             panelFooter.Controls.Add(btnClose);
             panelFooter.Dock = DockStyle.Bottom;
             panelFooter.Location = new Point(0, 730);
@@ -345,6 +350,23 @@
             btnClose.Text = "✕ CLOSE";
             btnClose.UseVisualStyleBackColor = false;
             btnClose.Click += btnClose_Click;
+            // 
+            // printButton
+            // 
+            printButton.BackColor = Color.FromArgb(76, 175, 80);
+            printButton.Cursor = Cursors.Hand;
+            printButton.FlatAppearance.BorderSize = 0;
+            printButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(69, 160, 73);
+            printButton.FlatStyle = FlatStyle.Flat;
+            printButton.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            printButton.ForeColor = Color.White;
+            printButton.Location = new Point(491, 15);
+            printButton.Name = "printButton";
+            printButton.Size = new Size(130, 40);
+            printButton.TabIndex = 16;
+            printButton.Text = "💾 PRINT";
+            printButton.UseVisualStyleBackColor = false;
+            printButton.Click += printButton_Click;
             // 
             // OrderDetailsForm
             // 
@@ -398,5 +420,6 @@
         private Panel panelOrderInfo;
         private Panel panelOrderItems;
         private Panel panelFooter;
+        private Button printButton;
     }
 }

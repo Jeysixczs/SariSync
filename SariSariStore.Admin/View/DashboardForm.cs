@@ -23,7 +23,7 @@ namespace SariSariStore.Admin.View
         private Rounded rounded;
         public int cornerRadius = 30;
         public Products products = new Products();
-        public string connectionstring = @"Data Source=DESKTOP-ECKGUHL\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Trust Server Certificate=True";
+        public string connectionstring = @"Data Source=JEYSI\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Trust Server Certificate=True";
         public DashboardForm()
         {
             InitializeComponent();
@@ -167,6 +167,7 @@ namespace SariSariStore.Admin.View
             dgv_LatestProduct.Columns["ProductID"].Visible = false;
             dgv_LatestProduct.Columns["ImagePath"].Visible = false;
             dgv_LatestProduct.Columns["DateExpired"].Visible = false;
+            dgv_LatestProduct.Columns["SupplierID"].Visible = false;
 
 
 
@@ -182,7 +183,7 @@ namespace SariSariStore.Admin.View
             if (result == DialogResult.Yes)
             {
                 this.Close();
-                
+
             }
 
         }
@@ -199,6 +200,11 @@ namespace SariSariStore.Admin.View
             this.Hide();
             Register register = new Register();
             register.Show();
+        }
+
+        private void dgv_LatestProduct_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DashboardForm));
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             panel1 = new Panel();
             btn_Register = new Button();
             btn_notification = new Button();
@@ -177,30 +177,30 @@
             dgv_LatestProduct.AllowUserToAddRows = false;
             dgv_LatestProduct.AllowUserToDeleteRows = false;
             dgv_LatestProduct.AllowUserToResizeRows = false;
-            dataGridViewCellStyle4.BackColor = Color.FromArgb(245, 245, 245);
-            dgv_LatestProduct.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(245, 245, 245);
+            dgv_LatestProduct.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dgv_LatestProduct.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgv_LatestProduct.BackgroundColor = Color.White;
             dgv_LatestProduct.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = Color.FromArgb(52, 152, 219);
-            dataGridViewCellStyle5.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            dataGridViewCellStyle5.ForeColor = Color.White;
-            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            dgv_LatestProduct.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(52, 152, 219);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgv_LatestProduct.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dgv_LatestProduct.ColumnHeadersHeight = 40;
             dgv_LatestProduct.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = Color.White;
-            dataGridViewCellStyle6.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle6.ForeColor = Color.Black;
-            dataGridViewCellStyle6.Padding = new Padding(5, 3, 5, 3);
-            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(173, 216, 230);
-            dataGridViewCellStyle6.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
-            dgv_LatestProduct.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle3.ForeColor = Color.Black;
+            dataGridViewCellStyle3.Padding = new Padding(5, 3, 5, 3);
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(173, 216, 230);
+            dataGridViewCellStyle3.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            dgv_LatestProduct.DefaultCellStyle = dataGridViewCellStyle3;
             dgv_LatestProduct.EnableHeadersVisualStyles = false;
             dgv_LatestProduct.GridColor = Color.LightGray;
             dgv_LatestProduct.Location = new Point(23, 269);
@@ -212,6 +212,7 @@
             dgv_LatestProduct.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgv_LatestProduct.Size = new Size(1083, 423);
             dgv_LatestProduct.TabIndex = 0;
+            dgv_LatestProduct.CellContentClick += dgv_LatestProduct_CellContentClick;
             // 
             // label2
             // 

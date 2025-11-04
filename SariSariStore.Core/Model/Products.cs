@@ -13,7 +13,7 @@ namespace SariSariStore.Core.Model
     [Table("tbl_Product")]
     public class Products
     {
-        public string ConnectionString = @"Data Source=DESKTOP-ECKGUHL\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Trust Server Certificate=True";
+        public string ConnectionString = @"Data Source=JEYSI\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Trust Server Certificate=True";
         private readonly string _imageBasePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ProductImages");
 
         [Key]
@@ -27,7 +27,7 @@ namespace SariSariStore.Core.Model
         public string? ImagePath { get; set; }
         public DateTime DateAdded { get; set; }
         public DateTime? DateExpired { get; set; }
-
+        public int SupplierID { get; set; }
 
 
 
@@ -55,7 +55,8 @@ namespace SariSariStore.Core.Model
                                 Stock = Convert.ToInt32(reader["Stock"]),
                                 ImagePath = reader["ImagePath"]?.ToString(),
                                 DateAdded = Convert.ToDateTime(reader["DateAdded"]),
-                                DateExpired = Convert.ToDateTime(reader["DateExpired"])
+                                DateExpired = Convert.ToDateTime(reader["DateExpired"]),
+                                SupplierID = Convert.ToInt32(reader["SupplierID"])
                             };
                             productsList.Add(product);
                         }
@@ -91,11 +92,41 @@ namespace SariSariStore.Core.Model
                     command.Parameters.AddWithValue("@ImagePath", imagePath ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@DateExpired", product.DateExpired ?? (object)DBNull.Value);
 
+
                     return (int)command.ExecuteScalar();
                 }
             }
         }
 
+        public string GetSupplierNameByProduct(int productId)
+        {
+            string supplierName = null;
+            string connectionString = @"Data Source=JEYSI\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Trust Server Certificate=True";
+
+            string query = @"
+        SELECT tbl_suppliers.SupplierName 
+        FROM tbl_Product 
+        INNER JOIN tbl_suppliers ON tbl_Product.SupplierID = tbl_suppliers.SupplierID
+        WHERE tbl_Product.SupplierID = @SupplierID";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {   
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@SupplierID", productId);
+                    connection.Open();
+
+                    object result = command.ExecuteScalar();
+
+                    if (result != null && result != DBNull.Value)
+                    {
+                        supplierName = result.ToString();
+                    }
+                }
+            }
+
+            return supplierName;
+        }
         public void UpdateProduct(Products product, string imagePath)
         {
             //
@@ -115,7 +146,7 @@ namespace SariSariStore.Core.Model
                         {0}
                         WHERE ProductID = @ProductID";
 
-                // Add ImagePath to query only if a new image is provided
+
                 string imageClause = "";
                 if (!string.IsNullOrEmpty(imagePath))
                 {
@@ -188,7 +219,8 @@ namespace SariSariStore.Core.Model
                                 Stock = Convert.ToInt32(reader["Stock"]),
                                 ImagePath = reader["ImagePath"]?.ToString(),
                                 DateAdded = Convert.ToDateTime(reader["DateAdded"]),
-                                DateExpired = Convert.ToDateTime(reader["DateExpired"])
+                                DateExpired = Convert.ToDateTime(reader["DateExpired"]),
+                                SupplierID = Convert.ToInt32(reader["SupplierID"])
                             };
                         }
                     }
