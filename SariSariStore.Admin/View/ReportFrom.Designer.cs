@@ -29,13 +29,15 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReportFrom));
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             panel1 = new Panel();
             label7 = new Label();
             pictureBox6 = new PictureBox();
             panel2 = new Panel();
+            dtpEndDate = new DateTimePicker();
+            dtpStartDate = new DateTimePicker();
             label2 = new Label();
             label1 = new Label();
             comboBox3 = new ComboBox();
@@ -57,6 +59,7 @@
             btn_Products = new Button();
             btn_Dashboard = new Button();
             panel4 = new Panel();
+            btn_Entery = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             panel2.SuspendLayout();
@@ -106,6 +109,9 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(20, 20, 50);
+            panel2.Controls.Add(btn_Entery);
+            panel2.Controls.Add(dtpEndDate);
+            panel2.Controls.Add(dtpStartDate);
             panel2.Controls.Add(label2);
             panel2.Controls.Add(label1);
             panel2.Controls.Add(comboBox3);
@@ -120,11 +126,27 @@
             panel2.TabIndex = 10;
             panel2.Paint += panel2_Paint;
             // 
+            // dtpEndDate
+            // 
+            dtpEndDate.Location = new Point(372, 116);
+            dtpEndDate.Name = "dtpEndDate";
+            dtpEndDate.Size = new Size(318, 23);
+            dtpEndDate.TabIndex = 14;
+            dtpEndDate.ValueChanged += dtpEndDate_ValueChanged;
+            // 
+            // dtpStartDate
+            // 
+            dtpStartDate.Location = new Point(28, 116);
+            dtpStartDate.Name = "dtpStartDate";
+            dtpStartDate.Size = new Size(323, 23);
+            dtpStartDate.TabIndex = 13;
+            dtpStartDate.ValueChanged += dtpStartDate_ValueChanged;
+            // 
             // label2
             // 
             label2.AutoSize = true;
             label2.ForeColor = Color.White;
-            label2.Location = new Point(372, 64);
+            label2.Location = new Point(372, 48);
             label2.Name = "label2";
             label2.Size = new Size(38, 15);
             label2.TabIndex = 11;
@@ -134,7 +156,7 @@
             // 
             label1.AutoSize = true;
             label1.ForeColor = Color.White;
-            label1.Location = new Point(27, 64);
+            label1.Location = new Point(27, 48);
             label1.Name = "label1";
             label1.Size = new Size(52, 15);
             label1.TabIndex = 11;
@@ -143,7 +165,7 @@
             // comboBox3
             // 
             comboBox3.FormattingEnabled = true;
-            comboBox3.Location = new Point(373, 87);
+            comboBox3.Location = new Point(373, 71);
             comboBox3.Name = "comboBox3";
             comboBox3.Size = new Size(317, 23);
             comboBox3.TabIndex = 10;
@@ -153,7 +175,7 @@
             // 
             comboBox2.FormattingEnabled = true;
             comboBox2.Items.AddRange(new object[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" });
-            comboBox2.Location = new Point(28, 87);
+            comboBox2.Location = new Point(28, 71);
             comboBox2.Name = "comboBox2";
             comboBox2.Size = new Size(323, 23);
             comboBox2.TabIndex = 9;
@@ -161,7 +183,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(737, 87);
+            button1.Location = new Point(737, 71);
             button1.Name = "button1";
             button1.Size = new Size(136, 24);
             button1.TabIndex = 4;
@@ -174,30 +196,30 @@
             dgv_report.AllowUserToAddRows = false;
             dgv_report.AllowUserToDeleteRows = false;
             dgv_report.AllowUserToResizeRows = false;
-            dataGridViewCellStyle4.BackColor = Color.FromArgb(245, 245, 245);
-            dgv_report.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(245, 245, 245);
+            dgv_report.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dgv_report.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgv_report.BackgroundColor = Color.White;
             dgv_report.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = Color.FromArgb(52, 152, 219);
-            dataGridViewCellStyle5.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            dataGridViewCellStyle5.ForeColor = Color.White;
-            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            dgv_report.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(52, 152, 219);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgv_report.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dgv_report.ColumnHeadersHeight = 40;
             dgv_report.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = Color.White;
-            dataGridViewCellStyle6.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle6.ForeColor = Color.Black;
-            dataGridViewCellStyle6.Padding = new Padding(5, 3, 5, 3);
-            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(173, 216, 230);
-            dataGridViewCellStyle6.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
-            dgv_report.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle3.ForeColor = Color.Black;
+            dataGridViewCellStyle3.Padding = new Padding(5, 3, 5, 3);
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(173, 216, 230);
+            dataGridViewCellStyle3.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            dgv_report.DefaultCellStyle = dataGridViewCellStyle3;
             dgv_report.EnableHeadersVisualStyles = false;
             dgv_report.GridColor = Color.LightGray;
             dgv_report.Location = new Point(28, 140);
@@ -414,6 +436,16 @@
             panel4.TabIndex = 4;
             panel4.Paint += panel4_Paint;
             // 
+            // btn_Entery
+            // 
+            btn_Entery.Location = new Point(737, 116);
+            btn_Entery.Name = "btn_Entery";
+            btn_Entery.Size = new Size(136, 23);
+            btn_Entery.TabIndex = 15;
+            btn_Entery.Text = "Enter";
+            btn_Entery.UseVisualStyleBackColor = true;
+            btn_Entery.Click += btn_Entery_Click;
+            // 
             // ReportFrom
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -474,5 +506,8 @@
         private Button button1;
         private Label label2;
         private Label label1;
+        private DateTimePicker dtpEndDate;
+        private DateTimePicker dtpStartDate;
+        private Button btn_Entery;
     }
 }

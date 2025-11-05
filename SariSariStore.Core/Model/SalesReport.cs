@@ -11,7 +11,7 @@ namespace SariSariStore.Core.Model
     [Table("tbl_SalesReport")]
     public class SalesReport
     {
-        public string ConnectionString = @"Data Source=JEYSI\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Trust Server Certificate=True";
+        public string ConnectionString = @"Data Source=DESKTOP-ECKGUHL\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
 
 
         public int ReportID { get; set; }
@@ -23,8 +23,9 @@ namespace SariSariStore.Core.Model
         public decimal TotalExpenses { get; set; }
         public decimal NetProfit { get; set; }
         public DateTime DateGenerated { get; set; }
+        public DateTime startDate { get; set; }
+        public DateTime endDate { get; set; }
 
-        
 
         public List<SalesReport> SalesReports()
         {
@@ -170,8 +171,37 @@ namespace SariSariStore.Core.Model
             return reports;
         }
 
+        public List<SalesReport> FilteredSales(DateTime startDate, DateTime endDate)
+        {
+            List<SalesReport> month = new List<SalesReport>();
 
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
 
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM tbl_SalesReport WHERE DateGenerated BETWEEN @startDate AND @endDate;", con))
+                {
+                    cmd.Parameters.AddWithValue("@startDate", startDate);
+                    cmd.Parameters.AddWithValue("@endDate", endDate);
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            SalesReport mth = new SalesReport
+                            {
+                                startDate = Convert.ToDateTime(reader["StartDate"]),
+                                endDate = Convert.ToDateTime(reader["EndDate"]),
+                                DateGenerated = Convert.ToDateTime(reader["DateGenerated"])
+                            };
+                            month.Add(mth);
+                        }
+                    }
+                }
+            }
+            return month;
+        }
+            
 
 
     }

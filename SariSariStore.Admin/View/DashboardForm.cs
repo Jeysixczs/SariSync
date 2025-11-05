@@ -23,7 +23,7 @@ namespace SariSariStore.Admin.View
         private Rounded rounded;
         public int cornerRadius = 30;
         public Products products = new Products();
-        public string connectionstring = @"Data Source=JEYSI\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Trust Server Certificate=True";
+        public string connectionstring = @"Data Source=DESKTOP-ECKGUHL\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
         public DashboardForm()
         {
             InitializeComponent();
