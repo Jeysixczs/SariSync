@@ -173,7 +173,6 @@
             dgv_stock.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgv_stock.BackgroundColor = Color.White;
             dgv_stock.BorderStyle = BorderStyle.None;
-            dgv_stock.ForeColor = Color.Black;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = Color.FromArgb(52, 152, 219);
             dataGridViewCellStyle2.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
@@ -195,22 +194,16 @@
             dgv_stock.DefaultCellStyle = dataGridViewCellStyle3;
             dgv_stock.EnableHeadersVisualStyles = false;
             dgv_stock.GridColor = Color.LightGray;
- 
+            dgv_stock.Location = new Point(15, 15);
             dgv_stock.MultiSelect = false;
-            dgv_stock.Name = "dgv_LatestProduct";
+            dgv_stock.Name = "dgv_stock";
             dgv_stock.ReadOnly = true;
             dgv_stock.RowHeadersVisible = false;
             dgv_stock.RowTemplate.Height = 35;
             dgv_stock.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-      
-            dgv_stock.TabIndex = 0;
-     
-
-
-            dgv_stock.Location = new Point(15, 15);
-          
             dgv_stock.Size = new Size(570, 505);
-         
+            dgv_stock.TabIndex = 0;
+            dgv_stock.CellContentClick += dgv_stock_CellContentClick_2;
             // 
             // NotificationForm
             // 

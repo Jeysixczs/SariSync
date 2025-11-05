@@ -211,9 +211,14 @@ namespace SariSariStore.Admin.View
 
         private void printButton_Click(object sender, EventArgs e)
         {
-      
-       
-           
+
+
+
+        }
+
+        private void OrderDetailsForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

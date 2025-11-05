@@ -35,7 +35,7 @@ namespace SariSariStore.Admin.View
             else
             {
                 timer_Loading.Stop();
-               LoginForm form = new LoginForm();
+                LoginForm form = new LoginForm();
                 form.Show();
 
                 this.Hide();
@@ -53,6 +53,11 @@ namespace SariSariStore.Admin.View
         }
 
         private void Loadingbar_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
         {
 
         }

@@ -55,7 +55,7 @@ namespace SariSariStore.Admin.View
             dgvProducts.Columns["Price"].Visible = false;
             dgvProducts.Columns["DateAdded"].Visible = false;
             dgvProducts.Columns["DateExpired"].Visible = false;
-            
+
         }
 
 
@@ -107,7 +107,7 @@ namespace SariSariStore.Admin.View
         }
         private void UpdateCartDisplay()
         {
-            
+
             try
             {
                 dgvCart.DataSource = null;
@@ -139,7 +139,7 @@ namespace SariSariStore.Admin.View
             txtNotes.Clear();
             txtRemarks.Clear();
             chkIsPaid.Checked = false;
-    
+
             RefreshProductList();
         }
 
@@ -202,7 +202,7 @@ namespace SariSariStore.Admin.View
                     "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
- 
+
             try
             {
                 var orderItems = _cartItems.Select(item => new OrderItems
@@ -210,7 +210,7 @@ namespace SariSariStore.Admin.View
                     ProductID = item.ProductID,
                     Quantity = item.Quantity,
                     UnitPrice = item.UnitPrice,
-               
+
                 }).ToList();
 
                 var order = new Orders
@@ -224,7 +224,7 @@ namespace SariSariStore.Admin.View
                 };
 
                 int orderId = _orders.CreateOrder(order, orderItems);
-                
+
                 MessageBox.Show($"Order processed successfully!\nOrder ID: {orderId}\nTotal Amount: {_totalAmount:C2}",
                     "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ClearForm();
@@ -285,6 +285,11 @@ namespace SariSariStore.Admin.View
             DashboardForm dashboardForm = new DashboardForm();
             dashboardForm.Show();
             this.Hide();
+        }
+
+        private void dgvCart_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
