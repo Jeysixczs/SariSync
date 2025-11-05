@@ -18,6 +18,7 @@ namespace SariSariStore.Admin.View
         public NotificationForm()
         {
             InitializeComponent();
+            dgv_stock.ForeColor = Color.Black;
         }
 
 

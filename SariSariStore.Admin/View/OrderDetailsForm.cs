@@ -21,6 +21,7 @@ namespace SariSariStore.Admin.View
             InitializeComponent();
             _ordersService = new Orders();
             LoadAllOrders();
+            dgvOrderItems.ForeColor = Color.Black;
 
         }
 
@@ -49,15 +50,6 @@ namespace SariSariStore.Admin.View
             // Display order items
             dgvOrderItems.DataSource = _order.Items;
 
-            // Format the grid
-            //dgvOrderItems.Columns["OrderDetailID"].Visible = false;
-            //dgvOrderItems.Columns["OrderID"].Visible = false;
-            //dgvOrderItems.Columns["ProductID"].HeaderText = "Product ID";
-            //dgvOrderItems.Columns["Quantity"].HeaderText = "Qty";
-            //dgvOrderItems.Columns["UnitPrice"].HeaderText = "Unit Price";
-            //dgvOrderItems.Columns["UnitPrice"].DefaultCellStyle.Format = "C2";
-            //dgvOrderItems.Columns["TotalPrice"].HeaderText = "Total Price";
-            //dgvOrderItems.Columns["TotalPrice"].DefaultCellStyle.Format = "C2";
             FormatOrderItemsGrid();
 
             // Show/hide controls appropriately
