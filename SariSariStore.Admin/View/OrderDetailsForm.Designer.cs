@@ -52,8 +52,8 @@
             dgvOrderItems = new DataGridView();
             label8 = new Label();
             panelFooter = new Panel();
-            btnClose = new Button();
             printButton = new Button();
+            btnClose = new Button();
             panelHeader.SuspendLayout();
             panelOrderInfo.SuspendLayout();
             panelOrderItems.SuspendLayout();
@@ -295,7 +295,7 @@
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = Color.White;
             dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle3.ForeColor = Color.Black;
+            dataGridViewCellStyle3.ForeColor = Color.White;
             dataGridViewCellStyle3.Padding = new Padding(5, 3, 5, 3);
             dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(173, 216, 230);
             dataGridViewCellStyle3.SelectionForeColor = Color.Black;
@@ -335,22 +335,6 @@
             panelFooter.Size = new Size(800, 70);
             panelFooter.TabIndex = 19;
             // 
-            // btnClose
-            // 
-            btnClose.BackColor = Color.FromArgb(108, 117, 125);
-            btnClose.FlatAppearance.BorderSize = 0;
-            btnClose.FlatAppearance.MouseOverBackColor = Color.FromArgb(90, 100, 110);
-            btnClose.FlatStyle = FlatStyle.Flat;
-            btnClose.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnClose.ForeColor = Color.White;
-            btnClose.Location = new Point(650, 15);
-            btnClose.Name = "btnClose";
-            btnClose.Size = new Size(120, 40);
-            btnClose.TabIndex = 15;
-            btnClose.Text = "✕ CLOSE";
-            btnClose.UseVisualStyleBackColor = false;
-            btnClose.Click += btnClose_Click;
-            // 
             // printButton
             // 
             printButton.BackColor = Color.FromArgb(76, 175, 80);
@@ -367,6 +351,22 @@
             printButton.Text = "💾 PRINT";
             printButton.UseVisualStyleBackColor = false;
             printButton.Click += printButton_Click;
+            // 
+            // btnClose
+            // 
+            btnClose.BackColor = Color.FromArgb(108, 117, 125);
+            btnClose.FlatAppearance.BorderSize = 0;
+            btnClose.FlatAppearance.MouseOverBackColor = Color.FromArgb(90, 100, 110);
+            btnClose.FlatStyle = FlatStyle.Flat;
+            btnClose.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnClose.ForeColor = Color.White;
+            btnClose.Location = new Point(650, 15);
+            btnClose.Name = "btnClose";
+            btnClose.Size = new Size(120, 40);
+            btnClose.TabIndex = 15;
+            btnClose.Text = "✕ CLOSE";
+            btnClose.UseVisualStyleBackColor = false;
+            btnClose.Click += btnClose_Click;
             // 
             // OrderDetailsForm
             // 
@@ -386,6 +386,7 @@
             Name = "OrderDetailsForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Order Details";
+            Load += OrderDetailsForm_Load;
             panelHeader.ResumeLayout(false);
             panelHeader.PerformLayout();
             panelOrderInfo.ResumeLayout(false);

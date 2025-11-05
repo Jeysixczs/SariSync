@@ -17,7 +17,7 @@ namespace SariSariStore.Admin.View
         private readonly int _supplierId;
         private readonly bool _isEditMode;
         public Supplier sup = new Supplier();
-      
+
         public AddEditSupplierForm()
         {
             InitializeComponent();
@@ -174,7 +174,7 @@ namespace SariSariStore.Admin.View
 
         private void txtboxContactNumber_TextChanged(object sender, EventArgs e)
         {
-          
+
 
             string text = txtboxContactNumber.Text.Replace("-", "");
             string formatted = "";
@@ -201,6 +201,11 @@ namespace SariSariStore.Admin.View
             {
                 errorProvider1.SetError(txtboxContactNumber, string.Empty);
             }
+        }
+
+        private void panelMain_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

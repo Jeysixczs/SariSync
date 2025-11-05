@@ -18,6 +18,7 @@ namespace SariSariStore.Admin.View
         public NotificationForm()
         {
             InitializeComponent();
+            dgv_stock.ForeColor = Color.Black;
         }
 
 
@@ -55,7 +56,7 @@ namespace SariSariStore.Admin.View
             dgv_stock.Columns["ImagePath"].Visible = false;
             dgv_stock.Columns["DateExpired"].Visible = false;
             dgv_stock.Columns["SellingPrice"].Visible = false;
-            dgv_stock.Columns["SupplierID"].Visible= false;
+            dgv_stock.Columns["SupplierID"].Visible = false;
         }
 
         private void dgv_stock_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -64,6 +65,11 @@ namespace SariSariStore.Admin.View
         }
 
         private void dgv_stock_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dgv_stock_CellContentClick_2(object sender, DataGridViewCellEventArgs e)
         {
 
         }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using SariSariStore.Core.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +14,7 @@ namespace SariSariStore.Admin.View
 {
     public partial class LoginForm : Form
     {
-        public string connection = @"Data Source=DESKTOP-ECKGUHL\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
+        public string connection = ConnectionHelper.GetConnectionString();
         public LoginForm()
         {
             InitializeComponent();
@@ -83,6 +84,11 @@ namespace SariSariStore.Admin.View
         }
 
         private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint_1(object sender, PaintEventArgs e)
         {
 
         }

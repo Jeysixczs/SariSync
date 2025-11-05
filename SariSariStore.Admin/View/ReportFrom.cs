@@ -18,12 +18,9 @@ namespace SariSariStore.Admin.View
     {
         private Rounded rounded;
         public int cornerRadius = 30;
-        public DateTime startDate;
-        public DateTime endDate;
 
         // public Expenses exp = new Expenses();
-        public string ConnectionString = @"Data Source=DESKTOP-ECKGUHL\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
-
+        public string ConnectionString = ConnectionHelper.GetConnectionString();
         public SalesReport salesReports = new SalesReport();
         public ReportFrom()
         {
@@ -169,24 +166,8 @@ namespace SariSariStore.Admin.View
             Invalidate();
             this.Region = rounded.RoundForm(cornerRadius, this.Width, this.Height);
         }
-
-        private void dtpStartDate_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dtpEndDate_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btn_Entery_Click(object sender, EventArgs e)
-        {
-            startDate = dtpStartDate.Value.Date;
-            endDate = dtpEndDate.Value.Date;
-
-            dgv_report.DataSource = salesReports.FilteredSales(startDate, endDate);
-        }
     }
+
+
 }
 

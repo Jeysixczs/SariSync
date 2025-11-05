@@ -16,8 +16,7 @@ namespace SariSariStore.Core.Model
     public class Orders
     {
         //send Order to the database
-        public string ConnectionString = @"Data Source=DESKTOP-ECKGUHL\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
-
+        public string ConnectionString = ConnectionHelper.GetConnectionString();
         [Key]
         public int OrderID { get; set; }
         public string CustomerName { get; set; } = string.Empty;

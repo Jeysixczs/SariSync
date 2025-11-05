@@ -213,6 +213,7 @@
             Name = "Register";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Create Account";
+            Load += Register_Load_1;
             ((System.ComponentModel.ISupportInitialize)errorProvider1).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

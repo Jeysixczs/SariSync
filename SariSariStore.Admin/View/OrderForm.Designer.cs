@@ -326,6 +326,7 @@
             panel2.Padding = new Padding(100);
             panel2.Size = new Size(1127, 724);
             panel2.TabIndex = 13;
+            panel2.Paint += panel2_Paint;
             // 
             // dgv_Orders
             // 

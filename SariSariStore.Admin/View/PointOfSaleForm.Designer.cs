@@ -95,7 +95,6 @@
             // 
             btn_back.BackColor = Color.FromArgb(28, 28, 65);
             btn_back.FlatAppearance.BorderSize = 0;
-          
             btn_back.FlatStyle = FlatStyle.Flat;
             btn_back.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             btn_back.ForeColor = Color.White;
@@ -280,6 +279,7 @@
             dgvCart.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvCart.Size = new Size(600, 340);
             dgvCart.TabIndex = 30;
+            dgvCart.CellContentClick += dgvCart_CellContentClick;
             // 
             // panel4
             // 

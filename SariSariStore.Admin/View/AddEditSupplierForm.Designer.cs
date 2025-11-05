@@ -195,6 +195,7 @@
             panelMain.Padding = new Padding(25);
             panelMain.Size = new Size(564, 529);
             panelMain.TabIndex = 4;
+            panelMain.Paint += panelMain_Paint;
             // 
             // panelFormSection
             // 
