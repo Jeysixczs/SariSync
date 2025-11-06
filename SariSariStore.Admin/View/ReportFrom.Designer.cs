@@ -60,7 +60,7 @@
             btn_MonthlyReports = new Button();
             panel2 = new Panel();
             btn_perform = new Button();
-            dtpSpecificDate = new DateTimePicker();
+            dateTimePicker1 = new DateTimePicker();
             label4 = new Label();
             label3 = new Label();
             panel1.SuspendLayout();
@@ -424,7 +424,7 @@
             // 
             panel2.BackColor = Color.FromArgb(20, 20, 50);
             panel2.Controls.Add(btn_perform);
-            panel2.Controls.Add(dtpSpecificDate);
+            panel2.Controls.Add(dateTimePicker1);
             panel2.Controls.Add(btn_MonthlyReports);
             panel2.Controls.Add(btn_dailyReports);
             panel2.Controls.Add(btn_Entery);
@@ -453,24 +453,20 @@
             btn_perform.UseVisualStyleBackColor = true;
             btn_perform.Click += btn_perform_Click;
             // 
-            // dtpSpecificDate
+            // dateTimePicker1
             // 
-            dtpSpecificDate.Location = new Point(28, 71);
-            dtpSpecificDate.Name = "dtpSpecificDate";
-            dtpSpecificDate.Size = new Size(201, 25);
-            dtpSpecificDate.TabIndex = 19;
-
-            // Minimalist approach
-            dtpSpecificDate.Format = DateTimePickerFormat.Short;
-            dtpSpecificDate.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
-            dtpSpecificDate.BackColor = Color.White;
-            dtpSpecificDate.ForeColor = Color.FromArgb(80, 80, 80);
-
-            // Clean calendar
-            dtpSpecificDate.CalendarTitleBackColor = Color.FromArgb(240, 240, 240);
-            dtpSpecificDate.CalendarTitleForeColor = Color.FromArgb(80, 80, 80);
-            dtpSpecificDate.CalendarForeColor = Color.FromArgb(60, 60, 60);
-            dtpSpecificDate.CalendarTrailingForeColor = Color.FromArgb(200, 200, 200);
+            dateTimePicker1.BackColor = Color.White;
+            dateTimePicker1.CalendarForeColor = Color.FromArgb(60, 60, 60);
+            dateTimePicker1.CalendarTitleBackColor = Color.FromArgb(240, 240, 240);
+            dateTimePicker1.CalendarTitleForeColor = Color.FromArgb(80, 80, 80);
+            dateTimePicker1.CalendarTrailingForeColor = Color.FromArgb(200, 200, 200);
+            dateTimePicker1.Font = new Font("Segoe UI", 9F);
+            dateTimePicker1.ForeColor = Color.FromArgb(80, 80, 80);
+            dateTimePicker1.Format = DateTimePickerFormat.Short;
+            dateTimePicker1.Location = new Point(28, 71);
+            dateTimePicker1.Name = "dateTimePicker1";
+            dateTimePicker1.Size = new Size(201, 23);
+            dateTimePicker1.TabIndex = 19;
             // 
             // label4
             // 
@@ -554,7 +550,7 @@
         private Button btn_dailyReports;
         private Button btn_MonthlyReports;
         private Panel panel2;
-        private DateTimePicker dtpSpecificDate;
+        private DateTimePicker dateTimePicker1;
         private Label label4;
         private Label label3;
         private Button btn_perform;
