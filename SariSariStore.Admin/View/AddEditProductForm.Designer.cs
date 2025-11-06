@@ -142,9 +142,9 @@
             label7.ForeColor = Color.LightGray;
             label7.Location = new Point(25, 534);
             label7.Name = "label7";
-            label7.Size = new Size(65, 19);
+            label7.Size = new Size(109, 19);
             label7.TabIndex = 4;
-            label7.Text = "Supplier";
+            label7.Text = "Supplier Name";
             // 
             // numericSellingPrice
             // 

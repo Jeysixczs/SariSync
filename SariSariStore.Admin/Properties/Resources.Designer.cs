@@ -63,6 +63,16 @@ namespace SariSariStore.Admin.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap a826db4e_b8e3_4d87_b6fb_29d02595b1d9 {
+            get {
+                object obj = ResourceManager.GetObject("a826db4e-b8e3-4d87-b6fb-29d02595b1d9", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_best_seller_64 {
             get {
                 object obj = ResourceManager.GetObject("icons8-best-seller-64", resourceCulture);
@@ -176,6 +186,16 @@ namespace SariSariStore.Admin.Properties {
         internal static System.Drawing.Bitmap icons8_store_64 {
             get {
                 object obj = ResourceManager.GetObject("icons8-store-64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SarisyncLogo {
+            get {
+                object obj = ResourceManager.GetObject("SarisyncLogo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

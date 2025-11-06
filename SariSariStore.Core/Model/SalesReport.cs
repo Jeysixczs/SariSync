@@ -1,8 +1,10 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.VisualBasic;
 using SariSariStore.Core.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -70,28 +72,42 @@ namespace SariSariStore.Core.Model
             }
             return salesReports;
         }
-        public List<SalesReport> GetSalesReportsByDateRange(DateTime startDate, DateTime endDate)
-        {
-            List<SalesReport> salesReports = new List<SalesReport>();
+    }
 
-            using (SqlConnection conn = new SqlConnection(ConnectionString))
+    public class DateRangeReportProperties
+    {
+
+        public DateTime OrderDate { get; set; }
+        public string CustomerName { get; set; } = string.Empty;
+        public decimal OrderTotal { get; set; }
+        public string ProductName { get; set; } = string.Empty;
+        public string Category { get; set; } = string.Empty;
+        public int Quantity { get; set; }
+        public decimal UnitPrice { get; set; }
+       
+
+        public List<DateRangeReportProperties> GetSalesReportsByDateRange(DateTime startDate, DateTime endDate)
+        {
+            List<DateRangeReportProperties> salesReports = new List<DateRangeReportProperties>();
+
+            using (SqlConnection conn = new SqlConnection(ConnectionHelper.GetConnectionString()))
             {
                 conn.Open();
                 string query = @"
-                    SELECT 
-                        od.ProductID,
-                        p.Name AS ProductName,
-                        p.Category AS ProductCategory,
-                        SUM(od.Quantity) AS TotalQuantitySold,
-                        od.UnitPrice,
-                        SUM(od.Quantity * od.UnitPrice) AS TotalRevenue,
-                        COUNT(DISTINCT o.OrderID) AS NumberOfOrders
-                    FROM tbl_order o
-                    INNER JOIN tbl_orderdetails od ON o.OrderID = od.OrderID
-                    INNER JOIN tbl_product p ON od.ProductID = p.ProductID
-                    WHERE CAST(o.OrderDate AS DATE) BETWEEN @StartDate AND @EndDate
-                    GROUP BY od.ProductID, p.Name, p.Category, od.UnitPrice
-                    ORDER BY TotalRevenue DESC;";
+                   SELECT 
+                            o.OrderID,
+                            o.OrderDate,
+                            o.CustomerName,
+                            o.TotalAmount AS OrderTotal,
+                            p.Name AS ProductName,
+                            p.Category,
+                            od.Quantity,
+                            od.UnitPrice AS UnitPrice
+                        FROM tbl_order o
+                        INNER JOIN tbl_OrderDetails od ON o.OrderID = od.OrderID
+                        INNER JOIN tbl_Product p ON od.ProductID = p.ProductID
+                        WHERE o.OrderDate BETWEEN @StartDate AND @EndDate
+                        ORDER BY o.OrderID, p.Name;";
 
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
@@ -102,15 +118,16 @@ namespace SariSariStore.Core.Model
                     {
                         while (reader.Read())
                         {
-                            SalesReport report = new SalesReport
+                            DateRangeReportProperties report = new DateRangeReportProperties
                             {
-                                ProductID = Convert.ToInt32(reader["ProductID"]),
+                                OrderDate = Convert.ToDateTime(reader["OrderDate"].ToString()),
+                                CustomerName = reader["CustomerName"].ToString(),
+                                OrderTotal = Convert.ToDecimal(reader["OrderTotal"]),
                                 ProductName = reader["ProductName"].ToString(),
-                                Category = reader["ProductCategory"].ToString(),
-                                TotalQuantiySold = Convert.ToDecimal(reader["TotalQuantitySold"]),
+                                Category = reader["Category"].ToString(),
+                                Quantity = Convert.ToInt32(reader["Quantity"]),
                                 UnitPrice = Convert.ToDecimal(reader["UnitPrice"]),
-                                TotalRevenue = Convert.ToDecimal(reader["TotalRevenue"]),
-                                Numoforder = Convert.ToInt32(reader["NumberOfOrders"])
+                            
                             };
                             salesReports.Add(report);
                         }
@@ -119,8 +136,58 @@ namespace SariSariStore.Core.Model
             }
             return salesReports;
         }
-    }
 
+
+        public List<DateRangeReportProperties> DisplaySpecificDateOrder(DateTime specidate)
+        {
+            List<DateRangeReportProperties> specificdate = new List<DateRangeReportProperties>();
+
+            using (SqlConnection con = new SqlConnection(ConnectionHelper.GetConnectionString()))
+            {
+                string query = @"SELECT 
+                            o.OrderID,
+                            o.OrderDate,
+                            o.CustomerName,
+                            o.TotalAmount AS OrderTotal,
+                            p.Name AS ProductName,
+                            p.Category, 
+                            od.Quantity,
+                            od.UnitPrice AS UnitPrice 
+                         FROM tbl_order o 
+                         INNER JOIN tbl_OrderDetails od ON o.OrderID = od.OrderID 
+                         INNER JOIN tbl_Product p ON od.ProductID = p.ProductID 
+                         WHERE CAST(o.OrderDate AS DATE) = CAST(@dtpDate AS DATE) 
+                         ORDER BY o.OrderID, p.Name";
+
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.Add("@dtpDate", SqlDbType.DateTime).Value = specidate;
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            DateRangeReportProperties report = new DateRangeReportProperties
+                            {
+                                OrderDate = reader["OrderDate"] as DateTime? ?? DateTime.MinValue,
+                                CustomerName = reader["CustomerName"] as string ?? string.Empty,
+                                OrderTotal = reader["OrderTotal"] as decimal? ?? 0m,
+                                ProductName = reader["ProductName"] as string ?? string.Empty,
+                                Category = reader["Category"] as string ?? string.Empty,
+                                Quantity = reader["Quantity"] as int? ?? 0,
+                                UnitPrice = reader["UnitPrice"] as decimal? ?? 0m
+                            };
+                            specificdate.Add(report);
+                        }
+                    }
+                }
+            }
+            return specificdate;
+        }
+
+
+    }
 
     public class DailySalesReportProperties
     {

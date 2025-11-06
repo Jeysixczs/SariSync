@@ -145,13 +145,7 @@ namespace SariSariStore.Admin.View
             }
         }
 
-        private void btn_Order_Click(object sender, EventArgs e)
-        {
-            OrderForm orderForm = new OrderForm();
-            orderForm.Show();
-            this.Hide();
-        }
-
+   
         private void btn_notification_Click(object sender, EventArgs e)
         {
             NotificationForm notificationForm = new NotificationForm();

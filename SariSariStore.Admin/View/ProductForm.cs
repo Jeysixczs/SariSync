@@ -153,8 +153,6 @@ namespace SariSariStore.Admin.View
 
         }
 
-        //get the selected row and pass the supplier id to the edit form to display the data in cmbsuppliername
-
 
 
 
@@ -225,6 +223,7 @@ namespace SariSariStore.Admin.View
             string searchTerm = txtbox_Search.Text.Trim();
 
             dgv_Product.DataSource = prod.SearchProduct(searchTerm);
+
 
         }
 
