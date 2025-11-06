@@ -59,11 +59,10 @@
             btn_dailyReports = new Button();
             btn_MonthlyReports = new Button();
             panel2 = new Panel();
+            dtp_SpecifiDate = new DateTimePicker();
             btn_perform = new Button();
-            dateTimePicker1 = new DateTimePicker();
             label4 = new Label();
             label3 = new Label();
-            dateTimePicker1 = new DateTimePicker();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             panel3.SuspendLayout();
@@ -424,9 +423,8 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(20, 20, 50);
-            panel2.Controls.Add(dateTimePicker1);
+            panel2.Controls.Add(dtp_SpecifiDate);
             panel2.Controls.Add(btn_perform);
-            panel2.Controls.Add(dateTimePicker1);
             panel2.Controls.Add(btn_MonthlyReports);
             panel2.Controls.Add(btn_dailyReports);
             panel2.Controls.Add(btn_Entery);
@@ -445,6 +443,14 @@
             panel2.TabIndex = 10;
             panel2.Paint += panel2_Paint;
             // 
+            // dtp_SpecifiDate
+            // 
+            dtp_SpecifiDate.Location = new Point(23, 72);
+            dtp_SpecifiDate.Name = "dtp_SpecifiDate";
+            dtp_SpecifiDate.Size = new Size(200, 23);
+            dtp_SpecifiDate.TabIndex = 21;
+            dtp_SpecifiDate.ValueChanged += dtp_SpecifiDate_ValueChanged;
+            // 
             // btn_perform
             // 
             btn_perform.Location = new Point(755, 48);
@@ -454,13 +460,6 @@
             btn_perform.Text = "Product Perfomance";
             btn_perform.UseVisualStyleBackColor = true;
             btn_perform.Click += btn_perform_Click;
-            // 
-            // dateTimePicker1
-            // 
-            dateTimePicker1.Location = new Point(28, 71);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(201, 23);
-            dateTimePicker1.TabIndex = 19;
             // 
             // label4
             // 
@@ -481,13 +480,6 @@
             label3.Size = new Size(58, 15);
             label3.TabIndex = 11;
             label3.Text = "Start Date";
-            // 
-            // dateTimePicker1
-            // 
-            dateTimePicker1.Location = new Point(28, 69);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(200, 23);
-            dateTimePicker1.TabIndex = 21;
             // 
             // ReportFrom
             // 
@@ -551,10 +543,11 @@
         private Button btn_dailyReports;
         private Button btn_MonthlyReports;
         private Panel panel2;
-        private DateTimePicker dateTimePicker1;
+    
         private Label label4;
         private Label label3;
         private Button btn_perform;
-        private DateTimePicker dateTimePicker1;
+        private DateTimePicker dtp_SpecifiDate;
+   
     }
 }
