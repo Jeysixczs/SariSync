@@ -87,6 +87,7 @@ namespace SariSariStore.Admin.View
 
             //HIDE COLUMN SUPPLIERID
             dgv_supplier.Columns["SupplierID"].Visible = false;
+            dgv_supplier.Columns["IsActive"].Visible = false;
 
 
 

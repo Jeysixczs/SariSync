@@ -55,6 +55,8 @@ namespace SariSariStore.Admin.View
             dgvProducts.Columns["Price"].Visible = false;
             dgvProducts.Columns["DateAdded"].Visible = false;
             dgvProducts.Columns["DateExpired"].Visible = false;
+            dgvProducts.Columns["SupplierID"].Visible = false;
+            dgvProducts.Columns["SupplierName"].Visible = false;
 
         }
 
@@ -288,6 +290,11 @@ namespace SariSariStore.Admin.View
         }
 
         private void dgvCart_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dgvProducts_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }

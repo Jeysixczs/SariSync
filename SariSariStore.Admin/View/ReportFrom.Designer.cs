@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReportFrom));
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             panel1 = new Panel();
             label7 = new Label();
             pictureBox6 = new PictureBox();
@@ -60,9 +60,10 @@
             btn_MonthlyReports = new Button();
             panel2 = new Panel();
             btn_perform = new Button();
-            dtp_SpecificDate = new DateTimePicker();
+            dateTimePicker1 = new DateTimePicker();
             label4 = new Label();
             label3 = new Label();
+            dateTimePicker1 = new DateTimePicker();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             panel3.SuspendLayout();
@@ -317,30 +318,30 @@
             dgv_report.AllowUserToAddRows = false;
             dgv_report.AllowUserToDeleteRows = false;
             dgv_report.AllowUserToResizeRows = false;
-            dataGridViewCellStyle4.BackColor = Color.FromArgb(245, 245, 245);
-            dgv_report.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(245, 245, 245);
+            dgv_report.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dgv_report.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgv_report.BackgroundColor = Color.White;
             dgv_report.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = Color.FromArgb(52, 152, 219);
-            dataGridViewCellStyle5.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            dataGridViewCellStyle5.ForeColor = Color.White;
-            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            dgv_report.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(52, 152, 219);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgv_report.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dgv_report.ColumnHeadersHeight = 40;
             dgv_report.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = Color.White;
-            dataGridViewCellStyle6.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle6.ForeColor = Color.Black;
-            dataGridViewCellStyle6.Padding = new Padding(5, 3, 5, 3);
-            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(173, 216, 230);
-            dataGridViewCellStyle6.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
-            dgv_report.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle3.ForeColor = Color.Black;
+            dataGridViewCellStyle3.Padding = new Padding(5, 3, 5, 3);
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(173, 216, 230);
+            dataGridViewCellStyle3.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            dgv_report.DefaultCellStyle = dataGridViewCellStyle3;
             dgv_report.EnableHeadersVisualStyles = false;
             dgv_report.GridColor = Color.LightGray;
             dgv_report.Location = new Point(28, 170);
@@ -423,8 +424,9 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(20, 20, 50);
+            panel2.Controls.Add(dateTimePicker1);
             panel2.Controls.Add(btn_perform);
-            panel2.Controls.Add(dtp_SpecificDate);
+            panel2.Controls.Add(dateTimePicker1);
             panel2.Controls.Add(btn_MonthlyReports);
             panel2.Controls.Add(btn_dailyReports);
             panel2.Controls.Add(btn_Entery);
@@ -453,12 +455,12 @@
             btn_perform.UseVisualStyleBackColor = true;
             btn_perform.Click += btn_perform_Click;
             // 
-            // dtp_SpecificDate
+            // dateTimePicker1
             // 
-            dtp_SpecificDate.Location = new Point(28, 71);
-            dtp_SpecificDate.Name = "dtp_SpecificDate";
-            dtp_SpecificDate.Size = new Size(201, 23);
-            dtp_SpecificDate.TabIndex = 19;
+            dateTimePicker1.Location = new Point(28, 71);
+            dateTimePicker1.Name = "dateTimePicker1";
+            dateTimePicker1.Size = new Size(201, 23);
+            dateTimePicker1.TabIndex = 19;
             // 
             // label4
             // 
@@ -479,6 +481,13 @@
             label3.Size = new Size(58, 15);
             label3.TabIndex = 11;
             label3.Text = "Start Date";
+            // 
+            // dateTimePicker1
+            // 
+            dateTimePicker1.Location = new Point(28, 69);
+            dateTimePicker1.Name = "dateTimePicker1";
+            dateTimePicker1.Size = new Size(200, 23);
+            dateTimePicker1.TabIndex = 21;
             // 
             // ReportFrom
             // 
@@ -542,9 +551,10 @@
         private Button btn_dailyReports;
         private Button btn_MonthlyReports;
         private Panel panel2;
-        private DateTimePicker dtp_SpecificDate;
+        private DateTimePicker dateTimePicker1;
         private Label label4;
         private Label label3;
         private Button btn_perform;
+        private DateTimePicker dateTimePicker1;
     }
 }

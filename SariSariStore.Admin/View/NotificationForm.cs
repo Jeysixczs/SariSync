@@ -57,6 +57,7 @@ namespace SariSariStore.Admin.View
             dgv_stock.Columns["DateExpired"].Visible = false;
             dgv_stock.Columns["SellingPrice"].Visible = false;
             dgv_stock.Columns["SupplierID"].Visible = false;
+            dgv_stock.Columns["SupplierName"].Visible = false;
         }
 
         private void dgv_stock_CellContentClick(object sender, DataGridViewCellEventArgs e)

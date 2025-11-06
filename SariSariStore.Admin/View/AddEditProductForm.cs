@@ -69,7 +69,6 @@ namespace SariSariStore.Admin
         {
             try
             {
-                // Use your existing Products class to get data from database
                 var product = products.GetProductById(_productId);
 
                 if (product == null)
@@ -87,17 +86,20 @@ namespace SariSariStore.Admin
                 NumericStock.Value = product.Stock;
                 dtp_ExpirationDate.Value = Convert.ToDateTime(product.DateExpired);
                 numericSellingPrice.Value = product.SellingPrice;
-                MessageBox.Show(product.SupplierID.ToString(), product.GetSupplierNameByProduct(product.SupplierID));
-                cmbSupplier.Text = product.GetSupplierNameByProduct(product.SupplierID);
 
-
-
-
-
-
-
-
-
+                // Set the Supplier in ComboBox properly
+                if (product.SupplierID > 0)
+                {
+                    // Find and select the supplier in the ComboBox
+                    foreach (Supplier item in cmbSupplier.Items)
+                    {
+                        if (item.SupplierID == product.SupplierID)
+                        {
+                            cmbSupplier.SelectedItem = item;
+                            break;
+                        }
+                    }
+                }
 
                 if (!string.IsNullOrEmpty(product.ImagePath))
                 {
@@ -119,8 +121,6 @@ namespace SariSariStore.Admin
 
         }
 
-
-
         private void saveButton_Click(object sender, EventArgs e)
         {
             try
@@ -133,6 +133,13 @@ namespace SariSariStore.Admin
                     return;
                 }
 
+                // Get the selected SupplierID from ComboBox
+                int supplierId = 0;
+                if (cmbSupplier.SelectedValue != null)
+                {
+                    supplierId = Convert.ToInt32(cmbSupplier.SelectedValue);
+                }
+
                 var product = new Products
                 {
                     Name = txtboxProductName.Text.Trim(),
@@ -142,7 +149,8 @@ namespace SariSariStore.Admin
                     Stock = (int)NumericStock.Value,
                     DateAdded = DateTime.Now,
                     DateExpired = dtp_ExpirationDate.Value,
-                    SellingPrice = numericSellingPrice.Value
+                    SellingPrice = numericSellingPrice.Value,
+                    SupplierID = supplierId  // ✅ ADD THIS LINE - This was missing!
                 };
 
                 string imagePathToSave = selectedImagePath;
@@ -161,7 +169,6 @@ namespace SariSariStore.Admin
                     products.UpdateProduct(product, imagePathToSave);
                     MessageBox.Show("✅ Product updated successfully!", "Success",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                 }
                 else
                 {
@@ -172,6 +179,7 @@ namespace SariSariStore.Admin
 
                 this.DialogResult = DialogResult.OK;
                 this.Close();
+                
             }
             catch (FormatException)
             {
@@ -183,6 +191,8 @@ namespace SariSariStore.Admin
                 MessageBox.Show($"Error saving product: {ex.Message}",
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+
         }
 
 
@@ -263,9 +273,8 @@ namespace SariSariStore.Admin
 
         private void cmbCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            
         }
-
         public void DisplayCategory()
         {
 
@@ -290,16 +299,25 @@ namespace SariSariStore.Admin
 
         public void DisplaySupplierName()
         {
-            Supplier supplier = new Supplier();
-            var suppliers = supplier.GetSupplierName();
-            cmbSupplier.Items.Clear();
-
-            foreach (var sup in suppliers)
+            try
             {
+                Supplier suppliers = new Supplier();
+                var sup = suppliers.GetAllSuppliers();
 
-                cmbSupplier.Items.Add(sup.SupplierName);
+                // Make sure to include only active suppliers
+                cmbSupplier.DataSource = sup.Where(s => s.IsActive).ToList();
+                cmbSupplier.DisplayMember = "SupplierName";
+                cmbSupplier.ValueMember = "SupplierID";
 
+                
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading suppliers: {ex.Message}", "Error",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
         }
 
 

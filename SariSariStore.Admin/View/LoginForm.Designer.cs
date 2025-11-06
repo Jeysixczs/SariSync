@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             textBox2 = new TextBox();
             textBox3 = new TextBox();
             button1 = new Button();
@@ -40,10 +41,10 @@
             panel2 = new Panel();
             label4 = new Label();
             label3 = new Label();
-            pictureBox1 = new PictureBox();
+            pictureBox6 = new PictureBox();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             SuspendLayout();
             // 
             // textBox2
@@ -163,9 +164,9 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(20, 20, 50);
+            panel2.Controls.Add(pictureBox6);
             panel2.Controls.Add(label4);
             panel2.Controls.Add(label3);
-            panel2.Controls.Add(pictureBox1);
             panel2.Dock = DockStyle.Left;
             panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";
@@ -195,15 +196,16 @@
             label3.TabIndex = 1;
             label3.Text = "Welcome Back!";
             // 
-            // pictureBox1
+            // pictureBox6
             // 
-            pictureBox1.Image = Properties.Resources.icons8_store_64;
-            pictureBox1.Location = new Point(100, 150);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(150, 150);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
+            pictureBox6.BackColor = Color.Transparent;
+            pictureBox6.Image = (Image)resources.GetObject("pictureBox6.Image");
+            pictureBox6.Location = new Point(28, 138);
+            pictureBox6.Name = "pictureBox6";
+            pictureBox6.Size = new Size(266, 189);
+            pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox6.TabIndex = 4;
+            pictureBox6.TabStop = false;
             // 
             // LoginForm
             // 
@@ -223,7 +225,7 @@
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
             ResumeLayout(false);
         }
         #endregion
@@ -240,7 +242,7 @@
         private Label label4;
         private Label label3;
         private CheckBox checkBoxShowPassword;
-        private PictureBox pictureBox1;
         private Button button2;
+        private PictureBox pictureBox6;
     }
 }

@@ -23,6 +23,7 @@ namespace SariSariStore.Core.Model
         public string? PhoneNumber { get; set; }
         public string Address { get; set; } = string.Empty;
         public DateTime CreatedDate { get; set; }
+        public bool IsActive { get; set; }= true;
 
 
         public List<Supplier> GetAllSuppliers()
@@ -170,7 +171,7 @@ namespace SariSariStore.Core.Model
             List<Supplier> sup = new List<Supplier>();
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
-                string query = "SELECT DISTINCT SupplierName FROM tbl_suppliers WHERE IsActive = 1 ORDER BY SupplierName";
+                string query = "SELECT DISTINCT SupplierName, SupplierID FROM tbl_suppliers WHERE IsActive = 1 ORDER BY SupplierName";
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
                     con.Open();
@@ -180,7 +181,7 @@ namespace SariSariStore.Core.Model
                         {
                             Supplier supplier = new Supplier
                             {
-                               
+                                SupplierID = Convert.ToInt32(reader["SupplierID"]),
                                 SupplierName = reader["SupplierName"]?.ToString() ?? string.Empty
                             };
                             sup.Add(supplier);

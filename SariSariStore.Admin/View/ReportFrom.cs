@@ -32,25 +32,10 @@ namespace SariSariStore.Admin.View
             rounded.MakePanelRounded(panel2, 30);
             rounded.MakePanelRounded(panel3, 30);
             rounded.MakePanelRounded(panel4, 30);
-            //rounded.MakePanelRounded(panel5, 30);
-            //rounded.MakePanelRounded(panel6, 30);
-            //rounded.MakePanelRounded(panel7, 30);
-            //rounded.MakePanelRounded(panel8, 30);
-            //rounded.MakePanelRounded(panel9, 30);
-            //rounded.MakePanelRounded(panel10, 30);
-            //rounded.MakePanelRounded(panel11, 30);
-            //rounded.MakePanelRounded(panel12, 30);
-            //rounded.MakePanelRounded(panel13, 30);
-
-            Display();
 
             LoadReport();
         }
 
-        public void Display()
-        {
-            //     dataGridView1.DataSource = salesReports.GetSalesReportsDay();
-        }
         private void btn_Dashboard_Click(object sender, EventArgs e)
         {
             DashboardForm dashboardForm = new DashboardForm();
@@ -159,8 +144,9 @@ namespace SariSariStore.Admin.View
             {
                 MessageBox.Show("Start Date cannot be later than End Date.", "Invalid Date Range", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            SalesReport salesReport = new SalesReport();
-            dgv_report.DataSource = salesReport.GetSalesReportsByDateRange(startDate, endDate);
+            DateRangeReportProperties dateRangeReportProperties = new DateRangeReportProperties();
+            dgv_report.DataSource = dateRangeReportProperties.GetSalesReportsByDateRange(startDate, endDate);
+            dgv_report.Columns["OrderDate"].DefaultCellStyle.Format = "MMM dd yyyy";
         }
 
         private void btn_dailyReports_Click(object sender, EventArgs e)
@@ -187,7 +173,15 @@ namespace SariSariStore.Admin.View
 
         private void btn_SpecificOrder_Click(object sender, EventArgs e)
         {
+<<<<<<< HEAD
            
+=======
+             DateTime specific = dateTimePicker1.Value.Date;
+            
+            DateRangeReportProperties getspecificdate = new DateRangeReportProperties();
+            dgv_report.DataSource = getspecificdate.DisplaySpecificDateOrder(specific);
+            dgv_report.Columns["OrderDate"].DefaultCellStyle.Format = "MMM dd yyyy";
+>>>>>>> pakyu
         }
     }
 

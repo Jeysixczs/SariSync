@@ -1,11 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
-using System.Data.Common;
-using System.IO;
 
 
 namespace SariSariStore.Core.Model
@@ -28,6 +24,7 @@ namespace SariSariStore.Core.Model
         public DateTime DateAdded { get; set; }
         public DateTime? DateExpired { get; set; }
         public int SupplierID { get; set; }
+        public string SupplierName { get; set; } = string.Empty;
 
 
 
@@ -37,7 +34,7 @@ namespace SariSariStore.Core.Model
 
             using (SqlConnection con = new(ConnectionString))
             {
-                using (SqlCommand cmd = new("SELECT * FROM tbl_Product WHERE IsActive = 1", con))
+                using (SqlCommand cmd = new("SELECT tbl_Product.*, tbl_suppliers.SupplierName FROM tbl_Product LEFT JOIN tbl_suppliers ON tbl_Product.SupplierID = tbl_suppliers.SupplierID WHERE tbl_Product.IsActive = 1", con))
                 {
                     con.Open();
                     using (SqlDataReader reader = cmd.ExecuteReader())
@@ -56,7 +53,9 @@ namespace SariSariStore.Core.Model
                                 ImagePath = reader["ImagePath"]?.ToString(),
                                 DateAdded = Convert.ToDateTime(reader["DateAdded"]),
                                 DateExpired = Convert.ToDateTime(reader["DateExpired"]),
-                                SupplierID = Convert.ToInt32(reader["SupplierID"])
+                                SupplierID = Convert.ToInt32(reader["SupplierID"]),
+                                SupplierName = reader["SupplierName"]?.ToString() ?? string.Empty
+
                             };
                             productsList.Add(product);
                         }
@@ -73,13 +72,19 @@ namespace SariSariStore.Core.Model
                 throw new Exception("A product with the same name already exists.");
             }
 
+            // Validate SupplierID exists
+            if (product.SupplierID > 0 && !SupplierExists(product.SupplierID))
+            {
+                throw new Exception($"Supplier with ID {product.SupplierID} does not exist.");
+            }
+
             using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 string query = @"INSERT INTO tbl_Product 
-                         (Name, Description, Category, Price, SellingPrice, Stock, ImagePath, DateAdded, DateExpired)
-                         OUTPUT INSERTED.ProductID
-                         VALUES (@Name, @Description, @Category, @Price, @SellingPrice, @Stock, @ImagePath, GETDATE(), @DateExpired)";
+            (Name, Description, Category, Price, SellingPrice, Stock, ImagePath, DateAdded, DateExpired, SupplierID)
+            OUTPUT INSERTED.ProductID
+            VALUES (@Name, @Description, @Category, @Price, @SellingPrice, @Stock, @ImagePath, GETDATE(), @DateExpired, @SupplierID)";
 
                 using (var command = new SqlCommand(query, connection))
                 {
@@ -90,18 +95,45 @@ namespace SariSariStore.Core.Model
                     command.Parameters.AddWithValue("@SellingPrice", product.SellingPrice);
                     command.Parameters.AddWithValue("@Stock", product.Stock);
                     command.Parameters.AddWithValue("@ImagePath", imagePath ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@DateExpired", product.DateExpired ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@DateExpired", product.DateExpired);
 
+                    // Handle SupplierID properly - use DBNull.Value if 0
+                    if (product.SupplierID > 0)
+                    {
+                        command.Parameters.AddWithValue("@SupplierID", product.SupplierID);
+                    }
+                    else
+                    {
+                        command.Parameters.AddWithValue("@SupplierID", DBNull.Value);
+                    }
 
                     return (int)command.ExecuteScalar();
                 }
             }
         }
 
+        // Add this method to check if supplier exists
+        private bool SupplierExists(int supplierId)
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                string query = "SELECT COUNT(1) FROM tbl_suppliers WHERE SupplierID = @SupplierID AND IsActive = 1";
+
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@SupplierID", supplierId);
+                    int count = Convert.ToInt32(command.ExecuteScalar());
+                    return count > 0;
+                }
+            }
+        }
+
+
         public string GetSupplierNameByProduct(int productId)
         {
             string supplierName = null;
-            string connectionString = @"Data Source=JEYSI\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Trust Server Certificate=True";
+            string connectionString = ConnectionHelper.GetConnectionString();
 
             string query = @"
         SELECT tbl_suppliers.SupplierName 
@@ -110,7 +142,7 @@ namespace SariSariStore.Core.Model
         WHERE tbl_Product.SupplierID = @SupplierID";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
-            {   
+            {
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@SupplierID", productId);
@@ -165,6 +197,8 @@ namespace SariSariStore.Core.Model
                     command.Parameters.AddWithValue("@SellingPrice", product.SellingPrice);
                     command.Parameters.AddWithValue("@Stock", product.Stock);
                     command.Parameters.AddWithValue("@DateExpired", product.DateExpired);
+                    command.Parameters.AddWithValue("@SupplierID", product.SupplierID);
+
 
                     // Only add image parameter if a new image is provided
                     if (!string.IsNullOrEmpty(imagePath))
@@ -190,6 +224,7 @@ namespace SariSariStore.Core.Model
                 }
             }
         }
+
 
         public Products? GetProductById(int productId)
         {
@@ -255,7 +290,8 @@ namespace SariSariStore.Core.Model
                             Stock = Convert.ToInt32(reader["Stock"]),
                             ImagePath = reader["ImagePath"]?.ToString(),
                             DateAdded = Convert.ToDateTime(reader["DateAdded"]),
-                            DateExpired = Convert.ToDateTime(reader["DateExpired"])
+                            DateExpired = Convert.ToDateTime(reader["DateExpired"]),
+                            SupplierName = GetSupplierNameByProduct(Convert.ToInt32(reader["SupplierID"]))
                         };
                         products.Add(product);
                     }
@@ -318,7 +354,7 @@ namespace SariSariStore.Core.Model
             List<Products> topProducts = new List<Products>();
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
-                string query = "select top 10 Name, Description, Category, Price, SellingPrice, Stock, DateAdded from tbl_Product WHERE IsActive = 1 order by DateAdded desc";
+                string query = "SELECT TOP 10 Name, Description, Category, Price, SellingPrice, Stock, DateAdded,tbl_suppliers.SupplierName FROM tbl_Product LEFT JOIN tbl_suppliers ON tbl_Product.SupplierID = tbl_suppliers.SupplierID WHERE tbl_Product.IsActive = 1 ORDER BY DateAdded DESC\r\n";
                 SqlCommand cmd = new SqlCommand(query, con);
                 con.Open();
                 using (SqlDataReader reader = cmd.ExecuteReader())
@@ -327,7 +363,6 @@ namespace SariSariStore.Core.Model
                     {
                         Products product = new Products
                         {
-
                             Name = reader["Name"]?.ToString() ?? string.Empty,
                             Description = reader["Description"]?.ToString(),
                             Category = reader["Category"]?.ToString() ?? string.Empty,
@@ -335,6 +370,8 @@ namespace SariSariStore.Core.Model
                             SellingPrice = Convert.ToDecimal(reader["SellingPrice"]),
                             Stock = Convert.ToInt32(reader["Stock"]),
                             DateAdded = Convert.ToDateTime(reader["DateAdded"]),
+                            SupplierName = reader["SupplierName"]?.ToString() ?? string.Empty
+
                         };
                         topProducts.Add(product);
                     }
@@ -469,7 +506,7 @@ namespace SariSariStore.Core.Model
             List<Products> productsList = new List<Products>();
             using (SqlConnection con = new(ConnectionString))
             {
-                using (SqlCommand cmd = new("SELECT * FROM tbl_Product WHERE Category = @Category AND IsActive = 1", con))
+                using (SqlCommand cmd = new("SELECT tbl_Product.*, tbl_suppliers.SupplierName FROM tbl_Product LEFT JOIN tbl_suppliers ON tbl_Product.SupplierID = tbl_suppliers.SupplierID WHERE Category = @Category AND tbl_Product.IsActive = 1", con))
                 {
                     cmd.Parameters.AddWithValue("@Category", selectedCategory ?? string.Empty);
                     con.Open();
@@ -488,7 +525,9 @@ namespace SariSariStore.Core.Model
                                 Stock = Convert.ToInt32(reader["Stock"]),
                                 ImagePath = reader["ImagePath"]?.ToString(),
                                 DateAdded = Convert.ToDateTime(reader["DateAdded"]),
-                                DateExpired = Convert.ToDateTime(reader["DateExpired"])
+                                DateExpired = Convert.ToDateTime(reader["DateExpired"]),
+                                SupplierName = reader["SupplierName"]?.ToString() ?? string.Empty
+
                             };
                             productsList.Add(product);
                         }
@@ -543,13 +582,13 @@ namespace SariSariStore.Core.Model
                 {
                     con.Open();
                     int expiredCount = (int)cmd.ExecuteScalar();
-                   
+
                     return expiredCount.ToString();
                 }
             }
 
-            
-        
+
+
         }
 
         public string DisplayCriticalExpiredProducts()
