@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static SariSariStore.Core.Model.SalesReport;
 
 
 namespace SariSariStore.Admin.View
@@ -41,15 +42,22 @@ namespace SariSariStore.Admin.View
             //rounded.MakePanelRounded(panel12, 30);
             //rounded.MakePanelRounded(panel13, 30);
 
+            Display();
+
             LoadReport();
         }
 
+        public void Display()
+        {
+            //     dataGridView1.DataSource = salesReports.GetSalesReportsDay();
+        }
         private void btn_Dashboard_Click(object sender, EventArgs e)
         {
             DashboardForm dashboardForm = new DashboardForm();
             dashboardForm.Show();
             this.Hide();
         }
+
 
         private void btn_Products_Click(object sender, EventArgs e)
         {
@@ -96,7 +104,10 @@ namespace SariSariStore.Admin.View
 
         public void LoadReport()
         {
-            dgv_report.DataSource = salesReports.SalesReports();
+
+            dgv_report.DataSource = salesReports.DisplayReport();
+
+
         }
 
         private void btn_Report_Click(object sender, EventArgs e)
@@ -111,16 +122,7 @@ namespace SariSariStore.Admin.View
 
         private void ReportFrom_Load(object sender, EventArgs e)
         {
-            int startyear = 2000;
 
-            int endyear = DateTime.Now.Year;
-
-            for (int y = startyear; y <= endyear; y++)
-            {
-                comboBox3.Items.Add(y.ToString());
-            }
-
-            comboBox3.SelectedItem = DateTime.Now.Year.ToString();
         }
 
         private void btn_shutdown_Click(object sender, EventArgs e)
@@ -132,39 +134,60 @@ namespace SariSariStore.Admin.View
             }
         }
 
-        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (comboBox2.SelectedItem != null && comboBox3.SelectedItem != null)
-            {
-                string mth = comboBox2.SelectedItem.ToString();
-                int yr = Convert.ToInt32(comboBox3.SelectedItem);
-
-                dgv_report.DataSource = salesReports.Monthly(mth, yr);
-            }
-
-
-        }
-
-        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (comboBox2.SelectedItem != null && comboBox3.SelectedItem != null)
-            {
-                string mth = comboBox2.SelectedItem.ToString();
-                int yr = Convert.ToInt32(comboBox3.SelectedItem);
-
-                dgv_report.DataSource = salesReports.Monthly(mth, yr);
-            }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            LoadReport();
-        }
-
         private void ReportFrom_Resize(object sender, EventArgs e)
         {
             Invalidate();
             this.Region = rounded.RoundForm(cornerRadius, this.Width, this.Height);
+        }
+
+        private void dtpStartDate_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dtpEndDate_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_Entery_Click(object sender, EventArgs e)
+        {
+            DateTime startDate = dtpStartDate.Value.Date;
+            DateTime endDate = dtpEndDate.Value.Date;
+
+            if (startDate > endDate)
+            {
+               MessageBox.Show("Start Date cannot be later than End Date.", "Invalid Date Range", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            SalesReport salesReport = new SalesReport();
+            dgv_report.DataSource = salesReport.GetSalesReportsByDateRange(startDate, endDate);
+        }
+
+        private void btn_dailyReports_Click(object sender, EventArgs e)
+        {
+
+            DailySalesReportProperties dailySalesReportProperties = new DailySalesReportProperties();
+            dgv_report.DataSource = dailySalesReportProperties.DisplayReportDaily();
+
+
+        }
+
+        private void btn_MonthlyReports_Click(object sender, EventArgs e)
+        {
+            MonthlySalesReportProperties monthlySalesReportProperties = new MonthlySalesReportProperties();
+            dgv_report.DataSource = monthlySalesReportProperties.DisplayReportMonthly();
+
+
+        }
+
+        private void btn_perform_Click(object sender, EventArgs e)
+        {
+            LoadReport();
+        }
+
+        private void btn_SpecificOrder_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 

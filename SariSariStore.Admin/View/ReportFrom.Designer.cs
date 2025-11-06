@@ -29,22 +29,12 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReportFrom));
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             panel1 = new Panel();
             label7 = new Label();
             pictureBox6 = new PictureBox();
-            panel2 = new Panel();
-            dtpEndDate = new DateTimePicker();
-            dtpStartDate = new DateTimePicker();
-            label2 = new Label();
-            label1 = new Label();
-            comboBox3 = new ComboBox();
-            comboBox2 = new ComboBox();
-            button1 = new Button();
-            dgv_report = new DataGridView();
-            label12 = new Label();
             panel3 = new Panel();
             pictureBox5 = new PictureBox();
             pictureBox7 = new PictureBox();
@@ -59,11 +49,22 @@
             btn_Products = new Button();
             btn_Dashboard = new Button();
             panel4 = new Panel();
+            label12 = new Label();
+            dgv_report = new DataGridView();
+            btn_SpecificOrder = new Button();
+            label1 = new Label();
+            dtpStartDate = new DateTimePicker();
+            dtpEndDate = new DateTimePicker();
             btn_Entery = new Button();
+            btn_dailyReports = new Button();
+            btn_MonthlyReports = new Button();
+            panel2 = new Panel();
+            btn_perform = new Button();
+            dateTimePicker1 = new DateTimePicker();
+            label4 = new Label();
+            label3 = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
-            panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgv_report).BeginInit();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
@@ -71,6 +72,8 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgv_report).BeginInit();
+            panel2.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
@@ -105,144 +108,6 @@
             pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox6.TabIndex = 3;
             pictureBox6.TabStop = false;
-            // 
-            // panel2
-            // 
-            panel2.BackColor = Color.FromArgb(20, 20, 50);
-            panel2.Controls.Add(btn_Entery);
-            panel2.Controls.Add(dtpEndDate);
-            panel2.Controls.Add(dtpStartDate);
-            panel2.Controls.Add(label2);
-            panel2.Controls.Add(label1);
-            panel2.Controls.Add(comboBox3);
-            panel2.Controls.Add(comboBox2);
-            panel2.Controls.Add(button1);
-            panel2.Controls.Add(dgv_report);
-            panel2.Controls.Add(label12);
-            panel2.Location = new Point(254, 72);
-            panel2.Name = "panel2";
-            panel2.Padding = new Padding(100);
-            panel2.Size = new Size(1127, 724);
-            panel2.TabIndex = 10;
-            panel2.Paint += panel2_Paint;
-            // 
-            // dtpEndDate
-            // 
-            dtpEndDate.Location = new Point(372, 116);
-            dtpEndDate.Name = "dtpEndDate";
-            dtpEndDate.Size = new Size(318, 23);
-            dtpEndDate.TabIndex = 14;
-            dtpEndDate.ValueChanged += dtpEndDate_ValueChanged;
-            // 
-            // dtpStartDate
-            // 
-            dtpStartDate.Location = new Point(28, 116);
-            dtpStartDate.Name = "dtpStartDate";
-            dtpStartDate.Size = new Size(323, 23);
-            dtpStartDate.TabIndex = 13;
-            dtpStartDate.ValueChanged += dtpStartDate_ValueChanged;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.ForeColor = Color.White;
-            label2.Location = new Point(372, 48);
-            label2.Name = "label2";
-            label2.Size = new Size(38, 15);
-            label2.TabIndex = 11;
-            label2.Text = "Yearly";
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.ForeColor = Color.White;
-            label1.Location = new Point(27, 48);
-            label1.Name = "label1";
-            label1.Size = new Size(52, 15);
-            label1.TabIndex = 11;
-            label1.Text = "Monthly";
-            // 
-            // comboBox3
-            // 
-            comboBox3.FormattingEnabled = true;
-            comboBox3.Location = new Point(373, 71);
-            comboBox3.Name = "comboBox3";
-            comboBox3.Size = new Size(317, 23);
-            comboBox3.TabIndex = 10;
-            comboBox3.SelectedIndexChanged += comboBox3_SelectedIndexChanged;
-            // 
-            // comboBox2
-            // 
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Items.AddRange(new object[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" });
-            comboBox2.Location = new Point(28, 71);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(323, 23);
-            comboBox2.TabIndex = 9;
-            comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
-            // 
-            // button1
-            // 
-            button1.Location = new Point(737, 71);
-            button1.Name = "button1";
-            button1.Size = new Size(136, 24);
-            button1.TabIndex = 4;
-            button1.Text = "All Time";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            // 
-            // dgv_report
-            // 
-            dgv_report.AllowUserToAddRows = false;
-            dgv_report.AllowUserToDeleteRows = false;
-            dgv_report.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(245, 245, 245);
-            dgv_report.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            dgv_report.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgv_report.BackgroundColor = Color.White;
-            dgv_report.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(52, 152, 219);
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            dataGridViewCellStyle2.ForeColor = Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dgv_report.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            dgv_report.ColumnHeadersHeight = 40;
-            dgv_report.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.White;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle3.ForeColor = Color.Black;
-            dataGridViewCellStyle3.Padding = new Padding(5, 3, 5, 3);
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(173, 216, 230);
-            dataGridViewCellStyle3.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
-            dgv_report.DefaultCellStyle = dataGridViewCellStyle3;
-            dgv_report.EnableHeadersVisualStyles = false;
-            dgv_report.GridColor = Color.LightGray;
-            dgv_report.Location = new Point(28, 140);
-            dgv_report.MultiSelect = false;
-            dgv_report.Name = "dgv_report";
-            dgv_report.ReadOnly = true;
-            dgv_report.RowHeadersVisible = false;
-            dgv_report.RowTemplate.Height = 35;
-            dgv_report.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgv_report.Size = new Size(1075, 552);
-            dgv_report.TabIndex = 12;
-            dgv_report.CellContentClick += dgv_report_CellContentClick_1;
-            // 
-            // label12
-            // 
-            label12.AutoSize = true;
-            label12.Font = new Font("Segoe UI Historic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label12.ForeColor = Color.Transparent;
-            label12.Location = new Point(23, 22);
-            label12.Name = "label12";
-            label12.Size = new Size(85, 25);
-            label12.TabIndex = 2;
-            label12.Text = "REPORT";
             // 
             // panel3
             // 
@@ -436,15 +301,184 @@
             panel4.TabIndex = 4;
             panel4.Paint += panel4_Paint;
             // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Font = new Font("Segoe UI Historic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label12.ForeColor = Color.Transparent;
+            label12.Location = new Point(23, 22);
+            label12.Name = "label12";
+            label12.Size = new Size(85, 25);
+            label12.TabIndex = 2;
+            label12.Text = "REPORT";
+            // 
+            // dgv_report
+            // 
+            dgv_report.AllowUserToAddRows = false;
+            dgv_report.AllowUserToDeleteRows = false;
+            dgv_report.AllowUserToResizeRows = false;
+            dataGridViewCellStyle4.BackColor = Color.FromArgb(245, 245, 245);
+            dgv_report.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dgv_report.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgv_report.BackgroundColor = Color.White;
+            dgv_report.BorderStyle = BorderStyle.None;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = Color.FromArgb(52, 152, 219);
+            dataGridViewCellStyle5.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            dataGridViewCellStyle5.ForeColor = Color.White;
+            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dgv_report.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dgv_report.ColumnHeadersHeight = 40;
+            dgv_report.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = Color.White;
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle6.ForeColor = Color.Black;
+            dataGridViewCellStyle6.Padding = new Padding(5, 3, 5, 3);
+            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(173, 216, 230);
+            dataGridViewCellStyle6.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+            dgv_report.DefaultCellStyle = dataGridViewCellStyle6;
+            dgv_report.EnableHeadersVisualStyles = false;
+            dgv_report.GridColor = Color.LightGray;
+            dgv_report.Location = new Point(28, 170);
+            dgv_report.MultiSelect = false;
+            dgv_report.Name = "dgv_report";
+            dgv_report.ReadOnly = true;
+            dgv_report.RowHeadersVisible = false;
+            dgv_report.RowTemplate.Height = 35;
+            dgv_report.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv_report.Size = new Size(1075, 504);
+            dgv_report.TabIndex = 12;
+            dgv_report.CellContentClick += dgv_report_CellContentClick_1;
+            // 
+            // btn_SpecificOrder
+            // 
+            btn_SpecificOrder.Location = new Point(235, 71);
+            btn_SpecificOrder.Name = "btn_SpecificOrder";
+            btn_SpecificOrder.Size = new Size(136, 24);
+            btn_SpecificOrder.TabIndex = 4;
+            btn_SpecificOrder.Text = "Find ";
+            btn_SpecificOrder.UseVisualStyleBackColor = true;
+            btn_SpecificOrder.Click += btn_SpecificOrder_Click;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.ForeColor = Color.White;
+            label1.Location = new Point(27, 48);
+            label1.Name = "label1";
+            label1.Size = new Size(81, 15);
+            label1.TabIndex = 11;
+            label1.Text = "Specific Order";
+            // 
+            // dtpStartDate
+            // 
+            dtpStartDate.Location = new Point(28, 129);
+            dtpStartDate.Name = "dtpStartDate";
+            dtpStartDate.Size = new Size(323, 23);
+            dtpStartDate.TabIndex = 13;
+            dtpStartDate.ValueChanged += dtpStartDate_ValueChanged;
+            // 
+            // dtpEndDate
+            // 
+            dtpEndDate.Location = new Point(372, 129);
+            dtpEndDate.Name = "dtpEndDate";
+            dtpEndDate.Size = new Size(318, 23);
+            dtpEndDate.TabIndex = 14;
+            dtpEndDate.ValueChanged += dtpEndDate_ValueChanged;
+            // 
             // btn_Entery
             // 
-            btn_Entery.Location = new Point(737, 116);
+            btn_Entery.Location = new Point(716, 129);
             btn_Entery.Name = "btn_Entery";
             btn_Entery.Size = new Size(136, 23);
             btn_Entery.TabIndex = 15;
-            btn_Entery.Text = "Enter";
+            btn_Entery.Text = "Find Order";
             btn_Entery.UseVisualStyleBackColor = true;
             btn_Entery.Click += btn_Entery_Click;
+            // 
+            // btn_dailyReports
+            // 
+            btn_dailyReports.Location = new Point(921, 48);
+            btn_dailyReports.Name = "btn_dailyReports";
+            btn_dailyReports.Size = new Size(103, 37);
+            btn_dailyReports.TabIndex = 16;
+            btn_dailyReports.Text = "Daily Reports";
+            btn_dailyReports.UseVisualStyleBackColor = true;
+            btn_dailyReports.Click += btn_dailyReports_Click;
+            // 
+            // btn_MonthlyReports
+            // 
+            btn_MonthlyReports.Location = new Point(921, 103);
+            btn_MonthlyReports.Name = "btn_MonthlyReports";
+            btn_MonthlyReports.Size = new Size(103, 37);
+            btn_MonthlyReports.TabIndex = 17;
+            btn_MonthlyReports.Text = "Monthly Reports";
+            btn_MonthlyReports.UseVisualStyleBackColor = true;
+            btn_MonthlyReports.Click += btn_MonthlyReports_Click;
+            // 
+            // panel2
+            // 
+            panel2.BackColor = Color.FromArgb(20, 20, 50);
+            panel2.Controls.Add(btn_perform);
+            panel2.Controls.Add(dateTimePicker1);
+            panel2.Controls.Add(btn_MonthlyReports);
+            panel2.Controls.Add(btn_dailyReports);
+            panel2.Controls.Add(btn_Entery);
+            panel2.Controls.Add(dtpEndDate);
+            panel2.Controls.Add(dtpStartDate);
+            panel2.Controls.Add(label4);
+            panel2.Controls.Add(label3);
+            panel2.Controls.Add(label1);
+            panel2.Controls.Add(btn_SpecificOrder);
+            panel2.Controls.Add(dgv_report);
+            panel2.Controls.Add(label12);
+            panel2.Location = new Point(254, 72);
+            panel2.Name = "panel2";
+            panel2.Padding = new Padding(100);
+            panel2.Size = new Size(1127, 724);
+            panel2.TabIndex = 10;
+            panel2.Paint += panel2_Paint;
+            // 
+            // btn_perform
+            // 
+            btn_perform.Location = new Point(755, 48);
+            btn_perform.Name = "btn_perform";
+            btn_perform.Size = new Size(160, 37);
+            btn_perform.TabIndex = 20;
+            btn_perform.Text = "Product Perfomance";
+            btn_perform.UseVisualStyleBackColor = true;
+            btn_perform.Click += btn_perform_Click;
+            // 
+            // dateTimePicker1
+            // 
+            dateTimePicker1.Location = new Point(28, 71);
+            dateTimePicker1.Name = "dateTimePicker1";
+            dateTimePicker1.Size = new Size(201, 23);
+            dateTimePicker1.TabIndex = 19;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.ForeColor = Color.White;
+            label4.Location = new Point(373, 103);
+            label4.Name = "label4";
+            label4.Size = new Size(54, 15);
+            label4.TabIndex = 11;
+            label4.Text = "End Date";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.ForeColor = Color.White;
+            label3.Location = new Point(28, 103);
+            label3.Name = "label3";
+            label3.Size = new Size(58, 15);
+            label3.TabIndex = 11;
+            label3.Text = "Start Date";
             // 
             // ReportFrom
             // 
@@ -466,9 +500,6 @@
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgv_report).EndInit();
             panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
@@ -476,6 +507,9 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgv_report).EndInit();
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -484,8 +518,6 @@
         private Panel panel1;
         private Label label7;
         private PictureBox pictureBox6;
-        private Panel panel2;
-        private Label label12;
         private Panel panel3;
         private PictureBox pictureBox5;
         private PictureBox pictureBox7;
@@ -500,14 +532,19 @@
         private Button btn_Products;
         private Button btn_Dashboard;
         private Panel panel4;
+        private Label label12;
         private DataGridView dgv_report;
-        private ComboBox comboBox3;
-        private ComboBox comboBox2;
-        private Button button1;
-        private Label label2;
+        private Button btn_SpecificOrder;
         private Label label1;
-        private DateTimePicker dtpEndDate;
         private DateTimePicker dtpStartDate;
+        private DateTimePicker dtpEndDate;
         private Button btn_Entery;
+        private Button btn_dailyReports;
+        private Button btn_MonthlyReports;
+        private Panel panel2;
+        private DateTimePicker dateTimePicker1;
+        private Label label4;
+        private Label label3;
+        private Button btn_perform;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using SariSariStore.Core.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,166 +14,211 @@ namespace SariSariStore.Core.Model
     {
         public string ConnectionString = ConnectionHelper.GetConnectionString();
 
-        public int ReportID { get; set; }
-        
-        public string ReportMonth { get; set; } = string.Empty;
-        public int ReportYear { get; set; }
 
-        public decimal TotalSales { get; set; }
-        public decimal TotalExpenses { get; set; }
-        public decimal NetProfit { get; set; }
-        public DateTime DateGenerated { get; set; }
+        public int ProductID { get; set; }
+        public string ProductName { get; set; }
+        public string Category { get; set; }
+        public decimal TotalQuantiySold { get; set; }
+        public decimal UnitPrice { get; set; }
+        public decimal TotalRevenue { get; set; }
+        public int Numoforder { get; set; }
 
-        
 
-        public List<SalesReport> SalesReports()
+
+        public List<SalesReport> DisplayReport()
         {
             List<SalesReport> salesReports = new List<SalesReport>();
 
-            using (SqlConnection con = new SqlConnection(ConnectionString))
+            using (SqlConnection conn = new SqlConnection(ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("SELECT * FROM tbl_SalesReport", con);
-                con.Open();
+                conn.Open();
+                string query = @"
+                    SELECT 
+                        od.ProductID,
+                        p.Name AS ProductName,
+                        p.Category AS ProductCategory,
+                        SUM(od.Quantity) AS TotalQuantitySold,
+                        od.UnitPrice,
+                        SUM(od.Quantity * od.UnitPrice) AS TotalRevenue,
+                        COUNT(DISTINCT o.OrderID) AS NumberOfOrders
+                    FROM tbl_order o
+                    INNER JOIN tbl_orderdetails od ON o.OrderID = od.OrderID
+                    INNER JOIN tbl_product p ON od.ProductID = p.ProductID
+                    GROUP BY od.ProductID, p.Name, p.Category, od.UnitPrice
+                    ORDER BY TotalRevenue DESC;";
 
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
-                    while (reader.Read())
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        SalesReport salesreport = new SalesReport
+                        while (reader.Read())
                         {
-                            ReportID = Convert.ToInt32(reader["ReportID"]),
-                            ReportMonth = reader["ReportMonth"].ToString() ?? string.Empty,
-                            ReportYear = Convert.ToInt32(reader["ReportYear"]),
-                            TotalSales = Convert.ToDecimal(reader["TotalSales"]),
-                            TotalExpenses = Convert.ToDecimal(reader["TotalExpenses"]),
-                            NetProfit = Convert.ToDecimal(reader["NetProfit"]),
-                            DateGenerated = Convert.ToDateTime(reader["DateGenerated"])
-
-                        };
-                        salesReports.Add(salesreport);
+                            SalesReport report = new SalesReport
+                            {
+                                ProductID = reader["ProductID"] != DBNull.Value ? Convert.ToInt32(reader["ProductID"]) : 0,
+                                ProductName = reader["ProductName"] != DBNull.Value ? reader["ProductName"].ToString() : "Unknown",
+                                Category = reader["ProductCategory"] != DBNull.Value ? reader["ProductCategory"].ToString() : "Uncategorized",
+                                TotalQuantiySold = reader["TotalQuantitySold"] != DBNull.Value ? Convert.ToDecimal(reader["TotalQuantitySold"]) : 0,
+                                UnitPrice = reader["UnitPrice"] != DBNull.Value ? Convert.ToDecimal(reader["UnitPrice"]) : 0,
+                                TotalRevenue = reader["TotalRevenue"] != DBNull.Value ? Convert.ToDecimal(reader["TotalRevenue"]) : 0,
+                                Numoforder = reader["NumberOfOrders"] != DBNull.Value ? Convert.ToInt32(reader["NumberOfOrders"]) : 0
+                            };
+                            salesReports.Add(report);
+                        }
                     }
                 }
+            }
+            return salesReports;
+        }
+        public List<SalesReport> GetSalesReportsByDateRange(DateTime startDate, DateTime endDate)
+        {
+            List<SalesReport> salesReports = new List<SalesReport>();
 
-                con.Close();
+            using (SqlConnection conn = new SqlConnection(ConnectionString))
+            {
+                conn.Open();
+                string query = @"
+                    SELECT 
+                        od.ProductID,
+                        p.Name AS ProductName,
+                        p.Category AS ProductCategory,
+                        SUM(od.Quantity) AS TotalQuantitySold,
+                        od.UnitPrice,
+                        SUM(od.Quantity * od.UnitPrice) AS TotalRevenue,
+                        COUNT(DISTINCT o.OrderID) AS NumberOfOrders
+                    FROM tbl_order o
+                    INNER JOIN tbl_orderdetails od ON o.OrderID = od.OrderID
+                    INNER JOIN tbl_product p ON od.ProductID = p.ProductID
+                    WHERE CAST(o.OrderDate AS DATE) BETWEEN @StartDate AND @EndDate
+                    GROUP BY od.ProductID, p.Name, p.Category, od.UnitPrice
+                    ORDER BY TotalRevenue DESC;";
+
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@StartDate", startDate);
+                    cmd.Parameters.AddWithValue("@EndDate", endDate);
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            SalesReport report = new SalesReport
+                            {
+                                ProductID = Convert.ToInt32(reader["ProductID"]),
+                                ProductName = reader["ProductName"].ToString(),
+                                Category = reader["ProductCategory"].ToString(),
+                                TotalQuantiySold = Convert.ToDecimal(reader["TotalQuantitySold"]),
+                                UnitPrice = Convert.ToDecimal(reader["UnitPrice"]),
+                                TotalRevenue = Convert.ToDecimal(reader["TotalRevenue"]),
+                                Numoforder = Convert.ToInt32(reader["NumberOfOrders"])
+                            };
+                            salesReports.Add(report);
+                        }
+                    }
+                }
+            }
+            return salesReports;
+        }
+    }
+
+
+    public class DailySalesReportProperties
+    {
+
+        public string ConnectionString = ConnectionHelper.GetConnectionString();
+        public DateTime Orderdate { get; set; }
+        public int Numoforderdaily { get; set; }
+        public decimal DailySales { get; set; }
+        public decimal AvgSales { get; set; }
+
+        public List<DailySalesReportProperties> DisplayReportDaily()
+        {
+            List<DailySalesReportProperties> salesReports = new List<DailySalesReportProperties>();
+
+            using (SqlConnection conn = new SqlConnection(ConnectionString))
+            {
+                conn.Open();
+                string query = @"
+                    SELECT 
+                        CAST(OrderDate AS DATE) AS OrderDate,
+                        COUNT(OrderID) AS NumberOfOrders,
+                        SUM(TotalAmount) AS DailySales,
+                        AVG(TotalAmount) AS AvgOrderValue
+                    FROM tbl_Order
+                    GROUP BY CAST(OrderDate AS DATE)
+                    ORDER BY OrderDate DESC;";
+
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            DailySalesReportProperties report = new DailySalesReportProperties
+                            {
+                                Orderdate = Convert.ToDateTime(reader["OrderDate"]),
+                                Numoforderdaily = Convert.ToInt32(reader["NumberOfOrders"]),
+                                DailySales = Convert.ToDecimal(reader["DailySales"]),
+                                AvgSales = Convert.ToDecimal(reader["AvgOrderValue"])
+
+                            };
+                            salesReports.Add(report);
+                        }
+                    }
+                }
             }
             return salesReports;
         }
 
-        public List<SalesReport> GetSalesReportsMonth()
+    }
+
+    public class MonthlySalesReportProperties
+    {
+        public string ConnectionString = ConnectionHelper.GetConnectionString();
+        public int OrderYear { get; set; }
+        public int OrderMonth { get; set; }
+        public decimal TotalOrder { get; set; }
+        public decimal MonthlySales { get; set; }
+        public decimal AvgOrderMonthly { get; set; }
+        public List<MonthlySalesReportProperties> DisplayReportMonthly()
         {
-           
-            List<SalesReport> month = new List<SalesReport>();
-
-            using (SqlConnection con = new SqlConnection(ConnectionString))
+            List<MonthlySalesReportProperties> salesReports = new List<MonthlySalesReportProperties>();
+            using (SqlConnection conn = new SqlConnection(ConnectionString))
             {
-                con.Open();
-
-                using (SqlCommand cmd = new SqlCommand("SELECT s.ReportID, s.ReportMonth, s.ReportYear, s.TotalSales AS ReportedSales, ISNULL(o.TotalSales, 0) AS ActualSalesFromOrders, s.TotalExpenses,    s.NetProfit, s.DateGenerated\r\nFROM tbl_SalesReport s\r\nLEFT JOIN (\r\n    SELECT \r\n        DATENAME(MONTH, OrderDate) AS ReportMonth, YEAR(OrderDate) AS ReportYear, SUM(TotalAmount) AS TotalSales FROM tbl_Order GROUP BY YEAR(OrderDate), DATENAME(MONTH, OrderDate)) o ON s.ReportMonth = o.ReportMonth AND s.ReportYear = o.ReportYear ORDER BY s.ReportYear, s.ReportID;", con))
-                {
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            SalesReport mth = new SalesReport
-                            {
-
-                                ReportYear = Convert.ToInt32(reader["ReportYear"]),
-                                TotalSales = Convert.ToDecimal(reader["TotalSales"]),
-                            };
-                            month.Add(mth);
-                        }
-                    }
-                }
-
-            }
-
-            return month;
-
-        }
-
-
-        public List<SalesReport> GetSalesReportsYear(int value)
-        {
-            List<SalesReport> yearReports = new List<SalesReport>();
-
-            using (SqlConnection con = new SqlConnection(ConnectionString))
-            {
-                con.Open();
-
+                conn.Open();
                 string query = @"
-            SELECT 
-                YEAR(OrderDate) AS ReportYear, 
-                SUM(TotalAmount) AS TotalSales
-            FROM tbl_Order
-            WHERE YEAR(OrderDate) = @Value
-            GROUP BY YEAR(OrderDate)
-            ORDER BY ReportYear";
-
-                using (SqlCommand cmd = new SqlCommand(query, con))
+                                                SELECT 
+                                YEAR(OrderDate) AS OrderYear,
+                                MONTH(OrderDate) AS OrderMonth,
+                                COUNT(OrderID) AS TotalOrders,
+                                SUM(TotalAmount) AS MonthlySales,
+                                AVG(TotalAmount) AS AvgOrderValue
+                            FROM tbl_Order
+                            GROUP BY YEAR(OrderDate), MONTH(OrderDate)
+                            ORDER BY OrderYear DESC, OrderMonth DESC;
+                            ";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@Value", value);
-
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            SalesReport sr = new SalesReport
+                            MonthlySalesReportProperties report = new MonthlySalesReportProperties
                             {
-                                ReportYear = Convert.ToInt32(reader["ReportYear"]),
-                                TotalSales = Convert.ToDecimal(reader["TotalSales"])
+                                OrderYear = Convert.ToInt32(reader["OrderYear"]),
+                                OrderMonth = Convert.ToInt32(reader["OrderMonth"]),
+                                TotalOrder = Convert.ToDecimal(reader["TotalOrders"]),
+                                MonthlySales = Convert.ToDecimal(reader["MonthlySales"]),
+                                AvgOrderMonthly = Convert.ToDecimal(reader["AvgOrderValue"])
                             };
-
-                            yearReports.Add(sr);
+                            salesReports.Add(report);
                         }
                     }
                 }
             }
-
-            return yearReports;
+            return salesReports;
         }
-
-        public List<SalesReport> Monthly(string month, int yr)
-        {
-            List<SalesReport> reports = new List<SalesReport>();
-
-            using (SqlConnection con = new SqlConnection(ConnectionString))
-            {
-                con.Open();
-
-                string query = "SELECT * FROM tbl_SalesReport WHERE ReportMonth = @month AND ReportYear = @yr;";
-                using (SqlCommand cmd = new SqlCommand(query, con))
-                {
-                    cmd.Parameters.AddWithValue("@month", month);
-                    cmd.Parameters.AddWithValue("@yr", yr);
-
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            SalesReport sr = new SalesReport
-                            {
-                                ReportID = Convert.ToInt32(reader["ReportID"]),
-                                ReportMonth = reader["ReportMonth"].ToString() ?? string.Empty,
-                                ReportYear = Convert.ToInt32(reader["ReportYear"]),
-                                TotalSales = Convert.ToDecimal(reader["TotalSales"]),
-                                TotalExpenses = Convert.ToDecimal(reader["TotalExpenses"]),
-                                NetProfit = Convert.ToDecimal(reader["NetProfit"]),
-                                DateGenerated = Convert.ToDateTime(reader["DateGenerated"])
-                            };
-
-                            reports.Add(sr);
-                        }
-                    }
-                }
-            }
-
-            return reports;
-        }
-
-
-
-
-
     }
 }
-    
+
+
