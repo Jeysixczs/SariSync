@@ -455,14 +455,6 @@
             // 
             // dtpSpecificDate
             // 
-            dtpSpecificDate.BackColor = Color.White;
-            dtpSpecificDate.CalendarForeColor = Color.FromArgb(60, 60, 60);
-            dtpSpecificDate.CalendarTitleBackColor = Color.FromArgb(240, 240, 240);
-            dtpSpecificDate.CalendarTitleForeColor = Color.FromArgb(80, 80, 80);
-            dtpSpecificDate.CalendarTrailingForeColor = Color.FromArgb(200, 200, 200);
-            dtpSpecificDate.Font = new Font("Segoe UI", 9F);
-            dtpSpecificDate.ForeColor = Color.FromArgb(80, 80, 80);
-            dtpSpecificDate.Format = DateTimePickerFormat.Short;
             dtpSpecificDate.Location = new Point(28, 71);
             dtpSpecificDate.Name = "dtpSpecificDate";
             dtpSpecificDate.Size = new Size(201, 23);
