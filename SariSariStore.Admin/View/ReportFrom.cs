@@ -173,10 +173,10 @@ namespace SariSariStore.Admin.View
 
         private void btn_SpecificOrder_Click(object sender, EventArgs e)
         {
-            DateTime specific = dtpSpecificDate.Value.Date;
+        //    DateTime specific = dtpSpecificDate.Value.Date;
             
             DateRangeReportProperties getspecificdate = new DateRangeReportProperties();
-            dgv_report.DataSource = getspecificdate.DisplaySpecificDateOrder(specific);
+       //     dgv_report.DataSource = getspecificdate.DisplaySpecificDateOrder(specific);
             dgv_report.Columns["OrderDate"].DefaultCellStyle.Format = "MMM dd yyyy";
         }
     }
