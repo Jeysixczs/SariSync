@@ -62,6 +62,7 @@
             btn_perform = new Button();
             label4 = new Label();
             label3 = new Label();
+            dateTimePicker1 = new DateTimePicker();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             panel3.SuspendLayout();
@@ -422,6 +423,7 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(20, 20, 50);
+            panel2.Controls.Add(dateTimePicker1);
             panel2.Controls.Add(btn_perform);
             panel2.Controls.Add(btn_MonthlyReports);
             panel2.Controls.Add(btn_dailyReports);
@@ -470,6 +472,13 @@
             label3.Size = new Size(58, 15);
             label3.TabIndex = 11;
             label3.Text = "Start Date";
+            // 
+            // dateTimePicker1
+            // 
+            dateTimePicker1.Location = new Point(28, 69);
+            dateTimePicker1.Name = "dateTimePicker1";
+            dateTimePicker1.Size = new Size(200, 23);
+            dateTimePicker1.TabIndex = 21;
             // 
             // ReportFrom
             // 
@@ -536,5 +545,6 @@
         private Label label4;
         private Label label3;
         private Button btn_perform;
+        private DateTimePicker dateTimePicker1;
     }
 }
