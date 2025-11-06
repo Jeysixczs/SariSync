@@ -17,6 +17,7 @@ namespace SariSariStore.Admin
         private Orders _order;
         private PrintDocument _printDocument;
         private PrintPreviewDialog _printPreviewDialog;
+        private PrintDialog _printDialog;
 
         public ReceiptForm(Orders order)
         {
@@ -32,6 +33,11 @@ namespace SariSariStore.Admin
             _printDocument.PrintPage += PrintDocument_PrintPage;
             _printPreviewDialog = new PrintPreviewDialog();
             _printPreviewDialog.Document = _printDocument;
+
+            _printDialog = new PrintDialog(); //to be able to select printer
+            _printDialog.Document = _printDocument;
+            _printDialog.AllowSomePages = false;
+            _printDialog.ShowHelp = false; //true to show help button
         }
 
         public void DisplayReceipt()
@@ -76,13 +82,28 @@ namespace SariSariStore.Admin
 
         private void btn_PrintButton_Click(object sender, EventArgs e)
         {
+            //try
+            //{
+            //    _printPreviewDialog.ShowDialog();
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show("No order data to print.", "Print Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
+
             try
             {
-                _printPreviewDialog.ShowDialog();
+                    // Show printer selection dialog
+                if (_printDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // If User selected a printer and clicked OK
+                    _printDocument.Print();
+                }
+                    // If user clicks Cancel, nothing happens
             }
             catch (Exception ex)
             {
-                MessageBox.Show("No order data to print.", "Print Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Printing error: {ex.Message}", "Print Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

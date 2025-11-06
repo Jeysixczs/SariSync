@@ -73,5 +73,15 @@ namespace SariSariStore.Admin.View
         {
 
         }
+
+        private void btn_Update_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_Delete_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -60,7 +60,7 @@
             btn_MonthlyReports = new Button();
             panel2 = new Panel();
             btn_perform = new Button();
-            dateTimePicker1 = new DateTimePicker();
+            dtp_SpecificDate = new DateTimePicker();
             label4 = new Label();
             label3 = new Label();
             panel1.SuspendLayout();
@@ -424,7 +424,7 @@
             // 
             panel2.BackColor = Color.FromArgb(20, 20, 50);
             panel2.Controls.Add(btn_perform);
-            panel2.Controls.Add(dateTimePicker1);
+            panel2.Controls.Add(dtp_SpecificDate);
             panel2.Controls.Add(btn_MonthlyReports);
             panel2.Controls.Add(btn_dailyReports);
             panel2.Controls.Add(btn_Entery);
@@ -453,12 +453,12 @@
             btn_perform.UseVisualStyleBackColor = true;
             btn_perform.Click += btn_perform_Click;
             // 
-            // dateTimePicker1
+            // dtp_SpecificDate
             // 
-            dateTimePicker1.Location = new Point(28, 71);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(201, 23);
-            dateTimePicker1.TabIndex = 19;
+            dtp_SpecificDate.Location = new Point(28, 71);
+            dtp_SpecificDate.Name = "dtp_SpecificDate";
+            dtp_SpecificDate.Size = new Size(201, 23);
+            dtp_SpecificDate.TabIndex = 19;
             // 
             // label4
             // 
@@ -542,7 +542,7 @@
         private Button btn_dailyReports;
         private Button btn_MonthlyReports;
         private Panel panel2;
-        private DateTimePicker dateTimePicker1;
+        private DateTimePicker dtp_SpecificDate;
         private Label label4;
         private Label label3;
         private Button btn_perform;

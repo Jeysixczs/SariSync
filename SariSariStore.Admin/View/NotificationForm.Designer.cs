@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             panelHeader = new Panel();
             labelSubtitle = new Label();
             labelTitle = new Label();
@@ -40,6 +40,8 @@
             btn_lowstock = new Button();
             panelGridView = new Panel();
             dgv_stock = new DataGridView();
+            btn_Update = new Button();
+            btn_Delete = new Button();
             panelHeader.SuspendLayout();
             panelFilterButtons.SuspendLayout();
             panelGridView.SuspendLayout();
@@ -155,12 +157,14 @@
             // panelGridView
             // 
             panelGridView.BackColor = Color.FromArgb(20, 20, 50);
+            panelGridView.Controls.Add(btn_Delete);
+            panelGridView.Controls.Add(btn_Update);
             panelGridView.Controls.Add(dgv_stock);
             panelGridView.Dock = DockStyle.Fill;
             panelGridView.Location = new Point(0, 140);
             panelGridView.Name = "panelGridView";
             panelGridView.Padding = new Padding(15);
-            panelGridView.Size = new Size(600, 535);
+            panelGridView.Size = new Size(600, 603);
             panelGridView.TabIndex = 6;
             // 
             // dgv_stock
@@ -168,30 +172,30 @@
             dgv_stock.AllowUserToAddRows = false;
             dgv_stock.AllowUserToDeleteRows = false;
             dgv_stock.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(245, 245, 245);
-            dgv_stock.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.BackColor = Color.FromArgb(245, 245, 245);
+            dgv_stock.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
             dgv_stock.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgv_stock.BackgroundColor = Color.White;
             dgv_stock.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(52, 152, 219);
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            dataGridViewCellStyle2.ForeColor = Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dgv_stock.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = Color.FromArgb(52, 152, 219);
+            dataGridViewCellStyle5.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            dataGridViewCellStyle5.ForeColor = Color.White;
+            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dgv_stock.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dgv_stock.ColumnHeadersHeight = 40;
             dgv_stock.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.White;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle3.ForeColor = Color.Black;
-            dataGridViewCellStyle3.Padding = new Padding(5, 3, 5, 3);
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(173, 216, 230);
-            dataGridViewCellStyle3.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
-            dgv_stock.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = Color.White;
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle6.ForeColor = Color.White;
+            dataGridViewCellStyle6.Padding = new Padding(5, 3, 5, 3);
+            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(173, 216, 230);
+            dataGridViewCellStyle6.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+            dgv_stock.DefaultCellStyle = dataGridViewCellStyle6;
             dgv_stock.EnableHeadersVisualStyles = false;
             dgv_stock.GridColor = Color.LightGray;
             dgv_stock.Location = new Point(15, 15);
@@ -201,16 +205,38 @@
             dgv_stock.RowHeadersVisible = false;
             dgv_stock.RowTemplate.Height = 35;
             dgv_stock.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgv_stock.Size = new Size(570, 505);
+            dgv_stock.Size = new Size(570, 508);
             dgv_stock.TabIndex = 0;
             dgv_stock.CellContentClick += dgv_stock_CellContentClick_2;
+            // 
+            // btn_Update
+            // 
+            btn_Update.ForeColor = Color.Black;
+            btn_Update.Location = new Point(158, 550);
+            btn_Update.Name = "btn_Update";
+            btn_Update.Size = new Size(87, 35);
+            btn_Update.TabIndex = 1;
+            btn_Update.Text = "UPDATE";
+            btn_Update.UseVisualStyleBackColor = true;
+            btn_Update.Click += btn_Update_Click;
+            // 
+            // btn_Delete
+            // 
+            btn_Delete.ForeColor = Color.Black;
+            btn_Delete.Location = new Point(286, 550);
+            btn_Delete.Name = "btn_Delete";
+            btn_Delete.Size = new Size(75, 35);
+            btn_Delete.TabIndex = 2;
+            btn_Delete.Text = "DELETE";
+            btn_Delete.UseVisualStyleBackColor = true;
+            btn_Delete.Click += btn_Delete_Click;
             // 
             // NotificationForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(20, 20, 50);
-            ClientSize = new Size(600, 675);
+            ClientSize = new Size(600, 743);
             Controls.Add(panelGridView);
             Controls.Add(panelFilterButtons);
             Controls.Add(panelHeader);
@@ -241,5 +267,7 @@
         private Panel panelGridView;
         private Label labelTitle;
         private Label labelSubtitle;
+        private Button btn_Delete;
+        private Button btn_Update;
     }
 }

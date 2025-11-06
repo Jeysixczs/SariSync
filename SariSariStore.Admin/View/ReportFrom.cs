@@ -157,7 +157,7 @@ namespace SariSariStore.Admin.View
 
             if (startDate > endDate)
             {
-               MessageBox.Show("Start Date cannot be later than End Date.", "Invalid Date Range", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Start Date cannot be later than End Date.", "Invalid Date Range", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             SalesReport salesReport = new SalesReport();
             dgv_report.DataSource = salesReport.GetSalesReportsByDateRange(startDate, endDate);
@@ -187,10 +187,28 @@ namespace SariSariStore.Admin.View
 
         private void btn_SpecificOrder_Click(object sender, EventArgs e)
         {
-            
+            // enter specific date to show report likle November 10, 2025
+            try
+            {
+                DateTime selectedDate = dtp_SpecificDate.Value.Date;
+                SalesReport salesReport = new SalesReport();
+                var specificDateData = salesReport.GetSalesReportsByDateRange(selectedDate, selectedDate);
+
+                if (specificDateData != null && specificDateData.Count > 0)
+                {
+                    dgv_report.DataSource = specificDateData;
+                }
+                else
+                {
+                    MessageBox.Show("No sales data found for the selected date.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
-
 
 }
 
