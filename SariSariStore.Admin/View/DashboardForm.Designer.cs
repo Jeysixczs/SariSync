@@ -210,7 +210,7 @@
             dgv_LatestProduct.RowHeadersVisible = false;
             dgv_LatestProduct.RowTemplate.Height = 35;
             dgv_LatestProduct.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgv_LatestProduct.Size = new Size(1083, 423);
+            dgv_LatestProduct.Size = new Size(1083, 395);
             dgv_LatestProduct.TabIndex = 0;
             dgv_LatestProduct.CellContentClick += dgv_LatestProduct_CellContentClick;
             // 
