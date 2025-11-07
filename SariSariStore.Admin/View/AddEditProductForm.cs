@@ -84,10 +84,9 @@ namespace SariSariStore.Admin
                 cmbCategory.Text = product.Category;
                 numericPrice.Value = product.Price;
                 NumericStock.Value = product.Stock;
-                dtp_ExpirationDate.Value = Convert.ToDateTime(product.DateExpired);
+            
                 numericSellingPrice.Value = product.SellingPrice;
 
-                // Set the Supplier in ComboBox properly
                 if (product.SupplierID > 0)
                 {
                     // Find and select the supplier in the ComboBox
@@ -99,6 +98,17 @@ namespace SariSariStore.Admin
                             break;
                         }
                     }
+                }
+                if (product.DateExpired == null)
+                {
+                    checkBox1.Checked = true;
+                    dtp_ExpirationDate.Enabled = false;
+                }
+                else
+                {
+                    checkBox1.Checked = false;
+                    dtp_ExpirationDate.Enabled = true;
+                    dtp_ExpirationDate.Value = product.DateExpired.Value;
                 }
 
                 if (!string.IsNullOrEmpty(product.ImagePath))
@@ -140,6 +150,9 @@ namespace SariSariStore.Admin
                     supplierId = Convert.ToInt32(cmbSupplier.SelectedValue);
                 }
 
+                DateTime? dateExpired = checkBox1.Checked ? null : dtp_ExpirationDate.Value;
+
+
                 var product = new Products
                 {
                     Name = txtboxProductName.Text.Trim(),
@@ -148,11 +161,13 @@ namespace SariSariStore.Admin
                     Price = numericPrice.Value,
                     Stock = (int)NumericStock.Value,
                     DateAdded = DateTime.Now,
-                    DateExpired = dtp_ExpirationDate.Value,
+                    
+                    DateExpired = dateExpired,
                     SellingPrice = numericSellingPrice.Value,
-                    SupplierID = supplierId  // ✅ ADD THIS LINE - This was missing!
+                    SupplierID = supplierId 
                 };
 
+              
                 string imagePathToSave = selectedImagePath;
 
                 if (!string.IsNullOrEmpty(temporaryImagePath))
@@ -179,7 +194,7 @@ namespace SariSariStore.Admin
 
                 this.DialogResult = DialogResult.OK;
                 this.Close();
-                
+
             }
             catch (FormatException)
             {
@@ -273,7 +288,7 @@ namespace SariSariStore.Admin
 
         private void cmbCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
         }
         public void DisplayCategory()
         {
@@ -309,7 +324,7 @@ namespace SariSariStore.Admin
                 cmbSupplier.DisplayMember = "SupplierName";
                 cmbSupplier.ValueMember = "SupplierID";
 
-                
+
             }
             catch (Exception ex)
             {
@@ -330,6 +345,17 @@ namespace SariSariStore.Admin
         private void cmbSupplier_KeyPress(object sender, KeyPressEventArgs e)
         {
             e.Handled = true;
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            dtp_ExpirationDate.Enabled = !checkBox1.Checked;
+
+            // Optional: Clear the date when enabling if it's a default/min value
+            if (!checkBox1.Checked && (dtp_ExpirationDate.Value == DateTime.MinValue || dtp_ExpirationDate.Value < DateTime.Now))
+            {
+                dtp_ExpirationDate.Value = DateTime.Now.AddMonths(6); // Only set when user explicitly wants to set a date
+            }
         }
     }
 }

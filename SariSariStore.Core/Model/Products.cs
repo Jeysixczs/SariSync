@@ -52,7 +52,7 @@ namespace SariSariStore.Core.Model
                                 Stock = Convert.ToInt32(reader["Stock"]),
                                 ImagePath = reader["ImagePath"]?.ToString(),
                                 DateAdded = Convert.ToDateTime(reader["DateAdded"]),
-                                DateExpired = Convert.ToDateTime(reader["DateExpired"]),
+                                DateExpired = reader.IsDBNull("DateExpired") ? null : reader.GetDateTime("DateExpired"),
                                 SupplierID = Convert.ToInt32(reader["SupplierID"]),
                                 SupplierName = reader["SupplierName"]?.ToString() ?? string.Empty
 
@@ -95,7 +95,7 @@ namespace SariSariStore.Core.Model
                     command.Parameters.AddWithValue("@SellingPrice", product.SellingPrice);
                     command.Parameters.AddWithValue("@Stock", product.Stock);
                     command.Parameters.AddWithValue("@ImagePath", imagePath ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@DateExpired", product.DateExpired);
+                    command.Parameters.AddWithValue("@DateExpired", product.DateExpired ?? (object)DBNull.Value); 
 
                     // Handle SupplierID properly - use DBNull.Value if 0
                     if (product.SupplierID > 0)
@@ -196,7 +196,15 @@ namespace SariSariStore.Core.Model
                     command.Parameters.AddWithValue("@Price", product.Price);
                     command.Parameters.AddWithValue("@SellingPrice", product.SellingPrice);
                     command.Parameters.AddWithValue("@Stock", product.Stock);
-                    command.Parameters.AddWithValue("@DateExpired", product.DateExpired);
+                    if (product.DateExpired.HasValue)
+                    {
+                        command.Parameters.AddWithValue("@DateExpired", product.DateExpired.Value);
+                    }
+                    else
+                    {
+                        command.Parameters.AddWithValue("@DateExpired", DBNull.Value);
+                    }
+
                     command.Parameters.AddWithValue("@SupplierID", product.SupplierID);
 
 
@@ -254,9 +262,21 @@ namespace SariSariStore.Core.Model
                                 Stock = Convert.ToInt32(reader["Stock"]),
                                 ImagePath = reader["ImagePath"]?.ToString(),
                                 DateAdded = Convert.ToDateTime(reader["DateAdded"]),
-                                DateExpired = Convert.ToDateTime(reader["DateExpired"]),
+
                                 SupplierID = Convert.ToInt32(reader["SupplierID"])
                             };
+
+                            int dateExpiredOrdinal = reader.GetOrdinal("DateExpired");
+                            if (!reader.IsDBNull(dateExpiredOrdinal))
+                            {
+                                product.DateExpired = reader.GetDateTime(dateExpiredOrdinal);
+                            }
+                            else
+                            {
+                                product.DateExpired = null; 
+                            }
+
+                        
                         }
                     }
                 }
@@ -290,7 +310,7 @@ namespace SariSariStore.Core.Model
                             Stock = Convert.ToInt32(reader["Stock"]),
                             ImagePath = reader["ImagePath"]?.ToString(),
                             DateAdded = Convert.ToDateTime(reader["DateAdded"]),
-                            DateExpired = Convert.ToDateTime(reader["DateExpired"]),
+                            DateExpired = reader.IsDBNull("DateExpired") ? null : reader.GetDateTime("DateExpired") ,
                             SupplierName = GetSupplierNameByProduct(Convert.ToInt32(reader["SupplierID"]))
                         };
                         products.Add(product);
@@ -525,7 +545,7 @@ namespace SariSariStore.Core.Model
                                 Stock = Convert.ToInt32(reader["Stock"]),
                                 ImagePath = reader["ImagePath"]?.ToString(),
                                 DateAdded = Convert.ToDateTime(reader["DateAdded"]),
-                                DateExpired = Convert.ToDateTime(reader["DateExpired"]),
+                                DateExpired = reader.IsDBNull("DateExpired") ? null : reader.GetDateTime("DateExpired"),
                                 SupplierName = reader["SupplierName"]?.ToString() ?? string.Empty
 
                             };
@@ -561,7 +581,7 @@ namespace SariSariStore.Core.Model
                                 Stock = Convert.ToInt32(reader["Stock"]),
                                 ImagePath = reader["ImagePath"]?.ToString(),
                                 DateAdded = Convert.ToDateTime(reader["DateAdded"]),
-                                DateExpired = Convert.ToDateTime(reader["DateExpired"])
+                                DateExpired = reader.IsDBNull("DateExpired") ? null : reader.GetDateTime("DateExpired")
                             };
                             expiredProducts.Add(product);
                         }
@@ -630,7 +650,7 @@ namespace SariSariStore.Core.Model
                                 Stock = Convert.ToInt32(reader["Stock"]),
                                 ImagePath = reader["ImagePath"]?.ToString(),
                                 DateAdded = Convert.ToDateTime(reader["DateAdded"]),
-                                DateExpired = Convert.ToDateTime(reader["DateExpired"])
+                                DateExpired = reader.IsDBNull("DateExpired") ? null : reader.GetDateTime("DateExpired")
                             };
                             criticalExpiredProducts.Add(product);
                         }

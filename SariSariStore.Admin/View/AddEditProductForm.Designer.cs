@@ -54,6 +54,7 @@
             panelFooter = new Panel();
             cancelButton = new Button();
             saveButton = new Button();
+            checkBox1 = new CheckBox();
             panelHeader.SuspendLayout();
             panelMain.SuspendLayout();
             panelFormSection.SuspendLayout();
@@ -102,6 +103,7 @@
             // panelFormSection
             // 
             panelFormSection.BackColor = Color.FromArgb(28, 28, 65);
+            panelFormSection.Controls.Add(checkBox1);
             panelFormSection.Controls.Add(label8);
             panelFormSection.Controls.Add(label7);
             panelFormSection.Controls.Add(numericSellingPrice);
@@ -397,6 +399,17 @@
             saveButton.UseVisualStyleBackColor = false;
             saveButton.Click += saveButton_Click;
             // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(220, 405);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(140, 19);
+            checkBox1.TabIndex = 12;
+            checkBox1.Text = "Dont Know Expiration";
+            checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
+            // 
             // AddEditProductForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -455,5 +468,6 @@
         private Panel panelHeader;
         private Label label8;
         private ComboBox cmbSupplier;
+        private CheckBox checkBox1;
     }
 }

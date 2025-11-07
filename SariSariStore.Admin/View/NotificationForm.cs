@@ -77,11 +77,54 @@ namespace SariSariStore.Admin.View
 
         private void btn_Update_Click(object sender, EventArgs e)
         {
+            if (dgv_stock.SelectedRows.Count > 0)
+            {
 
+                int selectedProductId = Convert.ToInt32(dgv_stock.SelectedRows[0].Cells["ProductID"].Value);
+                int selectedSupplierId = Convert.ToInt32(dgv_stock.SelectedRows[0].Cells["SupplierID"].Value);
+
+                AddEditProductForm editForm = new AddEditProductForm(selectedProductId, selectedSupplierId);
+                var result = editForm.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+
+                    dgv_stock.DataSource = prod.GetStockProducts("low");
+                    disabledcolumn();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a product to update.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void btn_Delete_Click(object sender, EventArgs e)
         {
+            if (dgv_stock.SelectedRows.Count > 0)
+            {
+                Products prod = new Products();
+                int selectedProductId = Convert.ToInt32(dgv_stock.SelectedRows[0].Cells["ProductID"].Value);
+
+                if (MessageBox.Show("Are you sure you want to delete this product?", "Confirm Delete",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    try
+                    {
+                        prod.DeleteProduct(selectedProductId);
+                        dgv_stock.DataSource = prod.GetStockProducts("low");
+                        disabledcolumn();
+                        MessageBox.Show("Product deleted successfully.");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error deleting product: {ex.Message}");
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a product to delete.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
 
         }
     }
