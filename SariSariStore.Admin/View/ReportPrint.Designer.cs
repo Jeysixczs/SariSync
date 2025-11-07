@@ -92,11 +92,13 @@
             // 
             // ReportPrint
             // 
+            BackColor = Color.FromArgb(28, 28, 65);
             ClientSize = new Size(784, 461);
             Controls.Add(btn_PrintPreview);
             Controls.Add(btn_Close);
             Controls.Add(btn_Print);
             Controls.Add(txtbox_ReportPrint);
+            ForeColor = Color.FromArgb(28, 28, 65);
             FormBorderStyle = FormBorderStyle.SizableToolWindow;
             Name = "ReportPrint";
             StartPosition = FormStartPosition.CenterParent;
