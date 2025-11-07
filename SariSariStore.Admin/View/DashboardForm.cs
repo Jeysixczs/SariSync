@@ -105,10 +105,9 @@ namespace SariSariStore.Admin.View
 
         }
 
-        private void btnWalkins_Click(object sender, EventArgs e)
+        private async void btnWalkins_Click(object sender, EventArgs e)
         {
-            PointOfSaleForm posForm = new PointOfSaleForm();
-            posForm.ShowDialog();
+            await transition.ShowFormSafely(this, new PointOfSaleForm(), OnFormReturn);
 
         }
 

@@ -174,29 +174,50 @@
             checkBox1.AutoSize = true;
             checkBox1.Location = new Point(376, 561);
             checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(82, 19);
+            checkBox1.Size = new Size(104, 19);
             checkBox1.TabIndex = 3;
-            checkBox1.Text = "checkBox1";
+            checkBox1.Text = "Multiple Select";
             checkBox1.UseVisualStyleBackColor = true;
             checkBox1.CheckedChanged += checkBox1_CheckedChanged;
             // 
             // btn_Delete
             // 
             btn_Delete.ForeColor = Color.Black;
-            btn_Delete.Location = new Point(286, 550);
+            btn_Delete.Location = new Point(273, 550);
             btn_Delete.Name = "btn_Delete";
             btn_Delete.Size = new Size(75, 35);
             btn_Delete.TabIndex = 2;
             btn_Delete.Text = "DELETE";
             btn_Delete.UseVisualStyleBackColor = true;
+            btn_Delete.BackColor = Color.FromArgb(220, 53, 69); // Bootstrap danger red
+            btn_Delete.FlatStyle = FlatStyle.Flat;
+            btn_Delete.FlatAppearance.BorderSize = 0;
+            btn_Delete.ForeColor = Color.White;
+            btn_Delete.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btn_Delete.Size = new Size(90, 35);
+            btn_Delete.Location = new Point(273, 550);
+            // Hover effects
+            btn_Delete.FlatAppearance.MouseOverBackColor = Color.FromArgb(200, 35, 51);
+            btn_Delete.Cursor = Cursors.Hand;
+
             btn_Delete.Click += btn_Delete_Click;
             // 
             // btn_Update
             // 
+            btn_Update.BackColor = Color.FromArgb(13, 110, 253); // Bootstrap primary blue
+            btn_Update.FlatStyle = FlatStyle.Flat;
+            btn_Update.FlatAppearance.BorderSize = 0;
+            btn_Update.ForeColor = Color.White;
+            btn_Update.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btn_Update.Size = new Size(90, 35);
+            btn_Update.Location = new Point(158, 550);
+            // Hover effects
+            btn_Update.FlatAppearance.MouseOverBackColor = Color.FromArgb(11, 94, 215);
+            btn_Update.Cursor = Cursors.Hand;
             btn_Update.ForeColor = Color.Black;
             btn_Update.Location = new Point(158, 550);
             btn_Update.Name = "btn_Update";
-            btn_Update.Size = new Size(87, 35);
+            
             btn_Update.TabIndex = 1;
             btn_Update.Text = "UPDATE";
             btn_Update.UseVisualStyleBackColor = true;

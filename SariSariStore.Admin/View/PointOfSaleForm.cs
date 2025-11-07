@@ -1,5 +1,6 @@
 ﻿using Microsoft.Identity.Client;
 using NLog.LayoutRenderers;
+using SariSariStore.Admin.Model;
 using SariSariStore.Core.Model;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace SariSariStore.Admin.View
         private Orders _orders;
         private List<CartItemDisplay> _cartItems;
         private decimal _totalAmount;
-
+        public SmoothTransition transition = new SmoothTransition();
         public PointOfSaleForm()
         {
             InitializeComponent();
@@ -311,11 +312,18 @@ namespace SariSariStore.Admin.View
             dgvProducts.DataSource = products;
         }
 
-        private void btn_back_Click_1(object sender, EventArgs e)
+        private void OnFormReturn(Form parentForm)
         {
-            DashboardForm dashboardForm = new DashboardForm();
-            dashboardForm.Show();
-            this.Hide();
+            parentForm.Opacity = 0;
+            parentForm.Visible = true;
+            transition.FastFadeIn(parentForm, 60);
+            parentForm.BringToFront();
+            parentForm.Focus();
+        }
+
+        private async void btn_back_Click_1(object sender, EventArgs e)
+        {
+            await transition.ShowFormSafely(this, new DashboardForm(), OnFormReturn);
         }
 
         private void dgvCart_CellContentClick(object sender, DataGridViewCellEventArgs e)

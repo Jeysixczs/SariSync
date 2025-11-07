@@ -434,6 +434,7 @@
             btn_Products.TabIndex = 3;
             btn_Products.Text = "Inventory";
             btn_Products.UseVisualStyleBackColor = false;
+            btn_Products.Click += btn_Products_Click;
             // 
             // btn_Dashboard
             // 

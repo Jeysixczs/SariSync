@@ -34,7 +34,7 @@ namespace SariSariStore.Admin.View
         {
             InitializeComponent();
             rounded = new Rounded();
-         
+
             transition = new SmoothTransition();
 
             EnableDoubleBuffering();
@@ -52,7 +52,7 @@ namespace SariSariStore.Admin.View
             rounded.MakePanelRounded(panel3, 30);
             StyleProductGrid();
             DisplayProduct();
-            DisplayCategory();     
+            DisplayCategory();
         }
 
         private void EnableDoubleBuffering()
@@ -60,7 +60,7 @@ namespace SariSariStore.Admin.View
             this.DoubleBuffered = true;
         }
 
-     
+
 
         private void OnFormReturn(Form parentForm)
         {
@@ -120,7 +120,7 @@ namespace SariSariStore.Admin.View
 
         private async void btn_Dashboard_Click(object sender, EventArgs e)
         {
-           await transition.ShowFormSafely(this, new DashboardForm(), OnFormReturn);
+            await transition.ShowFormSafely(this, new DashboardForm(), OnFormReturn);
 
         }
 
@@ -173,7 +173,7 @@ namespace SariSariStore.Admin.View
         private void btn_Update_Click(object sender, EventArgs e)
         {
 
-           
+
             if (dgv_Product.SelectedRows.Count > 0)
             {
 
@@ -320,7 +320,12 @@ namespace SariSariStore.Admin.View
 
         private void dgv_Product_Click(object sender, EventArgs e)
         {
-           
+
+        }
+
+        private void btn_Products_Click(object sender, EventArgs e)
+        {
+
         }
     }
 
