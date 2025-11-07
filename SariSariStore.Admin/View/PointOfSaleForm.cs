@@ -139,6 +139,7 @@ namespace SariSariStore.Admin.View
             UpdateCartDisplay();
             txtCustomerName.Clear();
             txtNotes.Clear();
+            txtboxExchange.Clear();
             txtRemarks.Clear();
             chkIsPaid.Checked = false;
 
@@ -231,10 +232,32 @@ namespace SariSariStore.Admin.View
                     TotalAmount = _totalAmount
                 };
 
-                int orderId = _orders.CreateOrder(order, orderItems);
 
-                MessageBox.Show($"Order processed successfully!\nOrder ID: {orderId}\nTotal Amount: {_totalAmount:C2}",
-                    "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                if(string.IsNullOrEmpty( txtboxExchange.Text))
+                {
+                    int orderId = _orders.CreateOrder(order, orderItems);
+
+                    MessageBox.Show($"Order processed successfully!\nOrder ID: {orderId}\nTotal Amount: {_totalAmount:C2}",
+                        "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    int textboxExchangeValue = Convert.ToInt32(txtboxExchange.Text);
+                    int exchange = textboxExchangeValue - Convert.ToInt32(_totalAmount);
+                    MessageBox.Show($"Youre Exchange is {exchange}");
+                    int orderId = _orders.CreateOrder(order, orderItems);
+
+                    MessageBox.Show($"Order processed successfully!\nOrder ID: {orderId}\nTotal Amount: {_totalAmount:C2}",
+                        "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
+                    
+
+
+
+              
+               
                 ClearForm();
                 RefreshProductList();
 
@@ -301,6 +324,11 @@ namespace SariSariStore.Admin.View
         }
 
         private void dgvProducts_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void txtTotal_Click(object sender, EventArgs e)
         {
 
         }

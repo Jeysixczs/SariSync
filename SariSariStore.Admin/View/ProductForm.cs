@@ -150,6 +150,7 @@ namespace SariSariStore.Admin.View
 
             dgv_Product.Columns["ImagePath"].Visible = false;
             dgv_Product.Columns["SupplierID"].Visible = false;
+            dgv_Product.Columns["Payment_Supplier"].Visible = false;
         }
 
         private void btn_Add_Click(object sender, EventArgs e)

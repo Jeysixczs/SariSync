@@ -32,8 +32,11 @@
             labelTitle = new Label();
             panelMain = new Panel();
             panelFormSection = new Panel();
+            checkBox1 = new CheckBox();
             label8 = new Label();
+            label9 = new Label();
             label7 = new Label();
+            numericPaymenttosupplier = new NumericUpDown();
             numericSellingPrice = new NumericUpDown();
             label6 = new Label();
             dtp_ExpirationDate = new DateTimePicker();
@@ -54,10 +57,10 @@
             panelFooter = new Panel();
             cancelButton = new Button();
             saveButton = new Button();
-            checkBox1 = new CheckBox();
             panelHeader.SuspendLayout();
             panelMain.SuspendLayout();
             panelFormSection.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericPaymenttosupplier).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericSellingPrice).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NumericStock).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericPrice).BeginInit();
@@ -96,7 +99,7 @@
             panelMain.Location = new Point(0, 70);
             panelMain.Name = "panelMain";
             panelMain.Padding = new Padding(25);
-            panelMain.Size = new Size(700, 633);
+            panelMain.Size = new Size(700, 681);
             panelMain.TabIndex = 1;
             panelMain.Paint += panelMain_Paint;
             // 
@@ -105,7 +108,9 @@
             panelFormSection.BackColor = Color.FromArgb(28, 28, 65);
             panelFormSection.Controls.Add(checkBox1);
             panelFormSection.Controls.Add(label8);
+            panelFormSection.Controls.Add(label9);
             panelFormSection.Controls.Add(label7);
+            panelFormSection.Controls.Add(numericPaymenttosupplier);
             panelFormSection.Controls.Add(numericSellingPrice);
             panelFormSection.Controls.Add(label6);
             panelFormSection.Controls.Add(dtp_ExpirationDate);
@@ -123,8 +128,19 @@
             panelFormSection.Location = new Point(290, 25);
             panelFormSection.Name = "panelFormSection";
             panelFormSection.Padding = new Padding(25);
-            panelFormSection.Size = new Size(385, 602);
+            panelFormSection.Size = new Size(385, 650);
             panelFormSection.TabIndex = 1;
+            // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(220, 405);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(140, 19);
+            checkBox1.TabIndex = 12;
+            checkBox1.Text = "Dont Know Expiration";
+            checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
             // 
             // label8
             // 
@@ -137,6 +153,17 @@
             label8.TabIndex = 4;
             label8.Text = "Selling Price";
             // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label9.ForeColor = Color.LightGray;
+            label9.Location = new Point(25, 590);
+            label9.Name = "label9";
+            label9.Size = new Size(146, 19);
+            label9.TabIndex = 4;
+            label9.Text = "Payment to Supplier";
+            // 
             // label7
             // 
             label7.AutoSize = true;
@@ -148,6 +175,19 @@
             label7.TabIndex = 4;
             label7.Text = "Supplier Name";
             // 
+            // numericPaymenttosupplier
+            // 
+            numericPaymenttosupplier.BackColor = Color.FromArgb(40, 40, 80);
+            numericPaymenttosupplier.BorderStyle = BorderStyle.FixedSingle;
+            numericPaymenttosupplier.Font = new Font("Segoe UI", 10F);
+            numericPaymenttosupplier.ForeColor = Color.White;
+            numericPaymenttosupplier.Location = new Point(25, 620);
+            numericPaymenttosupplier.Maximum = new decimal(new int[] { -727379968, 232, 0, 0 });
+            numericPaymenttosupplier.Name = "numericPaymenttosupplier";
+            numericPaymenttosupplier.Size = new Size(335, 25);
+            numericPaymenttosupplier.TabIndex = 9;
+            numericPaymenttosupplier.ValueChanged += numericSellingPrice_ValueChanged;
+            // 
             // numericSellingPrice
             // 
             numericSellingPrice.BackColor = Color.FromArgb(40, 40, 80);
@@ -155,7 +195,7 @@
             numericSellingPrice.Font = new Font("Segoe UI", 10F);
             numericSellingPrice.ForeColor = Color.White;
             numericSellingPrice.Location = new Point(25, 499);
-            numericSellingPrice.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
+            numericSellingPrice.Maximum = new decimal(new int[] { -727379968, 232, 0, 0 });
             numericSellingPrice.Name = "numericSellingPrice";
             numericSellingPrice.Size = new Size(335, 25);
             numericSellingPrice.TabIndex = 9;
@@ -204,7 +244,7 @@
             NumericStock.Font = new Font("Segoe UI", 10F);
             NumericStock.ForeColor = Color.White;
             NumericStock.Location = new Point(25, 365);
-            NumericStock.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
+            NumericStock.Maximum = new decimal(new int[] { -727379968, 232, 0, 0 });
             NumericStock.Name = "NumericStock";
             NumericStock.Size = new Size(335, 25);
             NumericStock.TabIndex = 10;
@@ -227,7 +267,7 @@
             numericPrice.Font = new Font("Segoe UI", 10F);
             numericPrice.ForeColor = Color.White;
             numericPrice.Location = new Point(25, 300);
-            numericPrice.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
+            numericPrice.Maximum = new decimal(new int[] { -727379968, 232, 0, 0 });
             numericPrice.Name = "numericPrice";
             numericPrice.Size = new Size(335, 25);
             numericPrice.TabIndex = 9;
@@ -250,7 +290,7 @@
             cmbSupplier.Font = new Font("Segoe UI", 10F);
             cmbSupplier.ForeColor = Color.White;
             cmbSupplier.Items.AddRange(new object[] { "" });
-            cmbSupplier.Location = new Point(23, 565);
+            cmbSupplier.Location = new Point(25, 556);
             cmbSupplier.Name = "cmbSupplier";
             cmbSupplier.Size = new Size(335, 25);
             cmbSupplier.TabIndex = 8;
@@ -324,7 +364,7 @@
             panelImageSection.Location = new Point(25, 25);
             panelImageSection.Name = "panelImageSection";
             panelImageSection.Padding = new Padding(15);
-            panelImageSection.Size = new Size(250, 602);
+            panelImageSection.Size = new Size(250, 650);
             panelImageSection.TabIndex = 0;
             // 
             // Btn_UploadImage
@@ -360,7 +400,7 @@
             panelFooter.Controls.Add(cancelButton);
             panelFooter.Controls.Add(saveButton);
             panelFooter.Dock = DockStyle.Bottom;
-            panelFooter.Location = new Point(0, 703);
+            panelFooter.Location = new Point(0, 751);
             panelFooter.Name = "panelFooter";
             panelFooter.Size = new Size(700, 80);
             panelFooter.TabIndex = 2;
@@ -399,23 +439,12 @@
             saveButton.UseVisualStyleBackColor = false;
             saveButton.Click += saveButton_Click;
             // 
-            // checkBox1
-            // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(220, 405);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(140, 19);
-            checkBox1.TabIndex = 12;
-            checkBox1.Text = "Dont Know Expiration";
-            checkBox1.UseVisualStyleBackColor = true;
-            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
-            // 
             // AddEditProductForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(20, 20, 50);
-            ClientSize = new Size(700, 783);
+            ClientSize = new Size(700, 831);
             Controls.Add(panelMain);
             Controls.Add(panelHeader);
             Controls.Add(panelFooter);
@@ -433,6 +462,7 @@
             panelMain.ResumeLayout(false);
             panelFormSection.ResumeLayout(false);
             panelFormSection.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numericPaymenttosupplier).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericSellingPrice).EndInit();
             ((System.ComponentModel.ISupportInitialize)NumericStock).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericPrice).EndInit();
@@ -469,5 +499,7 @@
         private Label label8;
         private ComboBox cmbSupplier;
         private CheckBox checkBox1;
+        private Label label9;
+        private NumericUpDown numericPaymenttosupplier;
     }
 }

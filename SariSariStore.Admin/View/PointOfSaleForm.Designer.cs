@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PointOfSaleForm));
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle13 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle14 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle15 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle16 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle17 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle18 = new DataGridViewCellStyle();
             panel1 = new Panel();
             btn_back = new Button();
             label7 = new Label();
@@ -67,6 +67,8 @@
             btnAddtoCart = new Button();
             numericQuantity = new NumericUpDown();
             label9 = new Label();
+            txtboxExchange = new TextBox();
+            label11 = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             panel2.SuspendLayout();
@@ -156,32 +158,32 @@
             dgvProducts.AllowUserToAddRows = false;
             dgvProducts.AllowUserToDeleteRows = false;
             dgvProducts.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(250, 250, 250);
-            dataGridViewCellStyle1.ForeColor = Color.FromArgb(64, 64, 64);
-            dgvProducts.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle13.BackColor = Color.FromArgb(250, 250, 250);
+            dataGridViewCellStyle13.ForeColor = Color.FromArgb(64, 64, 64);
+            dgvProducts.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle13;
             dgvProducts.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvProducts.BackgroundColor = Color.White;
             dgvProducts.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(74, 107, 255);
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            dataGridViewCellStyle2.ForeColor = Color.White;
-            dataGridViewCellStyle2.Padding = new Padding(10, 0, 0, 0);
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(74, 107, 255);
-            dataGridViewCellStyle2.SelectionForeColor = Color.White;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dgvProducts.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle14.BackColor = Color.FromArgb(74, 107, 255);
+            dataGridViewCellStyle14.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            dataGridViewCellStyle14.ForeColor = Color.White;
+            dataGridViewCellStyle14.Padding = new Padding(10, 0, 0, 0);
+            dataGridViewCellStyle14.SelectionBackColor = Color.FromArgb(74, 107, 255);
+            dataGridViewCellStyle14.SelectionForeColor = Color.White;
+            dataGridViewCellStyle14.WrapMode = DataGridViewTriState.True;
+            dgvProducts.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle14;
             dgvProducts.ColumnHeadersHeight = 45;
             dgvProducts.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.White;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle3.ForeColor = Color.FromArgb(64, 64, 64);
-            dataGridViewCellStyle3.Padding = new Padding(10, 5, 10, 5);
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(230, 240, 255);
-            dataGridViewCellStyle3.SelectionForeColor = Color.FromArgb(64, 64, 64);
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
-            dgvProducts.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle15.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle15.BackColor = Color.White;
+            dataGridViewCellStyle15.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle15.ForeColor = Color.FromArgb(64, 64, 64);
+            dataGridViewCellStyle15.Padding = new Padding(10, 5, 10, 5);
+            dataGridViewCellStyle15.SelectionBackColor = Color.FromArgb(230, 240, 255);
+            dataGridViewCellStyle15.SelectionForeColor = Color.FromArgb(64, 64, 64);
+            dataGridViewCellStyle15.WrapMode = DataGridViewTriState.False;
+            dgvProducts.DefaultCellStyle = dataGridViewCellStyle15;
             dgvProducts.EnableHeadersVisualStyles = false;
             dgvProducts.GridColor = Color.FromArgb(240, 240, 240);
             dgvProducts.Location = new Point(25, 125);
@@ -230,9 +232,11 @@
             // panel3
             // 
             panel3.BackColor = Color.FromArgb(20, 20, 50);
+            panel3.Controls.Add(txtboxExchange);
             panel3.Controls.Add(dgvCart);
             panel3.Controls.Add(panel4);
             panel3.Controls.Add(label1);
+            panel3.Controls.Add(label11);
             panel3.Location = new Point(700, 100);
             panel3.Name = "panel3";
             panel3.Size = new Size(650, 500);
@@ -243,32 +247,32 @@
             dgvCart.AllowUserToAddRows = false;
             dgvCart.AllowUserToDeleteRows = false;
             dgvCart.AllowUserToResizeRows = false;
-            dataGridViewCellStyle4.BackColor = Color.FromArgb(250, 250, 250);
-            dataGridViewCellStyle4.ForeColor = Color.FromArgb(64, 64, 64);
-            dgvCart.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle16.BackColor = Color.FromArgb(250, 250, 250);
+            dataGridViewCellStyle16.ForeColor = Color.FromArgb(64, 64, 64);
+            dgvCart.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle16;
             dgvCart.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvCart.BackgroundColor = Color.White;
             dgvCart.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = Color.FromArgb(74, 107, 255);
-            dataGridViewCellStyle5.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            dataGridViewCellStyle5.ForeColor = Color.White;
-            dataGridViewCellStyle5.Padding = new Padding(10, 0, 0, 0);
-            dataGridViewCellStyle5.SelectionBackColor = Color.FromArgb(74, 107, 255);
-            dataGridViewCellStyle5.SelectionForeColor = Color.White;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            dgvCart.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle17.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle17.BackColor = Color.FromArgb(74, 107, 255);
+            dataGridViewCellStyle17.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            dataGridViewCellStyle17.ForeColor = Color.White;
+            dataGridViewCellStyle17.Padding = new Padding(10, 0, 0, 0);
+            dataGridViewCellStyle17.SelectionBackColor = Color.FromArgb(74, 107, 255);
+            dataGridViewCellStyle17.SelectionForeColor = Color.White;
+            dataGridViewCellStyle17.WrapMode = DataGridViewTriState.True;
+            dgvCart.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle17;
             dgvCart.ColumnHeadersHeight = 45;
             dgvCart.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = Color.White;
-            dataGridViewCellStyle6.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle6.ForeColor = Color.FromArgb(64, 64, 64);
-            dataGridViewCellStyle6.Padding = new Padding(10, 5, 10, 5);
-            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(230, 240, 255);
-            dataGridViewCellStyle6.SelectionForeColor = Color.FromArgb(64, 64, 64);
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
-            dgvCart.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle18.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle18.BackColor = Color.White;
+            dataGridViewCellStyle18.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle18.ForeColor = Color.FromArgb(64, 64, 64);
+            dataGridViewCellStyle18.Padding = new Padding(10, 5, 10, 5);
+            dataGridViewCellStyle18.SelectionBackColor = Color.FromArgb(230, 240, 255);
+            dataGridViewCellStyle18.SelectionForeColor = Color.FromArgb(64, 64, 64);
+            dataGridViewCellStyle18.WrapMode = DataGridViewTriState.False;
+            dgvCart.DefaultCellStyle = dataGridViewCellStyle18;
             dgvCart.EnableHeadersVisualStyles = false;
             dgvCart.GridColor = Color.FromArgb(240, 240, 240);
             dgvCart.Location = new Point(25, 135);
@@ -428,6 +432,7 @@
             txtTotal.Size = new Size(76, 25);
             txtTotal.TabIndex = 27;
             txtTotal.Text = "label11";
+            txtTotal.Click += txtTotal_Click;
             // 
             // btnProcessOrder
             // 
@@ -518,6 +523,24 @@
             label9.TabIndex = 13;
             label9.Text = "Quantity:";
             // 
+            // txtboxExchange
+            // 
+            txtboxExchange.Location = new Point(525, 20);
+            txtboxExchange.Name = "txtboxExchange";
+            txtboxExchange.Size = new Size(100, 23);
+            txtboxExchange.TabIndex = 31;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label11.ForeColor = Color.White;
+            label11.Location = new Point(458, 26);
+            label11.Name = "label11";
+            label11.Size = new Size(60, 15);
+            label11.TabIndex = 22;
+            label11.Text = "Exchange:";
+            // 
             // PointOfSaleForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -587,5 +610,7 @@
         private ComboBox comboBox1;
         private Label label10;
         private Label txtTotal;
+        private TextBox txtboxExchange;
+        private Label label11;
     }
 }

@@ -203,6 +203,7 @@ namespace SariSariStore.Admin.View
             dgv_LatestProduct.Columns["DateExpired"].Visible = false;
             dgv_LatestProduct.Columns["SupplierName"].Visible = false;
             dgv_LatestProduct.Columns["SupplierID"].Visible = false;
+            dgv_LatestProduct.Columns["Payment_Supplier"].Visible = false;
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e) { }

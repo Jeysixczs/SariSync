@@ -84,7 +84,7 @@ namespace SariSariStore.Admin
                 cmbCategory.Text = product.Category;
                 numericPrice.Value = product.Price;
                 NumericStock.Value = product.Stock;
-            
+               numericPaymenttosupplier.Value = product.Payment_Supplier;
                 numericSellingPrice.Value = product.SellingPrice;
 
                 if (product.SupplierID > 0)
@@ -161,7 +161,7 @@ namespace SariSariStore.Admin
                     Price = numericPrice.Value,
                     Stock = (int)NumericStock.Value,
                     DateAdded = DateTime.Now,
-                    
+                    Payment_Supplier = numericPaymenttosupplier.Value,
                     DateExpired = dateExpired,
                     SellingPrice = numericSellingPrice.Value,
                     SupplierID = supplierId 

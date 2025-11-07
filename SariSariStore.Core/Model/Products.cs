@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
+using System.Runtime.CompilerServices;
 
 
 namespace SariSariStore.Core.Model
@@ -25,7 +26,7 @@ namespace SariSariStore.Core.Model
         public DateTime? DateExpired { get; set; }
         public int SupplierID { get; set; }
         public string SupplierName { get; set; } = string.Empty;
-
+        public decimal Payment_Supplier { get; set; }
 
 
         public List<Products> GetAllProducts()
@@ -54,7 +55,8 @@ namespace SariSariStore.Core.Model
                                 DateAdded = Convert.ToDateTime(reader["DateAdded"]),
                                 DateExpired = reader.IsDBNull("DateExpired") ? null : reader.GetDateTime("DateExpired"),
                                 SupplierID = Convert.ToInt32(reader["SupplierID"]),
-                                SupplierName = reader["SupplierName"]?.ToString() ?? string.Empty
+                                SupplierName = reader["SupplierName"]?.ToString() ?? string.Empty,
+                               // Payment_Supplier = Convert.ToDecimal(reader["supplier_payment"])
 
                             };
                             productsList.Add(product);
@@ -106,6 +108,7 @@ namespace SariSariStore.Core.Model
                     {
                         command.Parameters.AddWithValue("@SupplierID", DBNull.Value);
                     }
+                    command.Parameters.AddWithValue("@Payment_Supplier", product.Payment_Supplier);
 
                     return (int)command.ExecuteScalar();
                 }
@@ -173,6 +176,7 @@ namespace SariSariStore.Core.Model
                             Category = @Category, 
                             Price = @Price, 
                             SellingPrice = @SellingPrice,
+                            supplier_payment = @PaymentToSupplier,
                             Stock = @Stock, 
                             DateExpired = @DateExpired
                         {0}
@@ -196,6 +200,7 @@ namespace SariSariStore.Core.Model
                     command.Parameters.AddWithValue("@Price", product.Price);
                     command.Parameters.AddWithValue("@SellingPrice", product.SellingPrice);
                     command.Parameters.AddWithValue("@Stock", product.Stock);
+                    command.Parameters.AddWithValue("@PaymentToSupplier", product.Payment_Supplier);
                     if (product.DateExpired.HasValue)
                     {
                         command.Parameters.AddWithValue("@DateExpired", product.DateExpired.Value);
@@ -262,7 +267,7 @@ namespace SariSariStore.Core.Model
                                 Stock = Convert.ToInt32(reader["Stock"]),
                                 ImagePath = reader["ImagePath"]?.ToString(),
                                 DateAdded = Convert.ToDateTime(reader["DateAdded"]),
-
+                                Payment_Supplier = Convert.ToDecimal(reader["supplier_payment"]),
                                 SupplierID = Convert.ToInt32(reader["SupplierID"])
                             };
 
