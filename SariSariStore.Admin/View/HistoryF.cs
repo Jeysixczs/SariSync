@@ -72,8 +72,13 @@ namespace SariSariStore.Admin.View
 
         public void DisplayOrderHistory()
         {
-            dgv_orderhistory.Rows.Clear();
-            dgv_orderhistory.DataSource = ord.GetAllOrders();
+            //to get all paid orders from the database and display it in dgv_orderhistory
+            var allOrders = ord.GetAllOrders();
+            var paidOrders = allOrders.Where(o => o.IsPaid).ToList();
+            dgv_orderhistory.DataSource = paidOrders;
+
+            //dgv_orderhistory.Rows.Clear();
+            //dgv_orderhistory.DataSource = ord.GetAllOrders();
 
             //Format the dgv_orderhistory
             if (dgv_orderhistory.Columns.Count > 0)
@@ -89,6 +94,11 @@ namespace SariSariStore.Admin.View
 
                 // Format date column
                 dgv_orderhistory.Columns["OrderDate"].DefaultCellStyle.Format = "MMM dd, yyyy hh:mm tt";
+
+                // Hide unnecessary columns
+                //dgv_orderhistory.Columns["OrderID"].Visible = false;
+                dgv_orderhistory.Columns["Notes"].Visible = false;
+                dgv_orderhistory.Columns["Remarks"].Visible = false;
             }
         }
 
@@ -144,6 +154,10 @@ namespace SariSariStore.Admin.View
         {
             string searchTerm = txtSearch.Text.Trim();
             dgv_orderhistory.DataSource = ord.SearchOrders(searchTerm);
+
+            //Filter to show only paid orders
+            var paidOrders = ord.SearchOrders(searchTerm).Where(o => o.IsPaid).ToList();
+            dgv_orderhistory.DataSource = paidOrders;
         }
 
         private void dgv_orderhistory_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

@@ -29,7 +29,7 @@ namespace SariSariStore.Core.Model
         public bool IsPaid { get; set; }
 
         public decimal TotalAmount { get; set; }
-     
+
 
         public List<Orders> GetAllOrders()
         {

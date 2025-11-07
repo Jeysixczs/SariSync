@@ -48,20 +48,24 @@
             panel3 = new Panel();
             dgvCart = new DataGridView();
             panel4 = new Panel();
+            txt_AmountReceived = new TextBox();
             label10 = new Label();
             chkIsPaid = new CheckBox();
             label6 = new Label();
             label5 = new Label();
             txtRemarks = new TextBox();
+            label14 = new Label();
             label4 = new Label();
             txtNotes = new TextBox();
             label3 = new Label();
             txtCustomerName = new TextBox();
             label1 = new Label();
             panel5 = new Panel();
+            label13 = new Label();
             txtTotal = new Label();
             btnProcessOrder = new Button();
             btnRemovefromCart = new Button();
+            label11 = new Label();
             label8 = new Label();
             panel6 = new Panel();
             btnAddtoCart = new Button();
@@ -138,7 +142,7 @@
             panel2.Controls.Add(label12);
             panel2.Location = new Point(30, 100);
             panel2.Name = "panel2";
-            panel2.Size = new Size(650, 500);
+            panel2.Size = new Size(650, 509);
             panel2.TabIndex = 9;
             // 
             // comboBox1
@@ -184,7 +188,7 @@
             dgvProducts.DefaultCellStyle = dataGridViewCellStyle3;
             dgvProducts.EnableHeadersVisualStyles = false;
             dgvProducts.GridColor = Color.FromArgb(240, 240, 240);
-            dgvProducts.Location = new Point(25, 125);
+            dgvProducts.Location = new Point(25, 141);
             dgvProducts.MultiSelect = false;
             dgvProducts.Name = "dgvProducts";
             dgvProducts.ReadOnly = true;
@@ -221,7 +225,7 @@
             label12.AutoSize = true;
             label12.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label12.ForeColor = Color.White;
-            label12.Location = new Point(25, 20);
+            label12.Location = new Point(25, 9);
             label12.Name = "label12";
             label12.Size = new Size(178, 30);
             label12.TabIndex = 11;
@@ -235,7 +239,7 @@
             panel3.Controls.Add(label1);
             panel3.Location = new Point(700, 100);
             panel3.Name = "panel3";
-            panel3.Size = new Size(650, 500);
+            panel3.Size = new Size(650, 509);
             panel3.TabIndex = 10;
             // 
             // dgvCart
@@ -271,39 +275,49 @@
             dgvCart.DefaultCellStyle = dataGridViewCellStyle6;
             dgvCart.EnableHeadersVisualStyles = false;
             dgvCart.GridColor = Color.FromArgb(240, 240, 240);
-            dgvCart.Location = new Point(25, 135);
+            dgvCart.Location = new Point(25, 141);
             dgvCart.MultiSelect = false;
             dgvCart.Name = "dgvCart";
             dgvCart.ReadOnly = true;
             dgvCart.RowHeadersVisible = false;
             dgvCart.RowTemplate.Height = 40;
             dgvCart.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvCart.Size = new Size(600, 340);
+            dgvCart.Size = new Size(600, 350);
             dgvCart.TabIndex = 30;
             dgvCart.CellContentClick += dgvCart_CellContentClick;
             // 
             // panel4
             // 
             panel4.BackColor = Color.FromArgb(28, 28, 65);
+            panel4.Controls.Add(txt_AmountReceived);
             panel4.Controls.Add(label10);
             panel4.Controls.Add(chkIsPaid);
             panel4.Controls.Add(label6);
             panel4.Controls.Add(label5);
             panel4.Controls.Add(txtRemarks);
+            panel4.Controls.Add(label14);
             panel4.Controls.Add(label4);
             panel4.Controls.Add(txtNotes);
             panel4.Controls.Add(label3);
             panel4.Controls.Add(txtCustomerName);
-            panel4.Location = new Point(25, 60);
+            panel4.Location = new Point(25, 42);
             panel4.Name = "panel4";
-            panel4.Size = new Size(600, 60);
+            panel4.Size = new Size(600, 93);
             panel4.TabIndex = 29;
+            // 
+            // txt_AmountReceived
+            // 
+            txt_AmountReceived.Location = new Point(16, 63);
+            txt_AmountReceived.Name = "txt_AmountReceived";
+            txt_AmountReceived.Size = new Size(120, 23);
+            txt_AmountReceived.TabIndex = 26;
+            txt_AmountReceived.TextChanged += txt_AmountReceived_TextChanged;
             // 
             // label10
             // 
             label10.AutoSize = true;
             label10.ForeColor = Color.White;
-            label10.Location = new Point(427, 32);
+            label10.Location = new Point(428, 23);
             label10.Name = "label10";
             label10.Size = new Size(44, 15);
             label10.TabIndex = 25;
@@ -314,7 +328,7 @@
             chkIsPaid.AutoSize = true;
             chkIsPaid.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             chkIsPaid.ForeColor = Color.White;
-            chkIsPaid.Location = new Point(536, 26);
+            chkIsPaid.Location = new Point(507, 16);
             chkIsPaid.Name = "chkIsPaid";
             chkIsPaid.Size = new Size(49, 19);
             chkIsPaid.TabIndex = 20;
@@ -326,7 +340,7 @@
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label6.ForeColor = Color.White;
-            label6.Location = new Point(430, 10);
+            label6.Location = new Point(431, 1);
             label6.Name = "label6";
             label6.Size = new Size(31, 15);
             label6.TabIndex = 24;
@@ -337,7 +351,7 @@
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label5.ForeColor = Color.White;
-            label5.Location = new Point(285, 10);
+            label5.Location = new Point(286, 1);
             label5.Name = "label5";
             label5.Size = new Size(52, 15);
             label5.TabIndex = 23;
@@ -347,18 +361,29 @@
             // 
             txtRemarks.BorderStyle = BorderStyle.None;
             txtRemarks.Font = new Font("Segoe UI", 10F);
-            txtRemarks.Location = new Point(285, 30);
+            txtRemarks.Location = new Point(286, 21);
             txtRemarks.Name = "txtRemarks";
             txtRemarks.PlaceholderText = " ";
             txtRemarks.Size = new Size(120, 18);
             txtRemarks.TabIndex = 18;
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label14.ForeColor = Color.White;
+            label14.Location = new Point(16, 45);
+            label14.Name = "label14";
+            label14.Size = new Size(101, 15);
+            label14.TabIndex = 22;
+            label14.Text = "Amount Recieved";
             // 
             // label4
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label4.ForeColor = Color.White;
-            label4.Location = new Point(150, 10);
+            label4.Location = new Point(151, 1);
             label4.Name = "label4";
             label4.Size = new Size(38, 15);
             label4.TabIndex = 22;
@@ -368,7 +393,7 @@
             // 
             txtNotes.BorderStyle = BorderStyle.None;
             txtNotes.Font = new Font("Segoe UI", 10F);
-            txtNotes.Location = new Point(150, 30);
+            txtNotes.Location = new Point(151, 21);
             txtNotes.Name = "txtNotes";
             txtNotes.PlaceholderText = " ";
             txtNotes.Size = new Size(120, 18);
@@ -379,7 +404,7 @@
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.White;
-            label3.Location = new Point(15, 10);
+            label3.Location = new Point(16, 1);
             label3.Name = "label3";
             label3.Size = new Size(94, 15);
             label3.TabIndex = 21;
@@ -389,7 +414,7 @@
             // 
             txtCustomerName.BorderStyle = BorderStyle.None;
             txtCustomerName.Font = new Font("Segoe UI", 10F);
-            txtCustomerName.Location = new Point(15, 30);
+            txtCustomerName.Location = new Point(16, 21);
             txtCustomerName.Name = "txtCustomerName";
             txtCustomerName.PlaceholderText = " ";
             txtCustomerName.Size = new Size(120, 18);
@@ -400,7 +425,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(25, 20);
+            label1.Location = new Point(25, 9);
             label1.Name = "label1";
             label1.Size = new Size(140, 30);
             label1.TabIndex = 11;
@@ -409,21 +434,34 @@
             // panel5
             // 
             panel5.BackColor = Color.FromArgb(28, 28, 65);
+            panel5.Controls.Add(label13);
             panel5.Controls.Add(txtTotal);
             panel5.Controls.Add(btnProcessOrder);
             panel5.Controls.Add(btnRemovefromCart);
+            panel5.Controls.Add(label11);
             panel5.Controls.Add(label8);
-            panel5.Location = new Point(700, 620);
+            panel5.Location = new Point(700, 629);
             panel5.Name = "panel5";
             panel5.Size = new Size(650, 80);
             panel5.TabIndex = 11;
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label13.ForeColor = Color.White;
+            label13.Location = new Point(127, 45);
+            label13.Name = "label13";
+            label13.Size = new Size(76, 25);
+            label13.TabIndex = 27;
+            label13.Text = "label13";
             // 
             // txtTotal
             // 
             txtTotal.AutoSize = true;
             txtTotal.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtTotal.ForeColor = Color.White;
-            txtTotal.Location = new Point(113, 25);
+            txtTotal.Location = new Point(127, 9);
             txtTotal.Name = "txtTotal";
             txtTotal.Size = new Size(76, 25);
             txtTotal.TabIndex = 27;
@@ -459,12 +497,23 @@
             btnRemovefromCart.UseVisualStyleBackColor = false;
             btnRemovefromCart.Click += btnRemovefromCart_Click_1;
             // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label11.ForeColor = Color.White;
+            label11.Location = new Point(16, 45);
+            label11.Name = "label11";
+            label11.Size = new Size(102, 25);
+            label11.TabIndex = 25;
+            label11.Text = "Exchange:";
+            // 
             // label8
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label8.ForeColor = Color.White;
-            label8.Location = new Point(25, 25);
+            label8.Location = new Point(16, 9);
             label8.Name = "label8";
             label8.Size = new Size(60, 25);
             label8.TabIndex = 25;
@@ -476,7 +525,7 @@
             panel6.Controls.Add(btnAddtoCart);
             panel6.Controls.Add(numericQuantity);
             panel6.Controls.Add(label9);
-            panel6.Location = new Point(30, 620);
+            panel6.Location = new Point(30, 629);
             panel6.Name = "panel6";
             panel6.Size = new Size(650, 80);
             panel6.TabIndex = 12;
@@ -523,7 +572,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(28, 28, 65);
-            ClientSize = new Size(1400, 720);
+            ClientSize = new Size(1400, 737);
             Controls.Add(panel6);
             Controls.Add(panel5);
             Controls.Add(panel3);
@@ -587,5 +636,9 @@
         private ComboBox comboBox1;
         private Label label10;
         private Label txtTotal;
+        private Label label13;
+        private Label label11;
+        private TextBox txt_AmountReceived;
+        private Label label14;
     }
 }
