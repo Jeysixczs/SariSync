@@ -104,9 +104,9 @@ namespace SariSariStore.Admin.View
                 dgv_orderhistory.Columns["OrderDate"].HeaderText = "Order Date";
                 dgv_orderhistory.Columns["TotalAmount"].HeaderText = "Total Amount";
                 dgv_orderhistory.Columns["TotalAmount"].DefaultCellStyle.Format = "C2";
-                dgv_orderhistory.Columns["IsPaid"].HeaderText = "Paid";
-                dgv_orderhistory.Columns["Notes"].HeaderText = "Notes";
-                dgv_orderhistory.Columns["Remarks"].HeaderText = "Remarks";
+                dgv_orderhistory.Columns["IsPaid"].Visible = false;
+                dgv_orderhistory.Columns["Notes"].Visible = false;
+                dgv_orderhistory.Columns["Remarks"].Visible = false;    
 
                 // Format date column
                 dgv_orderhistory.Columns["OrderDate"].DefaultCellStyle.Format = "MMM dd, yyyy hh:mm tt";
