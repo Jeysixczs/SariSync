@@ -59,10 +59,11 @@
             btn_dailyReports = new Button();
             btn_MonthlyReports = new Button();
             panel2 = new Panel();
+            dateTimePicker1 = new DateTimePicker();
             btn_perform = new Button();
             label4 = new Label();
             label3 = new Label();
-            dateTimePicker1 = new DateTimePicker();
+            btn_Print = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             panel3.SuspendLayout();
@@ -79,6 +80,7 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(35, 35, 65);
+            panel1.Controls.Add(btn_Print);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(pictureBox6);
             panel1.Location = new Point(0, 0);
@@ -443,6 +445,13 @@
             panel2.TabIndex = 10;
             panel2.Paint += panel2_Paint;
             // 
+            // dateTimePicker1
+            // 
+            dateTimePicker1.Location = new Point(28, 69);
+            dateTimePicker1.Name = "dateTimePicker1";
+            dateTimePicker1.Size = new Size(200, 23);
+            dateTimePicker1.TabIndex = 21;
+            // 
             // btn_perform
             // 
             btn_perform.Location = new Point(755, 48);
@@ -473,12 +482,15 @@
             label3.TabIndex = 11;
             label3.Text = "Start Date";
             // 
-            // dateTimePicker1
+            // btn_Print
             // 
-            dateTimePicker1.Location = new Point(28, 69);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(200, 23);
-            dateTimePicker1.TabIndex = 21;
+            btn_Print.Location = new Point(1282, 12);
+            btn_Print.Name = "btn_Print";
+            btn_Print.Size = new Size(99, 36);
+            btn_Print.TabIndex = 4;
+            btn_Print.Text = "PRINT";
+            btn_Print.UseVisualStyleBackColor = true;
+            btn_Print.Click += btn_Print_Click;
             // 
             // ReportFrom
             // 
@@ -546,5 +558,6 @@
         private Label label3;
         private Button btn_perform;
         private DateTimePicker dateTimePicker1;
+        private Button btn_Print;
     }
 }
