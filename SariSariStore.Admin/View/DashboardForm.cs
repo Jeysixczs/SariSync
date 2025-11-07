@@ -191,7 +191,7 @@ namespace SariSariStore.Admin.View
 
         private void btn_Register_Click(object sender, EventArgs e)
         {
-            this.Hide();
+           
             Register register = new Register();
             register.Show();
         }

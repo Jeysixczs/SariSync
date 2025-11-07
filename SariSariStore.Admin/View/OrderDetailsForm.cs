@@ -203,8 +203,7 @@ namespace SariSariStore.Admin.View
 
         private void printButton_Click(object sender, EventArgs e)
         {
-
-
+           
 
         }
 

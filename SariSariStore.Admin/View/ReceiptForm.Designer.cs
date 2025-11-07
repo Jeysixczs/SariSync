@@ -16,6 +16,7 @@
             if (disposing && (components != null))
             {
                 components.Dispose();
+                _printDocument?.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -49,12 +50,12 @@
             receiptTextBox.BorderStyle = BorderStyle.None;
             receiptTextBox.Font = new Font("Consolas", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             receiptTextBox.ForeColor = Color.FromArgb(64, 64, 64);
-            receiptTextBox.Location = new Point(20, 50);
+            receiptTextBox.Location = new Point(24, 44);
             receiptTextBox.Multiline = true;
             receiptTextBox.Name = "receiptTextBox";
             receiptTextBox.ReadOnly = true;
             receiptTextBox.ScrollBars = ScrollBars.Vertical;
-            receiptTextBox.Size = new Size(610, 330);
+            receiptTextBox.Size = new Size(377, 493);
             receiptTextBox.TabIndex = 3;
             receiptTextBox.TextChanged += receiptTextBox_TextChanged;
             // 
@@ -66,7 +67,7 @@
             btn_PrintButton.FlatStyle = FlatStyle.Flat;
             btn_PrintButton.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_PrintButton.ForeColor = Color.White;
-            btn_PrintButton.Location = new Point(450, 20);
+            btn_PrintButton.Location = new Point(196, 17);
             btn_PrintButton.Name = "btn_PrintButton";
             btn_PrintButton.Size = new Size(110, 40);
             btn_PrintButton.TabIndex = 2;
@@ -82,7 +83,7 @@
             btn_Close.FlatStyle = FlatStyle.Flat;
             btn_Close.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_Close.ForeColor = Color.White;
-            btn_Close.Location = new Point(580, 20);
+            btn_Close.Location = new Point(326, 17);
             btn_Close.Name = "btn_Close";
             btn_Close.Size = new Size(100, 40);
             btn_Close.TabIndex = 4;
@@ -98,7 +99,7 @@
             panelHeader.Dock = DockStyle.Top;
             panelHeader.Location = new Point(0, 0);
             panelHeader.Name = "panelHeader";
-            panelHeader.Size = new Size(700, 80);
+            panelHeader.Size = new Size(480, 80);
             panelHeader.TabIndex = 5;
             // 
             // labelTitle
@@ -130,7 +131,7 @@
             panelReceipt.Location = new Point(25, 100);
             panelReceipt.Name = "panelReceipt";
             panelReceipt.Padding = new Padding(20);
-            panelReceipt.Size = new Size(650, 400);
+            panelReceipt.Size = new Size(429, 563);
             panelReceipt.TabIndex = 6;
             // 
             // labelReceiptTitle
@@ -150,9 +151,9 @@
             panelFooter.Controls.Add(btn_Close);
             panelFooter.Controls.Add(btn_PrintButton);
             panelFooter.Dock = DockStyle.Bottom;
-            panelFooter.Location = new Point(0, 520);
+            panelFooter.Location = new Point(0, 669);
             panelFooter.Name = "panelFooter";
-            panelFooter.Size = new Size(700, 80);
+            panelFooter.Size = new Size(480, 80);
             panelFooter.TabIndex = 7;
             // 
             // ReceiptForm
@@ -160,7 +161,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(28, 28, 65);
-            ClientSize = new Size(700, 600);
+            ClientSize = new Size(480, 749);
             Controls.Add(panelReceipt);
             Controls.Add(panelHeader);
             Controls.Add(panelFooter);

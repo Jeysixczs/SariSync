@@ -208,7 +208,7 @@
             Controls.Add(panel2);
             Controls.Add(panel1);
             Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
+            FormBorderStyle = FormBorderStyle.None;
             MaximizeBox = false;
             Name = "Register";
             StartPosition = FormStartPosition.CenterScreen;

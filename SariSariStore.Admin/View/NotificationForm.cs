@@ -103,17 +103,24 @@ namespace SariSariStore.Admin.View
             if (dgv_stock.SelectedRows.Count > 0)
             {
                 Products prod = new Products();
-                int selectedProductId = Convert.ToInt32(dgv_stock.SelectedRows[0].Cells["ProductID"].Value);
+                int selectedCount = dgv_stock.SelectedRows.Count;
 
                 if (MessageBox.Show("Are you sure you want to delete this product?", "Confirm Delete",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     try
                     {
-                        prod.DeleteProduct(selectedProductId);
+                        foreach (DataGridViewRow row in dgv_stock.SelectedRows)
+                        {
+                            int selectedProductId = Convert.ToInt32(row.Cells["ProductID"].Value);
+                            prod.DeleteProduct(selectedProductId);
+                        }
+
+
                         dgv_stock.DataSource = prod.GetStockProducts("low");
                         disabledcolumn();
-                        MessageBox.Show("Product deleted successfully.");
+
+                        MessageBox.Show($"{selectedCount} product(s) deleted successfully.");
                     }
                     catch (Exception ex)
                     {
@@ -126,6 +133,35 @@ namespace SariSariStore.Admin.View
                 MessageBox.Show("Please select a product to delete.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (dgv_stock != null)
+            {
+                dgv_stock.MultiSelect = checkBox1.Checked;
+                dgv_stock.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+                if (checkBox1.Checked == true)
+                {
+                    dgv_stock.MultiSelect = true;
+                    dgv_stock.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+                }
+                else
+                {
+                    dgv_stock.MultiSelect = false;
+                    dgv_stock.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                }
+            }
+        }
+
+        private void dgv_stock_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex >= 0 && checkBox1.Checked)
+            {
+                dgv_stock.Rows[e.RowIndex].Selected = !dgv_stock.Rows[e.RowIndex].Selected;
+            }
         }
     }
 }

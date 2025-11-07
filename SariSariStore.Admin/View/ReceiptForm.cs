@@ -16,8 +16,7 @@ namespace SariSariStore.Admin
     {
         private Orders _order;
         private PrintDocument _printDocument;
-        private PrintPreviewDialog _printPreviewDialog;
-        private PrintDialog _printDialog;
+        private string _receiptText;
 
         public ReceiptForm(Orders order)
         {
@@ -31,108 +30,145 @@ namespace SariSariStore.Admin
         {
             _printDocument = new PrintDocument();
             _printDocument.PrintPage += PrintDocument_PrintPage;
-            _printPreviewDialog = new PrintPreviewDialog();
-            _printPreviewDialog.Document = _printDocument;
-
-            _printDialog = new PrintDialog(); //to be able to select printer
-            _printDialog.Document = _printDocument;
-            _printDialog.AllowSomePages = false;
-            _printDialog.ShowHelp = false; //true to show help button
         }
 
         public void DisplayReceipt()
         {
             if (_order == null) return;
 
-            //Display receipt details
-            string receiptText = GenerateRecieptText();
-            receiptTextBox.Text = receiptText;
+            _receiptText = GenerateReceiptText();
+            receiptTextBox.Text = _receiptText;
         }
 
-        private string GenerateRecieptText()
+        private string GenerateReceiptText()
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("===== Sari-Sari Store =====");
-            sb.AppendLine("----------------------------");
-            sb.AppendLine($"Order ID: {_order.OrderID}");
-            sb.AppendLine($"Customer Name: {_order.CustomerName}");
-            sb.AppendLine($"Order Date: {_order.OrderDate:yyyy-MM-dd HH:mm}");
-            sb.AppendLine("----------------------------");
+            int maxWidth = 50; // Maximum characters per line for receipt
+
+            // Helper function to center text
+            string CenterText(string text)
+            {
+                if (text.Length >= maxWidth) return text;
+                int padding = (maxWidth - text.Length) / 2;
+                return text.PadLeft(text.Length + padding).PadRight(maxWidth);
+            }
+
+            // Helper function to add line breaks
+            void AddCenteredLine(string text)
+            {
+                sb.AppendLine(CenterText(text));
+            }
+
+            void AddSeparator()
+            {
+                sb.AppendLine(new string('-', maxWidth));
+            }
+
+            // Header
+            sb.AppendLine();
+            AddCenteredLine("SariSync Store");
+            AddSeparator();
+
+            // Order Information
+            sb.AppendLine($"Order ID: {_order.OrderID}".PadRight(maxWidth));
+            sb.AppendLine($"Customer: {(_order.CustomerName ?? "Walk-in Customer")}".PadRight(maxWidth));
+            sb.AppendLine($"Date: {_order.OrderDate:yyyy-MM-dd HH:mm}".PadRight(maxWidth));
+            AddSeparator();
             sb.AppendLine();
 
-            sb.AppendLine("Items:");
-            sb.AppendLine("----------------------------");
+            // Items Header
+            AddCenteredLine("ITEMS PURCHASED");
+            AddSeparator();
 
-            if (_order.Items != null && _order.Items.Count > 0)
+            // Items List
+         if (_order.Items != null && _order.Items.Count > 0)
             {
                 foreach (var item in _order.Items)
                 {
-                    sb.AppendLine($"{item.ProductName}");
-                    sb.AppendLine($"  Qty: {item.Quantity}  Unit Price: {item.UnitPrice:C2}  Total: {item.TotalPrice:C2}");
+                    string productName = item.ProductName;
+                    if (productName.Length > 26)
+                        productName = productName.Substring(0, 27) + "...";
+
+                    sb.AppendLine($"   {productName,-30} {item.Quantity,2} x {item.UnitPrice,7:C2}");
+                    sb.AppendLine($"   {"",26} {item.TotalPrice,16:C2}");
+                    sb.AppendLine();
                 }
             }
-            sb.AppendLine("----------------------------");
-            sb.AppendLine($"Total Amount: {_order.TotalAmount:C2}");
+            AddSeparator();
+
+            // Total
+            sb.AppendLine($"TOTAL AMOUNT:"+ $"{_order.TotalAmount,12:C2}");
             sb.AppendLine();
-            sb.AppendLine($"Payment Status: {(_order.IsPaid ? "Paid" : "Unpaid")}");
-            sb.AppendLine("============================");
-            sb.AppendLine("Thank you for shopping with us!");
+
+            // Payment Status
+            string status = _order.IsPaid ? "PAID" : "UNPAID";
+            sb.AppendLine($"Payment Status: {status}".PadRight(maxWidth));
+
+            // Footer
+            AddSeparator();
+            AddCenteredLine("Thank you for shopping with us!");
+            AddCenteredLine("Please come again!");
+            sb.AppendLine();
+            sb.AppendLine($"Printed: {DateTime.Now:yyyy-MM-dd HH:mm}".PadRight(maxWidth));
+            AddSeparator();
+
             return sb.ToString();
         }
 
         private void btn_PrintButton_Click(object sender, EventArgs e)
         {
-            //try
-            //{
-            //    _printPreviewDialog.ShowDialog();
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show("No order data to print.", "Print Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
-
             try
             {
-                    // Show printer selection dialog
-                if (_printDialog.ShowDialog() == DialogResult.OK)
+                PrintDialog printDialog = new PrintDialog();
+                printDialog.Document = _printDocument;
+                printDialog.AllowSomePages = true;
+                printDialog.ShowHelp = true;
+
+                if (printDialog.ShowDialog() == DialogResult.OK)
                 {
-                    // If User selected a printer and clicked OK
                     _printDocument.Print();
                 }
-                    // If user clicks Cancel, nothing happens
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Printing error: {ex.Message}", "Print Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Printing error: {ex.Message}", "Print Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
         {
-            string receiptText = GenerateRecieptText();
-            Font font = new Font("Courier New", 10);
-            Brush brush = Brushes.Black;
-
-            //calculate positions
-            float x = 10;
-            float y = 10;
-            float lineHeight = font.GetHeight(e.Graphics);
-
-            //split receipt text into lines and print each line
-            string[] lines = receiptText.Split('\n');
-
-            foreach (string line in lines)
+            try
             {
-                e.Graphics.DrawString(line, font, brush, x, y);
-                y += lineHeight;
+                // Use smaller font suitable for receipt printers
+                Font receiptFont = new Font("Consolas", 8F, FontStyle.Regular);
+                Brush brush = Brushes.Black;
 
-                if (y + lineHeight > e.MarginBounds.Height)
+                // Use much smaller margins for receipt paper
+                float x = 10;  // Reduced from 50
+                float y = 10;  // Reduced from 50
+                float lineHeight = receiptFont.GetHeight(e.Graphics);
+
+                string[] lines = _receiptText.Split('\n');
+
+                foreach (string line in lines)
                 {
-                    e.HasMorePages = true;
-                    return;
+                    e.Graphics.DrawString(line, receiptFont, brush, x, y);
+                    y += lineHeight;
+
+                    // Check if we're at the bottom of receipt paper (typically 3-4 inches)
+                    if (y > e.PageBounds.Height - 20) // Reduced margin
+                    {
+                        e.HasMorePages = false;
+                        break;
+                    }
                 }
             }
-            e.HasMorePages = false;
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Print error: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btn_Close_Click(object sender, EventArgs e)
@@ -142,7 +178,10 @@ namespace SariSariStore.Admin
 
         private void receiptTextBox_TextChanged(object sender, EventArgs e)
         {
-
+            receiptTextBox.SelectionStart = receiptTextBox.Text.Length;
+            receiptTextBox.ScrollToCaret();
         }
+
+        
     }
 }

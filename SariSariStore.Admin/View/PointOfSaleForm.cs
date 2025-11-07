@@ -205,6 +205,12 @@ namespace SariSariStore.Admin.View
                 return;
             }
 
+            if (chkIsPaid.Checked == false)
+            {
+                var result = MessageBox.Show("You can't process order you need to pay the item first");
+                return;
+
+            }
             try
             {
                 var orderItems = _cartItems.Select(item => new OrderItems

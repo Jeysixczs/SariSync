@@ -36,7 +36,7 @@ namespace SariSariStore.Core.Model
             List<Orders> orderList = new List<Orders>();
             using (SqlConnection con = new(ConnectionString))
             {
-                using (SqlCommand cmd = new("SELECT * FROM tbl_Order", con))
+                using (SqlCommand cmd = new("SELECT * FROM tbl_Order order by OrderID desc", con))
                 {
                     con.Open();
                     using (SqlDataReader reader = cmd.ExecuteReader())
