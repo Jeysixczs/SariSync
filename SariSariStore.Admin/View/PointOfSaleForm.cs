@@ -19,6 +19,7 @@ namespace SariSariStore.Admin.View
         private Orders _orders;
         private List<CartItemDisplay> _cartItems;
         private decimal _totalAmount;
+        private decimal amountReceived;
 
         public PointOfSaleForm()
         {
@@ -28,6 +29,8 @@ namespace SariSariStore.Admin.View
             _cartItems = new List<CartItemDisplay>();
             initializeForm();
             DisplayCategory();
+
+            label13.Text = "P0.00";
 
         }
 
@@ -124,6 +127,7 @@ namespace SariSariStore.Admin.View
 
                 _totalAmount = _cartItems?.Sum(item => item.TotalPrice) ?? 0;
                 txtTotal.Text = _totalAmount.ToString("C2");
+                Calculate();
             }
             catch (Exception ex)
             {
@@ -141,7 +145,7 @@ namespace SariSariStore.Admin.View
             txtNotes.Clear();
             txtRemarks.Clear();
             chkIsPaid.Checked = false;
-
+            label13.Text = "P0.00";
             RefreshProductList();
         }
 
@@ -227,8 +231,19 @@ namespace SariSariStore.Admin.View
 
                 int orderId = _orders.CreateOrder(order, orderItems);
 
-                MessageBox.Show($"Order processed successfully!\nOrder ID: {orderId}\nTotal Amount: {_totalAmount:C2}",
-                    "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                decimal amountReceived;
+                decimal change = 0;
+                if (decimal.TryParse(txt_AmountReceived.Text, out amountReceived))
+                {
+                    change = amountReceived - _totalAmount;
+                }
+
+                MessageBox.Show($"Order processed successfully!\n" +
+                      $"Order ID: {orderId}\n" +
+                      $"Total Amount: {_totalAmount:C2}\n" +
+                      $"Amount Received: {amountReceived:C2}\n" +
+                      $"Change: {change:C2}",
+           "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ClearForm();
                 RefreshProductList();
 
@@ -297,6 +312,33 @@ namespace SariSariStore.Admin.View
         private void dgvProducts_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void txt_AmountReceived_TextChanged(object sender, EventArgs e)
+        {
+            Calculate();
+        }
+
+        private void Calculate()
+        {
+            if (decimal.TryParse(txt_AmountReceived.Text.Trim(), out decimal amountReceived))
+            {
+                decimal change = amountReceived - _totalAmount;
+
+                // Only show positive change, otherwise show 0.00
+                if (change >= 0)
+                {
+                    label13.Text = change.ToString("C2");
+                }
+                else
+                {
+                    label13.Text = "0.00";
+                }
+            }
+            else
+            {
+                label13.Text = "0.00";
+            }
         }
     }
 }
