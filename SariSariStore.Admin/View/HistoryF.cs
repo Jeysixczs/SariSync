@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -18,54 +19,74 @@ namespace SariSariStore.Admin.View
         public int cornerRadius = 30;
 
         public Orders ord = new Orders();
+        private SmoothTransition transition;
+        [DllImport("user32.dll")]
+        private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
+        [DllImport("user32.dll")]
+        private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
         public HistoryF()
         {
 
             InitializeComponent();
+            rounded = new Rounded();
+            transition = new SmoothTransition();
+
+            EnableDoubleBuffering();
+            SetStyle(ControlStyles.OptimizedDoubleBuffer |
+                     ControlStyles.AllPaintingInWmPaint |
+                     ControlStyles.UserPaint |
+                     ControlStyles.ResizeRedraw, true);
+
+            if (Environment.OSVersion.Version.Major >= 6)
+            {
+                SetWindowLong(this.Handle, -20, GetWindowLong(this.Handle, -20) | 0x02000000);
+            }
+
             DisplayOrderHistory();
 
             rounded = new Rounded();
             rounded.MakePanelRounded(panel1, 30);
             rounded.MakePanelRounded(panel2, 30);
             rounded.MakePanelRounded(panel3, 30);
-            //rounded.MakePanelRounded(panel4, 30);
-            //rounded.MakePanelRounded(panel5, 30);
-            //rounded.MakePanelRounded(panel6, 30);
-            //rounded.MakePanelRounded(panel7, 30);
-            //rounded.MakePanelRounded(panel8, 30);
-            //rounded.MakePanelRounded(panel9, 30);
-            //rounded.MakePanelRounded(panel10, 30);
-            //rounded.MakePanelRounded(panel11, 30);
-            //rounded.MakePanelRounded(panel12, 30);
-            //rounded.MakePanelRounded(panel13, 30);
+        
         }
 
-        private void btn_Dashboard_Click(object sender, EventArgs e)
+        private void EnableDoubleBuffering()
         {
-            DashboardForm dashboardForm = new DashboardForm();
-            dashboardForm.Show();
-            this.Hide();
+            this.DoubleBuffered = true;
+            
         }
 
-        private void btn_Products_Click(object sender, EventArgs e)
+       
+
+        private void OnFormReturn(Form parentForm)
         {
-            ProductForm productForm = new ProductForm();
-            productForm.Show();
-            this.Hide();
+            parentForm.Opacity = 0;
+            parentForm.Visible = true;
+            transition.FastFadeIn(parentForm, 60);
+            parentForm.BringToFront();
+            parentForm.Focus();
         }
 
-        private void btn_Inventory_Click(object sender, EventArgs e)
+        private async void btn_Dashboard_Click(object sender, EventArgs e)
         {
-            InventoryForm inventoryForm = new InventoryForm();
-            inventoryForm.Show();
-            this.Hide();
+            await transition.ShowFormSafely(this, new DashboardForm(), OnFormReturn);
         }
 
-        private void btn_Report_Click(object sender, EventArgs e)
+        private async void btn_Products_Click(object sender, EventArgs e)
         {
-            ReportFrom reportFrom = new ReportFrom();
-            reportFrom.Show();
-            this.Hide();
+            await transition.ShowFormSafely(this, new ProductForm(), OnFormReturn);
+        }
+
+        private async void btn_Inventory_Click(object sender, EventArgs e)
+        {
+            await transition.ShowFormSafely(this, new InventoryForm(), OnFormReturn);
+        }
+
+        private async void btn_Report_Click(object sender, EventArgs e)
+        {
+            await transition.ShowFormSafely(this, new ReportFrom(), OnFormReturn);
         }
 
 
@@ -130,7 +151,11 @@ namespace SariSariStore.Admin.View
             var result = MessageBox.Show("Are you sure you want to exit?", "Confirm Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
-                Application.Exit();
+                SmoothTransition smoothTransition = new SmoothTransition();
+                Shutdownform shutdownForm = new Shutdownform(smoothTransition);
+
+                this.Hide();
+                shutdownForm.Show();
             }
         }
 
@@ -169,7 +194,7 @@ namespace SariSariStore.Admin.View
             }
         }
 
-   
+
 
         private void txtSearch_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -194,6 +219,11 @@ namespace SariSariStore.Admin.View
         }
 
         private void dgv_orderhistory_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void btn_History_Click(object sender, EventArgs e)
         {
 
         }

@@ -259,6 +259,7 @@
             btn_History.ForeColor = Color.Transparent;
             btn_History.Name = "btn_History";
             btn_History.UseVisualStyleBackColor = false;
+            btn_History.Click += btn_History_Click;
             // 
             // btn_Inventory
             // 

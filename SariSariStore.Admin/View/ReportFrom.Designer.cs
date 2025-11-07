@@ -210,7 +210,7 @@
             btn_Report.TabIndex = 3;
             btn_Report.Text = "Report";
             btn_Report.UseVisualStyleBackColor = false;
-            btn_Report.Click += btn_Report_Click;
+          
             // 
             // btn_shutdown
             // 
@@ -299,7 +299,7 @@
             panel4.Name = "panel4";
             panel4.Size = new Size(1397, 820);
             panel4.TabIndex = 4;
-            panel4.Paint += panel4_Paint;
+       
             // 
             // label12
             // 
@@ -352,7 +352,7 @@
             dgv_report.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgv_report.Size = new Size(1075, 504);
             dgv_report.TabIndex = 12;
-            dgv_report.CellContentClick += dgv_report_CellContentClick_1;
+        
             // 
             // btn_SpecificOrder
             // 
@@ -380,7 +380,7 @@
             dtpStartDate.Name = "dtpStartDate";
             dtpStartDate.Size = new Size(323, 23);
             dtpStartDate.TabIndex = 13;
-            dtpStartDate.ValueChanged += dtpStartDate_ValueChanged;
+         
             // 
             // dtpEndDate
             // 
@@ -388,7 +388,7 @@
             dtpEndDate.Name = "dtpEndDate";
             dtpEndDate.Size = new Size(318, 23);
             dtpEndDate.TabIndex = 14;
-            dtpEndDate.ValueChanged += dtpEndDate_ValueChanged;
+ 
             // 
             // btn_Entery
             // 
@@ -441,7 +441,7 @@
             panel2.Padding = new Padding(100);
             panel2.Size = new Size(1127, 724);
             panel2.TabIndex = 10;
-            panel2.Paint += panel2_Paint;
+        
             // 
             // dtp_SpecifiDate
             // 
@@ -449,7 +449,7 @@
             dtp_SpecifiDate.Name = "dtp_SpecifiDate";
             dtp_SpecifiDate.Size = new Size(200, 23);
             dtp_SpecifiDate.TabIndex = 21;
-            dtp_SpecifiDate.ValueChanged += dtp_SpecifiDate_ValueChanged;
+          
             // 
             // btn_perform
             // 
@@ -496,7 +496,7 @@
             Name = "ReportFrom";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "ReportFrom";
-            Load += ReportFrom_Load;
+     
             Resize += ReportFrom_Resize;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

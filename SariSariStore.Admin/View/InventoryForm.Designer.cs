@@ -262,6 +262,7 @@
             btn_Inventory.TabIndex = 3;
             btn_Inventory.Text = "Supplier";
             btn_Inventory.UseVisualStyleBackColor = false;
+            btn_Inventory.Click += btn_Inventory_Click;
             // 
             // btn_Products
             // 

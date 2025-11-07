@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -23,11 +24,31 @@ namespace SariSariStore.Admin.View
         // public Expenses exp = new Expenses();
         public string ConnectionString = ConnectionHelper.GetConnectionString();
         public SalesReport salesReports = new SalesReport();
+
+        private SmoothTransition transition;
+        [DllImport("user32.dll")]
+        private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
+        [DllImport("user32.dll")]
+        private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
         public ReportFrom()
         {
             InitializeComponent();
 
             rounded = new Rounded();
+            transition = new SmoothTransition();
+
+            EnableDoubleBuffering();
+            SetStyle(ControlStyles.OptimizedDoubleBuffer |
+                     ControlStyles.AllPaintingInWmPaint |
+                     ControlStyles.UserPaint |
+                     ControlStyles.ResizeRedraw, true);
+
+            if (Environment.OSVersion.Version.Major >= 6)
+            {
+                SetWindowLong(this.Handle, -20, GetWindowLong(this.Handle, -20) | 0x02000000);
+            }
             rounded.MakePanelRounded(panel1, 30);
             rounded.MakePanelRounded(panel2, 30);
             rounded.MakePanelRounded(panel3, 30);
@@ -36,78 +57,45 @@ namespace SariSariStore.Admin.View
             LoadReport();
         }
 
-        private void btn_Dashboard_Click(object sender, EventArgs e)
+        private void EnableDoubleBuffering()
         {
-            DashboardForm dashboardForm = new DashboardForm();
-            dashboardForm.Show();
-            this.Hide();
+            this.DoubleBuffered = true;
+
+        }
+        private void OnFormReturn(Form parentForm)
+        {
+            parentForm.Opacity = 0;
+            parentForm.Visible = true;
+            transition.FastFadeIn(parentForm, 60);
+            parentForm.BringToFront();
+            parentForm.Focus();
         }
 
 
-        private void btn_Products_Click(object sender, EventArgs e)
+        private async void btn_Dashboard_Click(object sender, EventArgs e)
         {
-            ProductForm productForm = new ProductForm();
-            productForm.Show();
-            this.Hide();
-        }
-
-        private void btn_Inventory_Click(object sender, EventArgs e)
-        {
-            InventoryForm inventoryForm = new InventoryForm();
-            inventoryForm.Show();
-            this.Hide();
-        }
-
-        private void btn_History_Click(object sender, EventArgs e)
-        {
-            HistoryF historyF = new HistoryF();
-            historyF.Show();
-            this.Hide();
-        }
-
-        private void dgv_salereport_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
+            await transition.ShowFormSafely(this, new DashboardForm(), OnFormReturn);
         }
 
 
-
-        private void panel4_Paint(object sender, PaintEventArgs e)
+        private async void btn_Products_Click(object sender, EventArgs e)
         {
-
+            await transition.ShowFormSafely(this, new ProductForm(), OnFormReturn);
         }
 
-        private void panel2_Paint(object sender, PaintEventArgs e)
+        private async void btn_Inventory_Click(object sender, EventArgs e)
         {
-
+            await transition.ShowFormSafely(this, new InventoryForm(), OnFormReturn);
         }
 
-        private void dgv_report_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private async void btn_History_Click(object sender, EventArgs e)
         {
-
+            await transition.ShowFormSafely(this, new HistoryF(), OnFormReturn);
         }
 
         public void LoadReport()
         {
-
             dgv_report.DataSource = salesReports.DisplayReport();
-
-
-        }
-
-        private void btn_Report_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dgv_report_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void ReportFrom_Load(object sender, EventArgs e)
-        {
-
         }
 
         private void btn_shutdown_Click(object sender, EventArgs e)
@@ -115,7 +103,15 @@ namespace SariSariStore.Admin.View
             var result = MessageBox.Show("Are you sure you want to exit?", "Confirm Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
-                Application.Exit();
+                SmoothTransition smoothTransition = new SmoothTransition();
+                Shutdownform shutdownForm = new Shutdownform(smoothTransition);
+
+               
+                this.Hide();
+
+               
+                shutdownForm.Show();
+
             }
         }
 
@@ -123,16 +119,6 @@ namespace SariSariStore.Admin.View
         {
             Invalidate();
             this.Region = rounded.RoundForm(cornerRadius, this.Width, this.Height);
-        }
-
-        private void dtpStartDate_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dtpEndDate_ValueChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void btn_Entery_Click(object sender, EventArgs e)
@@ -151,19 +137,14 @@ namespace SariSariStore.Admin.View
 
         private void btn_dailyReports_Click(object sender, EventArgs e)
         {
-
             DailySalesReportProperties dailySalesReportProperties = new DailySalesReportProperties();
             dgv_report.DataSource = dailySalesReportProperties.DisplayReportDaily();
-
-
         }
 
         private void btn_MonthlyReports_Click(object sender, EventArgs e)
         {
             MonthlySalesReportProperties monthlySalesReportProperties = new MonthlySalesReportProperties();
             dgv_report.DataSource = monthlySalesReportProperties.DisplayReportMonthly();
-
-
         }
 
         private void btn_perform_Click(object sender, EventArgs e)
@@ -179,12 +160,6 @@ namespace SariSariStore.Admin.View
             dgv_report.DataSource = getspecificdate.DisplaySpecificDateOrder(specific);
             dgv_report.Columns["OrderDate"].DefaultCellStyle.Format = "MMM dd yyyy";
         }
-
-        private void dtp_SpecifiDate_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
     }
-
 }
 

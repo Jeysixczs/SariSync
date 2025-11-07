@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -18,79 +19,84 @@ namespace SariSariStore.Admin.View
         public int cornerRadius = 30;
         public ProductForm prod = new ProductForm();
         public Supplier supplier = new Supplier();
+
+        private SmoothTransition transition;
+        [DllImport("user32.dll")]
+        private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
+        [DllImport("user32.dll")]
+        private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
         public InventoryForm()
         {
             InitializeComponent();
+            rounded = new Rounded();
+            transition = new SmoothTransition();
+
+            EnableDoubleBuffering();
+            SetStyle(ControlStyles.OptimizedDoubleBuffer |
+                     ControlStyles.AllPaintingInWmPaint |
+                     ControlStyles.UserPaint |
+                     ControlStyles.ResizeRedraw, true);
+
+            if (Environment.OSVersion.Version.Major >= 6)
+            {
+                SetWindowLong(this.Handle, -20, GetWindowLong(this.Handle, -20) | 0x02000000);
+            }
+
+
 
             rounded = new Rounded();
             rounded.MakePanelRounded(panel1, 30);
             rounded.MakePanelRounded(panel2, 30);
             rounded.MakePanelRounded(panel3, 30);
-            //rounded.MakePanelRounded(panel4, 30);
-            //rounded.MakePanelRounded(panel5, 30);
-            //rounded.MakePanelRounded(panel6, 30);
-            //rounded.MakePanelRounded(panel7, 30);
-            //rounded.MakePanelRounded(panel8, 30);
-            //rounded.MakePanelRounded(panel9, 30);
-            //rounded.MakePanelRounded(panel10, 30);
-            //rounded.MakePanelRounded(panel11, 30);
-            //rounded.MakePanelRounded(panel12, 30);
-            //rounded.MakePanelRounded(panel13, 30);
+        
 
             DisplaySupplier();
         }
 
 
-
-        private void btn_Dashboard_Click(object sender, EventArgs e)
+        private void EnableDoubleBuffering()
         {
-            DashboardForm dashboardForm = new DashboardForm();
-            dashboardForm.Show();
-            this.Hide();
+            this.DoubleBuffered = true;
+           
         }
 
-        private void btn_Products_Click(object sender, EventArgs e)
+       
+
+        private void OnFormReturn(Form parentForm)
         {
-            ProductForm productForm = new ProductForm();
-            productForm.Show();
-            this.Hide();
+            parentForm.Opacity = 0;
+            parentForm.Visible = true;
+            transition.FastFadeIn(parentForm, 60);
+            parentForm.BringToFront();
+            parentForm.Focus();
+        }
+        private async void btn_Dashboard_Click(object sender, EventArgs e)
+        {
+            await transition.ShowFormSafely(this, new DashboardForm(), OnFormReturn);
         }
 
-        private void btn_History_Click(object sender, EventArgs e)
+        private async void btn_Products_Click(object sender, EventArgs e)
         {
-            HistoryF historyF = new HistoryF();
-            historyF.Show();
-            this.Hide();
+            await transition.ShowFormSafely(this, new ProductForm(), OnFormReturn);
         }
 
-        private void btn_Report_Click(object sender, EventArgs e)
+        private async void btn_History_Click(object sender, EventArgs e)
         {
-            ReportFrom reportFrom = new ReportFrom();
-            reportFrom.Show();
-            this.Hide();
+            await transition.ShowFormSafely(this, new HistoryF(), OnFormReturn);
         }
 
-        private void btn_StockStatus_Click(object sender, EventArgs e)
+        private async void btn_Report_Click(object sender, EventArgs e)
         {
-            NotificationForm stock = new NotificationForm();
-            stock.ShowDialog();
-        }
-
-        private void dgv_supplier_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
+            await transition.ShowFormSafely(this, new ReportFrom(), OnFormReturn);
         }
 
         public void DisplaySupplier()
         {
             dgv_supplier.DataSource = supplier.GetAllSuppliers();
-
-            //HIDE COLUMN SUPPLIERID
             dgv_supplier.Columns["SupplierID"].Visible = false;
             dgv_supplier.Columns["IsActive"].Visible = false;
-
-
-
 
         }
 
@@ -99,7 +105,11 @@ namespace SariSariStore.Admin.View
             var result = MessageBox.Show("Are you sure you want to exit?", "Confirm Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
-                Application.Exit();
+                SmoothTransition smoothTransition = new SmoothTransition();
+                Shutdownform shutdownForm = new Shutdownform(smoothTransition);
+
+                this.Hide();
+                shutdownForm.Show();
             }
         }
 
@@ -150,6 +160,11 @@ namespace SariSariStore.Admin.View
             int selectedProductId = Convert.ToInt32(dgv_supplier.SelectedRows[0].Cells["SupplierID"].Value);
             supplier.DeleteSupplier(selectedProductId);
             DisplaySupplier();
+        }
+
+        private void btn_Inventory_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
