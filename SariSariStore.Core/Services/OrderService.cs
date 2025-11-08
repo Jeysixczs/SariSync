@@ -1,163 +1,317 @@
 ﻿using Microsoft.Data.SqlClient;
 using SariSariStore.Core.Model;
-using SariSariStore.Core.Services.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data;
 
 namespace SariSariStore.Core.Services
 {
-    public class OrderService : IOrderService
+    public class OrderService
     {
-        public string ConnectionString = @"Data Source=JEYSI\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Trust Server Certificate=True";
+        private readonly string _connectionString;
 
-        public async Task<List<Orders>> GetAllOrdersAsync()
+        public OrderService()
         {
-            List<Orders> orders = new List<Orders>();
-
-
-
-            return orders;
+            _connectionString = ConnectionHelper.GetConnectionString();
         }
 
-        public async Task<Dictionary<string, decimal>> GetMonthlyComparisonAsync(int year)
+        public int CreateOrder(Orders order, List<OrderItems> orderItems)
         {
-            var monthlyIncome = new Dictionary<string, decimal>();
-
-            using (SqlConnection con = new SqlConnection(ConnectionString))
+            using (SqlConnection con = new SqlConnection(_connectionString))
             {
-                string query = @"SELECT MONTH(OrderDate) as Month, 
-                                       SUM(oi.Quantity * oi.Price) as MonthlyIncome
-                               FROM tbl_Order o
-                               INNER JOIN tbl_OrderItems oi ON o.Id = oi.OrderId
-                               WHERE YEAR(OrderDate) = @Year AND o.IsPaid = 1
-                               GROUP BY MONTH(OrderDate)
-                               ORDER BY MONTH(OrderDate)";
-
-                using (SqlCommand cmd = new SqlCommand(query, con))
+                con.Open();
+                using (SqlTransaction transaction = con.BeginTransaction())
                 {
-                    cmd.Parameters.AddWithValue("@Year", year);
-
-                    await con.OpenAsync();
-                    using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
+                    try
                     {
-                        while (await reader.ReadAsync())
+                        // Validate stock before proceeding
+                        foreach (var item in orderItems)
                         {
-                            int month = Convert.ToInt32(reader["Month"]);
-                            decimal income = Convert.ToDecimal(reader["MonthlyIncome"]);
-                            monthlyIncome.Add(month.ToString("00"), income);
+                            if (!HasSufficientStock(item.ProductID, item.Quantity, con, transaction))
+                            {
+                                throw new Exception($"Insufficient stock for product ID {item.ProductID}");
+                            }
+                        }
+
+                        // Insert order without OUTPUT clause
+                        string orderQuery = @"INSERT INTO tbl_Order 
+                                    (CustomerName, Notes, Remarks, OrderDate, IsPaid, TotalAmount) 
+                                    VALUES (@CustomerName, @Notes, @Remarks, @OrderDate, @IsPaid, @TotalAmount);
+                                    SELECT SCOPE_IDENTITY();";
+
+                        int orderId;
+                        using (SqlCommand orderCmd = new SqlCommand(orderQuery, con, transaction))
+                        {
+                            orderCmd.Parameters.AddWithValue("@CustomerName", order.CustomerName);
+                            orderCmd.Parameters.AddWithValue("@Notes", order.Notes ?? "");
+                            orderCmd.Parameters.AddWithValue("@Remarks", order.Remarks ?? "");
+                            orderCmd.Parameters.AddWithValue("@OrderDate", order.OrderDate);
+                            orderCmd.Parameters.AddWithValue("@IsPaid", order.IsPaid);
+                            orderCmd.Parameters.AddWithValue("@TotalAmount", order.TotalAmount);
+
+                            orderId = Convert.ToInt32(orderCmd.ExecuteScalar());
+                        }
+
+                        // Insert order details
+                        string detailQuery = @"INSERT INTO tbl_OrderDetails 
+                                     (OrderID, ProductID, Quantity, UnitPrice, TotalPrice, ProductName) 
+                                     VALUES (@OrderID, @ProductID, @Quantity, @UnitPrice, @TotalPrice, @ProductName)";
+
+                        foreach (var item in orderItems)
+                        {
+                            // Get product name for the order detail
+                            string productName = GetProductNameById(item.ProductID, con, transaction);
+
+                            using (SqlCommand detailCmd = new SqlCommand(detailQuery, con, transaction))
+                            {
+                                detailCmd.Parameters.AddWithValue("@OrderID", orderId);
+                                detailCmd.Parameters.AddWithValue("@ProductID", item.ProductID);
+                                detailCmd.Parameters.AddWithValue("@Quantity", item.Quantity);
+                                detailCmd.Parameters.AddWithValue("@UnitPrice", item.UnitPrice);
+                                detailCmd.Parameters.AddWithValue("@TotalPrice", item.Quantity * item.UnitPrice);
+                                detailCmd.Parameters.AddWithValue("@ProductName", productName);
+
+                                detailCmd.ExecuteNonQuery();
+                            }
+
+                            // Update product stock
+                            UpdateProductStock(item.ProductID, item.Quantity, con, transaction);
+                        }
+
+                        transaction.Commit();
+                        return orderId;
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        throw new Exception($"Order creation failed: {ex.Message}", ex);
+                    }
+                }
+            }
+        }
+
+        private bool HasSufficientStock(int productId, int quantity, SqlConnection connection, SqlTransaction transaction)
+        {
+            string query = "SELECT Stock FROM tbl_Product WHERE ProductID = @ProductID AND IsActive = 1";
+
+            using (SqlCommand cmd = new SqlCommand(query, connection, transaction))
+            {
+                cmd.Parameters.AddWithValue("@ProductID", productId);
+                var result = cmd.ExecuteScalar();
+
+                if (result == null || result == DBNull.Value)
+                    return false;
+
+                int currentStock = Convert.ToInt32(result);
+                return currentStock >= quantity;
+            }
+        }
+
+        private void UpdateProductStock(int productId, int quantity, SqlConnection connection, SqlTransaction transaction)
+        {
+            string updateQuery = "UPDATE tbl_Product SET Stock = Stock - @Quantity WHERE ProductID = @ProductID";
+
+            using (SqlCommand cmd = new SqlCommand(updateQuery, connection, transaction))
+            {
+                cmd.Parameters.AddWithValue("@ProductID", productId);
+                cmd.Parameters.AddWithValue("@Quantity", quantity);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public string GetProductNameById(int productId, SqlConnection connection = null, SqlTransaction transaction = null)
+        {
+            bool shouldCloseConnection = false;
+
+            try
+            {
+                if (connection == null)
+                {
+                    connection = new SqlConnection(_connectionString);
+                    connection.Open();
+                    shouldCloseConnection = true;
+                }
+
+                string query = "SELECT Name FROM tbl_Product WHERE ProductID = @ProductID AND IsActive = 1";
+
+                using (SqlCommand cmd = new SqlCommand(query, connection, transaction))
+                {
+                    cmd.Parameters.AddWithValue("@ProductID", productId);
+                    var result = cmd.ExecuteScalar();
+
+                    return result?.ToString() ?? "Unknown Product";
+                }
+            }
+            finally
+            {
+                if (shouldCloseConnection && connection != null)
+                {
+                    connection.Close();
+                    connection.Dispose();
+                }
+            }
+        }
+
+        public Orders GetOrderWithDetails(int orderId)
+        {
+            Orders order = null;
+
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                con.Open();
+
+                // Get order 
+                string orderQuery = "SELECT * FROM tbl_Order WHERE OrderID = @OrderID";
+                using (SqlCommand orderCmd = new SqlCommand(orderQuery, con))
+                {
+                    orderCmd.Parameters.AddWithValue("@OrderID", orderId);
+                    using (var reader = orderCmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            order = new Orders
+                            {
+                                OrderID = Convert.ToInt32(reader["OrderID"]),
+                                CustomerName = reader["CustomerName"]?.ToString() ?? string.Empty,
+                                Notes = reader["Notes"]?.ToString() ?? string.Empty,
+                                Remarks = reader["Remarks"]?.ToString() ?? string.Empty,
+                                OrderDate = Convert.ToDateTime(reader["OrderDate"]),
+                                IsPaid = Convert.ToBoolean(reader["IsPaid"]),
+                                TotalAmount = Convert.ToDecimal(reader["TotalAmount"]),
+                                Items = new List<OrderItems>()
+                            };
                         }
                     }
                 }
-            }
-            return monthlyIncome;
-        }
 
-        public async Task<decimal> GetMonthlyIncomeAsync(int year, int month)
-        {
-            decimal totalIncome = 0;
-
-            using (SqlConnection con = new SqlConnection(ConnectionString))
-            {
-                string query = @"SELECT SUM(oi.Quantity * oi.Price) as TotalIncome
-                               FROM tbl_Order o
-                               INNER JOIN tbl_OrderItems oi ON o.Id = oi.OrderId
-                               WHERE YEAR(o.OrderDate) = @Year AND MONTH(o.OrderDate) = @Month
-                               AND o.IsPaid = 1";
-
-                using (SqlCommand cmd = new SqlCommand(query, con))
+                // Get order items
+                if (order != null)
                 {
-                    cmd.Parameters.AddWithValue("@Year", year);
-                    cmd.Parameters.AddWithValue("@Month", month);
-
-                    await con.OpenAsync();
-                    var result = await cmd.ExecuteScalarAsync();
-
-                    if (result != DBNull.Value && result != null)
+                    string itemsQuery = @"SELECT od.*, p.Name as ProductName 
+                                        FROM tbl_OrderDetails od 
+                                        INNER JOIN tbl_Product p ON od.ProductID = p.ProductID 
+                                        WHERE od.OrderID = @OrderID
+                                        ORDER BY od.OrderDetailID";
+                    using (SqlCommand itemsCmd = new SqlCommand(itemsQuery, con))
                     {
-                        totalIncome = Convert.ToDecimal(result);
-                    }
-                }
-            }
-            return totalIncome;
-        }
-
-        public async Task<List<Orders>> GetOrdersByDateRangeAsync(DateTime startDate, DateTime endDate)
-        {
-            var orders = new List<Orders>();
-
-            using (SqlConnection con = new SqlConnection(ConnectionString))
-            {
-                // Fixed: Specify columns explicitly to avoid conflicts
-                string query = @"SELECT 
-                                    o.Id as OrderId, 
-                                    o.OrderDate, 
-                                    o.IsPaid,
-                                    oi.Id as ItemId,
-                                    oi.OrderId,
-                                    oi.ProductId,
-                                    oi.ProductName,
-                                    oi.Quantity,
-                                    oi.Price
-                               FROM tbl_Order o
-                               LEFT JOIN tbl_OrderItems oi ON o.Id = oi.OrderId
-                               WHERE o.OrderDate BETWEEN @StartDate AND @EndDate
-                               ORDER BY o.OrderDate DESC, o.Id";
-
-                using (SqlCommand cmd = new SqlCommand(query, con))
-                {
-                    cmd.Parameters.AddWithValue("@StartDate", startDate.Date);
-                    cmd.Parameters.AddWithValue("@EndDate", endDate.Date.AddDays(1).AddSeconds(-1));
-
-                    await con.OpenAsync();
-                    using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
-                    {
-                        Orders currentOrder = null;
-
-                        while (await reader.ReadAsync())
+                        itemsCmd.Parameters.AddWithValue("@OrderID", orderId);
+                        using (SqlDataReader reader = itemsCmd.ExecuteReader())
                         {
-                            int orderId = Convert.ToInt32(reader["OrderId"]);
-
-                            if (currentOrder == null || currentOrder.OrderID != orderId)
+                            while (reader.Read())
                             {
-                                if (currentOrder != null)
-                                    orders.Add(currentOrder);
-
-                                currentOrder = new Orders
+                                OrderItems item = new OrderItems
                                 {
-                                    OrderID = orderId,
-                                    OrderDate = Convert.ToDateTime(reader["OrderDate"]),
-                                    IsPaid = Convert.ToBoolean(reader["IsPaid"]),
-                                    Items = new List<OrderItems>()
-                                };
-                            }
-
-                            // Check if there are order items (LEFT JOIN might return NULLs)
-                            if (reader["ItemId"] != DBNull.Value)
-                            {
-                                var orderItem = new OrderItems
-                                {
-
                                     OrderDetailID = Convert.ToInt32(reader["OrderDetailID"]),
                                     OrderID = Convert.ToInt32(reader["OrderID"]),
                                     ProductID = Convert.ToInt32(reader["ProductID"]),
-                                   
+                                    ProductName = reader["ProductName"]?.ToString() ?? "Unknown Product",
                                     Quantity = Convert.ToInt32(reader["Quantity"]),
-                                    UnitPrice = Convert.ToDecimal(reader["UnitPrice"])
+                                    UnitPrice = Convert.ToDecimal(reader["UnitPrice"]),
+                                    TotalPrice = Convert.ToDecimal(reader["TotalPrice"])
                                 };
-                                currentOrder.Items.Add(orderItem);
+                                order.Items.Add(item);
                             }
                         }
+                    }
+                }
+            }
+            return order;
+        }
 
-                        if (currentOrder != null)
-                            orders.Add(currentOrder);
+        public List<Orders> GetAllOrders()
+        {
+            var orders = new List<Orders>();
+
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                con.Open();
+
+                string query = @"SELECT o.*, 
+                                (SELECT COUNT(*) FROM tbl_OrderDetails od WHERE od.OrderID = o.OrderID) as ItemCount
+                                FROM tbl_Order o 
+                                ORDER BY o.OrderDate DESC";
+
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var order = new Orders
+                        {
+                            OrderID = Convert.ToInt32(reader["OrderID"]),
+                            CustomerName = reader["CustomerName"]?.ToString() ?? string.Empty,
+                            Notes = reader["Notes"]?.ToString() ?? string.Empty,
+                            Remarks = reader["Remarks"]?.ToString() ?? string.Empty,
+                            OrderDate = Convert.ToDateTime(reader["OrderDate"]),
+                            IsPaid = Convert.ToBoolean(reader["IsPaid"]),
+                            TotalAmount = Convert.ToDecimal(reader["TotalAmount"]),
+                            Items = new List<OrderItems>()
+                        };
+                        orders.Add(order);
                     }
                 }
             }
             return orders;
         }
+
+        public bool DeleteOrder(int orderId)
+        {
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                con.Open();
+                using (SqlTransaction transaction = con.BeginTransaction())
+                {
+                    try
+                    {
+                        // First, restore product stock
+                        string getItemsQuery = "SELECT ProductID, Quantity FROM tbl_OrderDetails WHERE OrderID = @OrderID";
+                        var itemsToRestore = new List<(int ProductID, int Quantity)>();
+
+                        using (SqlCommand getCmd = new SqlCommand(getItemsQuery, con, transaction))
+                        {
+                            getCmd.Parameters.AddWithValue("@OrderID", orderId);
+                            using (SqlDataReader reader = getCmd.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    itemsToRestore.Add((
+                                        Convert.ToInt32(reader["ProductID"]),
+                                        Convert.ToInt32(reader["Quantity"])
+                                    ));
+                                }
+                            }
+                        }
+
+                        // Restore stock for each product
+                        foreach (var (productId, quantity) in itemsToRestore)
+                        {
+                            UpdateProductStock(productId, -quantity, con, transaction); // Negative quantity to add back
+                        }
+
+                        // Delete order details
+                        string deleteDetailsQuery = "DELETE FROM tbl_OrderDetails WHERE OrderID = @OrderID";
+                        using (SqlCommand deleteDetailsCmd = new SqlCommand(deleteDetailsQuery, con, transaction))
+                        {
+                            deleteDetailsCmd.Parameters.AddWithValue("@OrderID", orderId);
+                            deleteDetailsCmd.ExecuteNonQuery();
+                        }
+
+                        // Delete order
+                        string deleteOrderQuery = "DELETE FROM tbl_Order WHERE OrderID = @OrderID";
+                        using (SqlCommand deleteOrderCmd = new SqlCommand(deleteOrderQuery, con, transaction))
+                        {
+                            deleteOrderCmd.Parameters.AddWithValue("@OrderID", orderId);
+                            int affectedRows = deleteOrderCmd.ExecuteNonQuery();
+
+                            transaction.Commit();
+                            return affectedRows > 0;
+                        }
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
+            }
+        }
     }
 }
-

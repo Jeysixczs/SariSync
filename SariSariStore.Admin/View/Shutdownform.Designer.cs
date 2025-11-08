@@ -119,6 +119,7 @@
             Name = "Shutdownform";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Shutdown";
+            Load += Shutdownform_Load;
             ResumeLayout(false);
         }
 

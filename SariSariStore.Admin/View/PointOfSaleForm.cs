@@ -58,6 +58,8 @@ namespace SariSariStore.Admin.View
             dgvProducts.Columns["DateExpired"].Visible = false;
             dgvProducts.Columns["SupplierID"].Visible = false;
             dgvProducts.Columns["SupplierName"].Visible = false;
+            dgvProducts.Columns["supplier_payment"].Visible = false;
+            dgvProducts.Columns["supplier"].Visible = false;
 
         }
 
@@ -246,18 +248,12 @@ namespace SariSariStore.Admin.View
                 {
                     int textboxExchangeValue = Convert.ToInt32(txtboxExchange.Text);
                     int exchange = textboxExchangeValue - Convert.ToInt32(_totalAmount);
-                    MessageBox.Show($"Youre Exchange is {exchange}");
+                    MessageBox.Show($"Your Exchange is {exchange}");
                     int orderId = _orders.CreateOrder(order, orderItems);
 
                     MessageBox.Show($"Order processed successfully!\nOrder ID: {orderId}\nTotal Amount: {_totalAmount:C2}",
                         "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-
-                    
-
-
-
-              
                
                 ClearForm();
                 RefreshProductList();

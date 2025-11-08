@@ -27,8 +27,9 @@ namespace SariSariStore.Admin.View
             dgv_ExpiredProduct.Columns["DateExpired"].DefaultCellStyle.Format = "MM/dd/yyyy";
             dgv_ExpiredProduct.Columns["SupplierID"].Visible = false;
             dgv_ExpiredProduct.Columns["SupplierName"].Visible = false;
-            dgv_ExpiredProduct.Columns["Payment_Supplier"].Visible = false;
-
+            dgv_ExpiredProduct.Columns["supplier_payment"].Visible = false;
+            dgv_ExpiredProduct.Columns["supplier"].Visible = false;
+            
             labelTotalCount.Text = prod.DisplayExpiredProducts();
             labelCriticalCount.Text = prod.DisplayCriticalExpiredProducts();
             UpdateCountLabels();

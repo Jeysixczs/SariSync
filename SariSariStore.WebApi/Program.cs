@@ -9,6 +9,7 @@ builder.Services.AddDbContext<SariSariStoreContext>(options =>
 
 // Add services to the container.
 
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -30,6 +31,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.MapPost("/api/shutdown", async (IHostApplicationLifetime appLifetime) =>
+{
+    await Task.Delay(1000); // Give time for response
+    appLifetime.StopApplication();
+    return Results.Ok(new { message = "Shutting down..." });
+});
+
 
 app.UseCors("AllowAll");
 app.UseHttpsRedirection();

@@ -85,11 +85,11 @@ namespace SariSariStore.Admin
             {
                 foreach (var item in _order.Items)
                 {
-                    string productName = item.ProductName;
-                    if (productName.Length > 26)
-                        productName = productName.Substring(0, 27) + "...";
+                   // string productName = item.ProductName;
+                   // if (productName.Length > 26)
+                   //     productName = productName.Substring(0, 27) + "...";
 
-                    sb.AppendLine($"   {productName,-30} {item.Quantity,2} x {item.UnitPrice,7:C2}");
+                 //   sb.AppendLine($"   {productName,-30} {item.Quantity,2} x {item.UnitPrice,7:C2}");
                     sb.AppendLine($"   {"",26} {item.TotalPrice,16:C2}");
                     sb.AppendLine();
                 }

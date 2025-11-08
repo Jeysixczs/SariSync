@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SariSariStore.Core.Model
 {
-    [Table("tbl_SalesReport")]
+
     public class SalesReport
     {
         public string ConnectionString = ConnectionHelper.GetConnectionString();
