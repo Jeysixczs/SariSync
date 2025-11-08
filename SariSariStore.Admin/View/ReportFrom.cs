@@ -106,10 +106,10 @@ namespace SariSariStore.Admin.View
                 SmoothTransition smoothTransition = new SmoothTransition();
                 Shutdownform shutdownForm = new Shutdownform(smoothTransition);
 
-               
+
                 this.Hide();
 
-               
+
                 shutdownForm.Show();
 
             }
@@ -159,6 +159,133 @@ namespace SariSariStore.Admin.View
             DateRangeReportProperties getspecificdate = new DateRangeReportProperties();
             dgv_report.DataSource = getspecificdate.DisplaySpecificDateOrder(specific);
             dgv_report.Columns["OrderDate"].DefaultCellStyle.Format = "MMM dd yyyy";
+        }
+
+        private void btn_Print_Click(object sender, EventArgs e)
+        {
+            if (dgv_report.Rows.Count == 0)
+            {
+                MessageBox.Show("No data to print.", "Print Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            try
+            {
+                // To get the current report data and type
+                string reportType = GetCurrentReportType();
+                DateTime? startDate = null;
+                DateTime? endDate = null;
+                DateTime? specificDate = null;
+
+                // To determine what type of report is being viewed
+                if (btn_Entery.Focused || btn_Entery.ContainsFocus)
+                {
+                    startDate = dtpStartDate.Value.Date;
+                    endDate = dtpEndDate.Value.Date;
+                }
+                else if (btn_SpecificOrder.Focused || btn_SpecificOrder.ContainsFocus)
+                {
+                    specificDate = dtp_SpecifiDate.Value.Date;
+                }
+
+                // Get the data from DataGridView with proper column detection
+                var reportData = GetReportDataFromGrid();
+                decimal totalSales = CalculateTotalSales(reportData);
+                int totalOrders = CalculateTotalOrders(reportData);
+
+                
+                ReportPrint printForm = new ReportPrint(reportType, reportData, totalSales, totalOrders, startDate, endDate, specificDate);
+                printForm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error preparing print: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private List<Dictionary<string, object>> GetReportDataFromGrid()
+        {
+            var reportData = new List<Dictionary<string, object>>();
+
+            foreach (DataGridViewRow row in dgv_report.Rows)
+            {
+                if (!row.IsNewRow) // Removed row.Visible check to include all rows
+                {
+                    var rowData = new Dictionary<string, object>();
+                    foreach (DataGridViewColumn column in dgv_report.Columns)
+                    {
+                        if (column.Visible && row.Cells[column.Index].Value != null)
+                        {
+                            rowData[column.HeaderText] = row.Cells[column.Index].Value;
+                        }
+                        else if (column.Visible)
+                        {
+                            rowData[column.HeaderText] = "-"; // Provide default for null values
+                        }
+                    }
+                    reportData.Add(rowData);
+                }
+            }
+
+            return reportData;
+        }
+
+        private decimal CalculateTotalSales(List<Dictionary<string, object>> reportData)
+        {
+            decimal total = 0;
+
+            foreach (var row in reportData)
+            {
+                // Trying with different possible column names for total amount
+                string[] possibleAmountColumns = { "TotalRevenue", "TotalAmount", "Amount", "Total", "Revenue" };
+
+                foreach (string columnName in possibleAmountColumns)
+                {
+                    if (row.ContainsKey(columnName) && row[columnName] != null)
+                    {
+                        if (decimal.TryParse(row[columnName].ToString(), out decimal amount))
+                        {
+                            total += amount;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return total;
+        }
+
+        private int CalculateTotalOrders(List<Dictionary<string, object>> reportData)
+        {
+            // Count unique orders or use NumberOrder column if available
+            int totalOrders = reportData.Count;
+
+            // If there's a NumberOrder column, we might want to sum it instead
+            foreach (var row in reportData)
+            {
+                if (row.ContainsKey("NumberOrder") && row["NumberOrder"] != null)
+                {
+                    if (int.TryParse(row["NumberOrder"].ToString(), out int orderCount))
+                    {
+                        //to count rows
+                    }
+                }
+            }
+
+            return totalOrders;
+        }
+
+        private string GetCurrentReportType()
+        {
+            if (btn_dailyReports.Focused || btn_dailyReports.ContainsFocus)
+                return "Daily Sales Report";
+            else if (btn_MonthlyReports.Focused || btn_MonthlyReports.ContainsFocus)
+                return "Monthly Sales Report";
+            else if (btn_Entery.Focused || btn_Entery.ContainsFocus)
+                return $"Date Range Report ({dtpStartDate.Value:MMM dd, yyyy} to {dtpEndDate.Value:MMM dd, yyyy})";
+            else if (btn_SpecificOrder.Focused || btn_SpecificOrder.ContainsFocus)
+                return $"Specific Date Report ({dtp_SpecifiDate.Value:MMM dd, yyyy})";
+            else
+                return "Complete Sales Report";
         }
     }
 }

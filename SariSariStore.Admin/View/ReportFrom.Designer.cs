@@ -33,6 +33,7 @@
             DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             panel1 = new Panel();
+            btn_Print = new Button();
             label7 = new Label();
             pictureBox6 = new PictureBox();
             panel3 = new Panel();
@@ -79,12 +80,25 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(35, 35, 65);
+            panel1.Controls.Add(btn_Print);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(pictureBox6);
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
             panel1.Size = new Size(1397, 66);
             panel1.TabIndex = 7;
+            // 
+            // btn_Print
+            // 
+            btn_Print.BackColor = Color.FromArgb(20, 20, 50);
+            btn_Print.ForeColor = Color.White;
+            btn_Print.Location = new Point(1227, 12);
+            btn_Print.Name = "btn_Print";
+            btn_Print.Size = new Size(154, 46);
+            btn_Print.TabIndex = 4;
+            btn_Print.Text = "PRINT";
+            btn_Print.UseVisualStyleBackColor = false;
+            btn_Print.Click += btn_Print_Click;
             // 
             // label7
             // 
@@ -353,13 +367,14 @@
             // 
             // btn_SpecificOrder
             // 
-            btn_SpecificOrder.ForeColor = Color.FromArgb(20, 20, 50);
-            btn_SpecificOrder.Location = new Point(241, 71);
+            btn_SpecificOrder.BackColor = Color.FromArgb(20, 20, 50);
+            btn_SpecificOrder.ForeColor = Color.White;
+            btn_SpecificOrder.Location = new Point(240, 69);
             btn_SpecificOrder.Name = "btn_SpecificOrder";
-            btn_SpecificOrder.Size = new Size(136, 24);
+            btn_SpecificOrder.Size = new Size(121, 33);
             btn_SpecificOrder.TabIndex = 4;
             btn_SpecificOrder.Text = "Find ";
-            btn_SpecificOrder.UseVisualStyleBackColor = true;
+            btn_SpecificOrder.UseVisualStyleBackColor = false;
             btn_SpecificOrder.Click += btn_SpecificOrder_Click;
             // 
             // label1
@@ -388,32 +403,38 @@
             // 
             // btn_Entery
             // 
-            btn_Entery.Location = new Point(716, 129);
+            btn_Entery.BackColor = Color.FromArgb(20, 20, 50);
+            btn_Entery.ForeColor = Color.White;
+            btn_Entery.Location = new Point(714, 126);
             btn_Entery.Name = "btn_Entery";
-            btn_Entery.Size = new Size(136, 23);
+            btn_Entery.Size = new Size(121, 33);
             btn_Entery.TabIndex = 15;
             btn_Entery.Text = "Find Order";
-            btn_Entery.UseVisualStyleBackColor = true;
+            btn_Entery.UseVisualStyleBackColor = false;
             btn_Entery.Click += btn_Entery_Click;
             // 
             // btn_dailyReports
             // 
-            btn_dailyReports.Location = new Point(921, 48);
+            btn_dailyReports.BackColor = Color.FromArgb(20, 20, 50);
+            btn_dailyReports.ForeColor = Color.White;
+            btn_dailyReports.Location = new Point(1007, 19);
             btn_dailyReports.Name = "btn_dailyReports";
             btn_dailyReports.Size = new Size(103, 37);
             btn_dailyReports.TabIndex = 16;
             btn_dailyReports.Text = "Daily Reports";
-            btn_dailyReports.UseVisualStyleBackColor = true;
+            btn_dailyReports.UseVisualStyleBackColor = false;
             btn_dailyReports.Click += btn_dailyReports_Click;
             // 
             // btn_MonthlyReports
             // 
-            btn_MonthlyReports.Location = new Point(921, 103);
+            btn_MonthlyReports.BackColor = Color.FromArgb(20, 20, 50);
+            btn_MonthlyReports.ForeColor = Color.White;
+            btn_MonthlyReports.Location = new Point(1007, 74);
             btn_MonthlyReports.Name = "btn_MonthlyReports";
             btn_MonthlyReports.Size = new Size(103, 37);
             btn_MonthlyReports.TabIndex = 17;
             btn_MonthlyReports.Text = "Monthly Reports";
-            btn_MonthlyReports.UseVisualStyleBackColor = true;
+            btn_MonthlyReports.UseVisualStyleBackColor = false;
             btn_MonthlyReports.Click += btn_MonthlyReports_Click;
             // 
             // panel2
@@ -447,13 +468,14 @@
             // 
             // btn_perform
             // 
-            btn_perform.ForeColor = Color.Black;
-            btn_perform.Location = new Point(755, 48);
+            btn_perform.BackColor = Color.FromArgb(20, 20, 50);
+            btn_perform.ForeColor = Color.White;
+            btn_perform.Location = new Point(829, 19);
             btn_perform.Name = "btn_perform";
             btn_perform.Size = new Size(160, 37);
             btn_perform.TabIndex = 20;
             btn_perform.Text = "Product Perfomance";
-            btn_perform.UseVisualStyleBackColor = true;
+            btn_perform.UseVisualStyleBackColor = false;
             btn_perform.Click += btn_perform_Click;
             // 
             // label4
@@ -542,6 +564,6 @@
         private Label label3;
         private Button btn_perform;
         private DateTimePicker dtp_SpecifiDate;
-   
+        private Button btn_Print;
     }
 }

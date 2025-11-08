@@ -16,6 +16,7 @@ namespace SariSariStore.Admin.View
     {
         private Orders _order;
         private Orders _ordersService;
+        private bool _isViewingAllOrders = true;
         public OrderDetailsForm()
         {
             InitializeComponent();
@@ -54,6 +55,8 @@ namespace SariSariStore.Admin.View
 
             // Show/hide controls appropriately
             UpdateUIForOrderDetails();
+
+            _isViewingAllOrders = false;
         }
         private void LoadAllOrders()
         {
@@ -68,6 +71,8 @@ namespace SariSariStore.Admin.View
 
             // Update labels for "all orders" view
             UpdateUIForAllOrders();
+
+            _isViewingAllOrders = true; 
         }
 
         private void FormatOrderItemsGrid()
@@ -189,21 +194,64 @@ namespace SariSariStore.Admin.View
 
         private void dgvOrderItems_SelectionChanged(object sender, EventArgs e)
         {
-            if (dgvOrderItems.CurrentRow != null)
+            if (_isViewingAllOrders && dgvOrderItems.CurrentRow != null)
             {
                 var selectedOrder = dgvOrderItems.CurrentRow.DataBoundItem as Orders;
                 if (selectedOrder != null)
                 {
                     _order = selectedOrder;
                     LoadOrdersDetails();
-                    dgvOrderItems.Visible = false;
                 }
             }
         }
 
         private void printButton_Click(object sender, EventArgs e)
         {
-           
+            //print the selected rows in dgvOrderItems give the value to the Receiptform
+            if (dgvOrderItems.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select an order to print the receipt.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            try
+            {
+                Orders orderToPrint = null;
+
+                if (_isViewingAllOrders)
+                {
+                    // viewing all orders to get selected order from grid
+                    if (dgvOrderItems.SelectedRows.Count == 0)
+                    {
+                        MessageBox.Show("Please select an order to print the receipt.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    int selectedOrderId = Convert.ToInt32(dgvOrderItems.SelectedRows[0].Cells["OrderID"].Value);
+                    orderToPrint = _ordersService.GetOrderWithDetails(selectedOrderId);
+                }
+                else
+                {
+                    // We're viewing order details to use the current order
+                    if (_order != null)
+                    {
+                        orderToPrint = _ordersService.GetOrderWithDetails(_order.OrderID);
+                    }
+                }
+
+                if (orderToPrint != null)
+                {
+                    ReceiptForm receiptForm = new ReceiptForm(orderToPrint);
+                    receiptForm.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Order details not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error printing receipt: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }   
 
         }
 

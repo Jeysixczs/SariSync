@@ -127,6 +127,7 @@ namespace SariSariStore.Admin.View
 
                 _totalAmount = _cartItems?.Sum(item => item.TotalPrice) ?? 0;
                 txtTotal.Text = _totalAmount.ToString("C2");
+                Calculate();
             }
             catch (Exception ex)
             {
@@ -142,7 +143,7 @@ namespace SariSariStore.Admin.View
             UpdateCartDisplay();
             txtCustomerName.Clear();
             txtNotes.Clear();
-            txtboxExchange.Clear();
+
             txtRemarks.Clear();
             chkIsPaid.Checked = false;
 
@@ -237,24 +238,8 @@ namespace SariSariStore.Admin.View
 
 
 
-                if(string.IsNullOrEmpty( txtboxExchange.Text))
-                {
-                    int orderId = _orders.CreateOrder(order, orderItems);
 
-                    MessageBox.Show($"Order processed successfully!\nOrder ID: {orderId}\nTotal Amount: {_totalAmount:C2}",
-                        "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    int textboxExchangeValue = Convert.ToInt32(txtboxExchange.Text);
-                    int exchange = textboxExchangeValue - Convert.ToInt32(_totalAmount);
-                    MessageBox.Show($"Your Exchange is {exchange}");
-                    int orderId = _orders.CreateOrder(order, orderItems);
 
-                    MessageBox.Show($"Order processed successfully!\nOrder ID: {orderId}\nTotal Amount: {_totalAmount:C2}",
-                        "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-               
                 ClearForm();
                 RefreshProductList();
 
@@ -335,6 +320,32 @@ namespace SariSariStore.Admin.View
         private void txtTotal_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void txt_AmountReceived_TextChanged(object sender, EventArgs e)
+        {
+            Calculate();
+        }
+        private void Calculate()
+        {
+            if (decimal.TryParse(txt_AmountReceived.Text.Trim(), out decimal amountReceived))
+            {
+                decimal change = amountReceived - _totalAmount;
+
+                // Only show positive change, otherwise show 0.00
+                if (change >= 0)
+                {
+                    label13.Text = change.ToString("C2");
+                }
+                else
+                {
+                    label13.Text = "0.00";
+                }
+            }
+            else
+            {
+                label13.Text = "0.00";
+            }
         }
     }
 }
