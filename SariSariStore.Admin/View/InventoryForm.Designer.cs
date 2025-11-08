@@ -312,32 +312,38 @@
             // 
             // btn_DeleteSupplier
             // 
-            btn_DeleteSupplier.Location = new Point(609, 650);
+            btn_DeleteSupplier.BackColor = Color.FromArgb(40, 40, 65);
+            btn_DeleteSupplier.ForeColor = Color.White;
+            btn_DeleteSupplier.Location = new Point(695, 646);
             btn_DeleteSupplier.Name = "btn_DeleteSupplier";
-            btn_DeleteSupplier.Size = new Size(179, 42);
+            btn_DeleteSupplier.Size = new Size(154, 46);
             btn_DeleteSupplier.TabIndex = 5;
             btn_DeleteSupplier.Text = "Delete Supplier";
-            btn_DeleteSupplier.UseVisualStyleBackColor = true;
+            btn_DeleteSupplier.UseVisualStyleBackColor = false;
             btn_DeleteSupplier.Click += btn_DeleteSupplier_Click;
             // 
             // btn_EditSupplier
             // 
-            btn_EditSupplier.Location = new Point(409, 651);
+            btn_EditSupplier.BackColor = Color.FromArgb(40, 40, 65);
+            btn_EditSupplier.ForeColor = Color.White;
+            btn_EditSupplier.Location = new Point(465, 646);
             btn_EditSupplier.Name = "btn_EditSupplier";
-            btn_EditSupplier.Size = new Size(179, 41);
+            btn_EditSupplier.Size = new Size(154, 46);
             btn_EditSupplier.TabIndex = 4;
             btn_EditSupplier.Text = "Edit Supplier";
-            btn_EditSupplier.UseVisualStyleBackColor = true;
+            btn_EditSupplier.UseVisualStyleBackColor = false;
             btn_EditSupplier.Click += btn_EditSupplier_Click;
             // 
             // btn_AddSupplier
             // 
-            btn_AddSupplier.Location = new Point(218, 650);
+            btn_AddSupplier.BackColor = Color.FromArgb(40, 40, 65);
+            btn_AddSupplier.ForeColor = Color.White;
+            btn_AddSupplier.Location = new Point(229, 646);
             btn_AddSupplier.Name = "btn_AddSupplier";
-            btn_AddSupplier.Size = new Size(171, 42);
+            btn_AddSupplier.Size = new Size(154, 46);
             btn_AddSupplier.TabIndex = 3;
             btn_AddSupplier.Text = "Add Supplier";
-            btn_AddSupplier.UseVisualStyleBackColor = true;
+            btn_AddSupplier.UseVisualStyleBackColor = false;
             btn_AddSupplier.Click += btn_AddSupplier_Click;
             // 
             // dgv_supplier
