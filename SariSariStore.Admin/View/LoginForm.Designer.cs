@@ -33,15 +33,15 @@
             textBox3 = new TextBox();
             button1 = new Button();
             panel1 = new Panel();
-            button2 = new Button();
             label5 = new Label();
             checkBoxShowPassword = new CheckBox();
             label2 = new Label();
             label1 = new Label();
             panel2 = new Panel();
+            pictureBox6 = new PictureBox();
             label4 = new Label();
             label3 = new Label();
-            pictureBox6 = new PictureBox();
+            button2 = new Button();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
@@ -100,16 +100,6 @@
             panel1.Size = new Size(400, 500);
             panel1.TabIndex = 0;
             panel1.Paint += panel1_Paint_1;
-            // 
-            // button2
-            // 
-            button2.Location = new Point(136, 384);
-            button2.Name = "button2";
-            button2.Size = new Size(75, 23);
-            button2.TabIndex = 5;
-            button2.Text = "button2";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
             // 
             // label5
             // 
@@ -173,6 +163,17 @@
             panel2.Size = new Size(350, 500);
             panel2.TabIndex = 1;
             // 
+            // pictureBox6
+            // 
+            pictureBox6.BackColor = Color.Transparent;
+            pictureBox6.Image = (Image)resources.GetObject("pictureBox6.Image");
+            pictureBox6.Location = new Point(28, 138);
+            pictureBox6.Name = "pictureBox6";
+            pictureBox6.Size = new Size(266, 189);
+            pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox6.TabIndex = 4;
+            pictureBox6.TabStop = false;
+            // 
             // label4
             // 
             label4.AutoSize = true;
@@ -196,16 +197,15 @@
             label3.TabIndex = 1;
             label3.Text = "Welcome Back!";
             // 
-            // pictureBox6
+            // button2
             // 
-            pictureBox6.BackColor = Color.Transparent;
-            pictureBox6.Image = (Image)resources.GetObject("pictureBox6.Image");
-            pictureBox6.Location = new Point(28, 138);
-            pictureBox6.Name = "pictureBox6";
-            pictureBox6.Size = new Size(266, 189);
-            pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox6.TabIndex = 4;
-            pictureBox6.TabStop = false;
+            button2.Location = new Point(195, 406);
+            button2.Name = "button2";
+            button2.Size = new Size(75, 23);
+            button2.TabIndex = 5;
+            button2.Text = "button2";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // LoginForm
             // 
@@ -242,7 +242,7 @@
         private Label label4;
         private Label label3;
         private CheckBox checkBoxShowPassword;
-        private Button button2;
         private PictureBox pictureBox6;
+        private Button button2;
     }
 }

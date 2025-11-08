@@ -48,7 +48,7 @@
             // btn_Print
             // 
             btn_Print.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btn_Print.BackColor = Color.FromArgb(0, 123, 255);
+            btn_Print.BackColor = Color.FromArgb(76, 175, 80);
             btn_Print.FlatStyle = FlatStyle.Flat;
             btn_Print.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_Print.ForeColor = Color.White;
