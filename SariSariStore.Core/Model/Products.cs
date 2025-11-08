@@ -24,9 +24,20 @@ namespace SariSariStore.Core.Model
         public string? ImagePath { get; set; }
         public DateTime DateAdded { get; set; }
         public DateTime? DateExpired { get; set; }
-        public int SupplierID { get; set; }
+      
+       // public string SupplierName { get; set; } = string.Empty;
+        public decimal supplier_payment { get; set; }
+
+        public virtual Supplier Supplier { get; set; }
+
+        // Remove this property as it's not a database column
+        // public string SupplierName { get; set; } = string.Empty;
+
+        // Add this computed property instead (not mapped to database)
+        [NotMapped]
         public string SupplierName { get; set; } = string.Empty;
-        public decimal Payment_Supplier { get; set; }
+        public int SupplierID { get; set; }
+      
 
 
         public List<Products> GetAllProducts()
@@ -108,7 +119,7 @@ namespace SariSariStore.Core.Model
                     {
                         command.Parameters.AddWithValue("@SupplierID", DBNull.Value);
                     }
-                    command.Parameters.AddWithValue("@Payment_Supplier", product.Payment_Supplier);
+                    command.Parameters.AddWithValue("@Payment_Supplier", product.supplier_payment);
 
                     return (int)command.ExecuteScalar();
                 }
@@ -200,7 +211,7 @@ namespace SariSariStore.Core.Model
                     command.Parameters.AddWithValue("@Price", product.Price);
                     command.Parameters.AddWithValue("@SellingPrice", product.SellingPrice);
                     command.Parameters.AddWithValue("@Stock", product.Stock);
-                    command.Parameters.AddWithValue("@PaymentToSupplier", product.Payment_Supplier);
+                    command.Parameters.AddWithValue("@PaymentToSupplier", product.supplier_payment);
                     if (product.DateExpired.HasValue)
                     {
                         command.Parameters.AddWithValue("@DateExpired", product.DateExpired.Value);
@@ -267,7 +278,7 @@ namespace SariSariStore.Core.Model
                                 Stock = Convert.ToInt32(reader["Stock"]),
                                 ImagePath = reader["ImagePath"]?.ToString(),
                                 DateAdded = Convert.ToDateTime(reader["DateAdded"]),
-                                Payment_Supplier = Convert.ToDecimal(reader["supplier_payment"]),
+                                supplier_payment = Convert.ToDecimal(reader["supplier_payment"]),
                                 SupplierID = Convert.ToInt32(reader["SupplierID"])
                             };
 

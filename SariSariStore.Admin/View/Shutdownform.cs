@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -38,7 +39,7 @@ namespace SariSariStore.Admin.View
             }
         }
 
-        private void coundowntimer_Tick(object sender, EventArgs e)
+        private async void coundowntimer_Tick(object sender, EventArgs e)
         {
             countdown--;
             lblLoading.Text = $"Shutting down in {countdown} seconds... Please wait";
@@ -48,10 +49,63 @@ namespace SariSariStore.Admin.View
                 coundowntimer.Stop();
                 timer.Stop();
 
-               
+                // Gracefully shutdown Web API
+                await StopWebApiGracefully();
+
                 Application.Exit();
             }
         }
+      
+        private async Task StopWebApiGracefully()
+        {
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    client.Timeout = TimeSpan.FromSeconds(5);
+                    // Replace with your API's actual URL
+                    var response = await client.PostAsync("http://192.168.254.119:5211/api/shutdown", null);
 
+                    if (response.IsSuccessStatusCode)
+                    {
+                        lblLoading.Text = "Web API stopped gracefully...";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // If graceful shutdown fails, force kill
+                lblLoading.Text = "Force stopping Web API...";
+                StopWebApiForced();
+            }
+        }
+
+        private void StopWebApiForced()
+        {
+            try
+            {
+                // Kill all dotnet processes (be careful with this!)
+                foreach (var process in Process.GetProcessesByName("dotnet"))
+                {
+                    try
+                    {
+                        process.Kill();
+                    }
+                    catch
+                    {
+                        // Ignore errors
+                    }
+                }
+            }
+            catch
+            {
+                // Ignore all errors during forced shutdown
+            }
+        }
+
+        private void Shutdownform_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

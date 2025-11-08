@@ -58,7 +58,8 @@ namespace SariSariStore.Admin.View
             dgv_stock.Columns["SellingPrice"].Visible = false;
             dgv_stock.Columns["SupplierID"].Visible = false;
             dgv_stock.Columns["SupplierName"].Visible = false;
-            dgv_stock.Columns["Payment_Supplier"].Visible = false;
+            dgv_stock.Columns["supplier_payment"].Visible = false;
+            dgv_stock.Columns["supplier"].Visible = false;
         }
 
         private void dgv_stock_CellContentClick(object sender, DataGridViewCellEventArgs e)

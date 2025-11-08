@@ -25,6 +25,18 @@ namespace SariSariStore.WebApi.Controllers
             return await DbContext.Products.ToListAsync();
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Products>> GetProduct(int id)
+        {
+            var product = await DbContext.Products.FindAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return product;
+        }
+
+    
 
         //get image by id
         [HttpGet("{id}/image")]
@@ -53,6 +65,15 @@ namespace SariSariStore.WebApi.Controllers
             return File(imageFileStream, "image/jpeg");
         }
 
+        [HttpGet("category/{category}")]
+        public async Task<ActionResult<IEnumerable<Products>>> GetProductsByCategory(string category)
+        {
+            var products = await DbContext.Products
+                .Where(p => p.Category.ToLower() == category.ToLower())
+                .ToListAsync();
+
+            return Ok(products);
+        }
 
     }
 }

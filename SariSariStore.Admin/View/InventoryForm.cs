@@ -98,7 +98,8 @@ namespace SariSariStore.Admin.View
             dgv_supplier.Columns["SupplierID"].Visible = false;
             dgv_supplier.Columns["IsActive"].Visible = false;
             dgv_supplier.Columns["CreatedDate"].Visible = false;
-        
+            dgv_supplier.Columns["Products"].Visible = false;
+
         }
 
         private void btn_shutdown_Click(object sender, EventArgs e)

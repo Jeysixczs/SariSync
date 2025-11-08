@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SariSariStore.Core.Model
 {
-    [Table("tbl_Supplier")]
+    [Table("tbl_Suppliers")]
     public class Supplier
     {
         public string ConnectionString = ConnectionHelper.GetConnectionString();
@@ -25,7 +25,8 @@ namespace SariSariStore.Core.Model
         public DateTime CreatedDate { get; set; }
         public bool IsActive { get; set; }= true;
 
-
+        public virtual ICollection<Products> Products { get; set; } = new List<Products>();
+   
         public List<Supplier> GetAllSuppliers()
         {
             List<Supplier> sup = new List<Supplier>();

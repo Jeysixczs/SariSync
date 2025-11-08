@@ -1,30 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SariSariStore.Core.Model
 {
-    [Table("tbl_OrderDetails")]
-    public class OrderItems
+    public class OrderItemResponseDto
     {
-        [Key]
         public int OrderDetailID { get; set; }
-        public int OrderID { get; set; }
-        [NotMapped]
-        public string? ProductName { get; set; }
         public int ProductID { get; set; }
+        public string ProductName { get; set; }
         public int Quantity { get; set; }
         public decimal UnitPrice { get; set; }
-        //GETTER FOR TOTAL PRICE
         public decimal TotalPrice { get; set; }
-
-        // public decimal TotalPrice => Quantity * UnitPrice;
-
     }
-      
-       
 }
