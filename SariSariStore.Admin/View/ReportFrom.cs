@@ -254,7 +254,7 @@ namespace SariSariStore.Admin.View
 
             foreach (var row in reportData)
             {
-                // Try different possible column names for total amount
+                // Trying with different possible column names for total amount
                 string[] possibleAmountColumns = { "TotalRevenue", "TotalAmount", "Amount", "Total", "Revenue" };
 
                 foreach (string columnName in possibleAmountColumns)
@@ -285,8 +285,7 @@ namespace SariSariStore.Admin.View
                 {
                     if (int.TryParse(row["NumberOrder"].ToString(), out int orderCount))
                     {
-                        // This depends on your business logic - summing or counting?
-                        // For now, we'll just count rows
+                        //to count rows
                     }
                 }
             }

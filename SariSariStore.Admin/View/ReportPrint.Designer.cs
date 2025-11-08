@@ -42,7 +42,7 @@
             txtbox_ReportPrint.Multiline = true;
             txtbox_ReportPrint.Name = "txtbox_ReportPrint";
             txtbox_ReportPrint.ReadOnly = true;
-            txtbox_ReportPrint.Size = new Size(760, 400);
+            txtbox_ReportPrint.Size = new Size(566, 441);
             txtbox_ReportPrint.TabIndex = 0;
             // 
             // btn_Print
@@ -52,7 +52,7 @@
             btn_Print.FlatStyle = FlatStyle.Flat;
             btn_Print.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_Print.ForeColor = Color.White;
-            btn_Print.Location = new Point(532, 418);
+            btn_Print.Location = new Point(228, 483);
             btn_Print.Name = "btn_Print";
             btn_Print.Size = new Size(120, 35);
             btn_Print.TabIndex = 1;
@@ -67,7 +67,7 @@
             btn_Close.FlatStyle = FlatStyle.Flat;
             btn_Close.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btn_Close.ForeColor = Color.White;
-            btn_Close.Location = new Point(658, 418);
+            btn_Close.Location = new Point(354, 483);
             btn_Close.Name = "btn_Close";
             btn_Close.Size = new Size(120, 35);
             btn_Close.TabIndex = 3;
@@ -82,7 +82,7 @@
             btn_PrintPreview.FlatStyle = FlatStyle.Flat;
             btn_PrintPreview.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btn_PrintPreview.ForeColor = Color.White;
-            btn_PrintPreview.Location = new Point(406, 418);
+            btn_PrintPreview.Location = new Point(102, 483);
             btn_PrintPreview.Name = "btn_PrintPreview";
             btn_PrintPreview.Size = new Size(120, 35);
             btn_PrintPreview.TabIndex = 2;
@@ -93,7 +93,7 @@
             // ReportPrint
             // 
             BackColor = Color.FromArgb(28, 28, 65);
-            ClientSize = new Size(784, 461);
+            ClientSize = new Size(600, 561);
             Controls.Add(btn_PrintPreview);
             Controls.Add(btn_Close);
             Controls.Add(btn_Print);
