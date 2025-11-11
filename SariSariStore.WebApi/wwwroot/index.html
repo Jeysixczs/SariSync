@@ -955,6 +955,211 @@
                 .user-menu-item.logout:hover {
                     background: rgba(239, 68, 68, 0.1);
                 }
+
+        /* Checkout Styles */
+        .checkout-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        .checkout-form {
+            background: var(--background);
+            padding: 24px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+            .checkout-form h3 {
+                margin-bottom: 16px;
+                color: var(--dark);
+                font-size: 1.2rem;
+                font-weight: 600;
+            }
+
+        .order-summary {
+            background: var(--light);
+            padding: 20px;
+            border-radius: var(--radius);
+            margin: 20px 0;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+            .order-item:last-child {
+                border-bottom: none;
+            }
+
+        .item-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+            .item-info span {
+                font-size: 0.8rem;
+                color: var(--text-light);
+            }
+
+        .order-total {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 2px solid var(--border);
+        }
+
+        .final-total {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .checkout-actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+            .checkout-actions .btn {
+                flex: 1;
+            }
+
+        /* Order Success Styles */
+        .order-success {
+            text-align: center;
+            padding: 40px 20px;
+            background: var(--background);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            color: var(--success);
+            margin-bottom: 20px;
+        }
+
+        .order-success h3 {
+            color: var(--success);
+            margin-bottom: 16px;
+            font-size: 1.5rem;
+        }
+
+        .order-details {
+            background: var(--light);
+            padding: 20px;
+            border-radius: var(--radius);
+            margin: 24px 0;
+            text-align: left;
+        }
+
+        .detail-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+            .detail-item:last-child {
+                margin-bottom: 0;
+                padding-bottom: 0;
+                border-bottom: none;
+            }
+
+        .success-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+        }
+
+            .success-actions .btn {
+                min-width: 160px;
+            }
+
+        /* Form enhancements */
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+            .checkbox-label input[type="checkbox"] {
+                width: 16px;
+                height: 16px;
+            }
+
+        .text-link {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+            .text-link:hover {
+                text-decoration: underline;
+            }
+
+        /* Responsive checkout */
+        @media (max-width: 768px) {
+            .checkout-actions {
+                flex-direction: column;
+            }
+
+            .success-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+                .success-actions .btn {
+                    min-width: 200px;
+                }
+        }
+
+        /* Add to Cart Notifications */
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        .add-to-cart-notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 12px 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            z-index: 10000;
+            animation: slideInRight 0.3s ease-out;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
     </style>
 </head>
 <body>
@@ -1114,6 +1319,16 @@
                         <p id="empty-cart-message">Your cart is empty</p>
                     </div>
                 </div>
+
+                <!--Checkout Page-->
+                <div class="page-section" id="checkout-page">
+                    <div class="section-title">
+                        <h2>Checkout</h2>
+                    </div>
+                    <div id="checkout-container">
+                        <!-- Checkout form will be loaded here -->
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -1190,6 +1405,10 @@
 
         function logoutUser() {
             setCurrentUser(null);
+            // Force UI update
+            updateUI();
+            // Close any open dropdowns
+            document.getElementById('user-menu').classList.remove('active');
             alert('You have been logged out successfully!');
         }
 
@@ -1232,20 +1451,54 @@
             const authBtn = document.getElementById('auth-btn');
             const authText = document.getElementById('auth-text');
             const userMenu = document.getElementById('user-menu');
+            const authIcon = authBtn.querySelector('i'); // Get the icon element
 
             if (currentUser) {
+                // Only update the text, keep the icon
                 authText.textContent = currentUser.name.split(' ')[0];
-                // Show user dropdown menu
-                authBtn.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    userMenu.classList.toggle('active');
-                });
-            } else {
-                authText.textContent = 'Login';
-                // Remove any existing event listeners and hide menu
-                authBtn.replaceWith(authBtn.cloneNode(true));
                 userMenu.classList.remove('active');
-                // Re-attach the auth modal event listener
+
+                // Remove any existing event listeners by replacing the button
+                const newAuthBtn = authBtn.cloneNode(true);
+                const newAuthText = newAuthBtn.querySelector('#auth-text');
+                const newAuthIcon = newAuthBtn.querySelector('i');
+
+                // Restore the icon and text
+                if (!newAuthIcon) {
+                    const icon = document.createElement('i');
+                    icon.className = 'fas fa-user';
+                    newAuthBtn.insertBefore(icon, newAuthBtn.firstChild);
+                }
+
+                authBtn.parentNode.replaceChild(newAuthBtn, authBtn);
+
+                // Add click event for user dropdown to the new button
+                document.getElementById('auth-btn').addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    document.getElementById('user-menu').classList.toggle('active');
+                });
+
+            } else {
+                // For logged out state
+                authText.textContent = 'Login';
+                userMenu.classList.remove('active');
+
+                // Remove any existing event listeners by replacing the button
+                const newAuthBtn = authBtn.cloneNode(true);
+                const newAuthText = newAuthBtn.querySelector('#auth-text');
+                const newAuthIcon = newAuthBtn.querySelector('i');
+
+                // Ensure icon exists
+                if (!newAuthIcon) {
+                    const icon = document.createElement('i');
+                    icon.className = 'fas fa-user';
+                    newAuthBtn.insertBefore(icon, newAuthBtn.firstChild);
+                }
+
+                authBtn.parentNode.replaceChild(newAuthBtn, authBtn);
+
+                // Add click event for auth modal to the new button
                 document.getElementById('auth-btn').addEventListener('click', function (e) {
                     e.preventDefault();
                     showAuthModal();
@@ -1265,21 +1518,30 @@
 
         function addToCart(product) {
             const cart = getCart();
-            const existingItem = cart.find(item => item.id === product.id);
+
+            const productId = product.productID
+            if (!productId) {
+                console.error('Product ID is missing:', product);
+                alert('Cannot add product to cart: Missing product ID');
+                return;
+            }
+
+            const existingItem = cart.find(item => item.id === productId);
 
             if (existingItem) {
                 existingItem.quantity += 1;
             } else {
                 cart.push({
-                    id: product.id,
+                    id: product.productID, //profuct.id
                     name: product.name,
                     price: product.discountPrice || product.price,
-                    image: product.imageUrl,
+                    image: `${baseUrl}/${productId}/image`, //product.imageUrl,
                     quantity: 1
                 });
             }
 
             saveCart(cart);
+            updateCartCount();
             alert(`${product.name} added to cart!`);
         }
 
@@ -1293,6 +1555,10 @@
             const cart = getCart();
             const container = document.getElementById('cart-container');
             const emptyMessage = document.getElementById('empty-cart-message');
+            const checkoutBtn = document.querySelector('.checkout-btn');
+            if (checkoutBtn) {
+                checkoutBtn.addEventListener('click', proceedToCheckout);
+            }
 
             if (cart.length === 0) {
                 emptyMessage.style.display = 'block';
@@ -1311,25 +1577,25 @@
                 subtotal += itemTotal;
 
                 cartHTML += `
-                                <div class="cart-item">
-                                    <div class="cart-product">
-                                        <img src="${item.image || `https://via.placeholder.com/80x80?text=${encodeURIComponent(item.name)}`}" alt="${item.name}" class="cart-product-image">
-                                        <div class="cart-product-details">
-                                            <h4>${item.name}</h4>
-                                            <p>$${item.price.toFixed(2)}</p>
+                                        <div class="cart-item">
+                                            <div class="cart-product">
+                                                <img src="${item.image || `https://via.placeholder.com/80x80?text=${encodeURIComponent(item.name)}`}" alt="${item.name}" class="cart-product-image">
+                                                <div class="cart-product-details">
+                                                    <h4>${item.name}</h4>
+                                                    <p>$${item.price.toFixed(2)}</p>
+                                                </div>
+                                            </div>
+                                            <div class="cart-quantity">
+                                                <button class="quantity-btn minus" data-id="${item.id}">-</button>
+                                                <input type="text" value="${item.quantity}" readonly>
+                                                <button class="quantity-btn plus" data-id="${item.id}">+</button>
+                                            </div>
+                                            <div class="cart-price">$${itemTotal.toFixed(2)}</div>
+                                            <div class="cart-remove" data-id="${item.id}">
+                                                <i class="fas fa-trash"></i>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="cart-quantity">
-                                        <button class="quantity-btn minus" data-id="${item.id}">-</button>
-                                        <input type="text" value="${item.quantity}" readonly>
-                                        <button class="quantity-btn plus" data-id="${item.id}">+</button>
-                                    </div>
-                                    <div class="cart-price">$${itemTotal.toFixed(2)}</div>
-                                    <div class="cart-remove" data-id="${item.id}">
-                                        <i class="fas fa-trash"></i>
-                                    </div>
-                                </div>
-                            `;
+                                    `;
             });
 
             const shipping = 9.99;
@@ -1337,86 +1603,172 @@
             const total = subtotal + shipping + tax;
 
             container.innerHTML = `
-                            <div class="cart-items">
-                                ${cartHTML}
-                            </div>
-                            <div class="cart-summary">
-                                <div class="cart-totals">
-                                    <div class="total-row">
-                                        <span>Subtotal</span>
-                                        <span>$${subtotal.toFixed(2)}</span>
+                                    <div class="cart-items">
+                                        ${cartHTML}
                                     </div>
-                                    <div class="total-row">
-                                        <span>Shipping</span>
-                                        <span>$${shipping.toFixed(2)}</span>
+                                    <div class="cart-summary">
+                                        <div class="cart-totals">
+                                            <div class="total-row">
+                                                <span>Subtotal</span>
+                                                <span>$${subtotal.toFixed(2)}</span>
+                                            </div>
+                                            <div class="total-row">
+                                                <span>Shipping</span>
+                                                <span>$${shipping.toFixed(2)}</span>
+                                            </div>
+                                            <div class="total-row">
+                                                <span>Tax</span>
+                                                <span>$${tax.toFixed(2)}</span>
+                                            </div>
+                                            <div class="total-row">
+                                                <span>Total</span>
+                                                <span>$${total.toFixed(2)}</span>
+                                            </div>
+                                            <button class="checkout-btn">Proceed to Checkout</button>
+                                        </div>
                                     </div>
-                                    <div class="total-row">
-                                        <span>Tax</span>
-                                        <span>$${tax.toFixed(2)}</span>
-                                    </div>
-                                    <div class="total-row">
-                                        <span>Total</span>
-                                        <span>$${total.toFixed(2)}</span>
-                                    </div>
-                                    <button class="checkout-btn">Proceed to Checkout</button>
-                                </div>
-                            </div>
-                        `;
+                                `;
 
             // Add event listeners for cart controls
+            document.querySelectorAll('.cart-remove').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const id = btn.getAttribute('data-id');
+                    removeFromCart(id);
+                });
+            });
+
+            // Quantity buttons event listeners
             document.querySelectorAll('.quantity-btn.plus').forEach(btn => {
-                btn.addEventListener('click', () => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
                     const id = btn.getAttribute('data-id');
                     updateCartItemQuantity(id, 1);
                 });
             });
 
             document.querySelectorAll('.quantity-btn.minus').forEach(btn => {
-                btn.addEventListener('click', () => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
                     const id = btn.getAttribute('data-id');
                     updateCartItemQuantity(id, -1);
-                });
-            });
-
-            document.querySelectorAll('.cart-remove').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const id = btn.getAttribute('data-id');
-                    removeFromCart(id);
                 });
             });
         }
 
         function updateCartItemQuantity(productId, change) {
             const cart = getCart();
-            const item = cart.find(item => item.id === productId);
+            const item = cart.find(item => item.id == productId); // Use == for type coercion
 
             if (item) {
                 item.quantity += change;
 
                 if (item.quantity <= 0) {
                     // Remove item if quantity is 0 or less
-                    const index = cart.findIndex(item => item.id === productId);
-                    cart.splice(index, 1);
-                }
+                    removeFromCart(productId);
+                } else {
+                    saveCart(cart);
+                    displayCart();
 
-                saveCart(cart);
-                displayCart();
+                    // Show quantity update feedback
+                    if (change > 0) {
+                        showQuantityUpdateFeedback(item.name, item.quantity);
+                    }
+                }
             }
+        }
+
+        // Add this function for quantity update feedback
+        function showQuantityUpdateFeedback(productName, quantity) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            padding: 12px 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            z-index: 10000;
+            animation: slideInRight 0.3s ease-out;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        `;
+            notification.innerHTML = `
+            <i class="fas fa-shopping-cart"></i>
+            <span>${productName} quantity updated to ${quantity}</span>
+        `;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.3s ease-in';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 2000);
         }
 
         function removeFromCart(productId) {
             const cart = getCart();
-            const index = cart.findIndex(item => item.id === productId);
+            const index = cart.findIndex(item => item.id == productId); // Use == for type coercion
 
             if (index !== -1) {
-                cart.splice(index, 1);
-                saveCart(cart);
-                displayCart();
+                const itemName = cart[index].name;
+                if (confirm(`Are you sure you want to remove "${itemName}" from your cart?`)) {
+                    cart.splice(index, 1);
+                    saveCart(cart);
+                    displayCart();
+
+                    // Show removal feedback
+                    showRemoveFromCartFeedback(itemName);
+                }
+            } else {
+                console.error('Item not found in cart:', productId);
             }
         }
 
+        // Add this function for removal feedback
+        function showRemoveFromCartFeedback(productName) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: var(--danger);
+            color: white;
+            padding: 12px 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            z-index: 10000;
+            animation: slideInRight 0.3s ease-out;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        `;
+            notification.innerHTML = `
+            <i class="fas fa-trash"></i>
+            <span>${productName} removed from cart</span>
+        `;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.3s ease-in';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
         // Product fetching and display
-        const baseUrl = "http://192.168.254.119:5211/api/Product";
+        const baseUrl = "https://192.168.254.107:7211/api/Product";
 
         async function fetchProducts() {
             try {
@@ -1441,7 +1793,7 @@
             products.forEach(product => {
                 const productCard = document.createElement('div');
                 productCard.className = 'product-card';
-                productCard.setAttribute('data-product-id', product.id);
+                productCard.setAttribute('data-product-id', product.productID); //product.id
 
                 // Create product badge if on sale
                 if (product.discountPrice && product.discountPrice < product.price) {
@@ -1456,8 +1808,8 @@
                 productImage.className = 'product-image';
 
                 // Correct way to set the image source
-                if (product.id) {
-                    productImage.src = `${baseUrl}/Product/${product.id}/image`;
+                if (product.productID) {//product.id
+                    productImage.src = `${baseUrl}/${product.productID}/image`; //${baseUrl}/Product/${product.productID}/image
                 } else {
                     productImage.src = `https://via.placeholder.com/200x160?text=${encodeURIComponent(product.name)}`;
                 }
@@ -1561,6 +1913,284 @@
             alert(`${product.name} added to wishlist!`);
         }
 
+        // Order API base URL
+        const orderBaseUrl = "https://192.168.254.107:7211/api/Order";
+
+        // Checkout functionality
+        function proceedToCheckout() {
+            const cart = getCart();
+            const currentUser = getCurrentUser();
+
+            if (cart.length === 0) {
+                alert('Your cart is empty! Please add some items before checking out.');
+                return;
+            }
+
+            if (!currentUser) {
+                if (confirm('You need to be logged in to checkout. Would you like to login now?')) {
+                    showAuthModal();
+                }
+                return;
+            }
+
+            showCheckoutPage();
+        }
+
+        function showCheckoutPage() {
+            const cart = getCart();
+            const container = document.getElementById('checkout-container');
+            const currentUser = getCurrentUser();
+
+            let subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            const shipping = 9.99;
+            const tax = subtotal * 0.08;
+            const total = subtotal + shipping + tax;
+
+            container.innerHTML = `
+                <div class="checkout-content">
+                    <div class="checkout-form">
+                        <h3>Shipping Information</h3>
+                        <form id="checkout-form">
+                            <div class="form-group">
+                                <label for="customer-name">Full Name *</label>
+                                <input type="text" id="customer-name" class="form-control" required
+                                       value="${currentUser?.name || ''}"
+                                       placeholder="Enter your full name">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="customer-email">Email Address *</label>
+                                <input type="email" id="customer-email" class="form-control" required
+                                       value="${currentUser?.email || ''}"
+                                       placeholder="Enter your email">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="customer-phone">Phone Number *</label>
+                                <input type="tel" id="customer-phone" class="form-control" required
+                                       placeholder="Enter your phone number">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="shipping-address">Shipping Address *</label>
+                                <textarea id="shipping-address" class="form-control" rows="3" required
+                                          placeholder="Enter your complete shipping address"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="order-notes">Order Notes (Optional)</label>
+                                <textarea id="order-notes" class="form-control" rows="2"
+                                          placeholder="Any special instructions or notes for your order..."></textarea>
+                            </div>
+
+                            <h3>Order Summary</h3>
+                            <div class="order-summary">
+                                <div class="order-items">
+                                    ${cart.map(item => `
+                                        <div class="order-item">
+                                            <div class="item-info">
+                                                <strong>${item.name}</strong>
+                                                <span>Qty: ${item.quantity}</span>
+                                            </div>
+                                            <div class="item-price">$${(item.price * item.quantity).toFixed(2)}</div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+
+                                <div class="order-total">
+                                    <div class="total-row">
+                                        <span>Subtotal</span>
+                                        <span>$${subtotal.toFixed(2)}</span>
+                                    </div>
+                                    <div class="total-row">
+                                        <span>Shipping</span>
+                                        <span>$${shipping.toFixed(2)}</span>
+                                    </div>
+                                    <div class="total-row">
+                                        <span>Tax</span>
+                                        <span>$${tax.toFixed(2)}</span>
+                                    </div>
+                                    <div class="total-row final-total">
+                                        <span>Total Amount</span>
+                                        <span>$${total.toFixed(2)}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="terms-agreement" required>
+                                    I agree to the <a href="#" class="text-link">Terms and Conditions</a> and
+                                    <a href="#" class="text-link">Privacy Policy</a>
+                                </label>
+                            </div>
+
+                            <div class="checkout-actions">
+                                <button type="button" class="btn btn-outline" id="back-to-cart">
+                                    <i class="fas fa-arrow-left"></i> Back to Cart
+                                </button>
+                                <button type="submit" class="btn btn-primary" id="place-order-btn">
+                                    <i class="fas fa-shopping-bag"></i> Place Order
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+
+            // Add event listeners
+            document.getElementById('back-to-cart').addEventListener('click', () => {
+                showPage('cart-page');
+                displayCart();
+            });
+
+            document.getElementById('checkout-form').addEventListener('submit', handleOrderSubmission);
+
+            showPage('checkout-page');
+        }
+
+        async function handleOrderSubmission(e) {
+            e.preventDefault();
+
+            const placeOrderBtn = document.getElementById('place-order-btn');
+            const originalText = placeOrderBtn.innerHTML;
+            placeOrderBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Placing Order...';
+            placeOrderBtn.disabled = true;
+
+            try {
+                const cart = getCart();
+
+                // Prepare order data - try including productName as empty string
+                const orderData = {
+                    customerName: document.getElementById('customer-name').value,
+                    notes: document.getElementById('order-notes').value || '',
+                    remarks: `Shipping to: ${document.getElementById('shipping-address').value}`,
+                    isPaid: false,
+                    items: cart.map(item => ({
+                        productID: parseInt(item.id),
+                        quantity: parseInt(item.quantity),
+                        productName: item.name || '' // Include productName as empty string if not available    
+                    }))
+                };
+
+                console.log('Submitting order:', orderData);
+
+                const response = await fetch(`${orderBaseUrl}/CreateOrder`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(orderData)
+                });
+
+                // Read the response once and store it
+                const responseText = await response.text();
+                console.log('Raw response:', responseText);
+
+                if (!response.ok) {
+                    // Handle error - the response is already read, so we use the stored text
+                    let errorMessage = `Server error: ${response.status} ${response.statusText}`;
+
+                    // Try to parse as JSON for structured error messages
+                    try {
+                        const errorData = JSON.parse(responseText);
+                        errorMessage = errorData.message || errorData.title || errorMessage;
+
+                        // Handle ASP.NET validation errors
+                        if (errorData.errors) {
+                            const validationErrors = Object.values(errorData.errors).flat().join(', ');
+                            errorMessage += ` - ${validationErrors}`;
+                        }
+                    } catch {
+                        // If not JSON, use the text directly
+                        if (responseText && responseText.length > 0) {
+                            errorMessage = responseText;
+                        }
+                    }
+                    throw new Error(errorMessage);
+                }
+
+                // Handle success - parse the stored response text
+                let result;
+                try {
+                    result = JSON.parse(responseText);
+                } catch (parseError) {
+                    throw new Error('Invalid JSON response from server');
+                }
+
+                console.log('Order created successfully:', result);
+
+                // Clear cart and show success message
+                saveCart([]);
+                updateCartCount();
+                showOrderSuccess(result);
+
+            } catch (error) {
+                console.error('Error creating order:', error);
+
+                // Show user-friendly error message
+                let userMessage = 'Failed to create order. ';
+
+                if (error.message.includes('Failed to fetch')) {
+                    userMessage = 'Cannot connect to the server. Please check your internet connection.';
+                } else if (error.message.includes('NetworkError')) {
+                    userMessage = 'Network error. Please check your connection and try again.';
+                } else if (error.message.includes('CORS')) {
+                    userMessage = 'Cross-origin request blocked. Please contact support.';
+                } else {
+                    userMessage += error.message;
+                }
+
+                alert(userMessage);
+
+                // Reset button
+                placeOrderBtn.innerHTML = originalText;
+                placeOrderBtn.disabled = false;
+            }
+        }
+
+        function showOrderSuccess(orderResult) {
+            const container = document.getElementById('checkout-container');
+            container.innerHTML = `
+                <div class="order-success">
+                    <div class="success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>Order Placed Successfully!</h3>
+                    <p>Thank you for your purchase. Your order has been confirmed.</p>
+                    <div class="order-details">
+                        <div class="detail-item">
+                            <strong>Order ID:</strong> ${orderResult.orderId}
+                        </div>
+                        <div class="detail-item">
+                            <strong>Total Amount:</strong> $${orderResult.totalAmount.toFixed(2)}
+                        </div>
+                        <div class="detail-item">
+                            <strong>Estimated Delivery:</strong> 3-5 business days
+                        </div>
+                    </div>
+                    <div class="success-actions">
+                        <button class="btn btn-primary" id="continue-shopping">
+                            <i class="fas fa-shopping-bag"></i> Continue Shopping
+                        </button>
+                        <button class="btn btn-outline" id="view-orders">
+                            <i class="fas fa-list"></i> View Orders
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('continue-shopping').addEventListener('click', () => {
+                showPage('home-page');
+                fetchProducts();
+            });
+
+            document.getElementById('view-orders').addEventListener('click', () => {
+                // You can implement order viewing functionality here
+                alert('Order history feature would be implemented here');
+            });
+        }
+
         // Page navigation
         document.addEventListener('DOMContentLoaded', function () {
             // Initialize UI
@@ -1583,6 +2213,13 @@
                 const authBtn = document.getElementById('auth-btn');
                 if (!authBtn.contains(e.target) && !userMenu.contains(e.target)) {
                     userMenu.classList.remove('active');
+                }
+            });
+
+            // Add to your existing event listeners in DOMContentLoaded
+            document.addEventListener('click', function (e) {
+                if (e.target.classList.contains('checkout-btn')) {
+                    proceedToCheckout();
                 }
             });
 

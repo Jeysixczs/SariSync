@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SariSariStore.Core.Model;
 using SariSariStore.Core.Services;
@@ -30,13 +31,14 @@ namespace SariSariStore.WebApi.Controllers
 
             try
             {
-                // Validate products and calculate total amount
-                decimal totalAmount = 0;
-                var orderItemsList = new List<OrderItems>();
+                using var transaction = await _context.Database.BeginTransactionAsync();
 
+                decimal totalAmount = 0;
+                var productUpdates = new List<(int ProductId, int Quantity)>();
+
+                // Calculate total and validate products first
                 foreach (var itemDto in orderDto.Items)
                 {
-                    // Get product with current price and stock using EF
                     var product = await _context.Products
                         .FirstOrDefaultAsync(p => p.ProductID == itemDto.ProductID && p.Stock >= itemDto.Quantity);
 
@@ -45,39 +47,57 @@ namespace SariSariStore.WebApi.Controllers
                         return BadRequest($"Product with ID {itemDto.ProductID} not found or insufficient stock.");
                     }
 
-                    // Use current selling price from product
                     var unitPrice = product.SellingPrice;
                     var itemTotal = itemDto.Quantity * unitPrice;
                     totalAmount += itemTotal;
-
-                   
-                    // Create order item
-                    var orderItem = new OrderItems
-                    {
-                        ProductID = itemDto.ProductID,
-                        ProductName = orderService.GetProductNameById(product.ProductID),
-                        
-                        Quantity = itemDto.Quantity,
-                        UnitPrice = unitPrice,
-                        TotalPrice = itemTotal
-                    };
-
-                    orderItemsList.Add(orderItem);
+                    productUpdates.Add((product.ProductID, itemDto.Quantity));
                 }
 
-                // Create order entity
-                var order = new Orders
-                {
-                    CustomerName = orderDto.CustomerName,
-                    Notes = orderDto.Notes ?? "",
-                    Remarks = orderDto.Remarks ?? "",
-                    IsPaid = orderDto.IsPaid,
-                    OrderDate = DateTime.UtcNow,
-                    TotalAmount = totalAmount
-                };
+                // 1. Create order using raw SQL (bypasses triggers)
+                var orderSql = @"
+            INSERT INTO tbl_Order (CustomerName, Notes, Remarks, IsPaid, OrderDate, TotalAmount) 
+            VALUES (@CustomerName, @Notes, @Remarks, @IsPaid, @OrderDate, @TotalAmount);
+            SELECT CAST(SCOPE_IDENTITY() as int);";
 
-                // Use the service to create order with raw SQL (bypassing EF triggers issue)
-                int orderId = _orderService.CreateOrder(order, orderItemsList);
+                var orderId = (await _context.Database.SqlQueryRaw<int>(orderSql,
+                    new SqlParameter("@CustomerName", orderDto.CustomerName),
+                    new SqlParameter("@Notes", orderDto.Notes ?? ""),
+                    new SqlParameter("@Remarks", orderDto.Remarks ?? ""),
+                    new SqlParameter("@IsPaid", orderDto.IsPaid),
+                    new SqlParameter("@OrderDate", DateTime.UtcNow),
+                    new SqlParameter("@TotalAmount", totalAmount)
+                ).ToListAsync()).FirstOrDefault();
+
+                // 2. Create order items using raw SQL
+                foreach (var itemDto in orderDto.Items)
+                {
+                    var product = await _context.Products.FindAsync(itemDto.ProductID);
+                    var unitPrice = product.SellingPrice;
+                    var itemTotal = itemDto.Quantity * unitPrice;
+
+                    var detailSql = @"
+                INSERT INTO tbl_OrderDetails (OrderID, ProductID, Quantity, UnitPrice, TotalPrice) 
+                VALUES (@OrderID, @ProductID, @Quantity, @UnitPrice, @TotalPrice)";
+
+                    await _context.Database.ExecuteSqlRawAsync(detailSql,
+                        new SqlParameter("@OrderID", orderId),
+                        new SqlParameter("@ProductID", itemDto.ProductID),
+                        new SqlParameter("@Quantity", itemDto.Quantity),
+                        new SqlParameter("@UnitPrice", unitPrice),
+                        new SqlParameter("@TotalPrice", itemTotal));
+
+                    // Update stock using raw SQL
+                    var updateStockSql = @"
+                UPDATE tbl_Product 
+                SET Stock = Stock - @Quantity 
+                WHERE ProductID = @ProductID";
+
+                    await _context.Database.ExecuteSqlRawAsync(updateStockSql,
+                        new SqlParameter("@Quantity", itemDto.Quantity),
+                        new SqlParameter("@ProductID", itemDto.ProductID));
+                }
+
+                await transaction.CommitAsync();
 
                 return Ok(new
                 {
