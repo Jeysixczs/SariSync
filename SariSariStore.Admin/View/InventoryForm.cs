@@ -141,12 +141,10 @@ namespace SariSariStore.Admin.View
             {
 
                 int selectedProductId = Convert.ToInt32(dgv_supplier.SelectedRows[0].Cells["SupplierID"].Value);
-                MessageBox.Show(selectedProductId.ToString());
                 AddEditSupplierForm editForm = new AddEditSupplierForm(selectedProductId);
                 var result = editForm.ShowDialog();
                 if (result == DialogResult.OK)
                 {
-
                     DisplaySupplier();
                 }
             }

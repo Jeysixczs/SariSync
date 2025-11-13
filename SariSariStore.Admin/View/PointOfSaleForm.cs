@@ -1,16 +1,6 @@
-﻿using Microsoft.Identity.Client;
-using NLog.LayoutRenderers;
-using SariSariStore.Admin.Model;
+﻿using SariSariStore.Admin.Model;
 using SariSariStore.Core.Model;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace SariSariStore.Admin.View
 {
@@ -210,12 +200,13 @@ namespace SariSariStore.Admin.View
                 return;
             }
 
-            if (chkIsPaid.Checked == false)
+            if (!chkIsPaid.Checked)
             {
-                var result = MessageBox.Show("You can't process order you need to pay the item first");
+                MessageBox.Show("You can't process the order until payment is received.",
+                    "Payment Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
-
             }
+
             try
             {
                 var orderItems = _cartItems.Select(item => new OrderItems
@@ -223,7 +214,7 @@ namespace SariSariStore.Admin.View
                     ProductID = item.ProductID,
                     Quantity = item.Quantity,
                     UnitPrice = item.UnitPrice,
-
+                    ProductName = item.ProductName // Make sure to include ProductName
                 }).ToList();
 
                 var order = new Orders
@@ -231,18 +222,39 @@ namespace SariSariStore.Admin.View
                     CustomerName = txtCustomerName.Text.Trim(),
                     Notes = txtNotes.Text.Trim(),
                     Remarks = txtRemarks.Text.Trim(),
-                    OrderDate = Convert.ToDateTime(label10.Text),
+                    OrderDate = DateTime.Now,
                     IsPaid = chkIsPaid.Checked,
-                    TotalAmount = _totalAmount
+                    TotalAmount = _totalAmount,
+                    Items = orderItems // Set the items for the receipt
                 };
 
+                // Process the order
+                bool success = _orders.ProcessOrder(order, orderItems);
 
+                if (success)
+                {
+                    // Ask user if they want to show/print the receipt
+                    var result = MessageBox.Show("Order processed successfully! Do you want to view the receipt?",
+                        "Receipt", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
+                    if (result == DialogResult.Yes)
+                    {
+                        // Show the receipt form
+                        ReceiptForm receiptForm = new ReceiptForm(order);
+                        receiptForm.ShowDialog();
+                    }
 
+                    ClearForm();
+                    RefreshProductList();
 
-                ClearForm();
-                RefreshProductList();
-
+                    MessageBox.Show("Order processed successfully!", "Success",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Failed to process order. Please try again.",
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             catch (Exception ex)
             {

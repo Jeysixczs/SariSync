@@ -220,7 +220,64 @@ namespace SariSariStore.Core.Model
             }
             return product;
         }
+        // Add this method to your Orders class in SariSariStore.Core.Model
+        public bool ProcessOrder(Orders order, List<OrderItems> orderItems)
+        {
+            try
+            {
+                // Create the order and get the OrderID
+                int orderId = CreateOrder(order, orderItems);
 
+                if (orderId > 0)
+                {
+                    // Update product stock for each item
+                    using (SqlConnection con = new SqlConnection(ConnectionString))
+                    {
+                        con.Open();
+                        using (SqlTransaction transaction = con.BeginTransaction())
+                        {
+                            try
+                            {
+                                foreach (var item in orderItems)
+                                {
+                                    // Update product stock
+                                    string updateStockQuery = @"UPDATE tbl_Product 
+                                                      SET Stock = Stock - @Quantity 
+                                                      WHERE ProductID = @ProductID AND Stock >= @Quantity";
+
+                                    using (SqlCommand updateCmd = new SqlCommand(updateStockQuery, con, transaction))
+                                    {
+                                        updateCmd.Parameters.AddWithValue("@Quantity", item.Quantity);
+                                        updateCmd.Parameters.AddWithValue("@ProductID", item.ProductID);
+
+                                        int rowsAffected = updateCmd.ExecuteNonQuery();
+                                        if (rowsAffected == 0)
+                                        {
+                                            throw new Exception($"Insufficient stock for product ID: {item.ProductID}");
+                                        }
+                                    }
+                                }
+                                transaction.Commit();
+
+                                // Set the OrderID for the receipt
+                                order.OrderID = orderId;
+                                return true;
+                            }
+                            catch
+                            {
+                                transaction.Rollback();
+                                throw;
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error processing order: {ex.Message}", ex);
+            }
+        }
         //method to search orders
         public List<Orders> SearchOrders(string searchTerm)
         {

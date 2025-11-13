@@ -72,7 +72,7 @@ namespace SariSariStore.Admin.View
             // Update labels for "all orders" view
             UpdateUIForAllOrders();
 
-            _isViewingAllOrders = true; 
+            _isViewingAllOrders = true;
         }
 
         private void FormatOrderItemsGrid()
@@ -251,11 +251,16 @@ namespace SariSariStore.Admin.View
             catch (Exception ex)
             {
                 MessageBox.Show($"Error printing receipt: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }   
+            }
 
         }
 
         private void OrderDetailsForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dgvOrderItems_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }

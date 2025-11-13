@@ -19,8 +19,8 @@ namespace SariSariStore.Core.Model
         public int ProductID { get; set; }
         public int Quantity { get; set; }
         public decimal UnitPrice { get; set; }
-        //GETTER FOR TOTAL PRICE
-        public decimal TotalPrice { get; set; }
+
+        public decimal TotalPrice => Quantity * UnitPrice;
 
         // public decimal TotalPrice => Quantity * UnitPrice;
 

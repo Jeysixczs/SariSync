@@ -204,8 +204,8 @@ namespace SariSariStore.Core.Services
                                     ProductID = Convert.ToInt32(reader["ProductID"]),
                                     ProductName = reader["ProductName"]?.ToString() ?? "Unknown Product",
                                     Quantity = Convert.ToInt32(reader["Quantity"]),
-                                    UnitPrice = Convert.ToDecimal(reader["UnitPrice"]),
-                                    TotalPrice = Convert.ToDecimal(reader["TotalPrice"])
+                                    UnitPrice = Convert.ToDecimal(reader["UnitPrice"])
+                               
                                 };
                                 order.Items.Add(item);
                             }

@@ -53,7 +53,7 @@ namespace SariSariStore.WebApi.Controllers
                     productUpdates.Add((product.ProductID, itemDto.Quantity));
                 }
 
-                // 1. Create order using raw SQL (bypasses triggers)
+                
                 var orderSql = @"
             INSERT INTO tbl_Order (CustomerName, Notes, Remarks, IsPaid, OrderDate, TotalAmount) 
             VALUES (@CustomerName, @Notes, @Remarks, @IsPaid, @OrderDate, @TotalAmount);
@@ -68,7 +68,7 @@ namespace SariSariStore.WebApi.Controllers
                     new SqlParameter("@TotalAmount", totalAmount)
                 ).ToListAsync()).FirstOrDefault();
 
-                // 2. Create order items using raw SQL
+            
                 foreach (var itemDto in orderDto.Items)
                 {
                     var product = await _context.Products.FindAsync(itemDto.ProductID);

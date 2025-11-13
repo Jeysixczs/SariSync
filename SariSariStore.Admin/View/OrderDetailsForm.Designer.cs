@@ -312,6 +312,7 @@
             dgvOrderItems.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvOrderItems.Size = new Size(710, 280);
             dgvOrderItems.TabIndex = 0;
+            dgvOrderItems.CellContentClick += dgvOrderItems_CellContentClick;
             // 
             // label8
             // 
