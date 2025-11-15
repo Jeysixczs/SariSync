@@ -123,10 +123,6 @@ namespace SariSariStore.Core.Model
                 }
             }
         }
-
-        
-
-        //method to get order details with items
         public Orders? GetOrderWithDetails(int orderId)
         {
             Orders? order = null;
