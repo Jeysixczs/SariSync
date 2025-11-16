@@ -49,16 +49,16 @@ namespace SariSariStore.Admin.View
             rounded.MakePanelRounded(panel1, 30);
             rounded.MakePanelRounded(panel2, 30);
             rounded.MakePanelRounded(panel3, 30);
-        
+
         }
 
         private void EnableDoubleBuffering()
         {
             this.DoubleBuffered = true;
-            
+
         }
 
-       
+
 
         private void OnFormReturn(Form parentForm)
         {
@@ -104,9 +104,8 @@ namespace SariSariStore.Admin.View
                 dgv_orderhistory.Columns["OrderDate"].HeaderText = "Order Date";
                 dgv_orderhistory.Columns["TotalAmount"].HeaderText = "Total Amount";
                 dgv_orderhistory.Columns["TotalAmount"].DefaultCellStyle.Format = "C2";
-                dgv_orderhistory.Columns["IsPaid"].Visible = false;
                 dgv_orderhistory.Columns["Notes"].Visible = false;
-                dgv_orderhistory.Columns["Remarks"].Visible = false;    
+                dgv_orderhistory.Columns["Remarks"].Visible = false;
 
                 // Format date column
                 dgv_orderhistory.Columns["OrderDate"].DefaultCellStyle.Format = "MMM dd, yyyy hh:mm tt";
@@ -115,7 +114,6 @@ namespace SariSariStore.Admin.View
 
         private void btn_printreceipt_Click(object sender, EventArgs e)
         {
-            //print the selected rows in dgvorderhistory give the value to the Receiptform
             if (dgv_orderhistory.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Please select an order to print the receipt.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -123,7 +121,6 @@ namespace SariSariStore.Admin.View
             }
             try
             {
-                //Get the selected order ID
                 int selectedOrderId = Convert.ToInt32(dgv_orderhistory.SelectedRows[0].Cells["OrderID"].Value);
 
                 //Get the complete order with items
@@ -226,6 +223,28 @@ namespace SariSariStore.Admin.View
         private void btn_History_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnMarkasPaid_Click(object sender, EventArgs e)
+        {
+            
+            int selectedOrderId = Convert.ToInt32(dgv_orderhistory.SelectedRows[0].Cells["OrderID"].Value);
+            ord.MarkOrderAsPaid(selectedOrderId);
+            dgv_orderhistory.DataSource = ord.GetAllOrders();
+
+            if (dgv_orderhistory.Columns.Count > 0)
+            {
+                dgv_orderhistory.Columns["OrderID"].HeaderText = "Order ID";
+                dgv_orderhistory.Columns["CustomerName"].HeaderText = "Customer Name";
+                dgv_orderhistory.Columns["OrderDate"].HeaderText = "Order Date";
+                dgv_orderhistory.Columns["TotalAmount"].HeaderText = "Total Amount";
+                dgv_orderhistory.Columns["TotalAmount"].DefaultCellStyle.Format = "C2";
+                dgv_orderhistory.Columns["Notes"].Visible = false;
+                dgv_orderhistory.Columns["Remarks"].Visible = false;
+
+                // Format date column
+                dgv_orderhistory.Columns["OrderDate"].DefaultCellStyle.Format = "MMM dd, yyyy hh:mm tt";
+            }
         }
     }
 }

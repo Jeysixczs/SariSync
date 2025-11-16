@@ -29,7 +29,7 @@ namespace SariSariStore.Core.Model
         public bool IsPaid { get; set; }
 
         public decimal TotalAmount { get; set; }
-     
+
 
         public List<Orders> GetAllOrders()
         {
@@ -45,7 +45,7 @@ namespace SariSariStore.Core.Model
                         {
                             Orders order = new Orders
                             {
-                                
+
                                 OrderID = Convert.ToInt32(reader["OrderID"]),
                                 CustomerName = reader["CustomerName"]?.ToString() ?? string.Empty,
                                 Notes = reader["Notes"]?.ToString() ?? string.Empty,
@@ -71,7 +71,7 @@ namespace SariSariStore.Core.Model
                 {
                     try
                     {
-                       
+
                         string orderQuery = @"INSERT INTO tbl_Order 
                                     (CustomerName, Notes, Remarks, OrderDate, IsPaid, TotalAmount) 
                                     OUTPUT INSERTED.OrderID 
@@ -109,7 +109,7 @@ namespace SariSariStore.Core.Model
                             }
 
                             // Update product stock
-                     
+
                         }
 
                         transaction.Commit();
@@ -152,7 +152,7 @@ namespace SariSariStore.Core.Model
                         }
                     }
                 }
-                //for order items
+
                 if (order != null)
                 {
                     //Get order items
@@ -175,7 +175,7 @@ namespace SariSariStore.Core.Model
                                     ProductName = reader["ProductName"].ToString(),
                                     Quantity = Convert.ToInt32(reader["Quantity"]),
                                     UnitPrice = Convert.ToDecimal(reader["UnitPrice"]),
-                              
+
                                 };
                                 order.Items.Add(item);
                             }
@@ -312,7 +312,20 @@ namespace SariSariStore.Core.Model
             return orderList;
         }
 
-        
+        //mark order as paid
+        public void MarkOrderAsPaid(int orderId)
+        {
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                string query = "UPDATE tbl_Order SET IsPaid = 1 WHERE OrderID = @OrderID";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@OrderID", orderId);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
    

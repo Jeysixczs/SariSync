@@ -585,6 +585,7 @@
             Name = "PointOfSaleForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Point of Sale";
+            Load += PointOfSaleForm_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();

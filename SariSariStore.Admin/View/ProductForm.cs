@@ -147,7 +147,7 @@ namespace SariSariStore.Admin.View
             dgv_Product.Columns["DateAdded"].Visible = false;
             dgv_Product.Columns["SupplierName"].Visible = false;
             dgv_Product.Columns["DateExpired"].Visible = false;
-
+            dgv_Product.Columns["IsActive"].Visible = false;
             dgv_Product.Columns["ImagePath"].Visible = false;
             dgv_Product.Columns["SupplierID"].Visible = false;
             dgv_Product.Columns["supplier_payment"].Visible = false;

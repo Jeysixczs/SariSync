@@ -139,17 +139,24 @@ namespace SariSariStore.Admin.View
         {
             DailySalesReportProperties dailySalesReportProperties = new DailySalesReportProperties();
             dgv_report.DataSource = dailySalesReportProperties.DisplayReportDaily();
+            btn_Print.Enabled = false;
+            btn_Print.Visible = false;
         }
 
         private void btn_MonthlyReports_Click(object sender, EventArgs e)
         {
             MonthlySalesReportProperties monthlySalesReportProperties = new MonthlySalesReportProperties();
             dgv_report.DataSource = monthlySalesReportProperties.DisplayReportMonthly();
+            btn_Print.Enabled = false;
+            btn_Print.Visible = false;
         }
 
         private void btn_perform_Click(object sender, EventArgs e)
         {
             LoadReport();
+            btn_Print.Enabled = true;
+            btn_Print.Visible = true;
+
         }
 
         private void btn_SpecificOrder_Click(object sender, EventArgs e)
@@ -159,6 +166,7 @@ namespace SariSariStore.Admin.View
             DateRangeReportProperties getspecificdate = new DateRangeReportProperties();
             dgv_report.DataSource = getspecificdate.DisplaySpecificDateOrder(specific);
             dgv_report.Columns["OrderDate"].DefaultCellStyle.Format = "MMM dd yyyy";
+
         }
 
         private void btn_Print_Click(object sender, EventArgs e)
@@ -176,7 +184,6 @@ namespace SariSariStore.Admin.View
                 DateTime? endDate = null;
                 DateTime? specificDate = null;
 
-                // To determine what type of report is being viewed
                 if (btn_Entery.Focused || btn_Entery.ContainsFocus)
                 {
                     startDate = dtpStartDate.Value.Date;

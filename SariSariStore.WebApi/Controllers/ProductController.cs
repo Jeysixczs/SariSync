@@ -19,11 +19,13 @@ namespace SariSariStore.WebApi.Controllers
             DbContext = dbContext;
         }
 
+        //get product who have isactive = true
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Products>>> GetProducts()
-        {
-            return await DbContext.Products.ToListAsync();
+        public IActionResult Get() {
+            var products = DbContext.Products.Where(p => p.IsActive).ToList();
+            return Ok(products);
         }
+
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Products>> GetProduct(int id)

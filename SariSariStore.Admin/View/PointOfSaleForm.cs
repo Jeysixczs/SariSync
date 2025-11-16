@@ -50,6 +50,7 @@ namespace SariSariStore.Admin.View
             dgvProducts.Columns["SupplierName"].Visible = false;
             dgvProducts.Columns["supplier_payment"].Visible = false;
             dgvProducts.Columns["supplier"].Visible = false;
+            dgvProducts.Columns["IsActive"].Visible = false;
 
         }
 
@@ -358,6 +359,11 @@ namespace SariSariStore.Admin.View
             {
                 label13.Text = "0.00";
             }
+        }
+
+        private void PointOfSaleForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
