@@ -71,13 +71,6 @@ namespace SariSariStore.Admin.View
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            DashboardForm dashboardForm = new DashboardForm();
-            dashboardForm.Show();
-            this.Hide();
-        }
-
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
@@ -96,6 +89,13 @@ namespace SariSariStore.Admin.View
         private void pictureBox1_Click_1(object sender, EventArgs e)
         {
 
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            DashboardForm dashboardForm = new DashboardForm();
+            dashboardForm.Show();
+            this.Hide();
         }
     }
 }
