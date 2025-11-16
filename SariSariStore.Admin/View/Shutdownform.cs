@@ -64,7 +64,7 @@ namespace SariSariStore.Admin.View
                 {
                     client.Timeout = TimeSpan.FromSeconds(5);
                     // Replace with your API's actual URL
-                    var response = await client.PostAsync("http://192.168.254.107:7211/api/shutdown", null);
+                    var response = await client.PostAsync("http://192.168.100.4:5211/api/shutdown", null);
 
                     if (response.IsSuccessStatusCode)
                     {

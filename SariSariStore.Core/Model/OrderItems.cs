@@ -17,14 +17,49 @@ namespace SariSariStore.Core.Model
         [NotMapped]
         public string? ProductName { get; set; }
         public int ProductID { get; set; }
-        public int Quantity { get; set; }
-        public decimal UnitPrice { get; set; }
 
-        public decimal TotalPrice => Quantity * UnitPrice;
+        private int _quantity;
+        public int Quantity
+        {
+            get => _quantity;
+            set
+            {
+                _quantity = value;
+                CalculateTotalPrice();
+            }
+        }
 
-        // public decimal TotalPrice => Quantity * UnitPrice;
+        private decimal _unitPrice;
+        public decimal UnitPrice
+        {
+            get => _unitPrice;
+            set
+            {
+                _unitPrice = value;
+                CalculateTotalPrice();
+            }
+        }
+
+        private decimal _totalPrice;
+        public decimal TotalPrice
+        {
+            get => _totalPrice;
+            set => _totalPrice = value;
+        }
+
+        public void CalculateTotalPrice()
+        {
+            _totalPrice = Quantity * UnitPrice;
+        }
+
+        public OrderItems()
+        {
+            _quantity = 0;
+            _unitPrice = 0;
+            _totalPrice = 0;
+        }
 
     }
-      
-       
+
+
 }
