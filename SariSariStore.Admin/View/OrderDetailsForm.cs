@@ -31,8 +31,8 @@ namespace SariSariStore.Admin.View
             _order = order;
             if (_order != null && _order.OrderID > 0)
             {
-                //Disabled();
                 LoadOrdersDetails();
+                DisplayOrderDetails(order);
             }
         }
             
@@ -66,7 +66,17 @@ namespace SariSariStore.Admin.View
             this.Text = $"Order Details - Order #{_order.OrderID}";
         }
 
-
+        //display order details in labels
+        public void DisplayOrderDetails(Orders order)
+        {
+            lblOrderID.Text = order.OrderID.ToString();
+            lblCustomerName.Text = order.CustomerName.ToString();
+            lblOrderDate.Text = order.OrderDate.ToString("g");
+            lblTotalAmount.Text = order.TotalAmount.ToString();
+            lblNotes.Text = order.Notes.ToString();
+            lblRemarks.Text = order.Remarks.ToString();
+            lblPaymentStatus.Text = order.IsPaid.ToString();
+        }
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -132,6 +142,8 @@ namespace SariSariStore.Admin.View
             }
 
         }
+
+        //display order details other properties
 
         private void OrderDetailsForm_Load(object sender, EventArgs e)
         {

@@ -24,8 +24,9 @@ namespace SariSariStore.Core.Model
         public string? ImagePath { get; set; }
         public DateTime DateAdded { get; set; }
         public DateTime? DateExpired { get; set; }
-      
-       // public string SupplierName { get; set; } = string.Empty;
+        public bool IsActive { get; set; }
+
+        // public string SupplierName { get; set; } = string.Empty;
         public decimal supplier_payment { get; set; }
 
         public virtual Supplier Supplier { get; set; }

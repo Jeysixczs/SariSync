@@ -19,11 +19,13 @@ namespace SariSariStore.WebApi.Controllers
             DbContext = dbContext;
         }
 
+        //get product who have isactive = true
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Products>>> GetProducts()
-        {
-            return await DbContext.Products.ToListAsync();
+        public IActionResult Get() {
+            var products = DbContext.Products.Where(p => p.IsActive).ToList();
+            return Ok(products);
         }
+
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Products>> GetProduct(int id)
@@ -36,9 +38,19 @@ namespace SariSariStore.WebApi.Controllers
             return product;
         }
 
-    
 
-        //get image by id
+        // In your ProductController
+        [HttpGet("categories")]
+        public async Task<ActionResult<IEnumerable<string>>> GetCategories()
+        {
+            var categories = await DbContext.Products
+                .Select(p => p.Category)
+                .Distinct()
+                .ToListAsync();
+
+            return Ok(categories);
+        }
+
         [HttpGet("{id}/image")]
         public async Task<IActionResult> GetProductImage(int id)
         {
