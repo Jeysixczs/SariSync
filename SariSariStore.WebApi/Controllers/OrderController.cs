@@ -168,5 +168,31 @@ namespace SariSariStore.WebApi.Controllers
             }
         }
 
+     
+
+        //find order status by id
+        [HttpGet("GetOrderStatus/{orderId}")]
+        public async Task<IActionResult> GetOrderStatus(int orderId)
+        {
+            try
+            {
+                var order = await _context.Orders.FindAsync(orderId);
+                if (order == null)
+                {
+                    return NotFound($"Order with ID {orderId} not found.");
+                }
+           
+                //if paid == true return "Complete" and  if paid == false return "Pending"
+                var status = order.IsPaid ? "Complete" : "Pending";
+                return Ok(new { orderId = orderId, status = status });
+
+
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error retrieving order status: {ex.Message}");
+            }
+        }
     }
 }

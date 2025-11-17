@@ -1,4 +1,4 @@
-@SariSariStore.WebApi_HostAddress = https://192.168.254.107:7211
+@SariSariStore.WebApi_HostAddress = https://192.168.100.60:7211
 
 GET {{SariSariStore.WebApi_HostAddress}}/index.html
 
