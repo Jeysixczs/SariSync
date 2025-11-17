@@ -403,6 +403,7 @@
             txt_inventorysum.Size = new Size(83, 27);
             txt_inventorysum.TabIndex = 4;
             txt_inventorysum.Text = "label2";
+    
             // 
             // pictureBox8
             // 
