@@ -59,7 +59,6 @@
             btn_Dashboard = new Button();
             RefreshTimer = new System.Windows.Forms.Timer(components);
             sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
-            btnExpired = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             panel2.SuspendLayout();
@@ -79,7 +78,6 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(35, 35, 65);
-            panel1.Controls.Add(btnExpired);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(pictureBox6);
             panel1.Dock = DockStyle.Top;
@@ -450,18 +448,6 @@
             sqlCommand1.CommandTimeout = 30;
             sqlCommand1.EnableOptimizedParameterBinding = false;
             // 
-            // btnExpired
-            // 
-            btnExpired.BackColor = Color.FromArgb(20, 20, 50);
-            btnExpired.ForeColor = Color.White;
-            btnExpired.Location = new Point(1260, 15);
-            btnExpired.Name = "btnExpired";
-            btnExpired.Size = new Size(121, 33);
-            btnExpired.TabIndex = 4;
-            btnExpired.Text = "Expiration";
-            btnExpired.UseVisualStyleBackColor = false;
-            btnExpired.Click += btnExpired_Click;
-            // 
             // ProductForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -529,6 +515,5 @@
         private TextBox txtbox_Search;
         private Microsoft.Data.SqlClient.SqlCommand sqlCommand1;
         private ComboBox cmb_Search;
-        private Button btnExpired;
     }
 }
