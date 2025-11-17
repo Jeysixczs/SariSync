@@ -20,7 +20,7 @@ namespace SariSariStore.Admin.View
     public partial class DashboardForm : Form
     {
         private Rounded rounded;
-        
+
         public int cornerRadius = 30;
         public Products products = new Products();
         public string connectionstring = ConnectionHelper.GetConnectionString();
@@ -33,7 +33,7 @@ namespace SariSariStore.Admin.View
 
         public DashboardForm()
         {
-           
+
 
             InitializeComponent();
             rounded = new Rounded();
@@ -66,7 +66,7 @@ namespace SariSariStore.Admin.View
         private void EnableDoubleBuffering()
         {
             this.DoubleBuffered = true;
-           
+
         }
 
 
@@ -99,7 +99,7 @@ namespace SariSariStore.Admin.View
 
         private void btn_notification_Click(object sender, EventArgs e)
         {
-           
+
             NotificationForm notificationForm = new NotificationForm();
             notificationForm.ShowDialog();
 
@@ -213,8 +213,11 @@ namespace SariSariStore.Admin.View
         private void btn_Dashboard_Click(object sender, EventArgs e) { }
         private void dgv_LatestProduct_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
 
-
-
+        private void btn_expired_Click(object sender, EventArgs e)
+        {
+            ExpiredForm expiredForm = new ExpiredForm();
+            expiredForm.Show();
+        }
     }
 
 }

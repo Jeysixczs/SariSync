@@ -1,5 +1,5 @@
-﻿const baseUrl = "https://192.168.100.4:7211/api/Product";
-const orderBaseUrl = "https://192.168.100.4:7211/api/Order";
+﻿const baseUrl = "https://192.168.100.60:7211/api/Product";
+const orderBaseUrl = "https://192.168.100.60:7211/api/Order";
 let allCategories = [];
 
 // User management functions
@@ -508,6 +508,7 @@ function closeCheckoutModal() {
     }
 }
 
+// SINGLE CORRECTED handleOrderSubmission function
 async function handleOrderSubmission(e) {
     e.preventDefault();
 
@@ -527,7 +528,9 @@ async function handleOrderSubmission(e) {
             isPaid: false,
             items: cart.map(item => ({
                 productID: parseInt(item.id),
-                quantity: parseInt(item.quantity)
+                quantity: parseInt(item.quantity),
+                name: item.name,
+                price: item.price
             }))
         };
 
@@ -548,6 +551,16 @@ async function handleOrderSubmission(e) {
 
         const result = await response.json();
         console.log('Order created successfully:', result);
+
+        // Save order to local history with proper data
+        const orderWithItems = {
+            ...orderData,
+            orderId: result.orderId || `ORD-${Date.now()}`,
+            total: cart.reduce((total, item) => total + (item.price * item.quantity), 0),
+            isPaid: false
+        };
+
+        saveOrderToHistory(orderWithItems);
 
         // Clear cart and show success
         saveCart([]);
@@ -985,6 +998,12 @@ function setupLogout() {
     document.getElementById('logout-btn').addEventListener('click', function () {
         logoutUser();
     });
+
+    // Add order history button event listener
+    const orderHistoryBtn = document.getElementById('order-history-btn');
+    if (orderHistoryBtn) {
+        orderHistoryBtn.addEventListener('click', showOrderHistory);
+    }
 }
 
 // Initialize everything
@@ -1006,3 +1025,389 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initialize cart modal
     createCartModal();
 });
+
+// Order History Functions
+function showOrderHistory() {
+    const currentUser = getCurrentUser();
+    if (!currentUser) {
+        alert('Please login to view your order history.');
+        return;
+    }
+    createOrderHistoryModal();
+    loadOrderHistory();
+}
+
+function createOrderHistoryModal() {
+    // Remove existing modal if any
+    const existingModal = document.getElementById('order-history-modal');
+    if (existingModal) {
+        existingModal.remove();
+    }
+
+    const orderHistoryModal = document.createElement('div');
+    orderHistoryModal.id = 'order-history-modal';
+    orderHistoryModal.className = 'modal';
+    orderHistoryModal.innerHTML = `
+        <div class="modal-content order-history-modal-content">
+            <span class="close">&times;</span>
+            <div class="order-history-header">
+                <h2>Order History</h2>
+                <div class="order-history-filters">
+                    <select class="filter-select" id="status-filter">
+                        <option value="all">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                    <select class="filter-select" id="sort-filter">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                    </select>
+                </div>
+            </div>
+            <div class="order-history-body" id="order-history-body">
+                <div class="loading-orders">
+                    <i class="fas fa-spinner"></i>
+                    <p>Loading your orders...</p>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(orderHistoryModal);
+    setupOrderHistoryModalEvents();
+    orderHistoryModal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+function setupOrderHistoryModalEvents() {
+    const orderHistoryModal = document.getElementById('order-history-modal');
+    const closeBtn = orderHistoryModal.querySelector('.close');
+    const statusFilter = document.getElementById('status-filter');
+    const sortFilter = document.getElementById('sort-filter');
+
+    closeBtn.addEventListener('click', closeOrderHistoryModal);
+    orderHistoryModal.addEventListener('click', (e) => {
+        if (e.target === orderHistoryModal) {
+            closeOrderHistoryModal();
+        }
+    });
+
+    statusFilter.addEventListener('change', loadOrderHistory);
+    sortFilter.addEventListener('change', loadOrderHistory);
+}
+
+function closeOrderHistoryModal() {
+    const orderHistoryModal = document.getElementById('order-history-modal');
+    if (orderHistoryModal) {
+        orderHistoryModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        setTimeout(() => {
+            if (orderHistoryModal.parentNode) {
+                orderHistoryModal.parentNode.removeChild(orderHistoryModal);
+            }
+        }, 300);
+    }
+}
+
+// Get orders from localStorage
+function getOrderHistoryFromLocalStorage() {
+    return JSON.parse(localStorage.getItem('orderHistory')) || [];
+}
+
+function saveOrderToHistory(orderData) {
+    const orders = getOrderHistoryFromLocalStorage();
+
+    const newOrder = {
+        orderId: orderData.orderId || `ORD-${Date.now()}`,
+        orderDate: new Date().toISOString(),
+        customerName: orderData.customerName,
+        items: orderData.items || [],
+        total: orderData.total || 0,
+        isPaid: orderData.isPaid || false,
+        status: 'pending',
+        notes: orderData.notes || '',
+        remarks: orderData.remarks || ''
+    };
+
+    orders.unshift(newOrder);
+    localStorage.setItem('orderHistory', JSON.stringify(orders));
+    return newOrder;
+}
+
+// Fetch order history from API
+async function fetchOrderHistoryFromAPI() {
+    try {
+        const currentUser = getCurrentUser();
+        if (!currentUser) {
+            console.log('No user logged in, returning empty orders');
+            return [];
+        }
+
+        console.log('Fetching orders for customer:', currentUser.name);
+
+        // Since we don't have a specific endpoint for customer orders,
+        // we'll fetch all orders and filter by customer name
+        const response = await fetch(`${orderBaseUrl}/GetAllOrders`);
+
+        if (!response.ok) {
+            if (response.status === 404) {
+                console.log('No orders API endpoint available, using local storage');
+                return getOrderHistoryFromLocalStorage();
+            }
+            throw new Error(`Server error: ${response.status}`);
+        }
+
+        const apiOrders = await response.json();
+        console.log('Raw API orders:', apiOrders);
+
+        // Filter orders by current customer name and transform to our format
+        const customerOrders = apiOrders
+            .filter(order => order.customerName === currentUser.name)
+            .map(order => {
+                // Update order status in real-time
+                updateOrderStatus(order.orderId);
+
+                return {
+                    orderId: order.orderId,
+                    orderDate: order.orderDate || order.createdDate,
+                    customerName: order.customerName,
+                    items: order.items || [],
+                    total: order.total || order.items.reduce((total, item) => total + (item.price * item.quantity), 0),
+                    isPaid: order.isPaid || false,
+                    status: (order.status || 'pending').toLowerCase(),
+                    notes: order.notes || '',
+                    remarks: order.remarks || ''
+                };
+            });
+
+        console.log('Processed customer orders:', customerOrders);
+        return customerOrders;
+
+    } catch (error) {
+        console.error('Error fetching orders from API:', error);
+        // Fallback to localStorage
+        return getOrderHistoryFromLocalStorage();
+    }
+}
+
+// SINGLE CORRECTED startAutoRefresh function
+function startAutoRefresh(orders) {
+    const pendingOrders = orders.filter(order => order.status === 'pending');
+
+    if (pendingOrders.length === 0) {
+        console.log('No pending orders, skipping auto-refresh');
+        return;
+    }
+
+    console.log(`Starting auto-refresh for ${pendingOrders.length} pending orders`);
+
+    if (window.orderRefreshInterval) {
+        clearInterval(window.orderRefreshInterval);
+    }
+
+    // Refresh every 30 seconds for pending orders
+    window.orderRefreshInterval = setInterval(async () => {
+        const orderHistoryBody = document.getElementById('order-history-body');
+        if (!orderHistoryBody || orderHistoryBody.innerHTML.includes('order-history-empty')) {
+            console.log('No order history modal open, stopping refresh');
+            clearInterval(window.orderRefreshInterval);
+            return;
+        }
+
+        try {
+            console.log('Auto-refreshing order history...');
+            await loadOrderHistory();
+        } catch (error) {
+            console.error('Error auto-refreshing orders:', error);
+        }
+    }, 3000); 
+
+    // Also refresh individual order statuses more frequently
+    pendingOrders.forEach(order => {
+        updateOrderStatus(order.orderId);
+    });
+}
+
+// Update individual order status
+async function updateOrderStatus(orderId) {
+    try {
+        const status = await fetchOrderStatus(orderId);
+        console.log(`Order ${orderId} status:`, status);
+
+        // Update the order in localStorage
+        const orders = getOrderHistoryFromLocalStorage();
+        const orderIndex = orders.findIndex(order => order.orderId == orderId);
+
+        if (orderIndex !== -1) {
+            orders[orderIndex].status = status;
+            localStorage.setItem('orderHistory', JSON.stringify(orders));
+        }
+    } catch (error) {
+        console.error(`Error updating status for order ${orderId}:`, error);
+    }
+}
+
+// Enhanced fetchOrderStatus function
+async function fetchOrderStatus(orderId) {
+    try {
+        // Extract numeric ID from orderId (handle both "ORD-123" and 123 formats)
+        const numericId = orderId.toString().replace('ORD-', '');
+
+        console.log(`Fetching status for order ID: ${numericId}`);
+
+        const response = await fetch(`${orderBaseUrl}/GetOrderStatus/${numericId}`);
+
+        if (!response.ok) {
+            if (response.status === 404) {
+                console.warn(`Order ${orderId} not found in system`);
+                return 'unknown';
+            }
+            throw new Error(`Server error: ${response.status}`);
+        }
+
+        const result = await response.json();
+        console.log('Order status response:', result);
+
+        // Handle the API response format: { "orderId": 147, "status": "Pending" }
+        if (result.status) {
+            return result.status.toLowerCase(); // Convert "Pending" to "pending"
+        } else {
+            return 'unknown';
+        }
+    } catch (error) {
+        console.error(`Error fetching status for order ${orderId}:`, error);
+        return 'unknown';
+    }
+}
+
+async function loadOrderHistory() {
+    const orderHistoryBody = document.getElementById('order-history-body');
+    if (!orderHistoryBody) return;
+
+    const statusFilter = document.getElementById('status-filter')?.value || 'all';
+    const sortFilter = document.getElementById('sort-filter')?.value || 'newest';
+
+    orderHistoryBody.innerHTML = `
+        <div class="loading-orders">
+            <i class="fas fa-spinner"></i>
+            <p>Loading your orders...</p>
+        </div>
+    `;
+
+    try {
+        // First try to fetch from API with real-time status
+        const orders = await fetchOrderHistoryFromAPI();
+
+        // Filter orders
+        let filteredOrders = orders;
+        if (statusFilter !== 'all') {
+            filteredOrders = orders.filter(order => order.status === statusFilter);
+        }
+
+        // Sort orders
+        filteredOrders.sort((a, b) => {
+            const dateA = new Date(a.orderDate);
+            const dateB = new Date(b.orderDate);
+            return sortFilter === 'newest' ? dateB - dateA : dateA - dateB;
+        });
+
+        displayOrderHistory(filteredOrders);
+    } catch (error) {
+        console.error('Error loading order history:', error);
+        // Fallback to localStorage
+        const orders = getOrderHistoryFromLocalStorage();
+
+        let filteredOrders = orders;
+        if (statusFilter !== 'all') {
+            filteredOrders = orders.filter(order => order.status === statusFilter);
+        }
+
+        filteredOrders.sort((a, b) => {
+            const dateA = new Date(a.orderDate);
+            const dateB = new Date(b.orderDate);
+            return sortFilter === 'newest' ? dateB - dateA : dateA - dateB;
+        });
+
+        displayOrderHistory(filteredOrders);
+    }
+}
+
+function displayOrderHistory(orders) {
+    const orderHistoryBody = document.getElementById('order-history-body');
+    if (!orderHistoryBody) return;
+
+    if (orders.length === 0) {
+        orderHistoryBody.innerHTML = `
+            <div class="order-history-empty">
+                <i class="fas fa-shopping-bag"></i>
+                <p>No orders found</p>
+                <p class="small">Your order history will appear here once you place an order.</p>
+            </div>
+        `;
+        return;
+    }
+
+    let ordersHTML = '<div class="order-history-list">';
+
+    orders.forEach(order => {
+        const orderDate = new Date(order.orderDate).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+
+        // Calculate total if not provided
+        const orderTotal = order.total || order.items.reduce((total, item) => total + ((item.price || 0) * (item.quantity || 1)), 0);
+
+        // Determine status with fallback
+        const status = order.status || 'pending';
+        const statusText = status.charAt(0).toUpperCase() + status.slice(1);
+
+        // Status icon based on status
+        const statusIcon = status === 'pending' ? '<i class="fas fa-sync-alt fa-spin" style="margin-left: 5px;"></i>' :
+            status === 'completed' ? '<i class="fas fa-check" style="margin-left: 5px;"></i>' :
+                '<i class="fas fa-clock" style="margin-left: 5px;"></i>';
+
+        ordersHTML += `
+            <div class="order-history-item">
+                <div class="order-header">
+                    <div>
+                        <div class="order-id">Order #${order.orderId}</div>
+                        <div class="order-date">${orderDate}</div>
+                    </div>
+                    <div class="order-status status-${status}">
+                        ${statusText}${statusIcon}
+                    </div>
+                </div>
+                
+                <div class="order-items">
+                    ${order.items.map(item => `
+                        <div class="order-item">
+                            <span class="item-name">${item.name || 'Product'} x ${item.quantity || 1}</span>
+                            <span class="item-price">₱${((item.price || 0) * (item.quantity || 1)).toFixed(2)}</span>
+                        </div>
+                    `).join('')}
+                </div>
+
+                ${order.notes ? `
+                    <div class="order-notes">
+                        <strong>Notes:</strong> ${order.notes}
+                    </div>
+                ` : ''}
+
+                <div class="order-total">
+                    <span>Total Amount:</span>
+                    <span class="total-price">₱${orderTotal.toFixed(2)}</span>
+                </div>
+            </div>
+        `;
+    });
+
+    ordersHTML += '</div>';
+    orderHistoryBody.innerHTML = ordersHTML;
+
+    // Start auto-refresh for pending orders
+    startAutoRefresh(orders);
+}

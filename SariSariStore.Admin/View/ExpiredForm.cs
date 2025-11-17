@@ -146,6 +146,9 @@ namespace SariSariStore.Admin.View
             dgv_ExpiredProduct.Columns["ImagePath"].Visible = false;
             dgv_ExpiredProduct.Columns["SupplierID"].Visible = false;
             dgv_ExpiredProduct.Columns["SupplierName"].Visible = false;
+            dgv_ExpiredProduct.Columns["IsActive"].Visible = false;
+            dgv_ExpiredProduct.Columns["supplier_payment"].Visible = false;
+            dgv_ExpiredProduct.Columns["supplier"].Visible = false;
 
             UpdateCountLabels();
         }
@@ -160,6 +163,9 @@ namespace SariSariStore.Admin.View
             dgv_ExpiredProduct.Columns["ImagePath"].Visible = false;
             dgv_ExpiredProduct.Columns["SupplierID"].Visible = false;
             dgv_ExpiredProduct.Columns["SupplierName"].Visible = false;
+            dgv_ExpiredProduct.Columns["IsActive"].Visible = false;
+            dgv_ExpiredProduct.Columns["supplier_payment"].Visible = false;
+            dgv_ExpiredProduct.Columns["supplier"].Visible = false;
 
             UpdateCountLabels();
         }

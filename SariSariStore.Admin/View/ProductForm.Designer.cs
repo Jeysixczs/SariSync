@@ -31,7 +31,6 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProductForm));
             panel1 = new Panel();
-            btnExpired = new Button();
             label7 = new Label();
             pictureBox6 = new PictureBox();
             panel2 = new Panel();
@@ -60,6 +59,7 @@
             btn_Dashboard = new Button();
             RefreshTimer = new System.Windows.Forms.Timer(components);
             sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
+            btnExpired = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             panel2.SuspendLayout();
@@ -87,18 +87,6 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(1397, 66);
             panel1.TabIndex = 5;
-            // 
-            // btnExpired
-            // 
-            btnExpired.BackColor = Color.FromArgb(20, 20, 50);
-            btnExpired.ForeColor = Color.White;
-            btnExpired.Location = new Point(1260, 15);
-            btnExpired.Name = "btnExpired";
-            btnExpired.Size = new Size(121, 33);
-            btnExpired.TabIndex = 4;
-            btnExpired.Text = "Expiration";
-            btnExpired.UseVisualStyleBackColor = false;
-            btnExpired.Click += btnExpired_Click;
             // 
             // label7
             // 
@@ -461,6 +449,18 @@
             // 
             sqlCommand1.CommandTimeout = 30;
             sqlCommand1.EnableOptimizedParameterBinding = false;
+            // 
+            // btnExpired
+            // 
+            btnExpired.BackColor = Color.FromArgb(20, 20, 50);
+            btnExpired.ForeColor = Color.White;
+            btnExpired.Location = new Point(1260, 15);
+            btnExpired.Name = "btnExpired";
+            btnExpired.Size = new Size(121, 33);
+            btnExpired.TabIndex = 4;
+            btnExpired.Text = "Expiration";
+            btnExpired.UseVisualStyleBackColor = false;
+            btnExpired.Click += btnExpired_Click;
             // 
             // ProductForm
             // 

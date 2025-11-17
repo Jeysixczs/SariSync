@@ -33,6 +33,7 @@
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             panel1 = new Panel();
+            btn_expired = new Button();
             btn_Register = new Button();
             btn_notification = new Button();
             label7 = new Label();
@@ -97,6 +98,7 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(35, 35, 65);
+            panel1.Controls.Add(btn_expired);
             panel1.Controls.Add(btn_Register);
             panel1.Controls.Add(btn_notification);
             panel1.Controls.Add(label7);
@@ -107,11 +109,23 @@
             panel1.Size = new Size(1397, 66);
             panel1.TabIndex = 4;
             // 
+            // btn_expired
+            // 
+            btn_expired.BackColor = Color.FromArgb(40, 40, 65);
+            btn_expired.ForeColor = Color.White;
+            btn_expired.Location = new Point(852, 11);
+            btn_expired.Name = "btn_expired";
+            btn_expired.Size = new Size(156, 43);
+            btn_expired.TabIndex = 5;
+            btn_expired.Text = "Expired";
+            btn_expired.UseVisualStyleBackColor = false;
+            btn_expired.Click += btn_expired_Click;
+            // 
             // btn_Register
             // 
             btn_Register.BackColor = Color.FromArgb(40, 40, 65);
             btn_Register.ForeColor = Color.White;
-            btn_Register.Location = new Point(1023, 8);
+            btn_Register.Location = new Point(1227, 8);
             btn_Register.Name = "btn_Register";
             btn_Register.Size = new Size(154, 46);
             btn_Register.TabIndex = 4;
@@ -123,9 +137,9 @@
             // 
             btn_notification.BackColor = Color.FromArgb(40, 40, 65);
             btn_notification.ForeColor = Color.White;
-            btn_notification.Location = new Point(1214, 8);
+            btn_notification.Location = new Point(1051, 11);
             btn_notification.Name = "btn_notification";
-            btn_notification.Size = new Size(154, 46);
+            btn_notification.Size = new Size(154, 43);
             btn_notification.TabIndex = 3;
             btn_notification.Text = "Stock Status";
             btn_notification.UseVisualStyleBackColor = false;
@@ -706,5 +720,6 @@
         private Button btnWalkins;
         private GroupBox groupBox1;
         private Button btn_Register;
+        private Button btn_expired;
     }
 }
