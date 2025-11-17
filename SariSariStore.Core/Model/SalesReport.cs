@@ -35,19 +35,21 @@ namespace SariSariStore.Core.Model
             {
                 conn.Open();
                 string query = @"
-                    SELECT 
-                        od.ProductID,
-                        p.Name AS ProductName,
-                        p.Category AS ProductCategory,
-                        SUM(od.Quantity) AS TotalQuantitySold,
-                        od.UnitPrice,
-                        SUM(od.Quantity * od.UnitPrice) AS TotalRevenue,
-                        COUNT(DISTINCT o.OrderID) AS NumberOfOrders
-                    FROM tbl_order o
-                    INNER JOIN tbl_orderdetails od ON o.OrderID = od.OrderID
-                    INNER JOIN tbl_product p ON od.ProductID = p.ProductID
-                    GROUP BY od.ProductID, p.Name, p.Category, od.UnitPrice
-                    ORDER BY TotalRevenue DESC;";
+                    
+                                SELECT 
+                                    od.ProductID,
+                                    p.Name AS ProductName,
+                                    p.Category AS ProductCategory,
+                                    SUM(od.Quantity) AS TotalQuantitySold,
+                                    od.UnitPrice,
+                                    SUM(od.Quantity * od.UnitPrice) AS TotalRevenue,
+                                    COUNT(DISTINCT o.OrderID) AS NumberOfOrders
+                                FROM tbl_order o 
+                                INNER JOIN tbl_orderdetails od ON o.OrderID = od.OrderID
+                                INNER JOIN tbl_product p ON od.ProductID = p.ProductID
+                                WHERE p.IsActive = 1
+                                GROUP BY od.ProductID, p.Name, p.Category, od.UnitPrice
+                                ORDER BY TotalRevenue DESC;";
 
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
