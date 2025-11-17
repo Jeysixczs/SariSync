@@ -15,7 +15,7 @@ namespace SariSariStore.Core.Model
     public class SalesReport
     {
         public string ConnectionString = ConnectionHelper.GetConnectionString();
-
+         
 
         public int ProductID { get; set; }
         public string ProductName { get; set; }

@@ -15,7 +15,7 @@ namespace SariSariStore.Admin.View
     public partial class OrderDetailsForm : Form
     {
         private Orders _order;
-        private Orders _ordersService;
+        private Orders _ordersService; 
         private bool _isViewingAllOrders = true;
         public OrderDetailsForm()
         {

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static SariSariStore.Core.Model.SalesReport;
 
-
+ 
 namespace SariSariStore.Admin.View
 {
     public partial class ReportFrom : Form

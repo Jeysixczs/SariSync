@@ -11,7 +11,7 @@
     using System.Windows.Forms;
 
     namespace SariSariStore.Admin
-    {
+    { 
         public partial class ReceiptForm : Form
         {
             private Orders _order;

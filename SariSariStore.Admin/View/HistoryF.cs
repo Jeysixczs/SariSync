@@ -19,7 +19,7 @@ namespace SariSariStore.Admin.View
         public int cornerRadius = 30;
 
         public Orders ord = new Orders();
-        private SmoothTransition transition;
+        private SmoothTransition transition; 
         [DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 

@@ -274,7 +274,7 @@ namespace SariSariStore.Admin.View
                 e.HasMorePages = false;
             }
         }
-
+         
         private void PrintDateRangeReport(Graphics graphics, PrintPageEventArgs e, ref float yPos, float leftMargin, float centerX, Font smallFont, Font dataFont, Font normalFont)
         {
             graphics.DrawString("DETAILED ORDER DATA", smallFont, Brushes.Black, leftMargin, yPos);
