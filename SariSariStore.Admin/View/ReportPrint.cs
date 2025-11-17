@@ -71,6 +71,8 @@ namespace SariSariStore.Admin.View
             if (_reportData.Count == 0)
                 return;
 
+            _rowsPerPage = 25; // Reduced from 35 to 25 to fit more content per page
+
             // Split data into pages
             for (int i = 0; i < _reportData.Count; i += _rowsPerPage)
             {
@@ -186,107 +188,31 @@ namespace SariSariStore.Admin.View
                 graphics.DrawString($"Total Records: {_reportData.Count}", normalFont, Brushes.Black, leftMargin, yPos);
                 yPos += 12;
                 graphics.DrawString($"Total Sales: {_totalSales:C2}", headerFont, Brushes.Black, leftMargin, yPos);
+
+                // Add total orders for DateRange reports
+                if (_reportType.Contains("Date Range") || _reportType.Contains("Specific Date"))
+                {
+                    yPos += 12;
+                    graphics.DrawString($"Total Orders: {totalOrders}", headerFont, Brushes.Black, leftMargin, yPos);
+                }
+
                 yPos += 20;
 
-                // Detailed Data Table
-                if (_reportData.Count > 0)
+                // Check what type of data we have and print accordingly
+                if (_reportData.Count > 0 && currentPage < _pages.Count)
                 {
-                    graphics.DrawString("DETAILED SALES DATA", headerFont, Brushes.Black, leftMargin, yPos);
-                    yPos += 20;
+                    // Detect if this is DateRangeReportProperties data
+                    bool isDateRangeReport = _reportData[0].ContainsKey("OrderDate") ||
+                                           _reportData[0].ContainsKey("CustomerName") ||
+                                           _reportData[0].ContainsKey("OrderTotal");
 
-                    // To Define column widths
-                    float[] columnWidths = { 45, 100, 80, 40, 65, 75, 45 };
-                    string[] headers = { "ProdID", "Product Name", "Category", "Qty", "Unit Price", "Revenue", "Orders" };
-
-                    // Print headers
-                    float xPos = leftMargin;
-                    for (int i = 0; i < headers.Length; i++)
+                    if (isDateRangeReport)
                     {
-                        graphics.DrawString(headers[i], smallFont, Brushes.Black, xPos, yPos);
-                        xPos += columnWidths[i];
-                    }
-                    yPos += 15;
-
-                    // Draw line under headers
-                    graphics.DrawLine(Pens.Black, leftMargin, yPos, xPos, yPos);
-                    yPos += 8;
-
-                    // Calculate which rows to print on this page
-                    int startIndex = currentPage * _rowsPerPage;
-                    int endIndex = Math.Min(startIndex + _rowsPerPage, _reportData.Count);
-
-                    // Print data rows for current page
-                    for (int i = startIndex; i < endIndex; i++)
-                    {
-                        var row = _reportData[i];
-                        xPos = leftMargin;
-
-                        // ProductID
-                        string productId = GetCellValue(row, "ProductID");
-                        graphics.DrawString(productId, dataFont, Brushes.Black, xPos, yPos);
-                        xPos += columnWidths[0];
-
-                        // ProductName
-                        string productName = GetCellValue(row, "ProductName");
-                        if (productName.Length > 12) productName = productName.Substring(0, 10) + "...";
-                        graphics.DrawString(productName, dataFont, Brushes.Black, xPos, yPos);
-                        xPos += columnWidths[1];
-
-                        // Category
-                        string category = GetCellValue(row, "Category");
-                        if (category.Length > 10) category = category.Substring(0, 8) + "...";
-                        graphics.DrawString(category, dataFont, Brushes.Black, xPos, yPos);
-                        xPos += columnWidths[2];
-
-                        // Quantity
-                        string quantity = GetCellValue(row, "TotalQuantitySold");
-                        graphics.DrawString(quantity, dataFont, Brushes.Black, xPos, yPos);
-                        xPos += columnWidths[3];
-
-                        // Unit Price
-                        string unitPrice = FormatNumericValue(GetCellValue(row, "UnitPrice"), true);
-                        graphics.DrawString(unitPrice, dataFont, Brushes.Black, xPos, yPos);
-                        xPos += columnWidths[4];
-
-                        // Revenue
-                        string revenue = FormatNumericValue(GetCellValue(row, "TotalRevenue"), true);
-                        graphics.DrawString(revenue, dataFont, Brushes.Black, xPos, yPos);
-                        xPos += columnWidths[5];
-
-                        // Orders
-                        string orders = GetCellValue(row, "NumberOrder");
-                        graphics.DrawString(orders, dataFont, Brushes.Black, xPos, yPos);
-
-                        yPos += 14;
-
-                        // Check if we're running out of space
-                        if (yPos > e.MarginBounds.Bottom - 50 && i < endIndex - 1)
-                        {
-                            e.HasMorePages = true;
-                            currentPage++;
-                            return;
-                        }
-                    }
-
-                    // Calculate total pages
-                    int totalPages = (_reportData.Count + _rowsPerPage - 1) / _rowsPerPage;
-
-                    // Page number
-                    yPos = e.MarginBounds.Bottom - 30;
-                    string pageInfo = $"Page {currentPage + 1} of {totalPages}";
-                    graphics.DrawString(pageInfo, normalFont, Brushes.Black, centerX - 30, yPos);
-
-                    // If this is the last page, show end of report
-                    if (currentPage == totalPages - 1)
-                    {
-                        yPos += 20;
-                        graphics.DrawString("--- End of Report ---", normalFont, Brushes.Black, centerX - 50, yPos);
-                        e.HasMorePages = false;
+                        PrintDateRangeReport(graphics, e, ref yPos, leftMargin, centerX, smallFont, dataFont, normalFont);
                     }
                     else
                     {
-                        e.HasMorePages = true;
-                        currentPage++;
+                        PrintSalesSummaryReport(graphics, e, ref yPos, leftMargin, centerX, smallFont, dataFont, normalFont);
                     }
                 }
                 else
@@ -298,6 +224,192 @@ namespace SariSariStore.Admin.View
             catch (Exception ex)
             {
                 graphics.DrawString($"Print Error: {ex.Message}", normalFont, Brushes.Red, leftMargin, yPos);
+                e.HasMorePages = false;
+            }
+        }
+
+        private void PrintDateRangeReport(Graphics graphics, PrintPageEventArgs e, ref float yPos, float leftMargin, float centerX, Font smallFont, Font dataFont, Font normalFont)
+        {
+            graphics.DrawString("DETAILED ORDER DATA", smallFont, Brushes.Black, leftMargin, yPos);
+            yPos += 20;
+
+            // Define column widths for DateRange report - matching your desired headers
+            float[] columnWidths = { 70, 100, 80, 90, 70, 70, 40 }; // Order Date, ProductName, Category, CustomerName, UnitPrice, OrderTotal, Qty
+            string[] headers = { "Order Date", "ProductName", "Category", "CustomerName", "UnitPrice", "OrderTotal", "Qty" };
+
+            // Print headers
+            float xPos = leftMargin;
+            for (int i = 0; i < headers.Length; i++)
+            {
+                graphics.DrawString(headers[i], smallFont, Brushes.Black, xPos, yPos);
+                xPos += columnWidths[i];
+            }
+            yPos += 15;
+
+            // Draw line under headers
+            graphics.DrawLine(Pens.Black, leftMargin, yPos, xPos, yPos);
+            yPos += 8;
+
+            // Get current page data
+            var currentPageData = _pages[currentPage];
+
+            // Print data rows for current page
+            foreach (var row in currentPageData)
+            {
+                xPos = leftMargin;
+
+                // Order Date
+                string orderDate = GetCellValue(row, "OrderDate");
+                if (DateTime.TryParse(orderDate, out DateTime date))
+                {
+                    graphics.DrawString(date.ToString("MMM dd yyyy"), dataFont, Brushes.Black, xPos, yPos);
+                }
+                else
+                {
+                    graphics.DrawString(orderDate, dataFont, Brushes.Black, xPos, yPos);
+                }
+                xPos += columnWidths[0];
+
+                // Product Name
+                string productName = GetCellValue(row, "ProductName");
+                if (productName.Length > 15) productName = productName.Substring(0, 13) + "...";
+                graphics.DrawString(productName, dataFont, Brushes.Black, xPos, yPos);
+                xPos += columnWidths[1];
+
+                // Category
+                string category = GetCellValue(row, "Category");
+                if (category.Length > 12) category = category.Substring(0, 10) + "...";
+                graphics.DrawString(category, dataFont, Brushes.Black, xPos, yPos);
+                xPos += columnWidths[2];
+
+                // Customer Name
+                string customerName = GetCellValue(row, "CustomerName");
+                if (customerName.Length > 12) customerName = customerName.Substring(0, 10) + "...";
+                graphics.DrawString(customerName, dataFont, Brushes.Black, xPos, yPos);
+                xPos += columnWidths[3];
+
+                // Unit Price
+                string unitPrice = FormatNumericValue(GetCellValue(row, "UnitPrice"), true);
+                graphics.DrawString(unitPrice, dataFont, Brushes.Black, xPos, yPos);
+                xPos += columnWidths[4];
+
+                // Order Total
+                string orderTotal = FormatNumericValue(GetCellValue(row, "OrderTotal"), true);
+                graphics.DrawString(orderTotal, dataFont, Brushes.Black, xPos, yPos);
+                xPos += columnWidths[5];
+
+                // Quantity
+                string quantity = GetCellValue(row, "Quantity");
+                graphics.DrawString(quantity, dataFont, Brushes.Black, xPos, yPos);
+
+                yPos += 14;
+
+                // Check if we're running out of space for the next row
+                if (yPos > e.MarginBounds.Bottom - 30)
+                {
+                    break;
+                }
+            }
+
+            PrintPageFooter(graphics, e, ref yPos, centerX, normalFont);
+        }
+
+        private void PrintSalesSummaryReport(Graphics graphics, PrintPageEventArgs e, ref float yPos, float leftMargin, float centerX, Font smallFont, Font dataFont, Font normalFont)
+        {
+            graphics.DrawString("DETAILED SALES DATA", smallFont, Brushes.Black, leftMargin, yPos);
+            yPos += 20;
+
+            // Define column widths for Sales Summary report
+            float[] columnWidths = { 40, 100, 70, 35, 65, 75, 40 };
+            string[] headers = { "ID", "Product Name", "Category", "Qty", "Unit Price", "Revenue", "Orders" };
+
+            // Print headers
+            float xPos = leftMargin;
+            for (int i = 0; i < headers.Length; i++)
+            {
+                graphics.DrawString(headers[i], smallFont, Brushes.Black, xPos, yPos);
+                xPos += columnWidths[i];
+            }
+            yPos += 15;
+
+            // Draw line under headers
+            graphics.DrawLine(Pens.Black, leftMargin, yPos, xPos, yPos);
+            yPos += 8;
+
+            // Get current page data
+            var currentPageData = _pages[currentPage];
+
+            // Print data rows for current page
+            foreach (var row in currentPageData)
+            {
+                xPos = leftMargin;
+
+                // ProductID
+                string productId = GetCellValue(row, "ProductID");
+                graphics.DrawString(productId, dataFont, Brushes.Black, xPos, yPos);
+                xPos += columnWidths[0];
+
+                // ProductName
+                string productName = GetCellValue(row, "ProductName");
+                if (productName.Length > 15) productName = productName.Substring(0, 13) + "...";
+                graphics.DrawString(productName, dataFont, Brushes.Black, xPos, yPos);
+                xPos += columnWidths[1];
+
+                // Category
+                string category = GetCellValue(row, "Category");
+                if (category.Length > 10) category = category.Substring(0, 8) + "...";
+                graphics.DrawString(category, dataFont, Brushes.Black, xPos, yPos);
+                xPos += columnWidths[2];
+
+                // Quantity
+                string quantity = GetCellValue(row, "TotalQuantitySold");
+                graphics.DrawString(quantity, dataFont, Brushes.Black, xPos, yPos);
+                xPos += columnWidths[3];
+
+                // Unit Price
+                string unitPrice = FormatNumericValue(GetCellValue(row, "UnitPrice"), true);
+                graphics.DrawString(unitPrice, dataFont, Brushes.Black, xPos, yPos);
+                xPos += columnWidths[4];
+
+                // Revenue
+                string revenue = FormatNumericValue(GetCellValue(row, "TotalRevenue"), true);
+                graphics.DrawString(revenue, dataFont, Brushes.Black, xPos, yPos);
+                xPos += columnWidths[5];
+
+                // Orders
+                string orders = GetCellValue(row, "NumberOrder");
+                graphics.DrawString(orders, dataFont, Brushes.Black, xPos, yPos);
+
+                yPos += 14;
+
+                // Check if we're running out of space for the next row
+                if (yPos > e.MarginBounds.Bottom - 30)
+                {
+                    break;
+                }
+            }
+
+            PrintPageFooter(graphics, e, ref yPos, centerX, normalFont);
+        }
+
+        private void PrintPageFooter(Graphics graphics, PrintPageEventArgs e, ref float yPos, float centerX, Font font)
+        {
+            // Page number and footer
+            yPos = e.MarginBounds.Bottom - 20;
+            string pageInfo = $"Page {currentPage + 1} of {_pages.Count}";
+            graphics.DrawString(pageInfo, font, Brushes.Black, centerX - 30, yPos);
+
+            // Check if there are more pages
+            if (currentPage < _pages.Count - 1)
+            {
+                e.HasMorePages = true;
+                currentPage++;
+            }
+            else
+            {
+                // Last page - show end of report
+                yPos += 15;
+                graphics.DrawString("--- End of Report ---", font, Brushes.Black, centerX - 50, yPos);
                 e.HasMorePages = false;
             }
         }
@@ -342,6 +454,7 @@ namespace SariSariStore.Admin.View
             try
             {
                 currentPage = 0; // Reset to first page
+                PreparePages(); // Re-prepare pages in case data changed
                 printPreviewDialog.ShowDialog();
             }
             catch (Exception ex)

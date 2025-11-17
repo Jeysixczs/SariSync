@@ -199,7 +199,7 @@ namespace SariSariStore.Admin.View
                 decimal totalSales = CalculateTotalSales(reportData);
                 int totalOrders = CalculateTotalOrders(reportData);
 
-                
+
                 ReportPrint printForm = new ReportPrint(reportType, reportData, totalSales, totalOrders, startDate, endDate, specificDate);
                 printForm.ShowDialog();
             }
@@ -215,20 +215,26 @@ namespace SariSariStore.Admin.View
 
             foreach (DataGridViewRow row in dgv_report.Rows)
             {
-                if (!row.IsNewRow) // Removed row.Visible check to include all rows
+                if (!row.IsNewRow)
                 {
                     var rowData = new Dictionary<string, object>();
+
                     foreach (DataGridViewColumn column in dgv_report.Columns)
                     {
                         if (column.Visible && row.Cells[column.Index].Value != null)
                         {
-                            rowData[column.HeaderText] = row.Cells[column.Index].Value;
-                        }
-                        else if (column.Visible)
-                        {
-                            rowData[column.HeaderText] = "-"; // Provide default for null values
+                            string headerText = column.HeaderText;
+                            object cellValue = row.Cells[column.Index].Value;
+
+                            // Map to standardized column names for printing
+                            string standardizedKey = StandardizeColumnName(headerText);
+                            rowData[standardizedKey] = cellValue;
+
+                            // Also keep the original header for flexibility
+                            rowData[headerText] = cellValue;
                         }
                     }
+
                     reportData.Add(rowData);
                 }
             }
@@ -236,20 +242,66 @@ namespace SariSariStore.Admin.View
             return reportData;
         }
 
+        private string StandardizeColumnName(string columnName)
+        {
+            if (string.IsNullOrEmpty(columnName))
+                return columnName;
+
+            string lowerName = columnName.ToLower();
+
+            return lowerName switch
+            {
+                "productid" or "id" or "product id" => "ProductID",
+                "productname" or "name" or "product name" => "ProductName",
+                "category" => "Category",
+                "totalquantitysold" or "quantity" or "qty" or "total quantity" => "TotalQuantitySold",
+                "unitprice" or "price" or "unit price" => "UnitPrice",
+                "totalrevenue" or "revenue" or "total" or "total revenue" => "TotalRevenue",
+                "numberorder" or "orders" or "order count" or "numoforder" or "numberoforders" => "NumberOrder",
+                "orderdate" or "date" => "OrderDate",
+                "customername" or "customer" or "customer name" => "CustomerName",
+                "ordertotal" or "total amount" or "order total" => "OrderTotal",
+                "orderid" => "OrderID",
+                _ => columnName
+            };
+        }
+
         private decimal CalculateTotalSales(List<Dictionary<string, object>> reportData)
         {
             decimal total = 0;
 
+            // For DateRangeReportProperties, we need to sum OrderTotal but only count each order once
+            if (reportData.Count > 0 && reportData[0].ContainsKey("OrderTotal"))
+            {
+                var distinctOrders = reportData
+                    .Where(row => row.ContainsKey("OrderID") && row["OrderID"] != null)
+                    .Select(row => new { OrderID = row["OrderID"].ToString(), OrderTotal = row["OrderTotal"] })
+                    .DistinctBy(x => x.OrderID);
+
+                foreach (var order in distinctOrders)
+                {
+                    if (decimal.TryParse(order.OrderTotal.ToString(), out decimal orderTotal))
+                    {
+                        total += orderTotal;
+                    }
+                }
+                return total;
+            }
+
+            // For other report types, use the original logic
             foreach (var row in reportData)
             {
-                // Trying with different possible column names for total amount
-                string[] possibleAmountColumns = { "TotalRevenue", "TotalAmount", "Amount", "Total", "Revenue" };
+                string[] possibleAmountColumns = {
+            "TotalRevenue", "Revenue", "Total", "TotalAmount",
+            "OrderTotal", "DailySales", "MonthlySales", "Amount"
+        };
 
                 foreach (string columnName in possibleAmountColumns)
                 {
                     if (row.ContainsKey(columnName) && row[columnName] != null)
                     {
-                        if (decimal.TryParse(row[columnName].ToString(), out decimal amount))
+                        string value = row[columnName].ToString();
+                        if (decimal.TryParse(value, out decimal amount))
                         {
                             total += amount;
                             break;
@@ -259,26 +311,46 @@ namespace SariSariStore.Admin.View
             }
 
             return total;
+
         }
 
         private int CalculateTotalOrders(List<Dictionary<string, object>> reportData)
         {
-            // Count unique orders or use NumberOrder column if available
-            int totalOrders = reportData.Count;
 
-            // If there's a NumberOrder column, we might want to sum it instead
+            int totalOrders = 0;
+
+            // For DateRangeReportProperties, count distinct orders
+            if (reportData.Count > 0 && reportData[0].ContainsKey("OrderID"))
+            {
+                var distinctOrders = reportData
+                    .Where(row => row.ContainsKey("OrderID") && row["OrderID"] != null)
+                    .Select(row => row["OrderID"].ToString())
+                    .Distinct()
+                    .Count();
+                return distinctOrders;
+            }
+
+            // For other report types, sum the order counts
             foreach (var row in reportData)
             {
-                if (row.ContainsKey("NumberOrder") && row["NumberOrder"] != null)
+                string[] possibleOrderColumns = { "NumberOrder", "Numoforder", "NumberOfOrders", "Orders", "TotalOrders", "Numoforderdaily" };
+
+                foreach (string columnName in possibleOrderColumns)
                 {
-                    if (int.TryParse(row["NumberOrder"].ToString(), out int orderCount))
+                    if (row.ContainsKey(columnName) && row[columnName] != null)
                     {
-                        //to count rows
+                        string orderValue = row[columnName].ToString();
+                        if (int.TryParse(orderValue, out int orderCount))
+                        {
+                            totalOrders += orderCount;
+                            break;
+                        }
                     }
                 }
             }
 
-            return totalOrders;
+            // If no valid order counts found, return the number of records
+            return totalOrders > 0 ? totalOrders : reportData.Count;
         }
 
         private string GetCurrentReportType()
@@ -294,6 +366,7 @@ namespace SariSariStore.Admin.View
             else
                 return "Complete Sales Report";
         }
+
     }
 }
 

@@ -11,7 +11,7 @@ namespace SariSariStore.Core.Model
     {
         public static string GetConnectionString()
         {
-            return @"Data Source=alvaro\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
+            return @"Data Source=DESKTOP-ECKGUHL\SQLEXPRESS;Initial Catalog=SariSariStoreDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
         }
     }
 }

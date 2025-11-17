@@ -20,10 +20,10 @@ namespace SariSariStore.Core.Model
         public int ProductID { get; set; }
         public string ProductName { get; set; }
         public string Category { get; set; }
-        public decimal TotalQuantiySold { get; set; }
+        public decimal TotalQuantitySold { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal TotalRevenue { get; set; }
-        public int Numoforder { get; set; }
+        public int NumberOrder { get; set; }
 
 
 
@@ -60,10 +60,10 @@ namespace SariSariStore.Core.Model
                                 ProductID = reader["ProductID"] != DBNull.Value ? Convert.ToInt32(reader["ProductID"]) : 0,
                                 ProductName = reader["ProductName"] != DBNull.Value ? reader["ProductName"].ToString() : "Unknown",
                                 Category = reader["ProductCategory"] != DBNull.Value ? reader["ProductCategory"].ToString() : "Uncategorized",
-                                TotalQuantiySold = reader["TotalQuantitySold"] != DBNull.Value ? Convert.ToDecimal(reader["TotalQuantitySold"]) : 0,
+                                TotalQuantitySold = reader["TotalQuantitySold"] != DBNull.Value ? Convert.ToDecimal(reader["TotalQuantitySold"]) : 0,
                                 UnitPrice = reader["UnitPrice"] != DBNull.Value ? Convert.ToDecimal(reader["UnitPrice"]) : 0,
                                 TotalRevenue = reader["TotalRevenue"] != DBNull.Value ? Convert.ToDecimal(reader["TotalRevenue"]) : 0,
-                                Numoforder = reader["NumberOfOrders"] != DBNull.Value ? Convert.ToInt32(reader["NumberOfOrders"]) : 0
+                                NumberOrder = reader["NumberOfOrders"] != DBNull.Value ? Convert.ToInt32(reader["NumberOfOrders"]) : 0
                             };
                             salesReports.Add(report);
                         }
