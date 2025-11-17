@@ -97,6 +97,7 @@
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "ReportPrint";
             Text = "ReportPrint";
+          
             ResumeLayout(false);
             PerformLayout();
         }

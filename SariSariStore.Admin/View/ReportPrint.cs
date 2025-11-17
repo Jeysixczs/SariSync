@@ -26,7 +26,7 @@ namespace SariSariStore.Admin.View
         private PrintDialog printDialog;
         private int currentPage = 0;
         private List<List<Dictionary<string, object>>> _pages = new List<List<Dictionary<string, object>>>();
-        private int _rowsPerPage = 35; 
+        private int _rowsPerPage = 35;
 
         public ReportPrint(string reportType, List<Dictionary<string, object>> reportData,
                          decimal totalSales, int totalOrders, DateTime? startDate = null,
@@ -92,39 +92,30 @@ namespace SariSariStore.Admin.View
             sb.AppendLine();
 
             // Report Information
-            //sb.AppendLine($"Report: {_reportType}");
-
-            // Handle both "Date Range" and "Data Range" typos
             if ((_reportType.Contains("Specific Date") || _reportType.Contains("specific date")) && specificDate.HasValue)
             {
-                // For specific date reports
                 sb.AppendLine($"Report Date: {specificDate.Value:MMM dd, yyyy}");
             }
             else if ((_reportType.Contains("Date Range") || _reportType.Contains("Data Range") || _reportType.Contains("date range")) && startDate.HasValue && endDate.HasValue)
             {
-                // For date range reports
                 sb.AppendLine($"Report Period: {startDate.Value:MMM dd, yyyy} to {endDate.Value:MMM dd, yyyy}");
             }
-            // In GenerateReportText method:
             else if (_reportType == "Complete Sales Report" || _reportType.Contains("Complete Sales"))
             {
-                // For complete sales report - no specific date, show all-time data
                 sb.AppendLine("Report Period: All Time");
             }
             else
             {
-                // Fallback for other report types
                 sb.AppendLine($"Report Date: {DateTime.Now:MMM dd, yyyy}");
             }
 
             sb.AppendLine($"Report Generated: {DateTime.Now:MMM dd, yyyy hh:mm tt}");
             sb.AppendLine();
 
-            // Rest of the method remains the same...
             // Summary Section
             sb.AppendLine("SUMMARY");
             sb.AppendLine($"Total Records: {_reportData.Count}");
-            sb.AppendLine($"Total Sales: {_totalSales:C2}");
+            sb.AppendLine($"Total Sales: ₱{_totalSales:N2}"); // Fixed: Use ₱ instead of $
 
             if (totalOrders > 0)
             {
@@ -199,28 +190,23 @@ namespace SariSariStore.Admin.View
                 graphics.DrawString($"Report: {_reportType}", normalFont, Brushes.Black, leftMargin, yPos);
                 yPos += 15;
 
-                //Handle both "Date Range" and "Data Range" typos
                 if ((_reportType.Contains("Specific Date") || _reportType.Contains("specific date")) && specificDate.HasValue)
                 {
-                    // For specific date reports
                     graphics.DrawString($"Report Date: {specificDate.Value:MMM dd, yyyy}", normalFont, Brushes.Black, leftMargin, yPos);
                     yPos += 15;
                 }
                 else if ((_reportType.Contains("Date Range") || _reportType.Contains("Data Range") || _reportType.Contains("date range")) && startDate.HasValue && endDate.HasValue)
                 {
-                    // For date range reports
                     graphics.DrawString($"Report Period: {startDate.Value:MMM dd, yyyy} to {endDate.Value:MMM dd, yyyy}", normalFont, Brushes.Black, leftMargin, yPos);
                     yPos += 15;
                 }
                 else if (_reportType == "Complete Sales Report" || _reportType.Contains("Complete Sales"))
                 {
-                    // For complete sales report - no specific date, show all-time data
                     graphics.DrawString("Report Period: All Time", normalFont, Brushes.Black, leftMargin, yPos);
                     yPos += 15;
                 }
                 else
                 {
-                    // Fallback for other report types
                     graphics.DrawString($"Report Date: {DateTime.Now:MMM dd, yyyy}", normalFont, Brushes.Black, leftMargin, yPos);
                     yPos += 15;
                 }
@@ -228,13 +214,12 @@ namespace SariSariStore.Admin.View
                 graphics.DrawString($"Report Generated: {DateTime.Now:MMM dd, yyyy hh:mm tt}", normalFont, Brushes.Black, leftMargin, yPos);
                 yPos += 20;
 
-                
                 // Summary Section
                 graphics.DrawString("SUMMARY", headerFont, Brushes.Black, leftMargin, yPos);
                 yPos += 15;
                 graphics.DrawString($"Total Records: {_reportData.Count}", normalFont, Brushes.Black, leftMargin, yPos);
                 yPos += 12;
-                graphics.DrawString($"Total Sales: {_totalSales:C2}", headerFont, Brushes.Black, leftMargin, yPos);
+                graphics.DrawString($"Total Sales: ₱{_totalSales:N2}", headerFont, Brushes.Black, leftMargin, yPos); // Fixed: Use ₱ instead of $
 
                 // Add total orders for DateRange reports
                 if (_reportType.Contains("Date Range") || _reportType.Contains("Data Range") || _reportType.Contains("Specific Date"))
@@ -274,14 +259,14 @@ namespace SariSariStore.Admin.View
                 e.HasMorePages = false;
             }
         }
-         
+
         private void PrintDateRangeReport(Graphics graphics, PrintPageEventArgs e, ref float yPos, float leftMargin, float centerX, Font smallFont, Font dataFont, Font normalFont)
         {
             graphics.DrawString("DETAILED ORDER DATA", smallFont, Brushes.Black, leftMargin, yPos);
             yPos += 20;
 
             // Define column widths for DateRange report - matching your desired headers
-            float[] columnWidths = { 70, 100, 80, 90, 70, 70, 40 }; 
+            float[] columnWidths = { 70, 100, 80, 90, 70, 70, 40 };
             string[] headers = { "Order Date", "ProductName", "Category", "CustomerName", "UnitPrice", "OrderTotal", "Qty" };
 
             // Print headers
@@ -463,13 +448,13 @@ namespace SariSariStore.Admin.View
 
         private string GetCellValue(Dictionary<string, object> row, string columnName)
         {
-            // for trying the exact match first
+            // Try exact match first
             if (row.ContainsKey(columnName) && row[columnName] != null)
             {
                 return row[columnName].ToString();
             }
 
-            // fallback: case-insensitive match
+            // Fallback: case-insensitive match
             var key = row.Keys.FirstOrDefault(k =>
                 string.Equals(k, columnName, StringComparison.OrdinalIgnoreCase));
             if (key != null && row[key] != null)
@@ -486,7 +471,8 @@ namespace SariSariStore.Admin.View
             {
                 if (asCurrency)
                 {
-                    return decimalValue.ToString("C2");
+                    // Use Philippine Peso format instead of system currency
+                    return "₱" + decimalValue.ToString("N2");
                 }
                 else
                 {
@@ -533,7 +519,7 @@ namespace SariSariStore.Admin.View
             this.Close();
         }
 
-        //To reset the current page before printing
+        // To reset the current page before printing
         private void PrintDocument_BeginPrint(object sender, PrintEventArgs e)
         {
             currentPage = 0;

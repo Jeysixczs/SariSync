@@ -124,7 +124,7 @@
             // timer_Loading
             // 
             timer_Loading.Enabled = true;
-            timer_Loading.Interval = 50;
+            timer_Loading.Interval = 390;
             timer_Loading.Tick += timer_Loading_Tick;
             // 
             // LoadingForm

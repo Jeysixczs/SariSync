@@ -40,6 +40,41 @@ namespace SariSariStore.Core.Model
         public int SupplierID { get; set; }
       
 
+        //get product that is not expired to display in walkin form
+        public List<Products> GetProductNotExpired()
+        {
+            List<Products> productsList = new List<Products>();
+            using (SqlConnection con = new(ConnectionString))
+            {
+                using (SqlCommand cmd = new("SELECT tbl_Product.*, tbl_suppliers.SupplierName FROM tbl_Product LEFT JOIN tbl_suppliers ON tbl_Product.SupplierID = tbl_suppliers.SupplierID WHERE (tbl_Product.DateExpired IS NULL OR tbl_Product.DateExpired > GETDATE()) AND tbl_Product.IsActive = 1", con))
+                {
+                    con.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Products product = new Products
+                            {
+                                ProductID = Convert.ToInt32(reader["ProductID"]),
+                                Name = reader["Name"]?.ToString() ?? string.Empty,
+                                Description = reader["Description"]?.ToString(),
+                                Category = reader["Category"]?.ToString() ?? string.Empty,
+                                Price = Convert.ToDecimal(reader["Price"]),
+                                SellingPrice = Convert.ToDecimal(reader["SellingPrice"]),
+                                Stock = Convert.ToInt32(reader["Stock"]),
+                                ImagePath = reader["ImagePath"]?.ToString(),
+                                DateAdded = Convert.ToDateTime(reader["DateAdded"]),
+                                DateExpired = reader.IsDBNull("DateExpired") ? null : reader.GetDateTime("DateExpired"),
+                                SupplierID = Convert.ToInt32(reader["SupplierID"]),
+                                SupplierName = reader["SupplierName"]?.ToString() ?? string.Empty,
+                            };
+                            productsList.Add(product);
+                        }
+                    }
+                }
+            }
+            return productsList;
+        }
 
         public List<Products> GetAllProducts()
         {
@@ -301,6 +336,40 @@ namespace SariSariStore.Core.Model
             return product;
         }
 
+        //search product for not expired products
+        public List<Products> SearchNotExpired(string searchTerm)
+        {
+            List<Products> products = new List<Products>();
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT * FROM tbl_Product WHERE (Name LIKE @Search OR Category LIKE @Search OR Description LIKE @Search) AND (DateExpired IS NULL OR DateExpired > GETDATE()) AND IsActive = 1 ", con);
+                cmd.Parameters.AddWithValue("@Search", "%" + searchTerm + "%");
+                con.Open();
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Products product = new Products
+                        {
+                            ProductID = Convert.ToInt32(reader["ProductID"]),
+                            Name = reader["Name"]?.ToString() ?? string.Empty,
+                            Description = reader["Description"]?.ToString(),
+                            Category = reader["Category"]?.ToString() ?? string.Empty,
+                            Price = Convert.ToDecimal(reader["Price"]),
+                            SellingPrice = Convert.ToDecimal(reader["SellingPrice"]),
+                            Stock = Convert.ToInt32(reader["Stock"]),
+                            ImagePath = reader["ImagePath"]?.ToString(),
+                            DateAdded = Convert.ToDateTime(reader["DateAdded"]),
+                            DateExpired = reader.IsDBNull("DateExpired") ? null : reader.GetDateTime("DateExpired"),
+                            SupplierName = GetSupplierNameByProduct(Convert.ToInt32(reader["SupplierID"]))
+                        };
+                        products.Add(product);
+                    }
+                }
+            }
+            return products;
+        }
+
         public List<Products> SearchProduct(string searchTerm)
         {
             List<Products> products = new List<Products>();
@@ -538,6 +607,41 @@ namespace SariSariStore.Core.Model
             return categories;
         }
 
+        //get products by category that not expired
+        public object GetProductsByCategoryNotExpired(string? selectedCategory)
+        {
+            List<Products> productsList = new List<Products>();
+            using (SqlConnection con = new(ConnectionString))
+            {
+                using (SqlCommand cmd = new("SELECT tbl_Product.*, tbl_suppliers.SupplierName FROM tbl_Product LEFT JOIN tbl_suppliers ON tbl_Product.SupplierID = tbl_suppliers.SupplierID WHERE Category = @Category AND (tbl_Product.DateExpired IS NULL OR tbl_Product.DateExpired > GETDATE()) AND tbl_Product.IsActive = 1", con))
+                {
+                    cmd.Parameters.AddWithValue("@Category", selectedCategory ?? string.Empty);
+                    con.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Products product = new Products
+                            {
+                                ProductID = Convert.ToInt32(reader["ProductID"]),
+                                Name = reader["Name"]?.ToString() ?? string.Empty,
+                                Description = reader["Description"]?.ToString(),
+                                Category = reader["Category"]?.ToString() ?? string.Empty,
+                                Price = Convert.ToDecimal(reader["Price"]),
+                                SellingPrice = Convert.ToDecimal(reader["SellingPrice"]),
+                                Stock = Convert.ToInt32(reader["Stock"]),
+                                ImagePath = reader["ImagePath"]?.ToString(),
+                                DateAdded = Convert.ToDateTime(reader["DateAdded"]),
+                                DateExpired = reader.IsDBNull("DateExpired") ? null : reader.GetDateTime("DateExpired"),
+                                SupplierName = reader["SupplierName"]?.ToString() ?? string.Empty
+                            };
+                            productsList.Add(product);
+                        }
+                    }
+                }
+            }
+            return productsList;
+        }
         public object GetProductsByCategory(string? selectedCategory)
         {
             List<Products> productsList = new List<Products>();

@@ -51,8 +51,9 @@ namespace SariSariStore.Admin.View
 
                 // Gracefully shutdown Web API
                 await StopWebApiGracefully();
-
-                Application.Exit();
+                this.Close();
+                LoginForm loginForm = new LoginForm();
+                loginForm.Show();
             }
         }
       

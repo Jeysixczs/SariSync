@@ -37,7 +37,7 @@ namespace SariSariStore.Admin.View
         }
         private void RefreshProductList()
         {
-            var products = _products.GetAllProducts();
+            var products = _products.GetProductNotExpired();
             dgvProducts.DataSource = products;
 
             dgvProducts.Columns["ProductID"].Visible = false;
@@ -269,11 +269,11 @@ namespace SariSariStore.Admin.View
             string selectedCategory = comboBox1.SelectedItem.ToString();
             if (selectedCategory == "-- All Products --")
             {
-                dgvProducts.DataSource = _products.GetAllProducts();
+                dgvProducts.DataSource = _products.GetProductNotExpired();
             }
             else
             {
-                dgvProducts.DataSource = _products.GetProductsByCategory(selectedCategory);
+                dgvProducts.DataSource = _products.GetProductsByCategoryNotExpired(selectedCategory);
             }
         }
 
@@ -302,7 +302,7 @@ namespace SariSariStore.Admin.View
         private void txtSearchProduct_TextChanged(object sender, EventArgs e)
         {
             string searchTerm = txtSearchProduct.Text.Trim();
-            var products = _products.SearchProduct(searchTerm);
+            var products = _products.SearchNotExpired(searchTerm);
             dgvProducts.DataSource = products;
         }
 

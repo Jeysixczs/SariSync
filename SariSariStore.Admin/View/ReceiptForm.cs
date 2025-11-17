@@ -1,46 +1,44 @@
-﻿    using SariSariStore.Core.Model;
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Data;
-    using System.Drawing;
-    using System.Drawing.Printing;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using System.Windows.Forms;
+﻿using SariSariStore.Core.Model;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Drawing.Printing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
-    namespace SariSariStore.Admin
-    { 
-        public partial class ReceiptForm : Form
+namespace SariSariStore.Admin
+{
+    public partial class ReceiptForm : Form
+    {
+        private Orders _order;
+        private PrintDocument _printDocument;
+        private string _receiptText;
+
+        public ReceiptForm(Orders order)
         {
-            private Orders _order;
-            private PrintDocument _printDocument;
-            private string _receiptText;
+            InitializeComponent();
+            _order = order;
+            InitializePrinting();
+            DisplayReceipt();
+        }
 
-            public ReceiptForm(Orders order)
-            {
-                InitializeComponent();
-                _order = order;
-                InitializePrinting();
-                DisplayReceipt();
-            }
+        private void InitializePrinting()
+        {
+            _printDocument = new PrintDocument();
+            _printDocument.PrintPage += PrintDocument_PrintPage;
+        }
 
- 
+        public void DisplayReceipt()
+        {
+            if (_order == null) return;
 
-            private void InitializePrinting()
-            {
-                _printDocument = new PrintDocument();
-                _printDocument.PrintPage += PrintDocument_PrintPage;
-            }
-
-            public void DisplayReceipt()
-            {
-                if (_order == null) return;
-
-                _receiptText = GenerateReceiptText();
-                receiptTextBox.Text = _receiptText;
-            }
+            _receiptText = GenerateReceiptText();
+            receiptTextBox.Text = _receiptText;
+        }
 
         private string GenerateReceiptText()
         {
@@ -66,6 +64,12 @@
                 sb.AppendLine(new string('-', maxWidth));
             }
 
+            // Helper function to format currency as Peso
+            string FormatAsPeso(decimal amount)
+            {
+                return "₱" + amount.ToString("N2");
+            }
+
             // Header
             sb.AppendLine();
             AddCenteredLine("SariSync Store");
@@ -82,7 +86,7 @@
             AddCenteredLine("ITEMS PURCHASED");
             AddSeparator();
 
-            // Items List - FIXED THIS SECTION
+            // Items List - FIXED FOR PESO FORMAT
             if (_order.Items != null && _order.Items.Count > 0)
             {
                 foreach (var item in _order.Items)
@@ -92,7 +96,10 @@
                         productName = productName.Substring(0, 20) + "...";
 
                     // Format: Product name, quantity x price, then total price
-                    sb.AppendLine($"{productName,-20} {item.Quantity,2} x {item.UnitPrice,7:C2}");
+                    // Fixed: Use Peso format instead of currency format
+                    sb.AppendLine($"{productName,-20} {item.Quantity,2} x {FormatAsPeso(item.UnitPrice),10}");
+
+                    // Calculate and display line total
                   
                 }
             }
@@ -103,8 +110,8 @@
 
             AddSeparator();
 
-            // Total - FIXED FORMATTING
-            sb.AppendLine($"{"TOTAL AMOUNT:",-30} {_order.TotalAmount,12:C2}");
+            // Total - FIXED FOR PESO FORMAT
+            sb.AppendLine($"{"TOTAL AMOUNT:",-30} {FormatAsPeso(_order.TotalAmount),12}");
             sb.AppendLine();
 
             // Payment Status
@@ -131,73 +138,72 @@
 
             return sb.ToString();
         }
+
         private void btn_PrintButton_Click(object sender, EventArgs e)
+        {
+            try
             {
-                try
-                {
-                    PrintDialog printDialog = new PrintDialog();
-                    printDialog.Document = _printDocument;
-                    printDialog.AllowSomePages = true;
-                    printDialog.ShowHelp = true;
+                PrintDialog printDialog = new PrintDialog();
+                printDialog.Document = _printDocument;
+                printDialog.AllowSomePages = true;
+                printDialog.ShowHelp = true;
 
-                    if (printDialog.ShowDialog() == DialogResult.OK)
+                if (printDialog.ShowDialog() == DialogResult.OK)
+                {
+                    _printDocument.Print();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Printing error: {ex.Message}", "Print Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
+        {
+            try
+            {
+                // Use smaller font suitable for receipt printers
+                Font receiptFont = new Font("Consolas", 8F, FontStyle.Regular);
+                Brush brush = Brushes.Black;
+
+                // Use much smaller margins for receipt paper
+                float x = 10;  // Reduced from 50
+                float y = 10;  // Reduced from 50
+                float lineHeight = receiptFont.GetHeight(e.Graphics);
+
+                string[] lines = _receiptText.Split('\n');
+
+                foreach (string line in lines)
+                {
+                    e.Graphics.DrawString(line, receiptFont, brush, x, y);
+                    y += lineHeight;
+
+                    // Check if we're at the bottom of receipt paper (typically 3-4 inches)
+                    if (y > e.PageBounds.Height - 20) // Reduced margin
                     {
-                        _printDocument.Print();
+                        e.HasMorePages = false;
+                        break;
                     }
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Printing error: {ex.Message}", "Print Error",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
             }
-
-            private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
+            catch (Exception ex)
             {
-                try
-                {
-                    // Use smaller font suitable for receipt printers
-                    Font receiptFont = new Font("Consolas", 8F, FontStyle.Regular);
-                    Brush brush = Brushes.Black;
-
-                    // Use much smaller margins for receipt paper
-                    float x = 10;  // Reduced from 50
-                    float y = 10;  // Reduced from 50
-                    float lineHeight = receiptFont.GetHeight(e.Graphics);
-
-                    string[] lines = _receiptText.Split('\n');
-
-                    foreach (string line in lines)
-                    {
-                        e.Graphics.DrawString(line, receiptFont, brush, x, y);
-                        y += lineHeight;
-
-                        // Check if we're at the bottom of receipt paper (typically 3-4 inches)
-                        if (y > e.PageBounds.Height - 20) // Reduced margin
-                        {
-                            e.HasMorePages = false;
-                            break;
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Print error: {ex.Message}", "Error",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                MessageBox.Show($"Print error: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
 
-            private void btn_Close_Click(object sender, EventArgs e)
-            {
-                this.Close();
-            }
+        private void btn_Close_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
 
-            private void receiptTextBox_TextChanged(object sender, EventArgs e)
-            {
-                receiptTextBox.SelectionStart = receiptTextBox.Text.Length;
-                receiptTextBox.ScrollToCaret();
-            }
-
-        
+        private void receiptTextBox_TextChanged(object sender, EventArgs e)
+        {
+            receiptTextBox.SelectionStart = receiptTextBox.Text.Length;
+            receiptTextBox.ScrollToCaret();
         }
     }
+}
