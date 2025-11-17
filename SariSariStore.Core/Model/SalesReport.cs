@@ -35,7 +35,6 @@ namespace SariSariStore.Core.Model
             {
                 conn.Open();
                 string query = @"
-                    
                                 SELECT 
                                     od.ProductID,
                                     p.Name AS ProductName,
