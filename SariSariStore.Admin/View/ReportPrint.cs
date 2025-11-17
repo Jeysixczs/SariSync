@@ -92,14 +92,45 @@ namespace SariSariStore.Admin.View
             sb.AppendLine();
 
             // Report Information
-            sb.AppendLine($"Report: {_reportType}");
-            sb.AppendLine($"Date: {DateTime.Now:MMM dd, yyyy hh:mm tt}");
+            //sb.AppendLine($"Report: {_reportType}");
+
+            // Handle both "Date Range" and "Data Range" typos
+            if ((_reportType.Contains("Specific Date") || _reportType.Contains("specific date")) && specificDate.HasValue)
+            {
+                // For specific date reports
+                sb.AppendLine($"Report Date: {specificDate.Value:MMM dd, yyyy}");
+            }
+            else if ((_reportType.Contains("Date Range") || _reportType.Contains("Data Range") || _reportType.Contains("date range")) && startDate.HasValue && endDate.HasValue)
+            {
+                // For date range reports
+                sb.AppendLine($"Report Period: {startDate.Value:MMM dd, yyyy} to {endDate.Value:MMM dd, yyyy}");
+            }
+            // In GenerateReportText method:
+            else if (_reportType == "Complete Sales Report" || _reportType.Contains("Complete Sales"))
+            {
+                // For complete sales report - no specific date, show all-time data
+                sb.AppendLine("Report Period: All Time");
+            }
+            else
+            {
+                // Fallback for other report types
+                sb.AppendLine($"Report Date: {DateTime.Now:MMM dd, yyyy}");
+            }
+
+            sb.AppendLine($"Report Generated: {DateTime.Now:MMM dd, yyyy hh:mm tt}");
             sb.AppendLine();
 
+            // Rest of the method remains the same...
             // Summary Section
             sb.AppendLine("SUMMARY");
             sb.AppendLine($"Total Records: {_reportData.Count}");
             sb.AppendLine($"Total Sales: {_totalSales:C2}");
+
+            if (totalOrders > 0)
+            {
+                sb.AppendLine($"Total Orders: {totalOrders}");
+            }
+
             sb.AppendLine();
 
             // Detailed Data Section
@@ -108,7 +139,7 @@ namespace SariSariStore.Admin.View
                 sb.AppendLine("DETAILED SALES DATA");
                 sb.AppendLine();
 
-                //Simple text representation
+                // Simple text representation
                 foreach (var row in _reportData)
                 {
                     string productId = GetCellValue(row, "ProductID");
@@ -167,21 +198,37 @@ namespace SariSariStore.Admin.View
                 // Report Information
                 graphics.DrawString($"Report: {_reportType}", normalFont, Brushes.Black, leftMargin, yPos);
                 yPos += 15;
-                graphics.DrawString($"Date: {DateTime.Now:MMM dd, yyyy hh:mm tt}", normalFont, Brushes.Black, leftMargin, yPos);
+
+                //Handle both "Date Range" and "Data Range" typos
+                if ((_reportType.Contains("Specific Date") || _reportType.Contains("specific date")) && specificDate.HasValue)
+                {
+                    // For specific date reports
+                    graphics.DrawString($"Report Date: {specificDate.Value:MMM dd, yyyy}", normalFont, Brushes.Black, leftMargin, yPos);
+                    yPos += 15;
+                }
+                else if ((_reportType.Contains("Date Range") || _reportType.Contains("Data Range") || _reportType.Contains("date range")) && startDate.HasValue && endDate.HasValue)
+                {
+                    // For date range reports
+                    graphics.DrawString($"Report Period: {startDate.Value:MMM dd, yyyy} to {endDate.Value:MMM dd, yyyy}", normalFont, Brushes.Black, leftMargin, yPos);
+                    yPos += 15;
+                }
+                else if (_reportType == "Complete Sales Report" || _reportType.Contains("Complete Sales"))
+                {
+                    // For complete sales report - no specific date, show all-time data
+                    graphics.DrawString("Report Period: All Time", normalFont, Brushes.Black, leftMargin, yPos);
+                    yPos += 15;
+                }
+                else
+                {
+                    // Fallback for other report types
+                    graphics.DrawString($"Report Date: {DateTime.Now:MMM dd, yyyy}", normalFont, Brushes.Black, leftMargin, yPos);
+                    yPos += 15;
+                }
+
+                graphics.DrawString($"Report Generated: {DateTime.Now:MMM dd, yyyy hh:mm tt}", normalFont, Brushes.Black, leftMargin, yPos);
                 yPos += 20;
 
-                // Date Range 
-                if (startDate.HasValue && endDate.HasValue)
-                {
-                    graphics.DrawString($"Period: {startDate.Value:MMM dd, yyyy} to {endDate.Value:MMM dd, yyyy}", normalFont, Brushes.Black, leftMargin, yPos);
-                    yPos += 15;
-                }
-                else if (specificDate.HasValue)
-                {
-                    graphics.DrawString($"Date: {specificDate.Value:MMM dd, yyyy}", normalFont, Brushes.Black, leftMargin, yPos);
-                    yPos += 15;
-                }
-
+                
                 // Summary Section
                 graphics.DrawString("SUMMARY", headerFont, Brushes.Black, leftMargin, yPos);
                 yPos += 15;
@@ -190,7 +237,7 @@ namespace SariSariStore.Admin.View
                 graphics.DrawString($"Total Sales: {_totalSales:C2}", headerFont, Brushes.Black, leftMargin, yPos);
 
                 // Add total orders for DateRange reports
-                if (_reportType.Contains("Date Range") || _reportType.Contains("Specific Date"))
+                if (_reportType.Contains("Date Range") || _reportType.Contains("Data Range") || _reportType.Contains("Specific Date"))
                 {
                     yPos += 12;
                     graphics.DrawString($"Total Orders: {totalOrders}", headerFont, Brushes.Black, leftMargin, yPos);
@@ -234,7 +281,7 @@ namespace SariSariStore.Admin.View
             yPos += 20;
 
             // Define column widths for DateRange report - matching your desired headers
-            float[] columnWidths = { 70, 100, 80, 90, 70, 70, 40 }; // Order Date, ProductName, Category, CustomerName, UnitPrice, OrderTotal, Qty
+            float[] columnWidths = { 70, 100, 80, 90, 70, 70, 40 }; 
             string[] headers = { "Order Date", "ProductName", "Category", "CustomerName", "UnitPrice", "OrderTotal", "Qty" };
 
             // Print headers

@@ -24,6 +24,7 @@ namespace SariSariStore.Admin.View
         // public Expenses exp = new Expenses();
         public string ConnectionString = ConnectionHelper.GetConnectionString();
         public SalesReport salesReports = new SalesReport();
+        private string _currentReportType = "Complete Sales Report";
 
         private SmoothTransition transition;
         [DllImport("user32.dll")]
@@ -129,10 +130,19 @@ namespace SariSariStore.Admin.View
             if (startDate > endDate)
             {
                 MessageBox.Show("Start Date cannot be later than End Date.", "Invalid Date Range", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
+
             DateRangeReportProperties dateRangeReportProperties = new DateRangeReportProperties();
             dgv_report.DataSource = dateRangeReportProperties.GetSalesReportsByDateRange(startDate, endDate);
             dgv_report.Columns["OrderDate"].DefaultCellStyle.Format = "MMM dd yyyy";
+
+            // Set current report type
+            _currentReportType = $"Date Range Report ({startDate:MMM dd, yyyy} to {endDate:MMM dd, yyyy})";
+
+            // Enable print button
+            btn_Print.Enabled = true;
+            btn_Print.Visible = true;
         }
 
         private void btn_dailyReports_Click(object sender, EventArgs e)
@@ -157,6 +167,8 @@ namespace SariSariStore.Admin.View
             btn_Print.Enabled = true;
             btn_Print.Visible = true;
 
+            _currentReportType = "Complete Sales Report";
+
         }
 
         private void btn_SpecificOrder_Click(object sender, EventArgs e)
@@ -167,10 +179,18 @@ namespace SariSariStore.Admin.View
             dgv_report.DataSource = getspecificdate.DisplaySpecificDateOrder(specific);
             dgv_report.Columns["OrderDate"].DefaultCellStyle.Format = "MMM dd yyyy";
 
+            // Set current report type
+            _currentReportType = $"Specific Date Report ({specific:MMM dd, yyyy})";
+
+            // Enable print button
+            btn_Print.Enabled = true;
+            btn_Print.Visible = true;
+
         }
 
         private void btn_Print_Click(object sender, EventArgs e)
         {
+
             if (dgv_report.Rows.Count == 0)
             {
                 MessageBox.Show("No data to print.", "Print Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -178,27 +198,33 @@ namespace SariSariStore.Admin.View
             }
             try
             {
-                // To get the current report data and type
-                string reportType = GetCurrentReportType();
+                // Use the tracked report type
+                string reportType = _currentReportType;
                 DateTime? startDate = null;
                 DateTime? endDate = null;
                 DateTime? specificDate = null;
 
-                if (btn_Entery.Focused || btn_Entery.ContainsFocus)
+                // Determine which dates to use based on the report type
+                if (_currentReportType.Contains("Date Range"))
                 {
                     startDate = dtpStartDate.Value.Date;
                     endDate = dtpEndDate.Value.Date;
                 }
-                else if (btn_SpecificOrder.Focused || btn_SpecificOrder.ContainsFocus)
+                else if (_currentReportType.Contains("Specific Date"))
                 {
                     specificDate = dtp_SpecifiDate.Value.Date;
                 }
+
+                //// Debug: Check what dates are being passed
+                //Console.WriteLine($"Report Type: {reportType}");
+                //Console.WriteLine($"Start Date: {startDate}");
+                //Console.WriteLine($"End Date: {endDate}");
+                //Console.WriteLine($"Specific Date: {specificDate}");
 
                 // Get the data from DataGridView with proper column detection
                 var reportData = GetReportDataFromGrid();
                 decimal totalSales = CalculateTotalSales(reportData);
                 int totalOrders = CalculateTotalOrders(reportData);
-
 
                 ReportPrint printForm = new ReportPrint(reportType, reportData, totalSales, totalOrders, startDate, endDate, specificDate);
                 printForm.ShowDialog();
@@ -268,43 +294,87 @@ namespace SariSariStore.Admin.View
 
         private decimal CalculateTotalSales(List<Dictionary<string, object>> reportData)
         {
+         
             decimal total = 0;
 
-            // For DateRangeReportProperties, we need to sum OrderTotal but only count each order once
-            if (reportData.Count > 0 && reportData[0].ContainsKey("OrderTotal"))
-            {
-                var distinctOrders = reportData
-                    .Where(row => row.ContainsKey("OrderID") && row["OrderID"] != null)
-                    .Select(row => new { OrderID = row["OrderID"].ToString(), OrderTotal = row["OrderTotal"] })
-                    .DistinctBy(x => x.OrderID);
+            if (reportData.Count == 0)
+                return total;
 
-                foreach (var order in distinctOrders)
+            // Check if this is DateRangeReportProperties data
+            bool isDateRangeReport = reportData[0].ContainsKey("OrderDate") &&
+                                   reportData[0].ContainsKey("OrderTotal");
+
+            if (isDateRangeReport)
+            {
+                
+                foreach (var row in reportData)
                 {
-                    if (decimal.TryParse(order.OrderTotal.ToString(), out decimal orderTotal))
+                    if (row.ContainsKey("OrderTotal") && row["OrderTotal"] != null)
                     {
-                        total += orderTotal;
+                        string orderTotalStr = row["OrderTotal"].ToString();
+
+                        if (decimal.TryParse(orderTotalStr, out decimal orderTotal))
+                        {
+                            total += orderTotal;
+                        }
                     }
                 }
-                return total;
-            }
 
-            // For other report types, use the original logic
-            foreach (var row in reportData)
-            {
-                string[] possibleAmountColumns = {
-            "TotalRevenue", "Revenue", "Total", "TotalAmount",
-            "OrderTotal", "DailySales", "MonthlySales", "Amount"
-        };
+                
+                var distinctOrderTotals = new Dictionary<string, decimal>();
 
-                foreach (string columnName in possibleAmountColumns)
+                foreach (var row in reportData)
                 {
-                    if (row.ContainsKey(columnName) && row[columnName] != null)
+                    // Try to get OrderID if available, otherwise use a combination of OrderDate and CustomerName
+                    string orderKey = "";
+                    if (row.ContainsKey("OrderID") && row["OrderID"] != null)
                     {
-                        string value = row[columnName].ToString();
-                        if (decimal.TryParse(value, out decimal amount))
+                        orderKey = row["OrderID"].ToString();
+                    }
+                    else if (row.ContainsKey("OrderDate") && row.ContainsKey("CustomerName"))
+                    {
+                        orderKey = $"{row["OrderDate"]}_{row["CustomerName"]}";
+                    }
+
+                    if (!string.IsNullOrEmpty(orderKey) && row.ContainsKey("OrderTotal") && row["OrderTotal"] != null)
+                    {
+                        string orderTotalStr = row["OrderTotal"].ToString();
+                        if (decimal.TryParse(orderTotalStr, out decimal orderTotal))
                         {
-                            total += amount;
-                            break;
+                            if (!distinctOrderTotals.ContainsKey(orderKey))
+                            {
+                                distinctOrderTotals[orderKey] = orderTotal;
+                            }
+                        }
+                    }
+                }
+
+                // If we found distinct orders, use that total instead
+                if (distinctOrderTotals.Count > 0)
+                {
+                    total = distinctOrderTotals.Values.Sum();
+                }
+            }
+            else
+            {
+                // For other report types (SalesReport, Daily, Monthly), use the original logic
+                foreach (var row in reportData)
+                {
+                    string[] possibleAmountColumns = {
+                "TotalRevenue", "Revenue", "Total", "TotalAmount",
+                "OrderTotal", "DailySales", "MonthlySales", "Amount"
+            };
+
+                    foreach (string columnName in possibleAmountColumns)
+                    {
+                        if (row.ContainsKey(columnName) && row[columnName] != null)
+                        {
+                            string value = row[columnName].ToString();
+                            if (decimal.TryParse(value, out decimal amount))
+                            {
+                                total += amount;
+                                break;
+                            }
                         }
                     }
                 }
@@ -352,21 +422,6 @@ namespace SariSariStore.Admin.View
             // If no valid order counts found, return the number of records
             return totalOrders > 0 ? totalOrders : reportData.Count;
         }
-
-        private string GetCurrentReportType()
-        {
-            if (btn_dailyReports.Focused || btn_dailyReports.ContainsFocus)
-                return "Daily Sales Report";
-            else if (btn_MonthlyReports.Focused || btn_MonthlyReports.ContainsFocus)
-                return "Monthly Sales Report";
-            else if (btn_Entery.Focused || btn_Entery.ContainsFocus)
-                return $"Date Range Report ({dtpStartDate.Value:MMM dd, yyyy} to {dtpEndDate.Value:MMM dd, yyyy})";
-            else if (btn_SpecificOrder.Focused || btn_SpecificOrder.ContainsFocus)
-                return $"Specific Date Report ({dtp_SpecifiDate.Value:MMM dd, yyyy})";
-            else
-                return "Complete Sales Report";
-        }
-
     }
 }
 
