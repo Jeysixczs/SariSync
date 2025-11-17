@@ -1,5 +1,5 @@
-﻿const baseUrl = "https://192.168.100.4:7211/api/Product";
-const orderBaseUrl = "https://192.168.100.4:7211/api/Order";
+﻿const baseUrl = "https://192.168.254.107:7211/api/Product";
+const orderBaseUrl = "https://192.168.254.107:7211/api/Order";
 let allCategories = [];
 
 // User management functions
