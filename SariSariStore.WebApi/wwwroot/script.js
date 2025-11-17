@@ -91,6 +91,12 @@ function saveCart(cart) {
 }
 
 function addToCart(product) {
+    // Check if product is out of stock
+    if (product.stock <= 0) {
+        showNotification('This product is out of stock!', 'error');
+        return;
+    }
+
     const cart = getCart();
     const productId = product.productID;
 
@@ -103,6 +109,11 @@ function addToCart(product) {
     const existingItem = cart.find(item => item.id === productId);
 
     if (existingItem) {
+        // Check if adding more would exceed available stock
+        if (existingItem.quantity + 1 > product.stock) {
+            showNotification(`Only ${product.stock} items available in stock!`, 'error');
+            return;
+        }
         existingItem.quantity += 1;
     } else {
         cart.push({
@@ -152,11 +163,15 @@ function updateCartItemQuantity(productId, change) {
     const item = cart.find(item => item.id == productId);
 
     if (item) {
-        item.quantity += change;
+        const newQuantity = item.quantity + change;
 
-        if (item.quantity <= 0) {
+        // Check if the new quantity is valid
+        if (newQuantity <= 0) {
             removeFromCart(productId);
+        } else if (newQuantity > item.stock) {
+            showNotification(`Only ${item.stock} items available in stock!`, 'error');
         } else {
+            item.quantity = newQuantity;
             saveCart(cart);
             showQuantityUpdateNotification(item.name, item.quantity);
         }
@@ -309,8 +324,10 @@ function updateCartPreview() {
 
     cart.forEach(item => {
         const itemTotal = item.price * item.quantity;
+        const isOutOfStock = item.quantity > item.stock;
+
         cartHTML += `
-            <div class="cart-item" data-product-id="${item.id}">
+            <div class="cart-item ${isOutOfStock ? 'out-of-stock' : ''}" data-product-id="${item.id}">
                 <div class="cart-item-image">
                     <img src="${item.image}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/80x80?text=Product'">
                 </div>
@@ -318,14 +335,20 @@ function updateCartPreview() {
                     <h4 class="cart-item-name">${item.name}</h4>
                     <p class="cart-item-category">${item.category}</p>
                     <p class="cart-item-price">₱${item.price.toFixed(2)}</p>
+                    ${isOutOfStock ? `
+                        <div class="stock-warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Only ${item.stock} available in stock
+                        </div>
+                    ` : ''}
                 </div>
                 <div class="cart-item-controls">
                     <div class="quantity-controls">
-                        <button class="quantity-btn minus" onclick="updateCartItemQuantity('${item.id}', -1)">
+                        <button class="quantity-btn minus" onclick="updateCartItemQuantity('${item.id}', -1)" ${item.quantity <= 1 ? 'disabled' : ''}>
                             <i class="fas fa-minus"></i>
                         </button>
                         <span class="quantity-display">${item.quantity}</span>
-                        <button class="quantity-btn plus" onclick="updateCartItemQuantity('${item.id}', 1)">
+                        <button class="quantity-btn plus" onclick="updateCartItemQuantity('${item.id}', 1)" ${item.quantity >= item.stock ? 'disabled' : ''}>
                             <i class="fas fa-plus"></i>
                         </button>
                     </div>
@@ -378,6 +401,14 @@ function proceedToCheckout() {
 
     if (cart.length === 0) {
         alert('Your cart is empty! Please add some items before checking out.');
+        return;
+    }
+
+    // Check if any items in cart are out of stock
+    const outOfStockItems = cart.filter(item => item.quantity > item.stock);
+    if (outOfStockItems.length > 0) {
+        const itemNames = outOfStockItems.map(item => item.name).join(', ');
+        alert(`The following items have insufficient stock: ${itemNames}. Please adjust quantities before checking out.`);
         return;
     }
 
@@ -434,10 +465,16 @@ function showCheckoutModal() {
                         <h3>Order Summary</h3>
                         <div class="order-summary-items">
                             ${cart.map(item => `
-                                <div class="order-summary-item">
+                                <div class="order-summary-item ${item.quantity > item.stock ? 'out-of-stock' : ''}">
                                     <div class="item-info">
                                         <span class="item-name">${item.name}</span>
                                         <span class="item-quantity">Qty: ${item.quantity}</span>
+                                        ${item.quantity > item.stock ? `
+                                            <span class="stock-warning-small">
+                                                <i class="fas fa-exclamation-triangle"></i>
+                                                Only ${item.stock} available
+                                            </span>
+                                        ` : ''}
                                     </div>
                                     <span class="item-total">₱${(item.price * item.quantity).toFixed(2)}</span>
                                 </div>
@@ -520,6 +557,12 @@ async function handleOrderSubmission(e) {
     try {
         const cart = getCart();
         const currentUser = getCurrentUser();
+
+        // Final stock validation before submitting
+        const outOfStockItems = cart.filter(item => item.quantity > item.stock);
+        if (outOfStockItems.length > 0) {
+            throw new Error('Some items in your cart have insufficient stock. Please adjust quantities and try again.');
+        }
 
         const orderData = {
             customerName: currentUser.name,
@@ -796,13 +839,14 @@ function displayProducts(products) {
         productInfo.appendChild(productPrice);
 
         const productStock = document.createElement('div');
-        productStock.className = 'product-stock';
+        productStock.className = `product-stock ${product.stock > 0 ? 'in-stock' : 'out-of-stock'}`;
         productStock.textContent = product.stock > 0 ? `In Stock: ${product.stock}` : 'Out of Stock';
         productInfo.appendChild(productStock);
 
         const addToCartBtn = document.createElement('button');
         addToCartBtn.className = 'add-to-cart';
-        addToCartBtn.textContent = 'Add to Cart';
+        addToCartBtn.textContent = product.stock > 0 ? 'Add to Cart' : 'Out of Stock';
+        addToCartBtn.disabled = product.stock <= 0;
         addToCartBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             addToCart(product);
@@ -837,9 +881,11 @@ function showProductModal(product) {
                 ${product.discountPrice && product.discountPrice < product.price ?
             `<span class="modal-original-price">₱${product.price.toFixed(2)}</span>` : ''}
             </div>
-                <div class="modal-product-stock in-stock">${product.stock}</div>
-                <button class="modal-add-to-cart" onclick="addToCart(${JSON.stringify(product).replace(/"/g, '&quot;')})">
-                    Add to Cart
+                <div class="modal-product-stock ${product.stock > 0 ? 'in-stock' : 'out-of-stock'}">${product.stock > 0 ? `In Stock: ${product.stock}` : 'Out of Stock'}</div>
+                <button class="modal-add-to-cart ${product.stock <= 0 ? 'disabled' : ''}" 
+                        onclick="${product.stock > 0 ? `addToCart(${JSON.stringify(product).replace(/"/g, '&quot;')})` : ''}"
+                        ${product.stock <= 0 ? 'disabled' : ''}>
+                    ${product.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
                 </button>
             </div>
         </div>
@@ -1220,7 +1266,7 @@ function startAutoRefresh(orders) {
         } catch (error) {
             console.error('Error auto-refreshing orders:', error);
         }
-    }, 3000); 
+    }, 3000);
 
     // Also refresh individual order statuses more frequently
     pendingOrders.forEach(order => {
