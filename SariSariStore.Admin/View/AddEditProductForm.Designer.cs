@@ -51,9 +51,6 @@
             txtboxDescription = new TextBox();
             label1 = new Label();
             txtboxProductName = new TextBox();
-            panelImageSection = new Panel();
-            Btn_UploadImage = new Button();
-            panel1 = new Panel();
             panelFooter = new Panel();
             cancelButton = new Button();
             saveButton = new Button();
@@ -64,7 +61,6 @@
             ((System.ComponentModel.ISupportInitialize)numericSellingPrice).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NumericStock).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericPrice).BeginInit();
-            panelImageSection.SuspendLayout();
             panelFooter.SuspendLayout();
             SuspendLayout();
             // 
@@ -75,7 +71,7 @@
             panelHeader.Dock = DockStyle.Top;
             panelHeader.Location = new Point(0, 0);
             panelHeader.Name = "panelHeader";
-            panelHeader.Size = new Size(700, 70);
+            panelHeader.Size = new Size(489, 70);
             panelHeader.TabIndex = 0;
             panelHeader.Paint += panelHeader_Paint;
             // 
@@ -94,12 +90,11 @@
             // 
             panelMain.BackColor = Color.FromArgb(20, 20, 50);
             panelMain.Controls.Add(panelFormSection);
-            panelMain.Controls.Add(panelImageSection);
             panelMain.Dock = DockStyle.Fill;
             panelMain.Location = new Point(0, 70);
             panelMain.Name = "panelMain";
             panelMain.Padding = new Padding(25);
-            panelMain.Size = new Size(700, 681);
+            panelMain.Size = new Size(489, 681);
             panelMain.TabIndex = 1;
             panelMain.Paint += panelMain_Paint;
             // 
@@ -125,16 +120,16 @@
             panelFormSection.Controls.Add(txtboxDescription);
             panelFormSection.Controls.Add(label1);
             panelFormSection.Controls.Add(txtboxProductName);
-            panelFormSection.Location = new Point(290, 25);
+            panelFormSection.Location = new Point(12, 16);
             panelFormSection.Name = "panelFormSection";
             panelFormSection.Padding = new Padding(25);
-            panelFormSection.Size = new Size(385, 650);
+            panelFormSection.Size = new Size(469, 650);
             panelFormSection.TabIndex = 1;
             // 
             // checkBox1
             // 
             checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(220, 405);
+            checkBox1.Location = new Point(301, 405);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new Size(140, 19);
             checkBox1.TabIndex = 12;
@@ -184,7 +179,7 @@
             numericPaymenttosupplier.Location = new Point(25, 620);
             numericPaymenttosupplier.Maximum = new decimal(new int[] { -727379968, 232, 0, 0 });
             numericPaymenttosupplier.Name = "numericPaymenttosupplier";
-            numericPaymenttosupplier.Size = new Size(335, 25);
+            numericPaymenttosupplier.Size = new Size(416, 25);
             numericPaymenttosupplier.TabIndex = 9;
             numericPaymenttosupplier.ValueChanged += numericSellingPrice_ValueChanged;
             // 
@@ -197,7 +192,7 @@
             numericSellingPrice.Location = new Point(25, 499);
             numericSellingPrice.Maximum = new decimal(new int[] { -727379968, 232, 0, 0 });
             numericSellingPrice.Name = "numericSellingPrice";
-            numericSellingPrice.Size = new Size(335, 25);
+            numericSellingPrice.Size = new Size(416, 25);
             numericSellingPrice.TabIndex = 9;
             numericSellingPrice.ValueChanged += numericSellingPrice_ValueChanged;
             // 
@@ -222,7 +217,7 @@
             dtp_ExpirationDate.Font = new Font("Segoe UI", 10F);
             dtp_ExpirationDate.Location = new Point(25, 430);
             dtp_ExpirationDate.Name = "dtp_ExpirationDate";
-            dtp_ExpirationDate.Size = new Size(335, 25);
+            dtp_ExpirationDate.Size = new Size(416, 25);
             dtp_ExpirationDate.TabIndex = 11;
             dtp_ExpirationDate.ValueChanged += dtp_ExpirationDate_ValueChanged;
             // 
@@ -246,7 +241,7 @@
             NumericStock.Location = new Point(25, 365);
             NumericStock.Maximum = new decimal(new int[] { -727379968, 232, 0, 0 });
             NumericStock.Name = "NumericStock";
-            NumericStock.Size = new Size(335, 25);
+            NumericStock.Size = new Size(416, 25);
             NumericStock.TabIndex = 10;
             // 
             // label4
@@ -269,7 +264,7 @@
             numericPrice.Location = new Point(25, 300);
             numericPrice.Maximum = new decimal(new int[] { -727379968, 232, 0, 0 });
             numericPrice.Name = "numericPrice";
-            numericPrice.Size = new Size(335, 25);
+            numericPrice.Size = new Size(416, 25);
             numericPrice.TabIndex = 9;
             // 
             // label3
@@ -292,7 +287,7 @@
             cmbSupplier.Items.AddRange(new object[] { "" });
             cmbSupplier.Location = new Point(25, 556);
             cmbSupplier.Name = "cmbSupplier";
-            cmbSupplier.Size = new Size(335, 25);
+            cmbSupplier.Size = new Size(416, 25);
             cmbSupplier.TabIndex = 8;
             cmbSupplier.SelectedIndexChanged += cmbCategory_SelectedIndexChanged;
             cmbSupplier.KeyPress += cmbSupplier_KeyPress;
@@ -307,7 +302,7 @@
             cmbCategory.Items.AddRange(new object[] { "" });
             cmbCategory.Location = new Point(25, 235);
             cmbCategory.Name = "cmbCategory";
-            cmbCategory.Size = new Size(335, 25);
+            cmbCategory.Size = new Size(416, 25);
             cmbCategory.TabIndex = 8;
             cmbCategory.SelectedIndexChanged += cmbCategory_SelectedIndexChanged;
             // 
@@ -331,7 +326,7 @@
             txtboxDescription.Location = new Point(25, 115);
             txtboxDescription.Multiline = true;
             txtboxDescription.Name = "txtboxDescription";
-            txtboxDescription.Size = new Size(335, 80);
+            txtboxDescription.Size = new Size(416, 80);
             txtboxDescription.TabIndex = 7;
             // 
             // label1
@@ -353,46 +348,8 @@
             txtboxProductName.ForeColor = Color.White;
             txtboxProductName.Location = new Point(25, 50);
             txtboxProductName.Name = "txtboxProductName";
-            txtboxProductName.Size = new Size(335, 25);
+            txtboxProductName.Size = new Size(416, 25);
             txtboxProductName.TabIndex = 6;
-            // 
-            // panelImageSection
-            // 
-            panelImageSection.BackColor = Color.FromArgb(28, 28, 65);
-            panelImageSection.Controls.Add(Btn_UploadImage);
-            panelImageSection.Controls.Add(panel1);
-            panelImageSection.Location = new Point(25, 25);
-            panelImageSection.Name = "panelImageSection";
-            panelImageSection.Padding = new Padding(15);
-            panelImageSection.Size = new Size(250, 650);
-            panelImageSection.TabIndex = 0;
-            // 
-            // Btn_UploadImage
-            // 
-            Btn_UploadImage.BackColor = Color.FromArgb(74, 107, 255);
-            Btn_UploadImage.Cursor = Cursors.Hand;
-            Btn_UploadImage.FlatAppearance.BorderSize = 0;
-            Btn_UploadImage.FlatAppearance.MouseOverBackColor = Color.FromArgb(65, 95, 230);
-            Btn_UploadImage.FlatStyle = FlatStyle.Flat;
-            Btn_UploadImage.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            Btn_UploadImage.ForeColor = Color.White;
-            Btn_UploadImage.Location = new Point(26, 380);
-            Btn_UploadImage.Name = "Btn_UploadImage";
-            Btn_UploadImage.Size = new Size(200, 40);
-            Btn_UploadImage.TabIndex = 1;
-            Btn_UploadImage.Text = "📷 Upload Image";
-            Btn_UploadImage.UseVisualStyleBackColor = false;
-            Btn_UploadImage.Click += Btn_UploadImage_Click;
-            // 
-            // panel1
-            // 
-            panel1.BackColor = Color.FromArgb(40, 40, 80);
-            panel1.BackgroundImageLayout = ImageLayout.Stretch;
-            panel1.BorderStyle = BorderStyle.FixedSingle;
-            panel1.Location = new Point(26, 155);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(200, 200);
-            panel1.TabIndex = 0;
             // 
             // panelFooter
             // 
@@ -402,7 +359,7 @@
             panelFooter.Dock = DockStyle.Bottom;
             panelFooter.Location = new Point(0, 751);
             panelFooter.Name = "panelFooter";
-            panelFooter.Size = new Size(700, 80);
+            panelFooter.Size = new Size(489, 80);
             panelFooter.TabIndex = 2;
             // 
             // cancelButton
@@ -414,7 +371,7 @@
             cancelButton.FlatStyle = FlatStyle.Flat;
             cancelButton.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             cancelButton.ForeColor = Color.White;
-            cancelButton.Location = new Point(545, 20);
+            cancelButton.Location = new Point(253, 17);
             cancelButton.Name = "cancelButton";
             cancelButton.Size = new Size(130, 40);
             cancelButton.TabIndex = 13;
@@ -431,7 +388,7 @@
             saveButton.FlatStyle = FlatStyle.Flat;
             saveButton.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             saveButton.ForeColor = Color.White;
-            saveButton.Location = new Point(400, 20);
+            saveButton.Location = new Point(75, 17);
             saveButton.Name = "saveButton";
             saveButton.Size = new Size(130, 40);
             saveButton.TabIndex = 12;
@@ -444,7 +401,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(20, 20, 50);
-            ClientSize = new Size(700, 831);
+            ClientSize = new Size(489, 831);
             Controls.Add(panelMain);
             Controls.Add(panelHeader);
             Controls.Add(panelFooter);
@@ -466,12 +423,11 @@
             ((System.ComponentModel.ISupportInitialize)numericSellingPrice).EndInit();
             ((System.ComponentModel.ISupportInitialize)NumericStock).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericPrice).EndInit();
-            panelImageSection.ResumeLayout(false);
             panelFooter.ResumeLayout(false);
             ResumeLayout(false);
         }
+
         #endregion
-        private Button Btn_UploadImage;
         private NumericUpDown NumericStock;
         private NumericUpDown numericPrice;
         private TextBox txtboxDescription;
@@ -482,7 +438,6 @@
         private Label label2;
         private ComboBox cmbCategory;
         private Label label3;
-        private Panel panel1;
         private DateTimePicker dtp_ExpirationDate;
         private Label label4;
         private Label label5;
@@ -492,7 +447,6 @@
         private NumericUpDown numericSellingPrice;
         private Panel panelFooter;
         private Panel panelFormSection;
-        private Panel panelImageSection;
         private Panel panelMain;
         private Label labelTitle;
         private Panel panelHeader;

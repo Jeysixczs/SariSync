@@ -89,14 +89,11 @@ namespace SariSariStore.Admin.View
             await transition.ShowFormSafely(this, new ReportFrom(), OnFormReturn);
         }
 
-
-
         public void DisplayOrderHistory()
         {
             dgv_orderhistory.Rows.Clear();
             dgv_orderhistory.DataSource = ord.GetAllOrders();
 
-            //Format the dgv_orderhistory
             if (dgv_orderhistory.Columns.Count > 0)
             {
                 dgv_orderhistory.Columns["OrderID"].HeaderText = "Order ID";
@@ -106,8 +103,7 @@ namespace SariSariStore.Admin.View
                 dgv_orderhistory.Columns["TotalAmount"].DefaultCellStyle.Format = "C2";
                 dgv_orderhistory.Columns["Notes"].Visible = false;
                 dgv_orderhistory.Columns["Remarks"].Visible = false;
-
-                // Format date column
+                dgv_orderhistory.Columns["IsPaid"].Visible = false;
                 dgv_orderhistory.Columns["OrderDate"].DefaultCellStyle.Format = "MMM dd, yyyy hh:mm tt";
             }
         }

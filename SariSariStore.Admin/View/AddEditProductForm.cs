@@ -20,7 +20,7 @@ namespace SariSariStore.Admin
         private static readonly string ImagesDirectory =
             Path.Combine(Environment.CurrentDirectory, "ProductImages");
 
-        // Constructor for adding new product
+       
         public AddEditProductForm()
         {
             InitializeComponent();
@@ -31,7 +31,7 @@ namespace SariSariStore.Admin
             DisplaySupplierName();
         }
 
-        // Constructor for editing an existing product
+       
         public AddEditProductForm(int productId, int supplierId)
         {
             InitializeComponent();
@@ -84,12 +84,12 @@ namespace SariSariStore.Admin
                 cmbCategory.Text = product.Category;
                 numericPrice.Value = product.Price;
                 NumericStock.Value = product.Stock;
-               numericPaymenttosupplier.Value = product.supplier_payment;
+                numericPaymenttosupplier.Value = product.supplier_payment;
                 numericSellingPrice.Value = product.SellingPrice;
 
                 if (product.SupplierID > 0)
                 {
-                    // Find and select the supplier in the ComboBox
+               
                     foreach (Supplier item in cmbSupplier.Items)
                     {
                         if (item.SupplierID == product.SupplierID)
@@ -111,17 +111,8 @@ namespace SariSariStore.Admin
                     dtp_ExpirationDate.Value = product.DateExpired.Value;
                 }
 
-                if (!string.IsNullOrEmpty(product.ImagePath))
-                {
-                    selectedImagePath = product.ImagePath;
-                    DisplayImageInPanel(selectedImagePath);
-                }
-                else
-                {
-                    panel1.BackgroundImage = null;
-                    panel1.BackgroundImage = null;
-                    panel1.BackColor = Color.LightGray;
-                }
+               
+                
             }
             catch (Exception ex)
             {
@@ -143,7 +134,6 @@ namespace SariSariStore.Admin
                     return;
                 }
 
-                // Get the selected SupplierID from ComboBox
                 int supplierId = 0;
                 if (cmbSupplier.SelectedValue != null)
                 {
@@ -164,7 +154,8 @@ namespace SariSariStore.Admin
                     supplier_payment = numericPaymenttosupplier.Value,
                     DateExpired = dateExpired,
                     SellingPrice = numericSellingPrice.Value,
-                    SupplierID = supplierId 
+                    SupplierID = supplierId,
+                  
                 };
 
               
@@ -210,48 +201,7 @@ namespace SariSariStore.Admin
 
         }
 
-
-        private void Btn_UploadImage_Click(object sender, EventArgs e)
-        {
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
-            {
-                openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;*.bmp";
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    temporaryImagePath = openFileDialog.FileName;
-
-                    DisplayImageInPanel(temporaryImagePath);
-                }
-            }
-        }
-
-        private void DisplayImageInPanel(string imagePath)
-        {
-            try
-            {
-                if (panel1.BackgroundImage != null)
-                {
-                    panel1.BackgroundImage.Dispose();
-                }
-
-                if (!string.IsNullOrEmpty(imagePath) && File.Exists(imagePath))
-                {
-                    panel1.BackgroundImage = Image.FromFile(imagePath);
-                    panel1.BackgroundImageLayout = ImageLayout.Zoom;
-                }
-                else
-                {
-                    panel1.BackgroundImage = null;
-                    panel1.BackColor = Color.LightGray;
-                }
-            }
-            catch (Exception ex)
-            {
-                panel1.BackgroundImage = null;
-                panel1.BackColor = Color.LightGray;
-                Console.WriteLine($"Error loading image: {ex.Message}");
-            }
-        }
+       
 
         private void cancelButton_Click(object sender, EventArgs e)
         {

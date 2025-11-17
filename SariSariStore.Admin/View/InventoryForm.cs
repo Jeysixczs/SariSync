@@ -95,7 +95,7 @@ namespace SariSariStore.Admin.View
         public void DisplaySupplier()
         {
             dgv_supplier.DataSource = supplier.GetAllSuppliers();
-            dgv_supplier.Columns["SupplierID"].Visible = false;
+           
             dgv_supplier.Columns["IsActive"].Visible = false;
             dgv_supplier.Columns["CreatedDate"].Visible = false;
             dgv_supplier.Columns["Products"].Visible = false;

@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HistoryF));
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HistoryF));
             panel1 = new Panel();
             btn_printreceipt = new Button();
             label7 = new Label();
@@ -54,7 +54,6 @@
             btn_Inventory = new Button();
             btn_Products = new Button();
             btn_Dashboard = new Button();
-            btnMarkasPaid = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             panel2.SuspendLayout();
@@ -72,7 +71,6 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(35, 35, 65);
-            panel1.Controls.Add(btnMarkasPaid);
             panel1.Controls.Add(btn_printreceipt);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(pictureBox6);
@@ -290,15 +288,6 @@
             btn_Dashboard.UseVisualStyleBackColor = false;
             btn_Dashboard.Click += btn_Dashboard_Click;
             // 
-            // btnMarkasPaid
-            // 
-            btnMarkasPaid.BackColor = Color.FromArgb(40, 40, 65);
-            btnMarkasPaid.ForeColor = Color.White;
-            resources.ApplyResources(btnMarkasPaid, "btnMarkasPaid");
-            btnMarkasPaid.Name = "btnMarkasPaid";
-            btnMarkasPaid.UseVisualStyleBackColor = false;
-            btnMarkasPaid.Click += btnMarkasPaid_Click;
-            // 
             // HistoryF
             // 
             resources.ApplyResources(this, "$this");
@@ -353,6 +342,5 @@
         private Label label12;
         private Button btn_printreceipt;
         private TextBox txtSearch;
-        private Button btnMarkasPaid;
     }
 }

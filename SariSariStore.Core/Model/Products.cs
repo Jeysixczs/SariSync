@@ -96,9 +96,9 @@ namespace SariSariStore.Core.Model
             {
                 connection.Open();
                 string query = @"INSERT INTO tbl_Product 
-            (Name, Description, Category, Price, SellingPrice, Stock, ImagePath, DateAdded, DateExpired, SupplierID)
+            (Name, Description, Category, Price, SellingPrice, Stock, ImagePath, DateAdded, DateExpired, SupplierID, supplier_payment)
             OUTPUT INSERTED.ProductID
-            VALUES (@Name, @Description, @Category, @Price, @SellingPrice, @Stock, @ImagePath, GETDATE(), @DateExpired, @SupplierID)";
+            VALUES (@Name, @Description, @Category, @Price, @SellingPrice, @Stock, @ImagePath, GETDATE(), @DateExpired, @SupplierID, @SupplierPayment)";
 
                 using (var command = new SqlCommand(query, connection))
                 {
@@ -110,8 +110,8 @@ namespace SariSariStore.Core.Model
                     command.Parameters.AddWithValue("@Stock", product.Stock);
                     command.Parameters.AddWithValue("@ImagePath", imagePath ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@DateExpired", product.DateExpired ?? (object)DBNull.Value); 
+                    command.Parameters.AddWithValue("@SupplierPayment", product.supplier_payment);
 
-                    // Handle SupplierID properly - use DBNull.Value if 0
                     if (product.SupplierID > 0)
                     {
                         command.Parameters.AddWithValue("@SupplierID", product.SupplierID);
@@ -127,7 +127,7 @@ namespace SariSariStore.Core.Model
             }
         }
 
-        // Add this method to check if supplier exists
+
         private bool SupplierExists(int supplierId)
         {
             using (var connection = new SqlConnection(ConnectionString))

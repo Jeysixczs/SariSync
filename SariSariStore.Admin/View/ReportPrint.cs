@@ -26,7 +26,7 @@ namespace SariSariStore.Admin.View
         private PrintDialog printDialog;
         private int currentPage = 0;
         private List<List<Dictionary<string, object>>> _pages = new List<List<Dictionary<string, object>>>();
-        private int _rowsPerPage = 35; // to show per 35 rows per page
+        private int _rowsPerPage = 35; 
 
         public ReportPrint(string reportType, List<Dictionary<string, object>> reportData,
                          decimal totalSales, int totalOrders, DateTime? startDate = null,

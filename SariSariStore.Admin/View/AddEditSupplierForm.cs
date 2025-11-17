@@ -14,15 +14,15 @@ namespace SariSariStore.Admin.View
 {
     public partial class AddEditSupplierForm : Form
     {
-        private readonly int _supplierId;
+        public readonly int _supplierId;
         private readonly bool _isEditMode;
-        public Supplier sup = new Supplier();
+        private Supplier _supplierService;
 
         public AddEditSupplierForm()
         {
             InitializeComponent();
             _isEditMode = false;
-
+            _supplierService = new Supplier();
         }
 
         public AddEditSupplierForm(int selectedSupplierId)
@@ -30,6 +30,7 @@ namespace SariSariStore.Admin.View
             InitializeComponent();
             _supplierId = selectedSupplierId;
             _isEditMode = true;
+            _supplierService = new Supplier();
             saveButton.Text = "💾 UPDATE";
         }
 
@@ -99,13 +100,13 @@ namespace SariSariStore.Admin.View
                 if (_isEditMode)
                 {
                     supplier.SupplierID = _supplierId;
-                    supplier.UpdateSupplier(supplier);
+                    _supplierService.UpdateSupplier(supplier);
                     MessageBox.Show("✅ Supplier updated successfully!", "Success",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    supplier.AddSupplier(supplier);
+                    _supplierService.AddSupplier(supplier);
                     MessageBox.Show("✅ Supplier added successfully!", "Success",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -124,19 +125,21 @@ namespace SariSariStore.Admin.View
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         private void LoadSupplierDetails()
         {
             try
             {
-                var supplier = sup.GetSupplierById(_supplierId);
+                var supplier = _supplierService.GetSupplierById(_supplierId);
 
                 if (supplier == null)
                 {
-                    MessageBox.Show("Product not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Supplier not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     this.Close();
                     return;
                 }
 
+                // Populate the form fields with supplier data
                 txtboxSupplierName.Text = supplier.SupplierName;
                 txtboxContactPerson.Text = supplier.ContactPerson ?? string.Empty;
                 txtboxContactNumber.Text = supplier.PhoneNumber ?? string.Empty;
@@ -145,10 +148,11 @@ namespace SariSariStore.Admin.View
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error loading product: {ex.Message}",
+                MessageBox.Show($"Error loading supplier: {ex.Message}",
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         private void AddEditSupplierForm_Load(object sender, EventArgs e)
         {
             if (_isEditMode)
@@ -161,7 +165,6 @@ namespace SariSariStore.Admin.View
         private void cancelButton_Click(object sender, EventArgs e)
         {
             Close();
-
         }
 
         private void txtboxContactNumber_KeyPress(object sender, KeyPressEventArgs e)
@@ -174,8 +177,6 @@ namespace SariSariStore.Admin.View
 
         private void txtboxContactNumber_TextChanged(object sender, EventArgs e)
         {
-
-
             string text = txtboxContactNumber.Text.Replace("-", "");
             string formatted = "";
 
@@ -188,6 +189,7 @@ namespace SariSariStore.Admin.View
 
             ValidatePhoneNumber();
         }
+
         private void ValidatePhoneNumber()
         {
             string digitsOnly = new string(txtboxContactNumber.Text.Where(char.IsDigit).ToArray());

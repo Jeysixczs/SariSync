@@ -71,7 +71,7 @@ namespace SariSariStore.Core.Model
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
                 con.Open();
-                using (SqlCommand cmd = new SqlCommand("SELECT * FROM tbl_product p INNER JOIN tbl_suppliers s ON p.SupplierID = s.SupplierID WHERE p.SupplierID = @SupplierID", con))
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM tbl_suppliers WHERE SupplierID = @SupplierID AND IsActive = 1", con))
                 {
                     cmd.Parameters.AddWithValue("@SupplierID", supplierId);
                     using (SqlDataReader reader = cmd.ExecuteReader())
@@ -85,7 +85,8 @@ namespace SariSariStore.Core.Model
                                 ContactPerson = reader["ContactPerson"]?.ToString() ?? string.Empty,
                                 PhoneNumber = reader["PhoneNumber"]?.ToString() ?? string.Empty,
                                 Address = reader["Address"]?.ToString() ?? string.Empty,
-                                CreatedDate = Convert.ToDateTime(reader["CreatedDate"])
+                                CreatedDate = Convert.ToDateTime(reader["CreatedDate"]),
+                                IsActive = Convert.ToBoolean(reader["IsActive"])
                             };
                         }
                     }
