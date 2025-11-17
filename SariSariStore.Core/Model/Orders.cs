@@ -15,7 +15,6 @@ namespace SariSariStore.Core.Model
     [Table("tbl_Order")]
     public class Orders
     {
-        //send Order to the database
         public string ConnectionString = ConnectionHelper.GetConnectionString();
         [Key]
         public int OrderID { get; set; }

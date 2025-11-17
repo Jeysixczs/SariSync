@@ -33,7 +33,6 @@
             textBox3 = new TextBox();
             button1 = new Button();
             panel1 = new Panel();
-            button2 = new Button();
             label5 = new Label();
             checkBoxShowPassword = new CheckBox();
             label2 = new Label();
@@ -86,7 +85,6 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(28, 28, 65);
-            panel1.Controls.Add(button2);
             panel1.Controls.Add(label5);
             panel1.Controls.Add(checkBoxShowPassword);
             panel1.Controls.Add(label2);
