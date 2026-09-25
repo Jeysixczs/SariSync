@@ -105,16 +105,16 @@ export default function Products() {
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-1 flex-wrap gap-2">
-          <div className="relative">
+          <div className="relative w-full sm:w-64">
             <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
-              className="input w-64 pl-9"
+              className="input pl-9"
               placeholder="Search name, category, description…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-          <select className="input w-44" value={category} onChange={(e) => setCategory(e.target.value)}>
+          <select className="input w-full sm:w-44" value={category} onChange={(e) => setCategory(e.target.value)}>
             <option value="">All categories</option>
             {categories.map((c) => (
               <option key={c} value={c}>{c}</option>
@@ -190,7 +190,7 @@ export default function Products() {
       <Modal open={modalOpen} title={editing ? 'Edit product' : 'Add product'} onClose={() => setModalOpen(false)} width="max-w-2xl">
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && <div className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">{error}</div>}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label className="label">Name</label>
               <input required className="input" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
@@ -204,7 +204,7 @@ export default function Products() {
             <label className="label">Description</label>
             <textarea className="input" rows={2} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
           </div>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <div>
               <label className="label">Cost price</label>
               <input required type="number" step="0.01" className="input" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} />
@@ -218,7 +218,7 @@ export default function Products() {
               <input required type="number" className="input" value={form.stock} onChange={(e) => setForm({ ...form, stock: e.target.value })} />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label className="label">Expiry date (optional)</label>
               <input type="date" className="input" value={form.dateExpired} onChange={(e) => setForm({ ...form, dateExpired: e.target.value })} />
@@ -233,7 +233,7 @@ export default function Products() {
               </select>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label className="label">Payment to supplier</label>
               <input type="number" step="0.01" className="input" value={form.supplierPayment} onChange={(e) => setForm({ ...form, supplierPayment: e.target.value })} />

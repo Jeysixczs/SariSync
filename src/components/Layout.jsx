@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import Sidebar from './Sidebar'
 import Topbar from './Topbar'
@@ -15,13 +16,19 @@ const titles = {
 export default function Layout() {
   const { pathname } = useLocation()
   const title = titles[pathname] || 'SariSync'
+  const [mobileNavOpen, setMobileNavOpen] = useState(false)
+
+  // Close the mobile drawer automatically whenever the route changes
+  useEffect(() => {
+    setMobileNavOpen(false)
+  }, [pathname])
 
   return (
     <div className="flex h-screen overflow-hidden">
-      <Sidebar />
+      <Sidebar mobileOpen={mobileNavOpen} onClose={() => setMobileNavOpen(false)} />
       <div className="flex flex-1 flex-col overflow-hidden">
-        <Topbar title={title} />
-        <main className="flex-1 overflow-y-auto p-6">
+        <Topbar title={title} onMenuClick={() => setMobileNavOpen(true)} />
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6">
           <Outlet />
         </main>
       </div>

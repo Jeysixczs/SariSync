@@ -20,7 +20,7 @@ export default function Orders() {
 
   return (
     <div className="space-y-4">
-      <div className="relative w-72">
+      <div className="relative w-full sm:w-72">
         <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
         <input
           className="input pl-9"
@@ -83,7 +83,7 @@ export default function Orders() {
       <Modal open={!!selected} title={`Order #${selected?.id.slice(0, 8).toUpperCase() || ''}`} onClose={() => setSelected(null)}>
         {selected && (
           <div className="space-y-4 text-sm">
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               <div>
                 <p className="text-xs text-slate-400">Customer</p>
                 <p className="font-medium">{selected.customerName}</p>

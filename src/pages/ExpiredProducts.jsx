@@ -15,16 +15,16 @@ export default function ExpiredProducts() {
 
   return (
     <div className="space-y-4">
-      <div className="flex gap-2 border-b border-slate-200">
+      <div className="flex gap-2 overflow-x-auto border-b border-slate-200">
         <button
           onClick={() => setTab('expired')}
-          className={`px-4 py-2 text-sm font-medium ${tab === 'expired' ? 'border-b-2 border-red-600 text-red-700' : 'text-slate-500 hover:text-slate-700'}`}
+          className={`shrink-0 whitespace-nowrap px-4 py-2 text-sm font-medium ${tab === 'expired' ? 'border-b-2 border-red-600 text-red-700' : 'text-slate-500 hover:text-slate-700'}`}
         >
           Expired ({expired.length})
         </button>
         <button
           onClick={() => setTab('critical')}
-          className={`px-4 py-2 text-sm font-medium ${tab === 'critical' ? 'border-b-2 border-amber-600 text-amber-700' : 'text-slate-500 hover:text-slate-700'}`}
+          className={`shrink-0 whitespace-nowrap px-4 py-2 text-sm font-medium ${tab === 'critical' ? 'border-b-2 border-amber-600 text-amber-700' : 'text-slate-500 hover:text-slate-700'}`}
         >
           Expiring within 30 days ({critical.length})
         </button>

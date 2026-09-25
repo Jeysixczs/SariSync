@@ -12,13 +12,8 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore'
-import {
-  deleteObject,
-  getDownloadURL,
-  ref,
-  uploadBytes,
-} from 'firebase/storage'
-import { db, storage } from '../firebase'
+import { db } from '../firebase'
+import { uploadImage } from './cloudinary'
 import { toDate } from '../utils/format'
 
 const COLLECTION = 'products'
@@ -98,9 +93,8 @@ export async function checkDuplicateProduct(name, excludeId = null) {
 }
 
 export async function uploadProductImage(productId, file) {
-  const fileRef = ref(storage, `product-images/${productId}/${file.name}`)
-  await uploadBytes(fileRef, file)
-  return getDownloadURL(fileRef)
+  const { url } = await uploadImage(file, `product-images/${productId}`)
+  return url
 }
 
 export async function addProduct(product, imageFile) {
@@ -175,10 +169,8 @@ export function searchProducts(products, term) {
 }
 
 export async function removeProductImage(id) {
-  try {
-    await deleteObject(ref(storage, `product-images/${id}`))
-  } catch {
-    // ignore missing image
-  }
+  // Note: unsigned Cloudinary uploads can only be deleted via a signed/
+  // authenticated request (needs a backend), so this just detaches the
+  // reference in Firestore. The unused image stays in Cloudinary storage.
   await updateDoc(doc(db, COLLECTION, id), { imageUrl: deleteField() })
 }

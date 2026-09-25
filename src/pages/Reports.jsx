@@ -38,12 +38,12 @@ export default function Reports() {
 
   return (
     <div className="space-y-4">
-      <div className="flex gap-2 border-b border-slate-200">
+      <div className="flex gap-2 overflow-x-auto border-b border-slate-200">
         {TABS.map((t) => (
           <button
             key={t.id}
             onClick={() => setTab(t.id)}
-            className={`px-4 py-2 text-sm font-medium ${
+            className={`shrink-0 whitespace-nowrap px-4 py-2 text-sm font-medium ${
               tab === t.id ? 'border-b-2 border-brand-600 text-brand-700' : 'text-slate-500 hover:text-slate-700'
             }`}
           >
