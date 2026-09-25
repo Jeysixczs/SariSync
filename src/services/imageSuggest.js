@@ -88,6 +88,10 @@ const KEYWORD_QUERIES = [
   ['fabric conditioner', 'fabric softener'],
   ['dishwashing', 'dish soap'],
   ['bleach', 'bleach bottle'],
+  ['facial tissue', 'facial tissue box'],
+  ['tissue', 'facial tissue box'],
+  ['toilet paper', 'toilet paper roll'],
+  ['napkin', 'paper napkin'],
   ['insect spray', 'insect spray can'],
   ['trash bag', 'garbage bag'],
   ['match', 'matchbox'],
@@ -102,6 +106,103 @@ const KEYWORD_QUERIES = [
   ['ballpen', 'ballpoint pen'],
   ['pad paper', 'notepad paper'],
   ['load card', 'prepaid phone card'],
+
+  // Fresh / wet-market staples commonly resold in a sari-sari store
+  ['egg', 'eggs carton'],
+  ['garlic', 'garlic bulb'],
+  ['onion', 'onion'],
+  ['ginger', 'fresh ginger'],
+  ['calamansi', 'calamansi lime'],
+
+  // Sauces, condiments & cooking staples
+  ['patis', 'fish sauce bottle'],
+  ['bagoong', 'shrimp paste'],
+  ['oyster sauce', 'oyster sauce bottle'],
+  ['mayonnaise', 'mayonnaise jar'],
+  ['peanut butter', 'peanut butter jar'],
+  ['jam', 'fruit jam jar'],
+  ['margarine', 'margarine tub'],
+  ['butter', 'butter block'],
+  ['creamer', 'coffee creamer sachet'],
+  ['oats', 'oatmeal'],
+  ['flour', 'flour bag'],
+  ['cornstarch', 'cornstarch box'],
+  ['baking powder', 'baking powder'],
+  ['yeast', 'yeast packet'],
+  ['broth cube', 'bouillon cube'],
+  ['bouillon', 'bouillon cube'],
+
+  // Pasta / bread-alikes
+  ['spaghetti', 'spaghetti pasta'],
+  ['macaroni', 'macaroni pasta'],
+  ['pasta', 'pasta'],
+  ['graham', 'graham crackers'],
+  ['otap', 'pastry biscuit'],
+  ['hopia', 'filled pastry'],
+  ['siopao', 'steamed bun'],
+
+  // Coffee / drink mixes not already covered
+  ['kopiko', 'coffee candy'],
+  ['nescafe', 'instant coffee sachet'],
+  ['ovaltine', 'chocolate malt drink'],
+  ['yakult', 'probiotic drink bottle'],
+  ['zesto', 'juice drink pouch'],
+  ['tang', 'powdered juice drink'],
+
+  // Chilled / frozen / processed meats
+  ['tocino', 'cured pork'],
+  ['longganisa', 'sausage links'],
+  ['embotido', 'meatloaf'],
+  ['vienna sausage', 'canned sausage'],
+  ['ice candy', 'popsicle'],
+  ['popsicle', 'popsicle'],
+  ['ice cream', 'ice cream cup'],
+
+  // Medicine / first aid, often stocked at the counter
+  ['paracetamol', 'paracetamol tablets'],
+  ['biogesic', 'paracetamol tablets'],
+  ['neozep', 'cold medicine tablets'],
+  ['decolgen', 'cold medicine tablets'],
+  ['bioflu', 'cold medicine tablets'],
+  ['alaxan', 'pain relief tablets'],
+  ['mefenamic', 'pain relief tablets'],
+  ['vitamins', 'vitamin tablets bottle'],
+  ['betadine', 'antiseptic solution'],
+  ['rubbing alcohol', 'rubbing alcohol bottle'],
+
+  // Personal care not already covered
+  ['cotton bud', 'cotton swabs'],
+  ['diaper', 'baby diaper'],
+  ['toothbrush', 'toothbrush'],
+  ['conditioner', 'hair conditioner sachet'],
+  ['lotion', 'body lotion bottle'],
+  ['cologne', 'cologne bottle'],
+  ['sanitizer', 'hand sanitizer bottle'],
+
+  // Household & hardware odds and ends
+  ['lighter', 'cigarette lighter'],
+  ['battery', 'batteries pack'],
+  ['light bulb', 'light bulb'],
+  ['extension cord', 'extension cord'],
+  ['clothespin', 'clothespins'],
+  ['hanger', 'clothes hanger'],
+  ['sponge', 'kitchen sponge'],
+  ['broom', 'broom'],
+  ['dustpan', 'dustpan'],
+  ['mosquito coil', 'mosquito coil'],
+  ['rubber band', 'rubber bands'],
+  ['plastic bag', 'plastic bags'],
+  ['straw', 'drinking straws'],
+  ['lpg', 'gas cylinder tank'],
+  ['kerosene', 'kerosene container'],
+
+  // School / office supplies not already covered
+  ['crayon', 'crayons'],
+  ['folder', 'paper folder'],
+  ['envelope', 'envelope'],
+  ['glue', 'glue bottle'],
+  ['scotch tape', 'adhesive tape roll'],
+  ['scissors', 'scissors'],
 ]
 
 const CATEGORY_FALLBACK_QUERY = {

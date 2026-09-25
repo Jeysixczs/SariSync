@@ -111,12 +111,21 @@ export default function Products() {
     setSaving(true)
     setError('')
     try {
+      // The Pexels suggestion is debounced (600ms) + async, so `suggestedImageUrl`
+      // in state can still be empty/stale if the admin hits Save right after typing
+      // the name. Resolve the real suggestion for the *current* name/category here
+      // instead of trusting the debounced state — suggestProductImage() caches by
+      // query, so this is cheap even if the debounce already fetched it.
+      let finalSuggestedUrl = suggestedImageUrl
+      if (!imageFile && !existingImageUrl && form.name.trim()) {
+        finalSuggestedUrl = await suggestProductImage(form.name, form.category)
+      }
       const supplier = suppliers.find((s) => s.id === form.supplierId)
       const payload = { ...form, supplierName: supplier?.supplierName || '' }
       if (editing) {
-        await updateProduct(editing.id, payload, imageFile, suggestedImageUrl)
+        await updateProduct(editing.id, payload, imageFile, finalSuggestedUrl)
       } else {
-        await addProduct(payload, imageFile, suggestedImageUrl)
+        await addProduct(payload, imageFile, finalSuggestedUrl)
       }
       setModalOpen(false)
     } catch (err) {
@@ -308,8 +317,8 @@ export default function Products() {
           </div>
           <div className="flex justify-end gap-2 pt-2">
             <button type="button" className="btn-secondary" onClick={() => setModalOpen(false)}>Cancel</button>
-            <button type="submit" disabled={saving} className="btn-primary">
-              {saving ? 'Saving…' : 'Save product'}
+            <button type="submit" disabled={saving || suggesting} className="btn-primary">
+              {saving ? 'Saving…' : suggesting ? 'Finding photo…' : 'Save product'}
             </button>
           </div>
         </form>
