@@ -11,6 +11,7 @@ import {
   searchProducts,
 } from '../services/productService'
 import { subscribeSuppliers } from '../services/supplierService'
+import { suggestProductImage } from '../services/imageSuggest'
 import { formatCurrency, formatDate } from '../utils/format'
 
 const emptyForm = {
@@ -34,12 +35,33 @@ export default function Products() {
   const [editing, setEditing] = useState(null)
   const [form, setForm] = useState(emptyForm)
   const [imageFile, setImageFile] = useState(null)
+  const [existingImageUrl, setExistingImageUrl] = useState('') // real image already on the product being edited
+  const [suggestedImageUrl, setSuggestedImageUrl] = useState('') // Pexels auto-suggestion, shown only when there's nothing else to show
+  const [suggesting, setSuggesting] = useState(false)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
   const [toDelete, setToDelete] = useState(null)
 
   useEffect(() => subscribeProducts(setProducts), [])
   useEffect(() => subscribeSuppliers(setSuppliers), [])
+
+  // Auto-suggest a real stock photo as the admin types a name/category —
+  // but never once there's an uploaded file or an existing real image, and
+  // never before a name is entered. Debounced so it doesn't fire on every
+  // keystroke.
+  useEffect(() => {
+    if (imageFile || existingImageUrl || !form.name.trim()) {
+      setSuggestedImageUrl('')
+      return
+    }
+    setSuggesting(true)
+    const timer = setTimeout(async () => {
+      const url = await suggestProductImage(form.name, form.category)
+      setSuggestedImageUrl(url)
+      setSuggesting(false)
+    }, 600)
+    return () => clearTimeout(timer)
+  }, [form.name, form.category, imageFile, existingImageUrl])
 
   const categories = useMemo(() => getCategories(products), [products])
 
@@ -53,6 +75,8 @@ export default function Products() {
     setEditing(null)
     setForm(emptyForm)
     setImageFile(null)
+    setExistingImageUrl('')
+    setSuggestedImageUrl('')
     setError('')
     setModalOpen(true)
   }
@@ -71,8 +95,15 @@ export default function Products() {
       supplierPayment: product.supplierPayment || '',
     })
     setImageFile(null)
+    setExistingImageUrl(product.imageUrl || '')
+    setSuggestedImageUrl('')
     setError('')
     setModalOpen(true)
+  }
+
+  function clearExistingImage() {
+    // Lets the admin remove the current photo so a new suggestion/upload can replace it.
+    setExistingImageUrl('')
   }
 
   async function handleSubmit(e) {
@@ -83,9 +114,9 @@ export default function Products() {
       const supplier = suppliers.find((s) => s.id === form.supplierId)
       const payload = { ...form, supplierName: supplier?.supplierName || '' }
       if (editing) {
-        await updateProduct(editing.id, payload, imageFile)
+        await updateProduct(editing.id, payload, imageFile, suggestedImageUrl)
       } else {
-        await addProduct(payload, imageFile)
+        await addProduct(payload, imageFile, suggestedImageUrl)
       }
       setModalOpen(false)
     } catch (err) {
@@ -240,7 +271,39 @@ export default function Products() {
             </div>
             <div>
               <label className="label">Product image</label>
-              <input type="file" accept="image/*" className="input" onChange={(e) => setImageFile(e.target.files?.[0] || null)} />
+              <div className="flex items-center gap-3">
+                {imageFile ? (
+                  <img src={URL.createObjectURL(imageFile)} alt="Selected" className="h-12 w-12 rounded-lg object-cover" />
+                ) : existingImageUrl ? (
+                  <img src={existingImageUrl} alt="Current" className="h-12 w-12 rounded-lg object-cover" />
+                ) : suggestedImageUrl ? (
+                  <img src={suggestedImageUrl} alt="Suggested" className="h-12 w-12 rounded-lg object-cover ring-2 ring-brand-200" />
+                ) : (
+                  <div className="h-12 w-12 rounded-lg bg-slate-100" />
+                )}
+                <div className="flex-1">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="input"
+                    onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+                  />
+                  {!imageFile && existingImageUrl && (
+                    <button type="button" className="mt-1 text-xs text-slate-400 hover:text-red-500" onClick={clearExistingImage}>
+                      Remove current photo
+                    </button>
+                  )}
+                  {!imageFile && !existingImageUrl && (
+                    <p className="mt-1 text-xs text-slate-400">
+                      {suggesting
+                        ? 'Finding a suggested photo…'
+                        : suggestedImageUrl
+                        ? 'Suggested automatically — upload your own to replace it.'
+                        : 'Upload a photo, or a suggestion will appear once you name the product.'}
+                    </p>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
           <div className="flex justify-end gap-2 pt-2">

@@ -97,7 +97,9 @@ export async function uploadProductImage(productId, file) {
   return url
 }
 
-export async function addProduct(product, imageFile) {
+// imageFile (admin's own upload) always wins over suggestedImageUrl (the
+// Pexels auto-suggestion shown in the form) when both are present.
+export async function addProduct(product, imageFile, suggestedImageUrl) {
   if (await checkDuplicateProduct(product.name)) {
     throw new Error('A product with the same name already exists.')
   }
@@ -108,7 +110,7 @@ export async function addProduct(product, imageFile) {
     price: Number(product.price) || 0,
     sellingPrice: Number(product.sellingPrice) || 0,
     stock: Number(product.stock) || 0,
-    imageUrl: '',
+    imageUrl: imageFile ? '' : suggestedImageUrl || '',
     dateAdded: serverTimestamp(),
     dateExpired: product.dateExpired ? new Date(product.dateExpired) : null,
     isActive: true,
@@ -124,7 +126,7 @@ export async function addProduct(product, imageFile) {
   return docRef.id
 }
 
-export async function updateProduct(id, product, imageFile) {
+export async function updateProduct(id, product, imageFile, suggestedImageUrl) {
   const payload = {
     name: product.name,
     description: product.description || '',
@@ -139,6 +141,8 @@ export async function updateProduct(id, product, imageFile) {
   }
   if (imageFile) {
     payload.imageUrl = await uploadProductImage(id, imageFile)
+  } else if (suggestedImageUrl) {
+    payload.imageUrl = suggestedImageUrl
   }
   await updateDoc(doc(db, COLLECTION, id), payload)
 }
