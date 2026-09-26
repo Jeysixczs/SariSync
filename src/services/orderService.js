@@ -9,13 +9,18 @@ import {
   runTransaction,
   serverTimestamp,
   updateDoc,
+  where,
 } from 'firebase/firestore'
-import { db } from '../firebase'
+import { auth, db } from '../firebase'
 import { toDate } from '../utils/format'
 
 const COLLECTION = 'orders'
 const PRODUCTS_COLLECTION = 'products'
 const ordersRef = collection(db, COLLECTION)
+
+function storeId() {
+  return auth.currentUser?.uid
+}
 
 function mapOrder(docSnap) {
   const data = docSnap.data()
@@ -32,12 +37,12 @@ function mapOrder(docSnap) {
 }
 
 export function subscribeOrders(onChange) {
-  const q = query(ordersRef, orderBy('orderDate', 'desc'))
+  const q = query(ordersRef, where('storeId', '==', storeId()), orderBy('orderDate', 'desc'))
   return onSnapshot(q, (snap) => onChange(snap.docs.map(mapOrder)))
 }
 
 export async function getAllOrders() {
-  const q = query(ordersRef, orderBy('orderDate', 'desc'))
+  const q = query(ordersRef, where('storeId', '==', storeId()), orderBy('orderDate', 'desc'))
   const snap = await getDocs(q)
   return snap.docs.map(mapOrder)
 }
@@ -106,6 +111,7 @@ export async function checkout({ customerName, notes, remarks, isPaid, cart }) {
       isPaid: !!isPaid,
       totalAmount,
       items,
+      storeId: storeId(),
     })
 
     return newOrderRef.id

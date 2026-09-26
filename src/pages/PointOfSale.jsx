@@ -1,12 +1,13 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Minus, Plus, Search, ShoppingCart, Trash2 } from 'lucide-react'
 import Modal from '../components/Modal'
-import { subscribeProducts, getNotExpired, searchProducts } from '../services/productService'
+import { getNotExpired, searchProducts } from '../services/productService'
 import { checkout } from '../services/orderService'
 import { formatCurrency, formatDateTime } from '../utils/format'
+import { useData } from '../contexts/DataContext'
 
 export default function PointOfSale() {
-  const [products, setProducts] = useState([])
+  const { products } = useData()
   const [search, setSearch] = useState('')
   const [cart, setCart] = useState([]) // { productId, productName, unitPrice, quantity, stock }
   const [customerName, setCustomerName] = useState('')
@@ -16,8 +17,7 @@ export default function PointOfSale() {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
   const [receipt, setReceipt] = useState(null)
-
-  useEffect(() => subscribeProducts(setProducts), [])
+  const [cartOpen, setCartOpen] = useState(false) // mobile-only: full cart sheet
 
   const available = useMemo(() => {
     const sellable = getNotExpired(products).filter((p) => p.stock > 0)
@@ -25,6 +25,7 @@ export default function PointOfSale() {
   }, [products, search])
 
   const total = useMemo(() => cart.reduce((sum, i) => sum + i.unitPrice * i.quantity, 0), [cart])
+  const itemCount = useMemo(() => cart.reduce((sum, i) => sum + i.quantity, 0), [cart])
 
   function addToCart(product) {
     setCart((prev) => {
@@ -72,6 +73,7 @@ export default function PointOfSale() {
       setCustomerName('')
       setNotes('')
       setRemarks('')
+      setCartOpen(false)
     } catch (err) {
       setError(err.message || 'Checkout failed.')
     } finally {
@@ -79,9 +81,56 @@ export default function PointOfSale() {
     }
   }
 
+  const cartItems = (
+    <div className="flex-1 space-y-3 overflow-y-auto">
+      {cart.map((item) => (
+        <div key={item.productId} className="flex items-center justify-between gap-2 text-sm">
+          <div className="min-w-0 flex-1">
+            <p className="truncate font-medium text-slate-700">{item.productName}</p>
+            <p className="text-xs text-slate-400">{formatCurrency(item.unitPrice)} each</p>
+          </div>
+          <div className="flex items-center gap-0.5">
+            <button className="rounded-lg p-2 hover:bg-slate-100" onClick={() => changeQty(item.productId, -1)}>
+              <Minus size={14} />
+            </button>
+            <span className="w-6 text-center">{item.quantity}</span>
+            <button className="rounded-lg p-2 hover:bg-slate-100" onClick={() => changeQty(item.productId, 1)}>
+              <Plus size={14} />
+            </button>
+          </div>
+          <button className="rounded-lg p-2 text-red-400 hover:bg-red-50 hover:text-red-600" onClick={() => removeFromCart(item.productId)}>
+            <Trash2 size={14} />
+          </button>
+        </div>
+      ))}
+      {cart.length === 0 && <p className="text-sm text-slate-400">Cart is empty. Tap a product to add it.</p>}
+    </div>
+  )
+
+  const cartForm = (
+    <div className="mt-4 space-y-3 border-t border-slate-200 pt-4">
+      <input className="input" placeholder="Customer name (optional)" value={customerName} onChange={(e) => setCustomerName(e.target.value)} />
+      <input className="input" placeholder="Notes" value={notes} onChange={(e) => setNotes(e.target.value)} />
+      <input className="input" placeholder="Remarks" value={remarks} onChange={(e) => setRemarks(e.target.value)} />
+      <label className="flex items-center gap-2 text-sm text-slate-600">
+        <input type="checkbox" checked={isPaid} onChange={(e) => setIsPaid(e.target.checked)} />
+        Mark as paid
+      </label>
+      {error && <p className="text-sm text-red-600">{error}</p>}
+      <div className="flex items-center justify-between text-lg font-semibold text-slate-800">
+        <span>Total</span>
+        <span>{formatCurrency(total)}</span>
+      </div>
+      <button className="btn-primary w-full" disabled={busy || cart.length === 0} onClick={handleCheckout}>
+        {busy ? 'Processing…' : 'Complete order'}
+      </button>
+    </div>
+  )
+
   return (
-    <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-      <div className="lg:col-span-2 space-y-4">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:items-start">
+      {/* Extra bottom padding on mobile so the fixed cart bar never covers the last row of products */}
+      <div className="lg:col-span-2 space-y-4 pb-24 lg:pb-0">
         <div className="relative">
           <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
           <input
@@ -91,7 +140,7 @@ export default function PointOfSale() {
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
           {available.map((p) => (
             <button
               key={p.id}
@@ -114,52 +163,35 @@ export default function PointOfSale() {
         </div>
       </div>
 
-      <div className="card flex flex-col p-4">
+      {/* Desktop / tablet: sticky sidebar cart, always visible */}
+      <div className="hidden lg:sticky lg:top-6 lg:flex lg:max-h-[calc(100vh-3rem)] lg:flex-col card p-4">
         <h3 className="mb-3 flex items-center gap-2 font-semibold text-slate-700">
           <ShoppingCart size={16} /> Cart
         </h3>
-        <div className="flex-1 space-y-3 overflow-y-auto">
-          {cart.map((item) => (
-            <div key={item.productId} className="flex items-center justify-between gap-2 text-sm">
-              <div className="min-w-0 flex-1">
-                <p className="truncate font-medium text-slate-700">{item.productName}</p>
-                <p className="text-xs text-slate-400">{formatCurrency(item.unitPrice)} each</p>
-              </div>
-              <div className="flex items-center gap-1">
-                <button className="rounded p-1 hover:bg-slate-100" onClick={() => changeQty(item.productId, -1)}>
-                  <Minus size={14} />
-                </button>
-                <span className="w-6 text-center">{item.quantity}</span>
-                <button className="rounded p-1 hover:bg-slate-100" onClick={() => changeQty(item.productId, 1)}>
-                  <Plus size={14} />
-                </button>
-              </div>
-              <button className="text-red-400 hover:text-red-600" onClick={() => removeFromCart(item.productId)}>
-                <Trash2 size={14} />
-              </button>
-            </div>
-          ))}
-          {cart.length === 0 && <p className="text-sm text-slate-400">Cart is empty. Tap a product to add it.</p>}
-        </div>
-
-        <div className="mt-4 space-y-3 border-t border-slate-200 pt-4">
-          <input className="input" placeholder="Customer name (optional)" value={customerName} onChange={(e) => setCustomerName(e.target.value)} />
-          <input className="input" placeholder="Notes" value={notes} onChange={(e) => setNotes(e.target.value)} />
-          <input className="input" placeholder="Remarks" value={remarks} onChange={(e) => setRemarks(e.target.value)} />
-          <label className="flex items-center gap-2 text-sm text-slate-600">
-            <input type="checkbox" checked={isPaid} onChange={(e) => setIsPaid(e.target.checked)} />
-            Mark as paid
-          </label>
-          {error && <p className="text-sm text-red-600">{error}</p>}
-          <div className="flex items-center justify-between text-lg font-semibold text-slate-800">
-            <span>Total</span>
-            <span>{formatCurrency(total)}</span>
-          </div>
-          <button className="btn-primary w-full" disabled={busy || cart.length === 0} onClick={handleCheckout}>
-            {busy ? 'Processing…' : 'Complete order'}
-          </button>
-        </div>
+        <div className="max-h-[45vh] flex-1 overflow-y-auto">{cartItems}</div>
+        {cartForm}
       </div>
+
+      {/* Mobile: cart collapses into a fixed bottom bar, opens a full sheet so it stays reachable
+          no matter how long the product list is */}
+      <button
+        onClick={() => setCartOpen(true)}
+        disabled={cart.length === 0}
+        className="fixed inset-x-3 bottom-3 z-30 flex items-center justify-between gap-3 rounded-xl bg-brand-600 px-4 py-3 text-white shadow-lg transition disabled:cursor-not-allowed disabled:bg-slate-300 lg:hidden"
+      >
+        <span className="flex items-center gap-2 font-medium">
+          <ShoppingCart size={18} />
+          {itemCount > 0 ? `${itemCount} item${itemCount === 1 ? '' : 's'}` : 'Cart is empty'}
+        </span>
+        <span className="font-semibold">{formatCurrency(total)}</span>
+      </button>
+
+      <Modal open={cartOpen} title="Cart" onClose={() => setCartOpen(false)} width="max-w-md">
+        <div className="flex max-h-[70vh] flex-col">
+          {cartItems}
+          {cartForm}
+        </div>
+      </Modal>
 
       <Modal open={!!receipt} title="Receipt" onClose={() => setReceipt(null)} width="max-w-sm">
         {receipt && (

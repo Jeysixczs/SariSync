@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import {
   Package,
   AlertTriangle,
@@ -16,17 +16,13 @@ import {
   YAxis,
 } from 'recharts'
 import StatCard from '../components/StatCard'
-import { subscribeProducts, getExpired, getCriticallyExpiring, getStockLevel } from '../services/productService'
-import { subscribeOrders } from '../services/orderService'
+import { getExpired, getCriticallyExpiring, getStockLevel } from '../services/productService'
 import { buildDailySalesReport } from '../services/reportService'
 import { formatCurrency, formatDate } from '../utils/format'
+import { useData } from '../contexts/DataContext'
 
 export default function Dashboard() {
-  const [products, setProducts] = useState([])
-  const [orders, setOrders] = useState([])
-
-  useEffect(() => subscribeProducts(setProducts), [])
-  useEffect(() => subscribeOrders(setOrders), [])
+  const { products, orders } = useData()
 
   const expiredCount = useMemo(() => getExpired(products).length, [products])
   const criticalCount = useMemo(() => getCriticallyExpiring(products).length, [products])
@@ -51,7 +47,7 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-5">
         <StatCard icon={Package} label="Active products" value={products.length} tone="brand" />
         <StatCard icon={AlertTriangle} label="Low stock (<10)" value={lowStockCount} tone="amber" />
         <StatCard icon={CalendarX} label="Expired products" value={expiredCount} tone="red" />
@@ -68,8 +64,13 @@ export default function Dashboard() {
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="date" tick={{ fontSize: 12 }} />
                 <YAxis tick={{ fontSize: 12 }} />
-                <Tooltip formatter={(v) => formatCurrency(v)} />
-                <Bar dataKey="sales" fill="#2f8058" radius={[4, 4, 0, 0]} />
+                <Tooltip cursor={false} formatter={(v) => formatCurrency(v)} />
+                <Bar
+                  dataKey="sales"
+                  fill="#2f8058"
+                  radius={[4, 4, 0, 0]}
+                  activeBar={{ fill: '#256b48', radius: [4, 4, 0, 0], stroke: 'none' }}
+                />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -81,12 +82,12 @@ export default function Dashboard() {
           </h3>
           <ul className="space-y-3">
             {orders.slice(0, 6).map((o) => (
-              <li key={o.id} className="flex items-center justify-between text-sm">
-                <div>
-                  <p className="font-medium text-slate-700">{o.customerName}</p>
+              <li key={o.id} className="flex items-center justify-between gap-3 text-sm">
+                <div className="min-w-0">
+                  <p className="truncate font-medium text-slate-700">{o.customerName}</p>
                   <p className="text-xs text-slate-400">{formatDate(o.orderDate)}</p>
                 </div>
-                <span className="font-semibold text-slate-700">{formatCurrency(o.totalAmount)}</span>
+                <span className="shrink-0 font-semibold text-slate-700">{formatCurrency(o.totalAmount)}</span>
               </li>
             ))}
             {orders.length === 0 && <p className="text-sm text-slate-400">No orders yet.</p>}
@@ -96,7 +97,22 @@ export default function Dashboard() {
 
       <div className="card p-5">
         <h3 className="mb-4 font-semibold text-slate-700">Recently added products</h3>
-        <div className="overflow-x-auto">
+        {/* Mobile: stacked cards, no horizontal scroll */}
+        <div className="divide-y divide-slate-100 md:hidden">
+          {topProducts.map((p) => (
+            <div key={p.id} className="flex items-center justify-between gap-2 py-3 text-sm">
+              <div className="min-w-0">
+                <p className="truncate font-medium text-slate-700">{p.name}</p>
+                <p className="text-xs text-slate-400">{p.category || '—'} · Stock {p.stock} · {p.supplierName || '—'}</p>
+              </div>
+              <span className="shrink-0 font-medium text-slate-700">{formatCurrency(p.sellingPrice)}</span>
+            </div>
+          ))}
+          {topProducts.length === 0 && <p className="py-6 text-center text-slate-400">No products yet.</p>}
+        </div>
+
+        {/* Desktop: table */}
+        <div className="hidden overflow-x-auto md:block">
           <table className="table-base">
             <thead>
               <tr>

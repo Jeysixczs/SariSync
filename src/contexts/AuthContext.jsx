@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
   signOut,
 } from 'firebase/auth'
 import { auth } from '../firebase'
@@ -23,10 +24,16 @@ export function AuthProvider({ children }) {
   const login = (email, password) =>
     signInWithEmailAndPassword(auth, email, password)
 
+  // Creates a brand-new Firebase Auth account. Each account's uid becomes its
+  // own storeId (see services/*.js) — signing up starts a fresh, isolated
+  // store with no products/suppliers/orders, never the existing admin's data.
+  const signup = (email, password) =>
+    createUserWithEmailAndPassword(auth, email, password)
+
   const logout = () => signOut(auth)
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, signup, logout }}>
       {children}
     </AuthContext.Provider>
   )

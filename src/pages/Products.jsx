@@ -3,16 +3,15 @@ import { Pencil, Plus, Search, Trash2 } from 'lucide-react'
 import Modal from '../components/Modal'
 import ConfirmDialog from '../components/ConfirmDialog'
 import {
-  subscribeProducts,
   addProduct,
   updateProduct,
   deleteProduct,
   getCategories,
   searchProducts,
 } from '../services/productService'
-import { subscribeSuppliers } from '../services/supplierService'
 import { suggestProductImage } from '../services/imageSuggest'
 import { formatCurrency, formatDate } from '../utils/format'
+import { useData } from '../contexts/DataContext'
 
 const emptyForm = {
   name: '',
@@ -27,8 +26,7 @@ const emptyForm = {
 }
 
 export default function Products() {
-  const [products, setProducts] = useState([])
-  const [suppliers, setSuppliers] = useState([])
+  const { products, suppliers } = useData()
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState('')
   const [modalOpen, setModalOpen] = useState(false)
@@ -41,9 +39,6 @@ export default function Products() {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
   const [toDelete, setToDelete] = useState(null)
-
-  useEffect(() => subscribeProducts(setProducts), [])
-  useEffect(() => subscribeSuppliers(setSuppliers), [])
 
   // Auto-suggest a real stock photo as the admin types a name/category —
   // but never once there's an uploaded file or an existing real image, and
@@ -125,7 +120,7 @@ export default function Products() {
       if (editing) {
         await updateProduct(editing.id, payload, imageFile, finalSuggestedUrl)
       } else {
-        await addProduct(payload, imageFile, finalSuggestedUrl)
+        await addProduct(payload, imageFile, finalSuggestedUrl, products)
       }
       setModalOpen(false)
     } catch (err) {
@@ -166,65 +161,105 @@ export default function Products() {
         </button>
       </div>
 
-      <div className="card overflow-x-auto">
-        <table className="table-base">
-          <thead>
-            <tr>
-              <th>Product</th>
-              <th>Category</th>
-              <th>Stock</th>
-              <th>Price / Selling</th>
-              <th>Expiry</th>
-              <th>Supplier</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.map((p) => (
-              <tr key={p.id}>
-                <td>
-                  <div className="flex items-center gap-3">
-                    {p.imageUrl ? (
-                      <img src={p.imageUrl} alt={p.name} className="h-9 w-9 rounded-lg object-cover" />
-                    ) : (
-                      <div className="h-9 w-9 rounded-lg bg-slate-100" />
-                    )}
-                    <div>
-                      <p className="font-medium text-slate-700">{p.name}</p>
-                      <p className="text-xs text-slate-400">{p.description}</p>
-                    </div>
+      <div className="card">
+        {/* Mobile: stacked cards, no horizontal scroll */}
+        <div className="divide-y divide-slate-100 md:hidden">
+          {filtered.map((p) => (
+            <div key={p.id} className="flex items-start gap-3 p-4">
+              {p.imageUrl ? (
+                <img src={p.imageUrl} alt={p.name} className="h-11 w-11 shrink-0 rounded-lg object-cover" />
+              ) : (
+                <div className="h-11 w-11 shrink-0 rounded-lg bg-slate-100" />
+              )}
+              <div className="min-w-0 flex-1">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <p className="truncate font-medium text-slate-700">{p.name}</p>
+                    {p.description && <p className="truncate text-xs text-slate-400">{p.description}</p>}
                   </div>
-                </td>
-                <td>{p.category}</td>
-                <td>
-                  <span className={p.stock < 10 ? 'font-semibold text-amber-600' : ''}>{p.stock}</span>
-                </td>
-                <td>
-                  {formatCurrency(p.price)} / {formatCurrency(p.sellingPrice)}
-                </td>
-                <td>{p.dateExpired ? formatDate(p.dateExpired) : '—'}</td>
-                <td>{p.supplierName || '—'}</td>
-                <td>
-                  <div className="flex justify-end gap-2">
-                    <button className="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100" onClick={() => openEdit(p)}>
+                  <div className="flex shrink-0 gap-1">
+                    <button className="rounded-lg p-2.5 text-slate-500 hover:bg-slate-100" onClick={() => openEdit(p)}>
                       <Pencil size={16} />
                     </button>
-                    <button className="rounded-lg p-1.5 text-red-500 hover:bg-red-50" onClick={() => setToDelete(p)}>
+                    <button className="rounded-lg p-2.5 text-red-500 hover:bg-red-50" onClick={() => setToDelete(p)}>
                       <Trash2 size={16} />
                     </button>
                   </div>
-                </td>
-              </tr>
-            ))}
-            {filtered.length === 0 && (
+                </div>
+                <div className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 text-xs text-slate-500">
+                  <p>Category <span className="block text-slate-700">{p.category || '—'}</span></p>
+                  <p>Stock <span className={`block ${p.stock < 10 ? 'font-semibold text-amber-600' : 'text-slate-700'}`}>{p.stock}</span></p>
+                  <p>Price / Selling <span className="block text-slate-700">{formatCurrency(p.price)} / {formatCurrency(p.sellingPrice)}</span></p>
+                  <p>Expiry <span className="block text-slate-700">{p.dateExpired ? formatDate(p.dateExpired) : '—'}</span></p>
+                  <p className="col-span-2">Supplier <span className="block text-slate-700">{p.supplierName || '—'}</span></p>
+                </div>
+              </div>
+            </div>
+          ))}
+          {filtered.length === 0 && <p className="py-8 text-center text-sm text-slate-400">No products found.</p>}
+        </div>
+
+        {/* Desktop: table */}
+        <div className="hidden overflow-x-auto md:block">
+          <table className="table-base">
+            <thead>
               <tr>
-                <td colSpan={7} className="py-8 text-center text-slate-400">
-                  No products found.
-                </td>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Stock</th>
+                <th>Price / Selling</th>
+                <th>Expiry</th>
+                <th>Supplier</th>
+                <th></th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filtered.map((p) => (
+                <tr key={p.id}>
+                  <td>
+                    <div className="flex items-center gap-3">
+                      {p.imageUrl ? (
+                        <img src={p.imageUrl} alt={p.name} className="h-9 w-9 rounded-lg object-cover" />
+                      ) : (
+                        <div className="h-9 w-9 rounded-lg bg-slate-100" />
+                      )}
+                      <div>
+                        <p className="font-medium text-slate-700">{p.name}</p>
+                        <p className="text-xs text-slate-400">{p.description}</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td>{p.category}</td>
+                  <td>
+                    <span className={p.stock < 10 ? 'font-semibold text-amber-600' : ''}>{p.stock}</span>
+                  </td>
+                  <td>
+                    {formatCurrency(p.price)} / {formatCurrency(p.sellingPrice)}
+                  </td>
+                  <td>{p.dateExpired ? formatDate(p.dateExpired) : '—'}</td>
+                  <td>{p.supplierName || '—'}</td>
+                  <td>
+                    <div className="flex justify-end gap-2">
+                      <button className="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100" onClick={() => openEdit(p)}>
+                        <Pencil size={16} />
+                      </button>
+                      <button className="rounded-lg p-1.5 text-red-500 hover:bg-red-50" onClick={() => setToDelete(p)}>
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+              {filtered.length === 0 && (
+                <tr>
+                  <td colSpan={7} className="py-8 text-center text-slate-400">
+                    No products found.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <Modal open={modalOpen} title={editing ? 'Edit product' : 'Add product'} onClose={() => setModalOpen(false)} width="max-w-2xl">

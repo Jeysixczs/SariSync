@@ -9,7 +9,7 @@ export default function Modal({ open, title, onClose, children, width = 'max-w-l
           <h2 className="text-lg font-semibold text-slate-800">{title}</h2>
           <button
             onClick={onClose}
-            className="rounded-full p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
+            className="rounded-full p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
           >
             <X size={18} />
           </button>

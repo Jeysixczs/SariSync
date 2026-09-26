@@ -12,12 +12,20 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore'
-import { db } from '../firebase'
+import { auth, db } from '../firebase'
 import { uploadImage } from './cloudinary'
 import { toDate } from '../utils/format'
 
 const COLLECTION = 'products'
 const productsRef = collection(db, COLLECTION)
+
+// Each signed-in account only ever sees its own store's data: every query is
+// scoped to storeId == the current user's uid, and every new document is
+// tagged with it on create. See firestore.rules for the server-side half of
+// this (client-side filtering alone doesn't stop cross-account access).
+function storeId() {
+  return auth.currentUser?.uid
+}
 
 function mapProduct(docSnap) {
   const data = docSnap.data()
@@ -42,15 +50,15 @@ function mapProduct(docSnap) {
 // Realtime subscription to all active products (used by Products page, POS, Dashboard)
 export function subscribeProducts(onChange, { includeInactive = false } = {}) {
   const q = includeInactive
-    ? query(productsRef, orderBy('name'))
-    : query(productsRef, where('isActive', '==', true), orderBy('name'))
+    ? query(productsRef, where('storeId', '==', storeId()), orderBy('name'))
+    : query(productsRef, where('storeId', '==', storeId()), where('isActive', '==', true), orderBy('name'))
   return onSnapshot(q, (snap) => {
     onChange(snap.docs.map(mapProduct))
   })
 }
 
 export async function getAllProducts() {
-  const q = query(productsRef, where('isActive', '==', true), orderBy('name'))
+  const q = query(productsRef, where('storeId', '==', storeId()), where('isActive', '==', true), orderBy('name'))
   const snap = await getDocs(q)
   return snap.docs.map(mapProduct)
 }
@@ -85,10 +93,12 @@ export function getCategories(products) {
   return [...new Set(products.map((p) => p.category).filter(Boolean))].sort()
 }
 
-export async function checkDuplicateProduct(name, excludeId = null) {
-  const snap = await getDocs(query(productsRef, where('isActive', '==', true)))
-  return snap.docs.some(
-    (d) => d.id !== excludeId && (d.data().name || '').toLowerCase() === name.toLowerCase()
+// Pure, synchronous — checks against an already-loaded products list instead
+// of firing an extra Firestore query on every save. Callers pass in whatever
+// list they already have from the shared subscription (see DataContext).
+export function checkDuplicateProduct(products, name, excludeId = null) {
+  return products.some(
+    (p) => p.id !== excludeId && p.isActive !== false && p.name.toLowerCase() === name.toLowerCase()
   )
 }
 
@@ -99,8 +109,10 @@ export async function uploadProductImage(productId, file) {
 
 // imageFile (admin's own upload) always wins over suggestedImageUrl (the
 // Pexels auto-suggestion shown in the form) when both are present.
-export async function addProduct(product, imageFile, suggestedImageUrl) {
-  if (await checkDuplicateProduct(product.name)) {
+// existingProducts: the caller's already-loaded product list, used only for
+// the client-side duplicate-name check above (no extra read).
+export async function addProduct(product, imageFile, suggestedImageUrl, existingProducts = []) {
+  if (checkDuplicateProduct(existingProducts, product.name)) {
     throw new Error('A product with the same name already exists.')
   }
   const payload = {
@@ -117,6 +129,7 @@ export async function addProduct(product, imageFile, suggestedImageUrl) {
     supplierId: product.supplierId || '',
     supplierName: product.supplierName || '',
     supplierPayment: Number(product.supplierPayment) || 0,
+    storeId: storeId(),
   }
   const docRef = await addDoc(productsRef, payload)
   if (imageFile) {

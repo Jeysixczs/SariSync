@@ -73,7 +73,7 @@ export default function Sidebar({ mobileOpen = false, onClose }) {
           <aside className="relative flex h-full w-64 max-w-[80vw] flex-col bg-white shadow-xl">
             <button
               onClick={onClose}
-              className="absolute right-3 top-4 rounded-full p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
+              className="absolute right-3 top-4 rounded-full p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
               aria-label="Close menu"
             >
               <X size={18} />

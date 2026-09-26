@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import Sidebar from './Sidebar'
 import Topbar from './Topbar'
+import { DataProvider } from '../contexts/DataContext'
 
 const titles = {
   '/': 'Dashboard',
@@ -29,7 +30,11 @@ export default function Layout() {
       <div className="flex flex-1 flex-col overflow-hidden">
         <Topbar title={title} onMenuClick={() => setMobileNavOpen(true)} />
         <main className="flex-1 overflow-y-auto p-4 sm:p-6">
-          <Outlet />
+          <div className="page-container">
+            <DataProvider>
+              <Outlet />
+            </DataProvider>
+          </div>
         </main>
       </div>
     </div>

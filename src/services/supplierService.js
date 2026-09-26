@@ -11,11 +11,15 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore'
-import { db } from '../firebase'
+import { auth, db } from '../firebase'
 import { toDate } from '../utils/format'
 
 const COLLECTION = 'suppliers'
 const suppliersRef = collection(db, COLLECTION)
+
+function storeId() {
+  return auth.currentUser?.uid
+}
 
 function mapSupplier(docSnap) {
   const data = docSnap.data()
@@ -31,12 +35,12 @@ function mapSupplier(docSnap) {
 }
 
 export function subscribeSuppliers(onChange) {
-  const q = query(suppliersRef, where('isActive', '==', true), orderBy('supplierName'))
+  const q = query(suppliersRef, where('storeId', '==', storeId()), where('isActive', '==', true), orderBy('supplierName'))
   return onSnapshot(q, (snap) => onChange(snap.docs.map(mapSupplier)))
 }
 
 export async function getAllSuppliers() {
-  const q = query(suppliersRef, where('isActive', '==', true), orderBy('supplierName'))
+  const q = query(suppliersRef, where('storeId', '==', storeId()), where('isActive', '==', true), orderBy('supplierName'))
   const snap = await getDocs(q)
   return snap.docs.map(mapSupplier)
 }
@@ -54,6 +58,7 @@ export async function addSupplier(supplier) {
     address: supplier.address || '',
     createdDate: serverTimestamp(),
     isActive: true,
+    storeId: storeId(),
   })
   return docRef.id
 }
