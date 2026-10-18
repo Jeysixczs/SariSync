@@ -102,3 +102,5 @@ firebase deploy --only hosting
   large, move this into a scheduled Cloud Function instead.
 - Multi-supplier product image storage now uses Firebase Storage instead of
   a local `ProductImages` folder next to the `.exe`.
+
+        
